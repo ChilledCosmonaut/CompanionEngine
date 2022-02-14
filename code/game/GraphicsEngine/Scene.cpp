@@ -69,7 +69,7 @@ namespace Graphics{
             sceneModel.second.first->setMatrix("projection", projection);
             sceneModel.second.first->setMatrix("view", view);
 
-            sceneModel.second.first->setMatrix("model", *sceneModel.second.second);
+            sceneModel.second.first->setMatrix("model", *sceneModel.second.second->GetModelMatrix());
 
             sceneModel.second.first->setVector("viewPos",glm::vec4(camera.Position, 1.0f));
 
@@ -152,13 +152,13 @@ namespace Graphics{
         Scene::directionalLightPositions.push_back(directionalLightPosition);
     }
 
-    [[maybe_unused]] const std::pair<Model, std::pair<const gl3::shader *, glm::mat4 *>> &Scene::getSceneModelAtIndex(int index) const {
+    [[maybe_unused]] const std::pair<Model, std::pair<const gl3::shader *, Graphics::Transform *>> &Scene::getSceneModelAtIndex(int index) const {
         return sceneModels[index];
     }
 
-    [[maybe_unused]] void Scene::AddSceneModels(const Model& model, const gl3::shader* shader, glm::mat4* modelMatrix) {
-        std::pair<const gl3::shader *, glm::mat4 *> temporary(shader, modelMatrix);
-        std::pair<Model, std::pair<const gl3::shader *, glm::mat4 *>> sceneModel(model, temporary);
+    [[maybe_unused]] void Scene::AddSceneModels(const Model& model, const gl3::shader* shader, Graphics::Transform* transform) {
+        std::pair<const gl3::shader *, Graphics::Transform *> temporary(shader, transform);
+        std::pair<Model, std::pair<const gl3::shader *, Graphics::Transform *>> sceneModel(model, temporary);
         Scene::sceneModels.push_back(sceneModel);
     }
 
