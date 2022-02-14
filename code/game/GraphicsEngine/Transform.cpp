@@ -26,8 +26,8 @@ namespace Graphics {
 
     }
 
-    void Transform::AddRotation(glm::vec3 targetRotation) {
-        glm::vec3 newRotation = GetRotation() + targetRotation;
+    void Transform::AddRotation(glm::vec3 additiveRotation) {
+        glm::vec3 newRotation = GetRotation() + additiveRotation;
         SetRotation(newRotation);
     }
 
@@ -40,8 +40,8 @@ namespace Graphics {
         recalculateModel();
     }
 
-    void Transform::AddTranslation(glm::vec3 targetTranslation) {
-        glm::vec3 newTranslation = GetTranslation() + targetTranslation;
+    void Transform::AddTranslation(glm::vec3 additiveTranslation) {
+        glm::vec3 newTranslation = GetTranslation() + additiveTranslation;
         SetTranslation(newTranslation);
     }
 
@@ -54,8 +54,8 @@ namespace Graphics {
         recalculateModel();
     }
 
-    void Transform::AddScale(glm::vec3 targetScale) {
-        glm::vec3 newScale = GetScale() + targetScale;
+    void Transform::AddScale(glm::vec3 additiveScale) {
+        glm::vec3 newScale = GetScale() + additiveScale;
         SetScale(newScale);
     }
 
