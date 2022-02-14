@@ -232,11 +232,12 @@ int main() {
     model = glm::rotate(model, glm::radians(-90.0f),glm::vec3(1.0f,0,0));
     model = glm::translate(model, shipPos1);
     model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-    litShader.setMatrix("model", model);
 
-    scene.AddSceneModels(model1, &shader, &model);
+    Graphics::Transform model1Transform = Graphics::Transform(glm::vec3(-90.0f,180.0f,0.0f), shipPos1);
 
-    scene.AddSceneModels(model4, &shader, modelMatrixTransform.GetModelMatrix());
+    scene.AddSceneModels(model1, &shader, &model1Transform);
+
+    scene.AddSceneModels(model4, &shader, &modelMatrixTransform);
 
     inputCallback.StartListening(window);
 
