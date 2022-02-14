@@ -40,6 +40,15 @@ namespace Graphics {
         recalculateModel();
     }
 
+    void Transform::AddTranslation(glm::vec3 targetTranslation) {
+        glm::vec3 newTranslation = GetTranslation() + targetTranslation;
+        SetTranslation(newTranslation);
+    }
+
+    glm::vec3 Transform::GetTranslation() {
+        return translation;
+    }
+
     void Transform::SetScale(glm::vec3 targetScale) {
         scale = targetScale;
         recalculateModel();

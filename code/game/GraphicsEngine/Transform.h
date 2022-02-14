@@ -16,7 +16,7 @@ namespace Graphics {
         glm::vec3 GetRotation();
         void SetTranslation(glm::vec3 targetTranslation);
         void AddTranslation(glm::vec3 targetTranslation);
-        void GetTranslation(glm::vec3 targetTranslation);
+        glm::vec3 Transform::GetTranslation();
         void SetScale(glm::vec3 targetScale);
         void AddScale(glm::vec3 targetScale);
         void GetScale(glm::vec3 targetScale);
