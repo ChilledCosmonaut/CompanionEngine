@@ -26,6 +26,15 @@ namespace Graphics {
 
     }
 
+    void Transform::AddRotation(glm::vec3 targetRotation) {
+        glm::vec3 newRotation = GetRotation() + targetRotation;
+        SetRotation(newRotation);
+    }
+
+    glm::vec3 Transform::GetRotation() {
+        return rotation;
+    }
+
     void Transform::SetTranslation(glm::vec3 targetTranslation) {
         translation = targetTranslation;
         recalculateModel();
