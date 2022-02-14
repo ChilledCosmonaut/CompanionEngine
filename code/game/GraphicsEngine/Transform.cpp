@@ -54,6 +54,15 @@ namespace Graphics {
         recalculateModel();
     }
 
+    void Transform::AddScale(glm::vec3 targetScale) {
+        glm::vec3 newScale = GetScale() + targetScale;
+        SetScale(newScale);
+    }
+
+    glm::vec3 Transform::GetScale() {
+        return scale;
+    }
+
     glm::mat4* Transform::GetModelMatrix() {
         return &modelMatrix;
     }

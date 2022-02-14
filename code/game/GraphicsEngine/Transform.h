@@ -19,7 +19,7 @@ namespace Graphics {
         glm::vec3 Transform::GetTranslation();
         void SetScale(glm::vec3 targetScale);
         void AddScale(glm::vec3 targetScale);
-        void GetScale(glm::vec3 targetScale);
+        glm::vec3 Transform::GetScale();
 
         glm::mat4* GetModelMatrix();
         glm::mat4 GetInverseModelMatrix();
