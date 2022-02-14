@@ -81,7 +81,7 @@ void processUserInput(GLFWwindow *window, int key, int scancode, int action, int
 
     if (key == GLFW_KEY_UP){
         rota.x += 10 * deltaTime;
-        modelMatrixTransform.Rotate(rota);
+        modelMatrixTransform.SetRotation(rota);
         std::cout << rota.x << std::endl;
     }
 

@@ -6,10 +6,10 @@ namespace Graphics {
     Transform::Transform(glm::vec3 startRotation, glm::vec3 startTranslation, glm::vec3 startScale) {
         translation = startTranslation;
         scale = startScale;
-        Rotate(startRotation);
+        SetRotation(startRotation);
     }
 
-    void Transform::Rotate(glm::vec3 targetRotation) {
+    void Transform::SetRotation(glm::vec3 targetRotation) {
         /*auto rotationVector = glm::vec3(0.0f);
         rotationVector.x = 1;
         rotationVector.y = targetRotation.y/targetRotation.x;
@@ -26,12 +26,12 @@ namespace Graphics {
 
     }
 
-    void Transform::Translate(glm::vec3 targetTranslation) {
+    void Transform::SetTranslation(glm::vec3 targetTranslation) {
         translation = targetTranslation;
         recalculateModel();
     }
 
-    void Transform::Scale(glm::vec3 targetScale) {
+    void Transform::SetScale(glm::vec3 targetScale) {
         scale = targetScale;
         recalculateModel();
     }
