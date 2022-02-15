@@ -4,6 +4,7 @@
 
 #include "Model.h"
 #include "camera.h"
+#include "Transform.h"
 
 namespace Graphics{
 
@@ -32,9 +33,9 @@ namespace Graphics{
 
         [[maybe_unused]] void setDirectionalLightPosition(glm::vec3 &directionalLightPosition);
 
-        [[maybe_unused]] [[nodiscard]] const std::pair<Model, std::pair<const gl3::shader *, glm::mat4 *>> &getSceneModelAtIndex(int index) const;
+        [[maybe_unused]] [[nodiscard]] const std::pair<Model, std::pair<const gl3::shader *, Graphics::Transform *>> &getSceneModelAtIndex(int index) const;
 
-        [[maybe_unused]] void AddSceneModels(const Model& model, const gl3::shader* shader, glm::mat4* modelMatrix);
+        [[maybe_unused]] void AddSceneModels(const Model& model, const gl3::shader* shader, Graphics::Transform* modelMatrix);
 
     private:
         void DisplaySkybox();
@@ -42,7 +43,7 @@ namespace Graphics{
         void DisplayModels();
         void SetUpSkybox();
 
-        vector<std::pair<Model, std::pair<const gl3::shader *, glm::mat4 *>>> sceneModels;
+        vector<std::pair<Model, std::pair<const gl3::shader *, Graphics::Transform *>>> sceneModels;
         Camera camera;
     public:
         [[nodiscard]] Camera *getCamera();
