@@ -4,27 +4,25 @@
 namespace logic {
     Grid::Grid(glm::vec3 startPosition) {
         glm::vec3 discretizedStartPosition;
-        discretizedStartPosition.x = std::floor(startPosition.x / (int) nodeLength);
-        discretizedStartPosition.y = std::floor(startPosition.y / (int) nodeLength);
-        discretizedStartPosition.z = std::floor(startPosition.z / (int) nodeLength);
+        discretizedStartPosition.x = std::floor((int) startPosition.x / nodeLength);
+        discretizedStartPosition.y = std::floor((int) startPosition.y / nodeLength);
+        discretizedStartPosition.z = std::floor((int) startPosition.z / nodeLength);
 
-        auto frontierNodes = std::deque<CubicNode>();
+        auto frontierNodes = std::deque<Node *>();
 
-        CubicNode startNode = CubicNode();
-        globalKnowledgeBase.insert({discretizedStartPosition, startNode});
-        frontierNodes.push_back(startNode);
+        globalKnowledgeBase.insert({discretizedStartPosition, CubicNode()});
+        auto startNode  = globalKnowledgeBase.at(discretizedStartPosition);
+        frontierNodes.push_back(&startNode);
 
         while (!frontierNodes.empty()){
-            auto currentNode = &frontierNodes.front();
+            auto currentNode = frontierNodes.front();
             glm::vec3 currentPosition;
             frontierNodes.pop_front();
 
-            for (auto &neighbourPair : currentNode->neighbours) {
-                glm::vec3 nextPosition = neighbourPair.first + currentPosition;
-                if(!globalKnowledgeBase.count(nextPosition))
-                     globalKnowledgeBase.insert({nextPosition, CubicNode()});
-                CubicNode* currentNeighbour = &globalKnowledgeBase[nextPosition];
-                currentNode->neighbours.push_back(currentNeighbour);
+            auto unexploredNodes = currentNode->checkForNeighbours();
+
+            for (auto newFrontierNode:unexploredNodes) {
+                frontierNodes.push_back(newFrontierNode);
             }
         }
     }

@@ -1,7 +1,9 @@
 #pragma once
 
+#include <vector>
+
 class Node {
 public:
-    virtual Node* checkForNeighbours() = 0;
+    virtual std::vector<Node*> checkForNeighbours() = 0;
 private:
 };

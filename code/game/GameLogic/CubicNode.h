@@ -10,7 +10,7 @@ namespace logic{
     public:
         CubicNode();
 
-        Node *checkForNeighbours() override;
+        std::vector<Node*> checkForNeighbours() override;
 
         // Initialized in the constructor with a pair of vector and nullptr.
         // Later each neighbour is set correspondingly
