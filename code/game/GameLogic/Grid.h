@@ -5,7 +5,7 @@
 #include <stack>
 #include <cmath>
 #include "glm/vec3.hpp"
-#include "Node.h"
+#include "CubicNode.h"
 
 namespace logic {
     class Grid {
@@ -18,8 +18,8 @@ namespace logic {
         void GetNodeLength();
 
     private:
-        static std::map<glm::vec3, Node> globalKnowledgeBase;
+        static std::map<glm::vec3, CubicNode> globalKnowledgeBase;
         static int nodeLength;
-        std::vector<Node *> localKnowledgeBase;
+        std::vector<CubicNode *> localKnowledgeBase;
     };
 }
