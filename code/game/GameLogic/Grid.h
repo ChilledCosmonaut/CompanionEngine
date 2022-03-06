@@ -18,8 +18,8 @@ namespace logic {
         void GetNodeLength();
 
     private:
-        static std::map<glm::vec3, CubicNode> globalKnowledgeBase;
+        static std::map<glm::vec3, Node> globalKnowledgeBase;
         static int nodeLength;
-        std::vector<CubicNode *> localKnowledgeBase;
+        std::vector<Node *> localKnowledgeBase;
     };
 }
