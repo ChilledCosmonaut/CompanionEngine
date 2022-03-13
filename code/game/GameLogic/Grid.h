@@ -3,11 +3,14 @@
 #include <vector>
 #include <map>
 #include <stack>
+#include <set>
 #include <cmath>
 #include "glm/vec3.hpp"
 #include "CubicNode.h"
 
 namespace logic {
+    /*template<typename node>
+    concept node = std::is_base_of<Node, node>::value*/
     class Grid {
     public:
         Grid(glm::vec3 startPosition);
@@ -18,8 +21,8 @@ namespace logic {
         void GetNodeLength();
 
     private:
-        static std::map<glm::vec3, Node> globalKnowledgeBase;
+        static std::map<glm::vec3, CubicNode> globalKnowledgeBase;
         static int nodeLength;
-        std::vector<Node *> localKnowledgeBase;
+        std::vector<CubicNode *> localKnowledgeBase;
     };
 }

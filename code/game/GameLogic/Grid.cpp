@@ -8,20 +8,23 @@ namespace logic {
         discretizedStartPosition.y = std::floor((int) startPosition.y / nodeLength);
         discretizedStartPosition.z = std::floor((int) startPosition.z / nodeLength);
 
-        auto frontierNodes = std::deque<Node *>();
+        auto frontierNodes = std::deque<CubicNode*>();
 
-        globalKnowledgeBase.insert({discretizedStartPosition, CubicNode()});
-        auto startNode  = globalKnowledgeBase.at(discretizedStartPosition);
-        frontierNodes.push_back(&startNode);
+        auto exploredNodes = std::set<CubicNode*>();
 
-        while (!frontierNodes.empty()){
+        if(globalKnowledgeBase.count(discretizedStartPosition) == 0)
+            globalKnowledgeBase.insert({discretizedStartPosition, CubicNode()});
+        auto startNode  = &globalKnowledgeBase.at(discretizedStartPosition);
+        frontierNodes.push_back(startNode);
+
+        while (!frontierNodes.empty()) {
             auto currentNode = frontierNodes.front();
             glm::vec3 currentPosition;
             frontierNodes.pop_front();
 
-            auto unexploredNodes = currentNode->checkForNeighbours();
+            auto unexploredNodes = currentNode->checkForNeighbours(&globalKnowledgeBase, &exploredNodes);
 
-            for (auto newFrontierNode:unexploredNodes) {
+            for (auto newFrontierNode: unexploredNodes) {
                 frontierNodes.push_back(newFrontierNode);
             }
         }
