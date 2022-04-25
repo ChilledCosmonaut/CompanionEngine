@@ -1,18 +1,23 @@
 #include "Grid.h"
 
 namespace logic{
+
+    static long convertToLong(glm::vec3 vectorToConvert){
+        return vectorToConvert.x + vectorToConvert.y * 1000 + vectorToConvert.z * 1000000;
+    }
+
     CubicNode::CubicNode() {
 
 
-        neighbours.insert({glm::vec3(1.0f,0.0f,0.0f), nullptr});
-        neighbours.insert({glm::vec3(0.0f,1.0f,0.0f), nullptr});
-        neighbours.insert({glm::vec3(0.0f,0.0f,1.0f), nullptr});
-        neighbours.insert({glm::vec3(-1.0f,0.0f,0.0f), nullptr});
-        neighbours.insert({glm::vec3(0.0f,-1.0f,0.0f), nullptr});
-        neighbours.insert({glm::vec3(0.0f,0.0f,-1.0f), nullptr});
+        neighbours.insert({convertToLong(glm::vec3(1.0f,0.0f,0.0f)), nullptr});
+        neighbours.insert({convertToLong(glm::vec3(0.0f,1.0f,0.0f)), nullptr});
+        neighbours.insert({convertToLong(glm::vec3(0.0f,0.0f,1.0f)), nullptr});
+        neighbours.insert({convertToLong(glm::vec3(-1.0f,0.0f,0.0f)), nullptr});
+        neighbours.insert({convertToLong(glm::vec3(0.0f,-1.0f,0.0f)), nullptr});
+        neighbours.insert({convertToLong(glm::vec3(0.0f,0.0f,-1.0f)), nullptr});
     }
 
-    std::vector<CubicNode *> CubicNode::checkForNeighbours(std::map<glm::vec3, CubicNode> *globalKnowledgeBase,
+    std::vector<CubicNode *> CubicNode::checkForNeighbours(std::map<long, CubicNode> *globalKnowledgeBase,
                                                            std::set<CubicNode *> *exploredNodes) {
         std::vector<CubicNode *> frontierNeighbours;
 
@@ -48,7 +53,7 @@ namespace logic{
         return frontierNeighbours;
     }
 
-    void CubicNode::SetNeighbourAtDirection(glm::vec3 directionVector, CubicNode *node) {
+    void CubicNode::SetNeighbourAtDirection(long directionVector, CubicNode *node) {
         neighbours[directionVector] = node;
     }
 }

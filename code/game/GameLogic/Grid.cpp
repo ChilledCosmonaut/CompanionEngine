@@ -2,30 +2,39 @@
 
 
 namespace logic {
+
+    static long convertToLong(glm::vec3 vectorToConvert){
+     return vectorToConvert.x + vectorToConvert.y * 1000 + vectorToConvert.z * 1000000;
+    }
+
+
     Grid::Grid(glm::vec3 startPosition) {
         glm::vec3 discretizedStartPosition;
         discretizedStartPosition.x = std::floor((int) startPosition.x / nodeLength);
         discretizedStartPosition.y = std::floor((int) startPosition.y / nodeLength);
         discretizedStartPosition.z = std::floor((int) startPosition.z / nodeLength);
 
-        auto frontierNodes = std::deque<CubicNode*>();
+        auto frontierNodes = std::deque<CubicNode *>();
 
-        auto exploredNodes = std::set<CubicNode*>();
+        auto exploredNodes = std::set<CubicNode *>();
 
-        if(globalKnowledgeBase.count(discretizedStartPosition) == 0)
-            globalKnowledgeBase.insert({discretizedStartPosition, CubicNode()});
-        auto startNode  = &globalKnowledgeBase.at(discretizedStartPosition);
-        frontierNodes.push_back(startNode);
+        long discretizedStart = convertToLong(discretizedStartPosition);
 
-        while (!frontierNodes.empty()) {
-            auto currentNode = frontierNodes.front();
-            glm::vec3 currentPosition;
-            frontierNodes.pop_front();
+        if (globalKnowledgeBase.count(discretizedStart) == 0) {
+            globalKnowledgeBase.insert({discretizedStart, CubicNode()});
+            auto startNode = &globalKnowledgeBase.at(discretizedStart);
+            frontierNodes.push_back(startNode);
 
-            auto unexploredNodes = currentNode->checkForNeighbours(&globalKnowledgeBase, &exploredNodes);
+            while (!frontierNodes.empty()) {
+                auto currentNode = frontierNodes.front();
+                glm::vec3 currentPosition;
+                frontierNodes.pop_front();
 
-            for (auto newFrontierNode: unexploredNodes) {
-                frontierNodes.push_back(newFrontierNode);
+                auto unexploredNodes = currentNode->checkForNeighbours(&globalKnowledgeBase, &exploredNodes);
+
+                for (auto newFrontierNode: unexploredNodes) {
+                    frontierNodes.push_back(newFrontierNode);
+                }
             }
         }
     }
@@ -41,5 +50,5 @@ namespace logic {
     void Grid::GetNodeLength() {
 
     }
-}
 
+}

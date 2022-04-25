@@ -11,16 +11,16 @@ namespace logic{
     public:
         CubicNode();
 
-        std::vector<CubicNode*> checkForNeighbours(std::map<glm::vec3, CubicNode>* globalKnowledgeBase, std::set<CubicNode*>* exploredNodes);
+        std::vector<CubicNode*> checkForNeighbours(std::map<long, CubicNode>* globalKnowledgeBase, std::set<CubicNode*>* exploredNodes);
 
         // Initialized in the constructor with a pair of vector and nullptr.
         // Later each neighbour is set correspondingly
-        std::map<glm::vec3, CubicNode*> neighbours;
+        std::map<long, CubicNode*> neighbours;
 
-        void SetNeighbourAtDirection(glm::vec3 directionVector, CubicNode* node);
+        void SetNeighbourAtDirection(long directionVector, CubicNode* node);
 
     private:
-        glm::vec3 positionInGlobalSpace;
+        long positionInGlobalSpace;
         int radiusCounter;
     };
 }
