@@ -13,7 +13,7 @@ namespace logic {
     concept node = std::is_base_of<Node, node>::value*/
     class Grid {
     public:
-        Grid(glm::vec3 startPosition);
+        explicit Grid(glm::vec3 startPosition);
 
         void UpdateGrid();
 

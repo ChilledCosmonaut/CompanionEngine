@@ -8,6 +8,7 @@
 #include "../InputSystem/InputManager.h"
 #include <iostream>
 #include "../GraphicsEngine/Transform.h"
+#include "../GameLogic/Grid.h"
 
 double deltaTime;
 
@@ -162,6 +163,8 @@ int main() {
     Model model1 = Model("../../assets/SpaceShip4.obj");
     Model model2 = Model("../../assets/SpaceShip2.obj");
     Model model3 = Model("../../assets/SpaceShip3.obj");
+
+    logic::Grid grid = logic::Grid(glm::vec3(0,0,0));
 
 
     float vertices[] = {
