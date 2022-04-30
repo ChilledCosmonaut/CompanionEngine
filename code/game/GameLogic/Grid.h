@@ -1,7 +1,6 @@
 #pragma once
 
 #include <vector>
-#include <map>
 #include <stack>
 #include <set>
 #include <cmath>
@@ -21,7 +20,7 @@ namespace logic {
         void GetNodeLength();
 
     private:
-        static std::map<long, CubicNode> globalKnowledgeBase;
+        static std::unordered_map<glm::vec3, CubicNode> globalKnowledgeBase;
         static int nodeLength;
         std::vector<CubicNode *> localKnowledgeBase;
     };

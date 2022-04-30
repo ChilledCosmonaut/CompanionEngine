@@ -7,7 +7,6 @@
 #include "../GraphicsEngine/Scene.h"
 #include "../InputSystem/InputManager.h"
 #include <iostream>
-#include "../GraphicsEngine/Transform.h"
 #include "../GameLogic/Grid.h"
 
 double deltaTime;
@@ -122,7 +121,9 @@ void processUserInput(GLFWwindow *window, int key, int scancode, int action, int
     }
 }
 
+
 int main() {
+
     glfwInit();
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -164,7 +165,17 @@ int main() {
     Model model2 = Model("../../assets/SpaceShip2.obj");
     Model model3 = Model("../../assets/SpaceShip3.obj");
 
+    std::cout<<"Generating Grid"<<std::endl;
+
+    auto startTime = glfwGetTime();
+
     logic::Grid grid = logic::Grid(glm::vec3(0,0,0));
+
+    auto endTime = glfwGetTime();
+
+    auto calculationTime = endTime - startTime;
+
+    std::cout<<calculationTime<<std::endl;
 
 
     float vertices[] = {

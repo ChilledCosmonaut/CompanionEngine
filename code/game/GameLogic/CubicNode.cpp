@@ -1,23 +1,23 @@
+#include <iostream>
 #include "Grid.h"
 
 namespace logic{
 
     static long convertToLong(glm::vec3 vectorToConvert){
-        return vectorToConvert.x + vectorToConvert.y * 1000 + vectorToConvert.z * 1000000;
+        return (vectorToConvert.x + 1) + (vectorToConvert.y + 1) * 1000 + (vectorToConvert.z + 1) * 1000000;
     }
 
-    CubicNode::CubicNode() {
-
-
-        neighbours.insert({convertToLong(glm::vec3(1.0f,0.0f,0.0f)), nullptr});
-        neighbours.insert({convertToLong(glm::vec3(0.0f,1.0f,0.0f)), nullptr});
-        neighbours.insert({convertToLong(glm::vec3(0.0f,0.0f,1.0f)), nullptr});
-        neighbours.insert({convertToLong(glm::vec3(-1.0f,0.0f,0.0f)), nullptr});
-        neighbours.insert({convertToLong(glm::vec3(0.0f,-1.0f,0.0f)), nullptr});
-        neighbours.insert({convertToLong(glm::vec3(0.0f,0.0f,-1.0f)), nullptr});
+    CubicNode::CubicNode(int radiusCount) {
+        radiusCounter = radiusCount;
+        neighbours[glm::vec3(1.0f,0.0f,0.0f)] = nullptr;
+        neighbours[glm::vec3(0.0f,1.0f,0.0f)] = nullptr;
+        neighbours[glm::vec3(0.0f,0.0f,1.0f)] = nullptr;
+        neighbours[glm::vec3(-1.0f,0.0f,0.0f)] = nullptr;
+        neighbours[glm::vec3(0.0f,-1.0f,0.0f)] = nullptr;
+        neighbours[glm::vec3(0.0f,0.0f,-1.0f)] = nullptr;
     }
 
-    std::vector<CubicNode *> CubicNode::checkForNeighbours(std::map<long, CubicNode> *globalKnowledgeBase,
+    std::vector<CubicNode *> CubicNode::checkForNeighbours(std::unordered_map<glm::vec3, CubicNode> *globalKnowledgeBase,
                                                            std::set<CubicNode *> *exploredNodes) {
         std::vector<CubicNode *> frontierNeighbours;
 
@@ -27,8 +27,8 @@ namespace logic{
                 auto globalNeighbourPosition = positionInGlobalSpace + neighbourDirection;
                 CubicNode *currentNeighbour;
 
-                if (globalKnowledgeBase->count(globalNeighbourPosition) == 0) {
-                    globalKnowledgeBase->insert({globalNeighbourPosition, CubicNode()});
+                if (globalKnowledgeBase[globalNeighbourPosition] == nullptr) {
+                    globalKnowledgeBase->insert({globalNeighbourPosition, CubicNode(radiusCounter-1)});
                     currentNeighbour = &globalKnowledgeBase->at(globalNeighbourPosition);
                     frontierNeighbours.push_back(currentNeighbour);
                 } else {
