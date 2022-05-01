@@ -1,24 +1,15 @@
-#include <iostream>
+#include "CubicNode.h"
 #include "Grid.h"
-/*#define GLM_ENABLE_EXPERIMENTAL
-#include "glm/gtx/hash.hpp"*/
-
 
 namespace logic{
 
-
     CubicNode::CubicNode(int radiusCount) {
         radiusCounter = radiusCount;
-        neighbours[glm::vec3(1.0f,0.0f,0.0f)] = nullptr;
-        neighbours[glm::vec3(0.0f,1.0f,0.0f)] = nullptr;
-        neighbours[glm::vec3(0.0f,0.0f,1.0f)] = nullptr;
-        neighbours[glm::vec3(-1.0f,0.0f,0.0f)] = nullptr;
-        neighbours[glm::vec3(0.0f,-1.0f,0.0f)] = nullptr;
-        neighbours[glm::vec3(0.0f,0.0f,-1.0f)] = nullptr;
     }
 
-    std::vector<CubicNode *> CubicNode::checkForNeighbours(std::unordered_map<glm::vec3, CubicNode> *globalKnowledgeBase,
-                                                           std::set<CubicNode *> *exploredNodes) {
+    std::vector<CubicNode *>
+    CubicNode::checkForNeighbours(std::unordered_map<glm::vec3, CubicNode> *globalKnowledgeBase,
+                                  std::set<CubicNode *> *exploredNodes) {
         std::vector<CubicNode *> frontierNeighbours;
 
         if (radiusCounter > 0) {
@@ -27,7 +18,7 @@ namespace logic{
                 auto globalNeighbourPosition = positionInGlobalSpace + neighbourDirection;
                 CubicNode *currentNeighbour;
 
-                if (globalKnowledgeBase[globalNeighbourPosition] == nullptr) {
+                if (globalKnowledgeBase->count(globalNeighbourPosition) == 0) {
                     globalKnowledgeBase->insert({globalNeighbourPosition, CubicNode(radiusCounter-1)});
                     currentNeighbour = &globalKnowledgeBase->at(globalNeighbourPosition);
                     frontierNeighbours.push_back(currentNeighbour);
@@ -53,7 +44,7 @@ namespace logic{
         return frontierNeighbours;
     }
 
-    void CubicNode::SetNeighbourAtDirection(long directionVector, CubicNode *node) {
+    void CubicNode::SetNeighbourAtDirection(glm::vec3 directionVector, CubicNode *node) {
         neighbours[directionVector] = node;
     }
 }

@@ -19,10 +19,9 @@ namespace logic {
         auto frontierNodes = std::deque<CubicNode *>();
         auto exploredNodes = std::set<CubicNode *>();
 
-        long discretizedStart = convertToLong(discretizedStartPosition);
-        if (globalKnowledgeBase.count(discretizedStart) == 0) {
-            globalKnowledgeBase.insert({discretizedStart, CubicNode(5)});
-            auto startNode = &globalKnowledgeBase.at(discretizedStart);
+        if (globalKnowledgeBase.count(discretizedStartPosition) == 0) {
+            globalKnowledgeBase.insert({discretizedStartPosition, CubicNode(5)});
+            auto startNode = &globalKnowledgeBase.at(discretizedStartPosition);
             frontierNodes.push_back(startNode);
 
             while (!frontierNodes.empty()) {
