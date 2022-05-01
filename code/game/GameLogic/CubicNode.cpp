@@ -1,11 +1,11 @@
 #include <iostream>
 #include "Grid.h"
+/*#define GLM_ENABLE_EXPERIMENTAL
+#include "glm/gtx/hash.hpp"*/
+
 
 namespace logic{
 
-    static long convertToLong(glm::vec3 vectorToConvert){
-        return (vectorToConvert.x + 1) + (vectorToConvert.y + 1) * 1000 + (vectorToConvert.z + 1) * 1000000;
-    }
 
     CubicNode::CubicNode(int radiusCount) {
         radiusCounter = radiusCount;
