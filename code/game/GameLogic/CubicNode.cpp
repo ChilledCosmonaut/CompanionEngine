@@ -3,8 +3,9 @@
 
 namespace logic{
 
-    CubicNode::CubicNode(int radiusCount) {
+    CubicNode::CubicNode(int radiusCount, glm::vec3 globalPosition) {
         radiusCounter = radiusCount;
+        globalTransform = Graphics::Transform(glm::vec3(0,0,0), globalPosition, glm::vec3(0.1f,0.1f,0.1f));
     }
 
     std::vector<CubicNode *>
@@ -19,7 +20,7 @@ namespace logic{
                 CubicNode *currentNeighbour;
 
                 if (globalKnowledgeBase->count(globalNeighbourPosition) == 0) {
-                    globalKnowledgeBase->insert({globalNeighbourPosition, CubicNode(radiusCounter-1)});
+                    globalKnowledgeBase->insert({globalNeighbourPosition, CubicNode(radiusCounter-1, globalNeighbourPosition)});
                     currentNeighbour = &globalKnowledgeBase->at(globalNeighbourPosition);
                     frontierNeighbours.push_back(currentNeighbour);
                 } else {

@@ -6,13 +6,14 @@
 #include <cmath>
 #include "glm/vec3.hpp"
 #include "CubicNode.h"
+#include "../GraphicsEngine/Scene.h"
 
 namespace logic {
     /*template<typename node>
     concept node = std::is_base_of<Node, node>::value*/
     class Grid {
     public:
-        explicit Grid(glm::vec3 startPosition);
+        Grid(glm::vec3 startPosition, Graphics::Scene* scene, Model *model, const gl3::shader* shader);
 
         void UpdateGrid();
 

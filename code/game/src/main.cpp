@@ -164,18 +164,7 @@ int main() {
     Model model1 = Model("../../assets/SpaceShip4.obj");
     Model model2 = Model("../../assets/SpaceShip2.obj");
     Model model3 = Model("../../assets/SpaceShip3.obj");
-
-    std::cout<<"Generating Grid"<<std::endl;
-
-    auto startTime = glfwGetTime();
-
-    logic::Grid grid = logic::Grid(glm::vec3(0,0,0));
-
-    auto endTime = glfwGetTime();
-
-    auto calculationTime = endTime - startTime;
-
-    std::cout<<calculationTime<<std::endl;
+    Model radarCubeModel = Model("../../assets/RadarBox.obj");
 
 
     float vertices[] = {
@@ -249,12 +238,23 @@ int main() {
 
     Graphics::Transform model1Transform = Graphics::Transform(glm::vec3(-90.0f,180.0f,0.0f), shipPos1);
 
-    scene.AddSceneModels(model1, &shader, &model1Transform);
+    /*scene.AddSceneModels(model1, &shader, &model1Transform);
 
-    scene.AddSceneModels(model4, &shader, &modelMatrixTransform);
+    scene.AddSceneModels(model4, &shader, &modelMatrixTransform);*/
+
+    std::cout<<"Generating Grid"<<std::endl;
+
+    auto startTime = glfwGetTime();
+
+    logic::Grid grid = logic::Grid(glm::vec3(0,0,0), &scene, &radarCubeModel, &shader);
+
+    auto endTime = glfwGetTime();
+
+    auto calculationTime = endTime - startTime;
+
+    std::cout<<calculationTime<<std::endl;
 
     inputCallback.StartListening(window);
-
 
     glEnable(GL_DEPTH_TEST);
 

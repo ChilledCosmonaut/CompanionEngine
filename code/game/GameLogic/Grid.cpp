@@ -11,7 +11,7 @@ namespace logic {
      return vectorToConvert.x + vectorToConvert.y * 1000 + vectorToConvert.z * 1000000;
     }
 
-    Grid::Grid(glm::vec3 startPosition) {
+    Grid::Grid(glm::vec3 startPosition, Graphics::Scene* scene, Model *model, const gl3::shader* shader) {
         glm::vec3 discretizedStartPosition = glm::vec3(std::floor((int) startPosition.x / nodeLength),
                                                        std::floor((int) startPosition.y / nodeLength),
                                                        std::floor((int) startPosition.z / nodeLength));
@@ -20,7 +20,7 @@ namespace logic {
         auto exploredNodes = std::set<CubicNode *>();
 
         if (globalKnowledgeBase.count(discretizedStartPosition) == 0) {
-            globalKnowledgeBase.insert({discretizedStartPosition, CubicNode(5)});
+            globalKnowledgeBase.insert({discretizedStartPosition, CubicNode(20, discretizedStartPosition)});
             auto startNode = &globalKnowledgeBase.at(discretizedStartPosition);
             frontierNodes.push_back(startNode);
 
@@ -38,6 +38,10 @@ namespace logic {
                 frontierNodes.pop_front();
             }
         }
+
+        for (auto& [position, node]:globalKnowledgeBase) {
+            scene->AddSceneModels(*model, shader, &node.globalTransform);
+        }
     }
 
     void Grid::UpdateGrid() {
@@ -51,5 +55,4 @@ namespace logic {
     void Grid::GetNodeLength() {
 
     }
-
 }

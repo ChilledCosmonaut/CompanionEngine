@@ -5,6 +5,7 @@
 #include <string>
 #include <set>
 #include "glm/vec3.hpp"
+#include "../GraphicsEngine/Transform.h"
 
 namespace std{
     template<>
@@ -23,7 +24,7 @@ namespace logic{
 
     class CubicNode{
     public:
-        explicit CubicNode(int radiusCount);
+        explicit CubicNode(int radiusCount, glm::vec3 globalPosition);
 
         std::vector<CubicNode*> checkForNeighbours(std::unordered_map<glm::vec3, CubicNode>* globalKnowledgeBase, std::set<CubicNode*>* exploredNodes);
 
@@ -39,6 +40,7 @@ namespace logic{
         };
 
         void SetNeighbourAtDirection(glm::vec3 directionVector, CubicNode* node);
+        Graphics::Transform globalTransform;
 
     private:
         glm::vec3 positionInGlobalSpace{};
