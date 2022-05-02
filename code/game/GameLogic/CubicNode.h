@@ -12,9 +12,9 @@ namespace std{
     struct std::hash<glm::vec3>
     {
         size_t operator()(glm::vec3 const& v) const{
-            return hash<std::string>()(std::to_string(v.x) + "," +
+            return hash<int64_t>()(v.x + v.y * 1000 + v.z * 1000000/*std::to_string(v.x) + "," +
                                        std::to_string(v.y) + "," +
-                                       std::to_string(v.z));
+                                       std::to_string(v.z)*/);
         };
     };
 }
