@@ -246,13 +246,23 @@ int main() {
 
     auto startTime = glfwGetTime();
 
-    logic::Grid grid = logic::Grid(glm::vec3(0,0,0), &scene, &radarCubeModel, &shader);
+    logic::Grid grid = logic::Grid(glm::vec3(0,0,0));
 
     auto endTime = glfwGetTime();
 
     auto calculationTime = endTime - startTime;
 
     std::cout<<calculationTime<<std::endl;
+
+    auto startTime2 = glfwGetTime();
+
+    grid.VisualizeGrid(&scene, &radarCubeModel, &shader);
+
+    auto endTime2 = glfwGetTime();
+
+    auto calculationTime2 = endTime2 - startTime2;
+
+    std::cout<<calculationTime2<<std::endl;
 
     inputCallback.StartListening(window);
 

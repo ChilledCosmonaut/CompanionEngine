@@ -30,7 +30,7 @@ namespace logic{
 
         // Initialized in the constructor with a pair of vector and nullptr.
         // Later each neighbour is set correspondingly
-        std::unordered_map<glm::vec3, CubicNode*> neighbours{
+        std::vector<std::pair<glm::vec3, CubicNode*>> neighbours{
                 {glm::vec3(1.0f,0.0f,0.0f),nullptr},
                 {glm::vec3(0.0f,1.0f,0.0f),nullptr},
                 {glm::vec3(0.0f,0.0f,1.0f),nullptr},

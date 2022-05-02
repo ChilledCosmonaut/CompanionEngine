@@ -13,7 +13,9 @@ namespace logic {
     concept node = std::is_base_of<Node, node>::value*/
     class Grid {
     public:
-        Grid(glm::vec3 startPosition, Graphics::Scene* scene, Model *model, const gl3::shader* shader);
+        Grid(glm::vec3 startPosition);
+
+        void VisualizeGrid(Graphics::Scene* scene, Model *model, const gl3::shader* shader);
 
         void UpdateGrid();
 

@@ -5,7 +5,8 @@ namespace logic{
 
     CubicNode::CubicNode(int radiusCount, glm::vec3 globalPosition) {
         radiusCounter = radiusCount;
-        globalTransform = Graphics::Transform(glm::vec3(0,0,0), globalPosition, glm::vec3(0.1f,0.1f,0.1f));
+        globalTransform = Graphics::Transform(glm::vec3(0,0,0), globalPosition, glm::vec3(0.5f,0.5f,0.5f));
+        positionInGlobalSpace = globalPosition;
     }
 
     std::vector<CubicNode *>
@@ -14,8 +15,8 @@ namespace logic{
         std::vector<CubicNode *> frontierNeighbours;
 
         if (radiusCounter > 0) {
-            for (auto neighbour: neighbours) {
-                auto neighbourDirection = neighbour.first;
+            for (int neighbourIndex = 0; neighbourIndex < neighbours.size(); neighbourIndex++/*auto & [neighbourDirection, neighbour]: neighbours*/) {
+                auto &[neighbourDirection, neighbour] = neighbours[neighbourIndex];
                 auto globalNeighbourPosition = positionInGlobalSpace + neighbourDirection;
                 CubicNode *currentNeighbour;
 
@@ -28,16 +29,16 @@ namespace logic{
                     if (exploredNodes->count(currentNeighbour) == 0)
                         frontierNeighbours.push_back(currentNeighbour);
                 }
-                neighbours[neighbourDirection] = currentNeighbour;
+                neighbours[neighbourIndex].second = currentNeighbour;
             }
         } else {
-            for (auto neighbour: neighbours) {
-                auto neighbourDirection = neighbour.first;
+            for (int neighbourIndex = 0; neighbourIndex < neighbours.size(); neighbourIndex++/*auto neighbour: neighbours*/) {
+                auto &[neighbourDirection, neighbour] = neighbours[neighbourIndex];
                 auto globalNeighbourPosition = positionInGlobalSpace + neighbourDirection;
-                CubicNode *currentNeighbour = neighbours.at(globalNeighbourPosition);
+                //CubicNode *currentNeighbour = neighbours.at(globalNeighbourPosition);
 
-                if (currentNeighbour != nullptr)
-                    currentNeighbour->SetNeighbourAtDirection(neighbourDirection, this);
+                if (globalKnowledgeBase->find(globalNeighbourPosition) != globalKnowledgeBase->end())
+                    neighbours[neighbourIndex].second = &globalKnowledgeBase->at(globalNeighbourPosition);
             }
 
         }
@@ -46,6 +47,6 @@ namespace logic{
     }
 
     void CubicNode::SetNeighbourAtDirection(glm::vec3 directionVector, CubicNode *node) {
-        neighbours[directionVector] = node;
+        //neighbours[directionVector] = node;
     }
 }
