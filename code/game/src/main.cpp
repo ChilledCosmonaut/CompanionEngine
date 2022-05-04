@@ -121,6 +121,55 @@ void processUserInput(GLFWwindow *window, int key, int scancode, int action, int
     }
 }
 
+void updateKeys(GLFWwindow *window) {
+
+    const float cameraSpeed = 0.5f * deltaTime; // adjust accordingly
+
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, true);
+
+    /*if (key == GLFW_KEY_UP){
+        rota.x += 10 * deltaTime;
+        modelMatrixTransform.SetRotation(rota);
+        std::cout << rota.x << std::endl;
+    }*/
+
+
+    // user input
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+        camera->ProcessKeyboard(RIGHT, deltaTime);
+        //std::cout<<"Pressed D" + to_string(deltaTime) <<endl;
+        //cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+        //zRotation -= rotStep * deltaTime;
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+        camera->ProcessKeyboard(LEFT, deltaTime);
+        //cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+        //zRotation += rotStep * deltaTime;
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+        camera->ProcessKeyboard(FORWARD, deltaTime);
+        //*yTranslate += sin(glm::radians(zRotation)) * transStep * deltaTime;
+        xTranslate += cos(glm::radians(zRotation)) * transStep * deltaTime;//*
+        //cameraPos += cameraSpeed * cameraFront;
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+        camera->ProcessKeyboard(BACKWARD, deltaTime);
+        //cameraPos -= cameraSpeed * cameraFront;
+        //*yTranslate -= sin(glm::radians(zRotation)) * transStep * deltaTime;
+        xTranslate -= cos(glm::radians(zRotation)) * transStep * deltaTime;//*
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+        /*shipPos1.z += transStep * deltaTime;
+        shipPos2.z += transStep * deltaTime;
+        shipPos3.z += transStep * deltaTime;*/
+    }
+}
+
 int main() {
     glfwInit();
 
@@ -247,6 +296,8 @@ int main() {
     while (!glfwWindowShouldClose(window)) {
         glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        updateKeys(window);
 
         scene.Render();
 

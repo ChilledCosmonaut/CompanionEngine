@@ -104,7 +104,7 @@ namespace input {
     }
 
     void InputManager::CallKeyMovement(GLFWwindow *window, int key, int scancode, int action, int mods) {
-        static_cast<InputManager*>(glfwGetWindowUserPointer(window))->CallInstantiatedKeyMovement(window, key, scancode, action, mods);
+        //static_cast<InputManager*>(glfwGetWindowUserPointer(window))->CallInstantiatedKeyMovement(window, key, scancode, action, mods);
     }
 
     void InputManager::CallInstantiatedKeyMovement(GLFWwindow *window, int key, int scancode, int action, int mods) {
