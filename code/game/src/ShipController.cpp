@@ -6,7 +6,20 @@ template <typename T> int sgn(T val) {
 
 void ShipController::GetUpdatedShipPosition(Graphics::Transform *formerPosition, GLFWwindow *window,
                                             const float *screenWidth, const float *screenHeight, float deltaTime) {
+    HandleKeyboard(window, deltaTime);
+    CheckMousePosition(window, screenWidth, screenHeight, deltaTime);
 
+    int inputx = glfwGetKey(window, GLFW_KEY_A);
+    inputx -= glfwGetKey(window, GLFW_KEY_D);
+
+    int inputy = glfwGetKey(window, GLFW_KEY_SPACE);
+    inputy -= glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL);
+
+    auto translation = glm::vec3(-inputx * speedX, -inputy * speedY, forwardAcceleration) * deltaTime;
+    auto rotation = glm::vec3(rotationAccelerationX, -rotationAccelerationY, rotationAccelerationZ);
+
+    formerPosition->AddRotation(rotation);
+    formerPosition->AddTranslation(translation);
 }
 
 void ShipController::HandleKeyboard(GLFWwindow *window, float deltaTime) {

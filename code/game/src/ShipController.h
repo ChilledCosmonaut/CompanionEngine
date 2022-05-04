@@ -5,7 +5,7 @@
 
 class ShipController {
 public:
-    static void GetUpdatedShipPosition(Graphics::Transform* formerPosition, GLFWwindow* window, const float* screenWidth, const float* screenHeight, float deltaTime);
+    void GetUpdatedShipPosition(Graphics::Transform* formerPosition, GLFWwindow* window, const float* screenWidth, const float* screenHeight, float deltaTime);
 private:
     void HandleKeyboard(GLFWwindow* window, float deltaTime);
 
