@@ -7,7 +7,7 @@
 #include "../GraphicsEngine/Scene.h"
 #include "../InputSystem/InputManager.h"
 #include <iostream>
-#include "../GraphicsEngine/Transform.h"
+#include "ShipController.h"
 
 double deltaTime;
 
@@ -25,6 +25,8 @@ float zRotation = 0.0f;
 float rotStep = 90.0f;
 float xTranslate = 0.0f, yTranslate = 0.0f;
 float transStep = 20.0f;
+
+float mouseOffset = 20.0f;
 
 glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
@@ -57,6 +59,15 @@ void mouse_callback(GLFWwindow *window, double xposIn, double yposIn) {
         lastY = ypos;
         firstMouse = false;
     }
+
+    float mousePosX = xposIn - (float) W_WIDTH / 2;
+    float mousePosY = yposIn - (float) W_HEIGHT / 2;
+
+    mousePosX /= W_WIDTH / 2.0f;
+    mousePosY /= W_HEIGHT / 2.0f;
+
+    if (mousePosX < mouseOffset && mousePosX > -mouseOffset) mousePosX = 0;
+    if (mousePosY < mouseOffset && mousePosY > -mouseOffset) mousePosY = 0;
 
     float xoffset = xpos - lastX;
     float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
@@ -296,6 +307,8 @@ int main() {
     while (!glfwWindowShouldClose(window)) {
         glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+         ShipController::GetUpdatedShipPosition();
 
         updateKeys(window);
 

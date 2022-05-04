@@ -40,6 +40,8 @@ public:
     float Pitch;
     // camera options
     float MovementSpeed;
+    float sideMovementRelation = 0.25f;
+    float backMovementRelation = 0.4f;
     float MouseSensitivity;
     float Zoom;
 
@@ -75,11 +77,11 @@ public:
         if (direction == FORWARD)
             Position += Front * velocity;
         if (direction == BACKWARD)
-            Position -= Front * velocity;
+            Position -= Front * velocity * backMovementRelation;
         if (direction == LEFT)
-            Position -= Right * velocity;
+            Position -= Right * velocity * sideMovementRelation;
         if (direction == RIGHT)
-            Position += Right * velocity;
+            Position += Right * velocity * sideMovementRelation;
 
     }
 
