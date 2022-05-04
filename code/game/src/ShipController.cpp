@@ -5,12 +5,52 @@ template <typename T> int sgn(T val) {
 }
 
 void ShipController::GetUpdatedShipPosition(Graphics::Transform *formerPosition, GLFWwindow *window,
-                                            const float *screenWidth, const float *screenHeight) {
+                                            const float *screenWidth, const float *screenHeight, float deltaTime) {
 
 }
 
-void ShipController::HandleKeyboard(GLFWwindow *window) {
+void ShipController::HandleKeyboard(GLFWwindow *window, float deltaTime) {
+    int inputZ = glfwGetKey(window, GLFW_KEY_W);
+    inputZ -= glfwGetKey(window, GLFW_KEY_S);
 
+    forwardAcceleration += inputZ * speedZ * deltaTime;
+    float threshold = 0.1f * speedZ * deltaTime;
+
+    if (!(inputZ < 0.1f && inputZ > -0.1f))
+    {
+        if (forwardAcceleration > maxSpeed) forwardAcceleration = maxSpeed;
+
+        if (forwardAcceleration < -(maxSpeed / 4)) forwardAcceleration = -(maxSpeed / 4);
+    }
+    else
+    {
+        if ((sgn(forwardAcceleration) * forwardAcceleration) < threshold) forwardAcceleration = 0;
+
+        if (forwardAcceleration != 0)
+            forwardAcceleration -= sgn(forwardAcceleration) * drag * deltaTime;
+    }
+
+    int input = glfwGetKey(window, GLFW_KEY_Q);
+    input -= glfwGetKey(window, GLFW_KEY_E);
+
+    rotationAccelerationZ += -input * deltaTime * rotationZ;
+
+    float rotationThresholdZ = 0.1f * rotationZ * deltaTime;
+
+    if (!(input < 0.1f && input > -0.1f))
+    {
+        if (rotationAccelerationZ > maxRotation) rotationAccelerationZ = maxRotation;
+
+        if (rotationAccelerationZ < -maxRotation) rotationAccelerationZ = -maxRotation;
+    }
+    else
+    {
+        if ((sgn(rotationAccelerationZ) * rotationAccelerationZ) < rotationThresholdZ)
+            rotationAccelerationZ = 0;
+
+        if (rotationAccelerationZ != 0)
+            rotationAccelerationZ -= sgn(rotationAccelerationZ) * drag * deltaTime;
+    }
 }
 
 void ShipController::CheckMousePosition(GLFWwindow *window, const float *screenWidth,
@@ -45,5 +85,24 @@ void ShipController::CheckMousePosition(GLFWwindow *window, const float *screenW
 
         if (rotationAccelerationX != 0)
             rotationAccelerationX -= sgn(rotationAccelerationX) * drag * deltaTime;
+    }
+
+    rotationAccelerationY += -mousePosX * deltaTime * rotationY;
+
+    float rotationThresholdY = 0.1f * rotationY * deltaTime;
+
+    if (mousePosX != 0)
+    {
+        if (sgn(rotationAccelerationY) * rotationAccelerationY > (maxRotation / 2))
+            rotationAccelerationY =
+                    sgn(rotationAccelerationY) * maxRotation / 2;
+    }
+    else
+    {
+        if ((sgn(rotationAccelerationY) * rotationAccelerationY) < rotationThresholdY)
+            rotationAccelerationY = 0;
+
+        if (rotationAccelerationY != 0)
+            rotationAccelerationY -= sgn(rotationAccelerationY) * (drag / 2) * deltaTime;
     }
 }

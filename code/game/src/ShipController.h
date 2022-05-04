@@ -5,9 +5,9 @@
 
 class ShipController {
 public:
-    static void GetUpdatedShipPosition(Graphics::Transform* formerPosition, GLFWwindow* window, const float* screenWidth, const float* screenHeight);
+    static void GetUpdatedShipPosition(Graphics::Transform* formerPosition, GLFWwindow* window, const float* screenWidth, const float* screenHeight, float deltaTime);
 private:
-    void HandleKeyboard(GLFWwindow* window);
+    void HandleKeyboard(GLFWwindow* window, float deltaTime);
 
     void CheckMousePosition(GLFWwindow *window, const float *screenWidth,
                             const float *screenHeight, float deltaTime);
