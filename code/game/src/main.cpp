@@ -147,7 +147,7 @@ void updateKeys(GLFWwindow *window) {
 
 
     // user input
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+    /*if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
         camera->ProcessKeyboard(RIGHT, deltaTime);
         //std::cout<<"Pressed D" + to_string(deltaTime) <<endl;
         //cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
@@ -175,10 +175,10 @@ void updateKeys(GLFWwindow *window) {
     }
 
     if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
-        /*shipPos1.z += transStep * deltaTime;
+        *//*shipPos1.z += transStep * deltaTime;
         shipPos2.z += transStep * deltaTime;
-        shipPos3.z += transStep * deltaTime;*/
-    }
+        shipPos3.z += transStep * deltaTime;*//*
+    }*/
 }
 
 int main() {
@@ -204,12 +204,12 @@ int main() {
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
     //glfwSetCursorPosCallback(window, mouse_callback);
-    inputCallback.AddMouseMoveCallback(mouse_callback);
+    //inputCallback.AddMouseMoveCallback(mouse_callback);
 
     //glfwSetScrollCallback(window, scroll_callback);
-    inputCallback.AddScrollCallback(scroll_callback);
+    //inputCallback.AddScrollCallback(scroll_callback);
 
-    inputCallback.AddKeyboardCallback(processUserInput);
+    //inputCallback.AddKeyboardCallback(processUserInput);
 
     if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
         std::cout << "Failed to initialize GLAD" << std::endl;
@@ -299,6 +299,8 @@ int main() {
 
     scene.AddSceneModels(model4, &shader, &modelMatrixTransform);
 
+    ShipController controller1 = ShipController();
+
     inputCallback.StartListening(window);
 
 
@@ -308,7 +310,7 @@ int main() {
         glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-         ShipController::GetUpdatedShipPosition();
+        controller1.GetUpdatedShipPosition(camera->GetTransform(), window, &W_WIDTH, &W_HEIGHT, deltaTime);
 
         updateKeys(window);
 

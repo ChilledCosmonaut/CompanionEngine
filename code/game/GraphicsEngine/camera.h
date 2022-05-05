@@ -8,6 +8,7 @@
 
 #include <vector>
 #include <iostream>
+#include "Transform.h"
 
 // Defines several possible options for camera movement. Used as abstraction to stay away from window-system specific input methods
 enum Camera_Movement {
@@ -44,6 +45,8 @@ public:
     float backMovementRelation = 0.4f;
     float MouseSensitivity;
     float Zoom;
+    //modelMatrix
+    Graphics::Transform modelMatrix = Graphics::Transform();
 
     // constructor with vectors
     Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
@@ -67,7 +70,7 @@ public:
     // returns the view matrix calculated using Euler Angles and the LookAt Matrix
     glm::mat4 GetViewMatrix()
     {
-        return glm::lookAt(Position, Position + Front, Up);
+        return glm::lookAt(Position, Position + Front, Up) * *modelMatrix.GetModelMatrix();
     }
 
     // processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
@@ -116,6 +119,10 @@ public:
         if (Zoom > 45.0f)
             Zoom = 45.0f;
     }
+
+    Graphics::Transform* GetTransform(){
+        return &modelMatrix;
+    };
 
 private:
     // calculates the front vector from the Camera's (updated) Euler Angles
