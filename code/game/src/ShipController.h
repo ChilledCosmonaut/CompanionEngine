@@ -1,6 +1,7 @@
 #pragma once
 #include <GLFW/glfw3.h>
 #include "../GraphicsEngine/Transform.h"
+#include "iostream"
 
 
 class ShipController {
@@ -15,7 +16,7 @@ private:
     float maxSpeed = 800.0f;
     float maxRotation = 200.0f;
 
-    float mouseOffset = 20.0f;
+    float mouseOffset = 0.15f;
 
     float forwardAcceleration = 0.0f;
 
