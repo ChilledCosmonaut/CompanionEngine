@@ -7,7 +7,7 @@
 #include "../GraphicsEngine/Scene.h"
 #include "../InputSystem/InputManager.h"
 #include <iostream>
-#include "../GraphicsEngine/Transform.h"
+#include "ShipController.h"
 
 double deltaTime;
 
@@ -25,6 +25,8 @@ float zRotation = 0.0f;
 float rotStep = 90.0f;
 float xTranslate = 0.0f, yTranslate = 0.0f;
 float transStep = 20.0f;
+
+float mouseOffset = 20.0f;
 
 glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
@@ -58,6 +60,15 @@ void mouse_callback(GLFWwindow *window, double xposIn, double yposIn) {
         firstMouse = false;
     }
 
+    float mousePosX = xposIn - (float) W_WIDTH / 2;
+    float mousePosY = yposIn - (float) W_HEIGHT / 2;
+
+    mousePosX /= W_WIDTH / 2.0f;
+    mousePosY /= W_HEIGHT / 2.0f;
+
+    if (mousePosX < mouseOffset && mousePosX > -mouseOffset) mousePosX = 0;
+    if (mousePosY < mouseOffset && mousePosY > -mouseOffset) mousePosY = 0;
+
     float xoffset = xpos - lastX;
     float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
 
@@ -81,7 +92,7 @@ void processUserInput(GLFWwindow *window, int key, int scancode, int action, int
 
     if (key == GLFW_KEY_UP){
         rota.x += 10 * deltaTime;
-        modelMatrixTransform.Rotate(rota);
+        modelMatrixTransform.SetRotation(rota);
         std::cout << rota.x << std::endl;
     }
 
@@ -121,6 +132,55 @@ void processUserInput(GLFWwindow *window, int key, int scancode, int action, int
     }
 }
 
+void updateKeys(GLFWwindow *window) {
+
+    const float cameraSpeed = 0.5f * deltaTime; // adjust accordingly
+
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, true);
+
+    /*if (key == GLFW_KEY_UP){
+        rota.x += 10 * deltaTime;
+        modelMatrixTransform.SetRotation(rota);
+        std::cout << rota.x << std::endl;
+    }*/
+
+
+    // user input
+    /*if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+        camera->ProcessKeyboard(RIGHT, deltaTime);
+        //std::cout<<"Pressed D" + to_string(deltaTime) <<endl;
+        //cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+        //zRotation -= rotStep * deltaTime;
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+        camera->ProcessKeyboard(LEFT, deltaTime);
+        //cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+        //zRotation += rotStep * deltaTime;
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+        camera->ProcessKeyboard(FORWARD, deltaTime);
+        //*yTranslate += sin(glm::radians(zRotation)) * transStep * deltaTime;
+        xTranslate += cos(glm::radians(zRotation)) * transStep * deltaTime;//*
+        //cameraPos += cameraSpeed * cameraFront;
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+        camera->ProcessKeyboard(BACKWARD, deltaTime);
+        //cameraPos -= cameraSpeed * cameraFront;
+        //*yTranslate -= sin(glm::radians(zRotation)) * transStep * deltaTime;
+        xTranslate -= cos(glm::radians(zRotation)) * transStep * deltaTime;//*
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+        *//*shipPos1.z += transStep * deltaTime;
+        shipPos2.z += transStep * deltaTime;
+        shipPos3.z += transStep * deltaTime;*//*
+    }*/
+}
+
 int main() {
     glfwInit();
 
@@ -135,7 +195,7 @@ int main() {
         glfwTerminate();
         return -1;
     }
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
     glfwMakeContextCurrent(window);
 
@@ -144,12 +204,12 @@ int main() {
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
     //glfwSetCursorPosCallback(window, mouse_callback);
-    inputCallback.AddMouseMoveCallback(mouse_callback);
+    //inputCallback.AddMouseMoveCallback(mouse_callback);
 
     //glfwSetScrollCallback(window, scroll_callback);
-    inputCallback.AddScrollCallback(scroll_callback);
+    //inputCallback.AddScrollCallback(scroll_callback);
 
-    inputCallback.AddKeyboardCallback(processUserInput);
+    //inputCallback.AddKeyboardCallback(processUserInput);
 
     if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
         std::cout << "Failed to initialize GLAD" << std::endl;
@@ -232,11 +292,14 @@ int main() {
     model = glm::rotate(model, glm::radians(-90.0f),glm::vec3(1.0f,0,0));
     model = glm::translate(model, shipPos1);
     model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-    litShader.setMatrix("model", model);
 
-    scene.AddSceneModels(model1, &shader, &model);
+    Graphics::Transform model1Transform = Graphics::Transform(glm::vec3(-90.0f,180.0f,0.0f), shipPos1);
 
-    scene.AddSceneModels(model4, &shader, modelMatrixTransform.GetModelMatrix());
+    scene.AddSceneModels(model1, &shader, &model1Transform);
+
+    scene.AddSceneModels(model4, &shader, &modelMatrixTransform);
+
+    ShipController controller1 = ShipController();
 
     inputCallback.StartListening(window);
 
@@ -246,6 +309,10 @@ int main() {
     while (!glfwWindowShouldClose(window)) {
         glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        controller1.GetUpdatedShipPosition(camera->GetTransform(), window, &W_WIDTH, &W_HEIGHT, deltaTime);
+
+        updateKeys(window);
 
         scene.Render();
 
