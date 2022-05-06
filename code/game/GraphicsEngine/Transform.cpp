@@ -22,12 +22,13 @@ namespace Graphics {
         /*rotationAxis = rotationVector;
         rotationAngle = rotationVector.x;*/
         rotation = glm::radians(targetRotation);
+        std::cout<<rotation.z<<std::endl;
         recalculateModel();
-
     }
 
     void Transform::AddRotation(glm::vec3 additiveRotation) {
-        glm::vec3 newRotation = GetRotation() + additiveRotation;
+        glm::vec3 newRotation = glm::degrees(GetRotation()) + additiveRotation;
+        std::cout<<GetRotation().z<<" "<<additiveRotation.z<<" "<<newRotation.z<<std::endl;
         SetRotation(newRotation);
     }
 
