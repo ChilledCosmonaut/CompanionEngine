@@ -13,7 +13,7 @@ private:
     void CheckMousePosition(GLFWwindow *window, const float *screenWidth,
                             const float *screenHeight, float deltaTime);
 
-    float maxSpeed = 800.0f;
+    float maxSpeed = 1200.0f;
     float maxRotation = 200.0f;
 
     float mouseOffset = 0.15f;

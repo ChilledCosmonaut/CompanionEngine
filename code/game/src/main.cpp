@@ -222,6 +222,7 @@ int main() {
     Model model1 = Model("../../assets/SpaceShip4.obj");
     Model model2 = Model("../../assets/SpaceShip2.obj");
     Model model3 = Model("../../assets/SpaceShip3.obj");
+    Model playerShip("../../assets/playerShip.obj");
 
 
     float vertices[] = {
@@ -298,6 +299,8 @@ int main() {
     scene.AddSceneModels(model1, &shader, &model1Transform);
 
     scene.AddSceneModels(model4, &shader, &modelMatrixTransform);
+
+    scene.AddSceneModels(playerShip, &shader, camera->GetTransform());
 
     ShipController controller1 = ShipController();
 
