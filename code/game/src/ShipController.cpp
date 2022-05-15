@@ -9,19 +9,16 @@ void ShipController::GetUpdatedShipPosition(Graphics::Transform *formerPosition,
     HandleKeyboard(window, deltaTime);
     CheckMousePosition(window, screenWidth, screenHeight, deltaTime);
 
-    int inputx = glfwGetKey(window, GLFW_KEY_A);
+    int inputx = glfwGetKey(window, GLFW_KEY_Z);
     inputx -= glfwGetKey(window, GLFW_KEY_D);
 
     int inputy = glfwGetKey(window, GLFW_KEY_SPACE);
     inputy -= glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL);
 
     auto translation = glm::vec3(-inputx * speedX, -inputy * speedY, forwardAcceleration) * deltaTime;
-    auto rotation = glm::vec3(rotationAccelerationX, -rotationAccelerationY, rotationAccelerationZ);
-
-    //std::cout<<rotation.x<<" "<<rotation.y<<" "<<rotation.z<<std::endl;
+    glm::vec3 rotation = glm::vec3(rotationAccelerationX, -rotationAccelerationY, rotationAccelerationZ);
 
     formerPosition->AddRotation(rotation * deltaTime);
-    //std::cout<<formerPosition->GetRotation().z<<" "<<rotation.z<<std::endl;
     formerPosition->AddTranslation(translation * deltaTime);
 }
 
@@ -81,8 +78,6 @@ void ShipController::CheckMousePosition(GLFWwindow *window, const float *screenW
 
     mousePosX /= *screenWidth / 2.0f;
     mousePosY /= *screenHeight / 2.0f;
-
-    //std::cout<<mousePosX<<std::endl;
 
     if (mousePosX < mouseOffset && mousePosX > -mouseOffset) mousePosX = 0;
     if (mousePosY < mouseOffset && mousePosY > -mouseOffset) mousePosY = 0;
