@@ -19,7 +19,7 @@ void ShipController::GetUpdatedShipPosition(Graphics::Transform *formerPosition,
     glm::vec3 rotation = glm::vec3(rotationAccelerationX, -rotationAccelerationY, rotationAccelerationZ);
 
     formerPosition->AddRotation(rotation * deltaTime);
-    formerPosition->AddTranslation(translation * deltaTime);
+    formerPosition->AddRelativeTranslation(translation * deltaTime);
 }
 
 void ShipController::HandleKeyboard(GLFWwindow *window, float deltaTime) {
