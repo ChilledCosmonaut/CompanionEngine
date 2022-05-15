@@ -9,14 +9,16 @@ void ShipController::GetUpdatedShipPosition(Graphics::Transform *formerPosition,
     HandleKeyboard(window, deltaTime);
     CheckMousePosition(window, screenWidth, screenHeight, deltaTime);
 
-    int inputx = glfwGetKey(window, GLFW_KEY_A);
+    int inputx = glfwGetKey(window, GLFW_KEY_Z);
     inputx -= glfwGetKey(window, GLFW_KEY_D);
 
     int inputy = glfwGetKey(window, GLFW_KEY_SPACE);
     inputy -= glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL);
 
     auto translation = glm::vec3(-inputx * speedX, -inputy * speedY, forwardAcceleration) * deltaTime;
-    auto rotation = glm::vec3(rotationAccelerationX, -rotationAccelerationY, rotationAccelerationZ);
+    glm::vec3 rotation(0,0,0);
+    if (glfwGetKey(window, GLFW_KEY_B))
+        rotation = glm::vec3(20/*rotationAccelerationX*/, 20/*-rotationAccelerationY*/, /*rotationAccelerationZ*/0);
 
     //std::cout<<rotation.x<<" "<<rotation.y<<" "<<rotation.z<<std::endl;
 

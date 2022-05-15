@@ -38,7 +38,7 @@ glm::vec3 shipPos3 = glm::vec3(40.0f, -90.0f, -60.0f);
 
 glm::vec3 rota = glm::vec3(0,0,0);
 
-auto modelMatrixTransform = Graphics::Transform(rota);
+auto modelMatrixTransform = Graphics::Transform(rota, glm::vec3(0, 0, -10.0f));
 
 float yaw = -90.0f, pitch = 0.0f, fov = 45.0f;
 
@@ -310,7 +310,7 @@ int main() {
         glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        controller1.GetUpdatedShipPosition(camera->GetTransform(), window, &W_WIDTH, &W_HEIGHT, deltaTime);
+        controller1.GetUpdatedShipPosition(&modelMatrixTransform, window, &W_WIDTH, &W_HEIGHT, deltaTime);
 
         updateKeys(window);
 
