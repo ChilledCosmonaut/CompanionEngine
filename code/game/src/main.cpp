@@ -222,6 +222,7 @@ int main() {
     Model model1 = Model("../../assets/SpaceShip4.obj");
     Model model2 = Model("../../assets/SpaceShip2.obj");
     Model model3 = Model("../../assets/SpaceShip3.obj");
+    Model asteroid = Model("../../assets/asteriod1.obj");
     Model playerShip("../../assets/playerShip.obj");
 
 
@@ -298,7 +299,23 @@ int main() {
 
     scene.AddSceneModels(model1, &shader, &model1Transform);
 
-    scene.AddSceneModels(model4, &shader, &modelMatrixTransform);
+    /*scene.AddSceneModels(model4, &shader, &modelMatrixTransform);*/
+
+    Graphics::Transform standardTransform = Graphics::Transform(glm::vec3(0,0,0),glm::vec3(0,0,0),glm::vec3(0.5f,0.5f,0.5f));
+
+    Graphics::Transform standardTransform2 = Graphics::Transform(glm::vec3(0,0,0),glm::vec3(-5,3,14),glm::vec3(0.5f,0.5f,0.5f));
+
+    Graphics::Transform standardTransform3 = Graphics::Transform(glm::vec3(0,0,0),glm::vec3(0,12,5),glm::vec3(0.5f,0.5f,0.5f));
+
+    Graphics::Transform standardTransform4 = Graphics::Transform(glm::vec3(0,0,0),glm::vec3(20,-10,0),glm::vec3(0.5f,0.5f,0.5f));
+
+    scene.AddSceneModels(asteroid, &shader, &standardTransform);
+
+    scene.AddSceneModels(asteroid, &shader, &standardTransform2);
+
+    scene.AddSceneModels(asteroid, &shader, &standardTransform3);
+
+    scene.AddSceneModels(asteroid, &shader, &standardTransform4);
 
     scene.AddSceneModels(playerShip, &shader, camera->GetTransform());
 
