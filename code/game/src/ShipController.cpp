@@ -16,7 +16,7 @@ void ShipController::GetUpdatedShipPosition(Graphics::Transform *formerPosition,
     inputy -= glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL);
 
     auto translation = glm::vec3(-inputx * speedX, -inputy * speedY, forwardAcceleration) * deltaTime;
-    glm::vec3 rotation = glm::vec3(rotationAccelerationX, -rotationAccelerationY, rotationAccelerationZ);
+    glm::vec3 rotation = glm::vec3(rotationAccelerationX, rotationAccelerationY, rotationAccelerationZ);
 
     formerPosition->AddRotation(rotation * deltaTime);
     formerPosition->AddRelativeTranslation(translation * deltaTime);
