@@ -310,7 +310,7 @@ int main() {
         glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        controller1.GetUpdatedShipPosition(&modelMatrixTransform, window, &W_WIDTH, &W_HEIGHT, deltaTime);
+        controller1.GetUpdatedShipPosition(camera->GetTransform(), window, &W_WIDTH, &W_HEIGHT, deltaTime);
 
         updateKeys(window);
 
