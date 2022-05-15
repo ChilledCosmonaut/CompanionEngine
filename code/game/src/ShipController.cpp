@@ -9,7 +9,7 @@ void ShipController::GetUpdatedShipPosition(Graphics::Transform *formerPosition,
     HandleKeyboard(window, deltaTime);
     CheckMousePosition(window, screenWidth, screenHeight, deltaTime);
 
-    int inputx = glfwGetKey(window, GLFW_KEY_Z);
+    int inputx = glfwGetKey(window, GLFW_KEY_A);
     inputx -= glfwGetKey(window, GLFW_KEY_D);
 
     int inputy = glfwGetKey(window, GLFW_KEY_SPACE);
@@ -26,7 +26,7 @@ void ShipController::HandleKeyboard(GLFWwindow *window, float deltaTime) {
     int inputZ = glfwGetKey(window, GLFW_KEY_W);
     inputZ -= glfwGetKey(window, GLFW_KEY_S);
 
-    forwardAcceleration += inputZ * speedZ * deltaTime;
+    forwardAcceleration -= inputZ * speedZ * deltaTime;
     float threshold = 0.1f * speedZ * deltaTime;
 
     if (!(inputZ < 0.1f && inputZ > -0.1f))
@@ -46,7 +46,7 @@ void ShipController::HandleKeyboard(GLFWwindow *window, float deltaTime) {
     int input = glfwGetKey(window, GLFW_KEY_Q);
     input -= glfwGetKey(window, GLFW_KEY_E);
 
-    rotationAccelerationZ += -input * deltaTime * rotationZ;
+    rotationAccelerationZ -= input * deltaTime * rotationZ;
 
     float rotationThresholdZ = 0.1f * rotationZ * deltaTime;
 
