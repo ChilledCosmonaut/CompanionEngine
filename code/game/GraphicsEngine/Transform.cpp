@@ -33,6 +33,11 @@ namespace Graphics {
         SetTranslation(newTranslation);
     }
 
+    void Transform::AddRelativeTranslation(glm::vec3 additiveTranslation) {
+        glm::vec3 newTranslation = GetTranslation() + (rotation * additiveTranslation);
+        SetTranslation(newTranslation);
+    }
+
     glm::vec3 Transform::GetTranslation() {
         return translation;
     }
@@ -61,9 +66,11 @@ namespace Graphics {
 
     void Transform::recalculateModel() {
         glm::mat4 translateModel = glm::translate(glm::mat4(1.0f), translation);
+        glm::mat4 inverseTranslateModel = glm::translate(glm::mat4(1.0f), -translation);
         glm::mat4 rotateModel = glm::mat4_cast(rotation);
         glm::mat4 scaleModel = glm::scale(glm::mat4(1.0f), scale);
+        glm::mat4 inverseScaleModel = glm::scale(glm::mat4(1.0f), glm::vec3(1/scale.x, 1/scale.y, 1/scale.z));
         modelMatrix = translateModel * rotateModel * scaleModel;
-        inverseModelMatrix = scaleModel * rotateModel * translateModel;
+        inverseModelMatrix = inverseScaleModel * glm::inverse(rotateModel) * inverseTranslateModel;
     }
 }
