@@ -33,6 +33,11 @@ namespace Graphics {
         SetTranslation(newTranslation);
     }
 
+    void Transform::AddRelativeTranslation(glm::vec3 additiveTranslation) {
+        glm::vec3 newTranslation = GetTranslation() + (rotation * additiveTranslation);
+        SetTranslation(newTranslation);
+    }
+
     glm::vec3 Transform::GetTranslation() {
         return translation;
     }
