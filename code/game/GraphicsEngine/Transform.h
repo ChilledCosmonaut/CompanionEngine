@@ -27,8 +27,8 @@ namespace Graphics {
         glm::mat4 GetInverseModelMatrix();
 
     private:
-        glm::vec3 rotation{};
         glm::vec3 translation{};
+        glm::quat rotation{};
         glm::vec3 scale{};
 
         glm::mat4 modelMatrix{};

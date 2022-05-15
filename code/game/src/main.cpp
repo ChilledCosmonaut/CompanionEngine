@@ -38,7 +38,7 @@ glm::vec3 shipPos3 = glm::vec3(40.0f, -90.0f, -60.0f);
 
 glm::vec3 rota = glm::vec3(0,0,0);
 
-auto modelMatrixTransform = Graphics::Transform(rota);
+auto modelMatrixTransform = Graphics::Transform(rota, glm::vec3(0, 0, -10.0f));
 
 float yaw = -90.0f, pitch = 0.0f, fov = 45.0f;
 
