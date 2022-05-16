@@ -7,6 +7,7 @@
 #include "../GraphicsEngine/Scene.h"
 #include "../InputSystem/InputManager.h"
 #include <iostream>
+#include "ShipController.h"
 #include "../GameLogic/Grid.h"
 
 double deltaTime;
@@ -26,6 +27,8 @@ float rotStep = 90.0f;
 float xTranslate = 0.0f, yTranslate = 0.0f;
 float transStep = 20.0f;
 
+float mouseOffset = 20.0f;
+
 glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -36,7 +39,7 @@ glm::vec3 shipPos3 = glm::vec3(40.0f, -90.0f, -60.0f);
 
 glm::vec3 rota = glm::vec3(0,0,0);
 
-auto modelMatrixTransform = Graphics::Transform(rota);
+auto modelMatrixTransform = Graphics::Transform(rota, glm::vec3(0, 0, -10.0f));
 
 float yaw = -90.0f, pitch = 0.0f, fov = 45.0f;
 
@@ -57,6 +60,15 @@ void mouse_callback(GLFWwindow *window, double xposIn, double yposIn) {
         lastY = ypos;
         firstMouse = false;
     }
+
+    float mousePosX = xposIn - (float) W_WIDTH / 2;
+    float mousePosY = yposIn - (float) W_HEIGHT / 2;
+
+    mousePosX /= W_WIDTH / 2.0f;
+    mousePosY /= W_HEIGHT / 2.0f;
+
+    if (mousePosX < mouseOffset && mousePosX > -mouseOffset) mousePosX = 0;
+    if (mousePosY < mouseOffset && mousePosY > -mouseOffset) mousePosY = 0;
 
     float xoffset = xpos - lastX;
     float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
@@ -121,6 +133,55 @@ void processUserInput(GLFWwindow *window, int key, int scancode, int action, int
     }
 }
 
+void updateKeys(GLFWwindow *window) {
+
+    const float cameraSpeed = 0.5f * deltaTime; // adjust accordingly
+
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, true);
+
+    /*if (key == GLFW_KEY_UP){
+        rota.x += 10 * deltaTime;
+        modelMatrixTransform.SetRotation(rota);
+        std::cout << rota.x << std::endl;
+    }*/
+
+
+    // user input
+    /*if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+        camera->ProcessKeyboard(RIGHT, deltaTime);
+        //std::cout<<"Pressed D" + to_string(deltaTime) <<endl;
+        //cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+        //zRotation -= rotStep * deltaTime;
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+        camera->ProcessKeyboard(LEFT, deltaTime);
+        //cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+        //zRotation += rotStep * deltaTime;
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+        camera->ProcessKeyboard(FORWARD, deltaTime);
+        //*yTranslate += sin(glm::radians(zRotation)) * transStep * deltaTime;
+        xTranslate += cos(glm::radians(zRotation)) * transStep * deltaTime;//*
+        //cameraPos += cameraSpeed * cameraFront;
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+        camera->ProcessKeyboard(BACKWARD, deltaTime);
+        //cameraPos -= cameraSpeed * cameraFront;
+        //*yTranslate -= sin(glm::radians(zRotation)) * transStep * deltaTime;
+        xTranslate -= cos(glm::radians(zRotation)) * transStep * deltaTime;//*
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+        *//*shipPos1.z += transStep * deltaTime;
+        shipPos2.z += transStep * deltaTime;
+        shipPos3.z += transStep * deltaTime;*//*
+    }*/
+}
+
 
 int main() {
 
@@ -137,7 +198,7 @@ int main() {
         glfwTerminate();
         return -1;
     }
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
     glfwMakeContextCurrent(window);
 
@@ -146,12 +207,12 @@ int main() {
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
     //glfwSetCursorPosCallback(window, mouse_callback);
-    inputCallback.AddMouseMoveCallback(mouse_callback);
+    //inputCallback.AddMouseMoveCallback(mouse_callback);
 
     //glfwSetScrollCallback(window, scroll_callback);
-    inputCallback.AddScrollCallback(scroll_callback);
+    //inputCallback.AddScrollCallback(scroll_callback);
 
-    inputCallback.AddKeyboardCallback(processUserInput);
+    //inputCallback.AddKeyboardCallback(processUserInput);
 
     if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
         std::cout << "Failed to initialize GLAD" << std::endl;
@@ -164,6 +225,8 @@ int main() {
     Model model1 = Model("../../assets/SpaceShip4.obj");
     Model model2 = Model("../../assets/SpaceShip2.obj");
     Model model3 = Model("../../assets/SpaceShip3.obj");
+    Model asteroid = Model("../../assets/asteriod1.obj");
+    Model playerShip("../../assets/playerShip.obj");
     Model radarCubeModel = Model("../../assets/RadarBox.obj");
 
 
@@ -248,6 +311,27 @@ int main() {
 
     logic::Grid grid = logic::Grid(glm::vec3(0,0,0));
 
+    /*scene.AddSceneModels(model4, &shader, &modelMatrixTransform);*/
+
+    Graphics::Transform standardTransform = Graphics::Transform(glm::vec3(0,0,0),glm::vec3(0,0,0),glm::vec3(0.5f,0.5f,0.5f));
+
+    Graphics::Transform standardTransform2 = Graphics::Transform(glm::vec3(0,0,0),glm::vec3(-5,3,14),glm::vec3(0.5f,0.5f,0.5f));
+
+    Graphics::Transform standardTransform3 = Graphics::Transform(glm::vec3(0,0,0),glm::vec3(0,12,5),glm::vec3(0.5f,0.5f,0.5f));
+
+    Graphics::Transform standardTransform4 = Graphics::Transform(glm::vec3(0,0,0),glm::vec3(20,-10,0),glm::vec3(0.5f,0.5f,0.5f));
+
+    scene.AddSceneModels(asteroid, &shader, &standardTransform);
+
+    scene.AddSceneModels(asteroid, &shader, &standardTransform2);
+
+    scene.AddSceneModels(asteroid, &shader, &standardTransform3);
+
+    scene.AddSceneModels(asteroid, &shader, &standardTransform4);
+
+    scene.AddSceneModels(playerShip, &shader, camera->GetTransform());
+
+    ShipController controller1 = ShipController();
     auto endTime = glfwGetTime();
 
     auto calculationTime = endTime - startTime;
@@ -271,6 +355,10 @@ int main() {
     while (!glfwWindowShouldClose(window)) {
         glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        controller1.GetUpdatedShipPosition(camera->GetTransform(), window, &W_WIDTH, &W_HEIGHT, deltaTime);
+
+        updateKeys(window);
 
         scene.Render();
 

@@ -17,6 +17,7 @@ namespace Graphics {
 
         void SetTranslation(glm::vec3 targetTranslation);
         void AddTranslation(glm::vec3 additiveTranslation);
+        void AddRelativeTranslation(glm::vec3 additiveTranslation);
         glm::vec3 GetTranslation();
 
         void SetScale(glm::vec3 targetScale);
@@ -27,8 +28,8 @@ namespace Graphics {
         glm::mat4 GetInverseModelMatrix();
 
     private:
-        glm::vec3 rotation{};
         glm::vec3 translation{};
+        glm::quat rotation{};
         glm::vec3 scale{};
 
         glm::mat4 modelMatrix{};

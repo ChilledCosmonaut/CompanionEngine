@@ -1,38 +1,26 @@
-#include <iostream>
 #include "Transform.h"
 
 namespace Graphics {
 
     Transform::Transform(glm::vec3 startRotation, glm::vec3 startTranslation, glm::vec3 startScale) {
+        //Translation and Scale are set directly here to minimize Matrix recalculation
         translation = startTranslation;
         scale = startScale;
         SetRotation(startRotation);
     }
 
     void Transform::SetRotation(glm::vec3 targetRotation) {
-        /*auto rotationVector = glm::vec3(0.0f);
-        rotationVector.x = 1;
-        rotationVector.y = targetRotation.y/targetRotation.x;
-        rotationVector.z = targetRotation.z/targetRotation.x;
-        rotationVector = glm::normalize(rotationVector);
-        rotation = glm::quat(cos(glm::radians(targetRotation.x/2)),
-                             rotationVector.x * sin(glm::radians(targetRotation.x/2)),
-                             rotationVector.x * sin(glm::radians(targetRotation.x/2)),
-                             rotationVector.x * sin(glm::radians(targetRotation.x/2)));*/
-        /*rotationAxis = rotationVector;
-        rotationAngle = rotationVector.x;*/
-        rotation = glm::radians(targetRotation);
+        rotation = glm::quat(glm::radians(targetRotation));
         recalculateModel();
-
     }
 
     void Transform::AddRotation(glm::vec3 additiveRotation) {
-        glm::vec3 newRotation = GetRotation() + additiveRotation;
-        SetRotation(newRotation);
+        rotation *= glm::quat(glm::radians(additiveRotation));
+        recalculateModel();
     }
 
     glm::vec3 Transform::GetRotation() {
-        return rotation;
+        return glm::degrees(glm::eulerAngles(rotation));
     }
 
     void Transform::SetTranslation(glm::vec3 targetTranslation) {
@@ -42,6 +30,11 @@ namespace Graphics {
 
     void Transform::AddTranslation(glm::vec3 additiveTranslation) {
         glm::vec3 newTranslation = GetTranslation() + additiveTranslation;
+        SetTranslation(newTranslation);
+    }
+
+    void Transform::AddRelativeTranslation(glm::vec3 additiveTranslation) {
+        glm::vec3 newTranslation = GetTranslation() + (rotation * additiveTranslation);
         SetTranslation(newTranslation);
     }
 
@@ -72,15 +65,12 @@ namespace Graphics {
     }
 
     void Transform::recalculateModel() {
-        /*glm::mat4 test = glm::mat4 (1.0f);
-        test = glm::translate(test, translation);
-        test = glm::rotate(test, rotationAngle, rotationAxis);
-        test = glm::scale(test, scale);
-        modelMatrix = test;*/
         glm::mat4 translateModel = glm::translate(glm::mat4(1.0f), translation);
-        glm::mat4 rotateModel = glm::mat4_cast(glm::quat(rotation));
+        glm::mat4 inverseTranslateModel = glm::translate(glm::mat4(1.0f), -translation);
+        glm::mat4 rotateModel = glm::mat4_cast(rotation);
         glm::mat4 scaleModel = glm::scale(glm::mat4(1.0f), scale);
+        glm::mat4 inverseScaleModel = glm::scale(glm::mat4(1.0f), glm::vec3(1/scale.x, 1/scale.y, 1/scale.z));
         modelMatrix = translateModel * rotateModel * scaleModel;
-        inverseModelMatrix = scaleModel * rotateModel * translateModel;
+        inverseModelMatrix = inverseScaleModel * glm::inverse(rotateModel) * inverseTranslateModel;
     }
 }
