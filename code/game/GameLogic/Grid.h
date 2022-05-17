@@ -2,18 +2,17 @@
 
 #include <vector>
 #include <stack>
-#include <set>
 #include <cmath>
+#include <unordered_set>
 #include "glm/vec3.hpp"
 #include "CubicNode.h"
 #include "../GraphicsEngine/Scene.h"
 
 namespace logic {
-    /*template<typename node>
-    concept node = std::is_base_of<Node, node>::value*/
+
     class Grid {
     public:
-        Grid(glm::vec3 startPosition);
+        explicit Grid(glm::vec3 startPosition);
 
         void VisualizeGrid(Graphics::Scene* scene, Model *model, const gl3::shader* shader);
 
@@ -23,8 +22,16 @@ namespace logic {
         void GetNodeLength();
 
     private:
-        static std::unordered_map<glm::vec3, CubicNode> globalKnowledgeBase;
-        static int nodeLength;
-        std::vector<CubicNode *> localKnowledgeBase;
+        std::unordered_set<glm::vec3> knowledgeBase{};
+        int nodeLength;
+        std::vector<glm::vec3> directions{
+                glm::vec3(1.0f,0.0f,0.0f),
+                glm::vec3(0.0f,1.0f,0.0f),
+                glm::vec3(0.0f,0.0f,1.0f),
+                glm::vec3(-1.0f,0.0f,0.0f),
+                glm::vec3(0.0f,-1.0f,0.0f),
+                glm::vec3(0.0f,0.0f,-1.0f)
+        };
+        std::vector<Graphics::Transform> positions;
     };
 }

@@ -4,37 +4,43 @@
 
 namespace logic {
 
-    int Grid::nodeLength = 3;
-    std::unordered_map<glm::vec3, CubicNode> Grid::globalKnowledgeBase = std::unordered_map<glm::vec3, CubicNode>();
-
     Grid::Grid(glm::vec3 startPosition) {
         glm::vec3 discretizedStartPosition = glm::vec3(std::floor((int) startPosition.x / nodeLength),
                                                        std::floor((int) startPosition.y / nodeLength),
                                                        std::floor((int) startPosition.z / nodeLength));
 
-        auto frontierNodes = std::deque<CubicNode *>();
-        auto exploredNodes = std::set<CubicNode *>();
+        auto frontierNodes = std::deque<std::pair<glm::vec3, int>>();
+        auto exploredNodes = std::unordered_set<glm::vec3>();
 
-        if (globalKnowledgeBase.count(discretizedStartPosition) == 0) {
-            globalKnowledgeBase.insert({discretizedStartPosition, CubicNode(7, discretizedStartPosition)});
-            auto startNode = &globalKnowledgeBase.at(discretizedStartPosition);
-            frontierNodes.push_back(startNode);
-
+        if (knowledgeBase.count(discretizedStartPosition) == 0) {
+            knowledgeBase.insert(discretizedStartPosition);
+            frontierNodes.emplace_back(discretizedStartPosition, 7);
 
             while (!frontierNodes.empty()) {
-                auto currentNode = frontierNodes.front();
-                glm::vec3 currentPosition;
+                auto [currentNode, radiusCounter] = frontierNodes.front();
                 exploredNodes.insert(currentNode);
+                std::cout<<currentNode.x<<","<<currentNode.y<<","<<currentNode.z<<std::endl;
 
-                auto unexploredNodes = currentNode->checkForNeighbours(&globalKnowledgeBase, &exploredNodes);
+                if (radiusCounter > 0) {
+                    for (auto currentDirection : directions) {
+                        auto nextPosition = currentNode + currentDirection;
 
-                for (auto newFrontierNode: unexploredNodes) {
-                    frontierNodes.push_back(newFrontierNode);
-                    exploredNodes.insert(newFrontierNode);
+                        if (knowledgeBase.count(nextPosition) == 0) {
+                            knowledgeBase.insert(nextPosition);
+                            frontierNodes.emplace_back(nextPosition, radiusCounter - 1);
+                        }
+                    }
                 }
 
                 frontierNodes.pop_front();
             }
+        }
+
+        for(auto position:knowledgeBase){
+            positions.emplace_back(Graphics::Transform(
+                    glm::vec3(0, 0, 0),
+                    position,
+                    glm::vec3(0.5f, 0.5f, 0.5f)));
         }
     }
 
@@ -53,8 +59,8 @@ namespace logic {
     void Grid::VisualizeGrid(Graphics::Scene* scene, Model *model, const gl3::shader* shader) {
         std::cout<<"Beginning Visualizing"<<std::endl;
 
-        for (auto& [position, node]:globalKnowledgeBase) {
-            scene->AddSceneModels(*model, shader, &node.globalTransform);
+        for (auto position:positions) {
+            scene->AddSceneModels(*model, shader, &position);
         }
     }
 }
