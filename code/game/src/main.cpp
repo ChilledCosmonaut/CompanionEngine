@@ -39,6 +39,8 @@ glm::vec3 shipPos3 = glm::vec3(40.0f, -90.0f, -60.0f);
 
 glm::vec3 rota = glm::vec3(0,0,0);
 
+int currentVisiblePlane = 3;
+
 auto modelMatrixTransform = Graphics::Transform(rota, glm::vec3(0, 0, -10.0f));
 
 float yaw = -90.0f, pitch = 0.0f, fov = 45.0f;
@@ -351,6 +353,8 @@ int main() {
     inputCallback.StartListening(window);
 
     glEnable(GL_DEPTH_TEST);
+
+    grid.SwitchVisiblePlane(currentVisiblePlane);
 
     while (!glfwWindowShouldClose(window)) {
         glClearColor(0.2f, 0.2f, 0.2f, 1.0f);

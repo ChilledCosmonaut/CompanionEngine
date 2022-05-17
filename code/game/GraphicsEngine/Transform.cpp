@@ -73,4 +73,12 @@ namespace Graphics {
         modelMatrix = translateModel * rotateModel * scaleModel;
         inverseModelMatrix = inverseScaleModel * glm::inverse(rotateModel) * inverseTranslateModel;
     }
+
+    bool Transform::IsActive() {
+        return active;
+    }
+
+    void Transform::SetActive(bool active) {
+        this->active = active;
+    }
 }

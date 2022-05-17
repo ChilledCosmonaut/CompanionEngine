@@ -62,4 +62,14 @@ namespace logic {
             scene->AddSceneModels(*model, shader, &position);
         }
     }
+
+    void Grid::SwitchVisiblePlane(int plane) {
+        for (auto &position:positions) {
+            if (position.GetTranslation().x != plane){
+                position.SetActive(false);
+            } else {
+                position.SetActive(true);
+            }
+        }
+    }
 }

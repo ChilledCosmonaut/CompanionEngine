@@ -21,6 +21,8 @@ namespace logic {
         void SetNodeLength();
         void GetNodeLength();
 
+        void SwitchVisiblePlane(int plane);
+
     private:
         std::unordered_set<glm::vec3> knowledgeBase{};
         int nodeLength;
