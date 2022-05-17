@@ -5,21 +5,20 @@
 namespace logic {
 
     Grid::Grid(glm::vec3 startPosition) {
-        glm::vec3 discretizedStartPosition = glm::vec3(std::floor((int) startPosition.x / nodeLength),
-                                                       std::floor((int) startPosition.y / nodeLength),
-                                                       std::floor((int) startPosition.z / nodeLength));
+        glm::vec3 discreteStartPosition = glm::vec3(std::floor((int) startPosition.x / nodeLength),
+                                                    std::floor((int) startPosition.y / nodeLength),
+                                                    std::floor((int) startPosition.z / nodeLength));
 
         auto frontierNodes = std::deque<std::pair<glm::vec3, int>>();
         auto exploredNodes = std::unordered_set<glm::vec3>();
 
-        if (knowledgeBase.count(discretizedStartPosition) == 0) {
-            knowledgeBase.insert(discretizedStartPosition);
-            frontierNodes.emplace_back(discretizedStartPosition, 7);
+        if (knowledgeBase.count(discreteStartPosition) == 0) {
+            knowledgeBase.insert(discreteStartPosition);
+            frontierNodes.emplace_back(discreteStartPosition, 7);
 
             while (!frontierNodes.empty()) {
                 auto [currentNode, radiusCounter] = frontierNodes.front();
                 exploredNodes.insert(currentNode);
-                std::cout<<currentNode.x<<","<<currentNode.y<<","<<currentNode.z<<std::endl;
 
                 if (radiusCounter > 0) {
                     for (auto currentDirection : directions) {
