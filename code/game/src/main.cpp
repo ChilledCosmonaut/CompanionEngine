@@ -291,6 +291,8 @@ int main() {
 
     Graphics::Scene scene = Graphics::Scene();
 
+    Graphics::Scene radarScene = Graphics::Scene();
+
     camera = scene.getCamera();
 
     gl3::shader shader = gl3::shader("shaders/vertexShader.glsl", "shaders/fragmentShader.glsl");
@@ -342,7 +344,7 @@ int main() {
 
     auto startTime2 = glfwGetTime();
 
-    grid.VisualizeGrid(&scene, &radarCubeModel, &shader);
+    grid.VisualizeGrid(&radarScene, &radarCubeModel, &shader);
 
     auto endTime2 = glfwGetTime();
 
@@ -357,14 +359,14 @@ int main() {
     grid.SwitchVisiblePlane(currentVisiblePlane);
 
     while (!glfwWindowShouldClose(window)) {
-        glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+        glClearColor(0, 0, 0, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         controller1.GetUpdatedShipPosition(camera->GetTransform(), window, &W_WIDTH, &W_HEIGHT, deltaTime);
 
         updateKeys(window);
 
-        scene.Render();
+        radarScene.Render();
 
         // ... draw rest of the scene
 
