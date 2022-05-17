@@ -59,7 +59,7 @@ namespace logic {
     void Grid::VisualizeGrid(Graphics::Scene* scene, Model *model, const gl3::shader* shader) {
         std::cout<<"Beginning Visualizing"<<std::endl;
 
-        for (auto position:positions) {
+        for (auto &position:positions) {
             scene->AddSceneModels(*model, shader, &position);
         }
     }
