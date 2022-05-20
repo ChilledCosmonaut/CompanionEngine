@@ -12,6 +12,7 @@ namespace Graphics {
                            glm::vec3 startScale = glm::vec3(1.0f,1.0f,1.0f));
 
         void SetRotation(glm::vec3 targetRotation);
+        void SetRotation(glm::quat targetRotation);
         void AddRotation(glm::vec3 additiveRotation);
         glm::vec3 GetRotation();
 
@@ -29,6 +30,8 @@ namespace Graphics {
 
         glm::mat4* GetModelMatrix();
         glm::mat4 GetInverseModelMatrix();
+
+        void RotateTowardsPosition(glm::vec3 position);
 
     private:
         glm::vec3 translation{};
