@@ -1,4 +1,5 @@
 #include "Transform.h"
+#include "glm/gtx/quaternion.hpp"
 
 namespace Graphics {
 
@@ -11,6 +12,11 @@ namespace Graphics {
 
     void Transform::SetRotation(glm::vec3 targetRotation) {
         rotation = glm::quat(glm::radians(targetRotation));
+        recalculateModel();
+    }
+
+    void Transform::SetRotation(glm::quat targetRotation) {
+        rotation = targetRotation;
         recalculateModel();
     }
 
@@ -72,5 +78,22 @@ namespace Graphics {
         glm::mat4 inverseScaleModel = glm::scale(glm::mat4(1.0f), glm::vec3(1/scale.x, 1/scale.y, 1/scale.z));
         modelMatrix = translateModel * rotateModel * scaleModel;
         inverseModelMatrix = inverseScaleModel * glm::inverse(rotateModel) * inverseTranslateModel;
+    }
+
+    bool Transform::IsActive() {
+        return active;
+    }
+
+    void Transform::SetActive(bool active) {
+        this->active = active;
+    }
+
+    void Transform::RotateTowardsPosition(glm::vec3 position) {
+
+        rotation = glm::toQuat(
+                glm::lookAt(
+                    position,
+                    translation,
+                    glm::vec3(0, 1, 0)));
     }
 }

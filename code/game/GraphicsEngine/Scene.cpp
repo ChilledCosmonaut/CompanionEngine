@@ -61,25 +61,26 @@ namespace Graphics{
     }
 
     void Scene::DisplayModels() {
-        for (auto & sceneModel : sceneModels) {
-            sceneModel.second.first->use();
+        for (auto &[model, shaderAndTransform] : sceneModels) {
+            if(!shaderAndTransform.second->IsActive()) continue;
+            shaderAndTransform.first->use();
             // view/projection transformations
             glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), 1920.0f / 1080.0f, 0.1f, 1000.0f);
             glm::mat4 view = camera.GetViewMatrix();
-            sceneModel.second.first->setMatrix("projection", projection);
-            sceneModel.second.first->setMatrix("view", view);
+            shaderAndTransform.first->setMatrix("projection", projection);
+            shaderAndTransform.first->setMatrix("view", view);
 
-            sceneModel.second.first->setMatrix("model", *sceneModel.second.second->GetModelMatrix());
+            shaderAndTransform.first->setMatrix("model", *shaderAndTransform.second->GetModelMatrix());
 
-            sceneModel.second.first->setVector("viewPos",glm::vec4(camera.Position, 1.0f));
+            shaderAndTransform.first->setVector("viewPos",glm::vec4(camera.Position, 1.0f));
 
-            sceneModel.second.first->setVector3("dirLight.direction", -lightPos);
+            shaderAndTransform.first->setVector3("dirLight.direction", -lightPos);
 
-            sceneModel.second.first->setVector3("dirLight.ambient", glm::vec3(0.05f, 0.05f, 0.05f));
-            sceneModel.second.first->setVector3("dirLight.diffuse", glm::vec3(0.4f, 0.4f, 0.4f));
-            sceneModel.second.first->setVector3("dirLight.specular", glm::vec3(0.7f, 0.7f, 0.7f));
+            shaderAndTransform.first->setVector3("dirLight.ambient", glm::vec3(0.05f, 0.05f, 0.05f));
+            shaderAndTransform.first->setVector3("dirLight.diffuse", glm::vec3(0.4f, 0.4f, 0.4f));
+            shaderAndTransform.first->setVector3("dirLight.specular", glm::vec3(0.7f, 0.7f, 0.7f));
 
-            sceneModel.first.Draw((gl3::shader &) sceneModel.second);
+            model.Draw((gl3::shader &) shaderAndTransform);
         }
     }
 

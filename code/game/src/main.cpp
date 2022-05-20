@@ -8,6 +8,7 @@
 #include "../InputSystem/InputManager.h"
 #include <iostream>
 #include "ShipController.h"
+#include "../GameLogic/Grid.h"
 
 double deltaTime;
 
@@ -37,6 +38,8 @@ glm::vec3 shipPos2 = glm::vec3(20.0f, -65.0f, -50.0f);
 glm::vec3 shipPos3 = glm::vec3(40.0f, -90.0f, -60.0f);
 
 glm::vec3 rota = glm::vec3(0,0,0);
+
+int currentVisiblePlane = 3;
 
 auto modelMatrixTransform = Graphics::Transform(rota, glm::vec3(0, 0, -10.0f));
 
@@ -181,7 +184,9 @@ void updateKeys(GLFWwindow *window) {
     }*/
 }
 
+
 int main() {
+
     glfwInit();
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -224,6 +229,7 @@ int main() {
     Model model3 = Model("../../assets/SpaceShip3.obj");
     Model asteroid = Model("../../assets/asteriod1.obj");
     Model playerShip("../../assets/playerShip.obj");
+    Model radarCubeModel = Model("../../assets/RadarBox.obj");
 
 
     float vertices[] = {
@@ -285,6 +291,8 @@ int main() {
 
     Graphics::Scene scene = Graphics::Scene();
 
+    Graphics::Scene radarScene = Graphics::Scene();
+
     camera = scene.getCamera();
 
     gl3::shader shader = gl3::shader("shaders/vertexShader.glsl", "shaders/fragmentShader.glsl");
@@ -297,7 +305,15 @@ int main() {
 
     Graphics::Transform model1Transform = Graphics::Transform(glm::vec3(-90.0f,180.0f,0.0f), shipPos1);
 
-    scene.AddSceneModels(model1, &shader, &model1Transform);
+    /*scene.AddSceneModels(model1, &shader, &model1Transform);
+
+    scene.AddSceneModels(model4, &shader, &modelMatrixTransform);*/
+
+    std::cout<<"Generating Grid"<<std::endl;
+
+    auto startTime = glfwGetTime();
+
+    logic::Grid grid = logic::Grid(glm::vec3(0,0,0));
 
     /*scene.AddSceneModels(model4, &shader, &modelMatrixTransform);*/
 
@@ -320,21 +336,37 @@ int main() {
     scene.AddSceneModels(playerShip, &shader, camera->GetTransform());
 
     ShipController controller1 = ShipController();
+    auto endTime = glfwGetTime();
+
+    auto calculationTime = endTime - startTime;
+
+    std::cout<<calculationTime<<std::endl;
+
+    auto startTime2 = glfwGetTime();
+
+    grid.VisualizeGrid(&radarScene, &radarCubeModel, &shader);
+
+    auto endTime2 = glfwGetTime();
+
+    auto calculationTime2 = endTime2 - startTime2;
+
+    std::cout<<calculationTime2<<std::endl;
 
     inputCallback.StartListening(window);
 
-
     glEnable(GL_DEPTH_TEST);
 
+    grid.SwitchVisiblePlane(currentVisiblePlane);
+
     while (!glfwWindowShouldClose(window)) {
-        glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+        glClearColor(0, 0, 0, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         controller1.GetUpdatedShipPosition(camera->GetTransform(), window, &W_WIDTH, &W_HEIGHT, deltaTime);
 
         updateKeys(window);
 
-        scene.Render();
+        radarScene.Render();
 
         // ... draw rest of the scene
 
