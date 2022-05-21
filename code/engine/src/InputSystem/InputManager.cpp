@@ -1,4 +1,4 @@
-#include "InputManager.h"
+#include "InputSystem/InputManager.h"
 
 namespace input {
     /*template<typename inputFunction>

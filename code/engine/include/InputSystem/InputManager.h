@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <functional>
-#include <GLFW/glfw3.h>
+#include "GLFW/glfw3.h"
 
 namespace input{
     class [[maybe_unused]] InputManager {
