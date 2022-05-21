@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../../Tools/Grid.h"
+#include "Tools/Grid.h"
 
 
 namespace logic {
