@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../src/shader.h"
+#include "../../../game/src/shader.h"
 
 #include "glm/vec3.hpp"
 #include "glm/vec2.hpp"

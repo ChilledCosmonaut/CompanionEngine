@@ -1,7 +1,7 @@
 #pragma once
 #include <GLFW/glfw3.h>
-#include "../GraphicsEngine/Transform.h"
 #include "iostream"
+#include "GraphicsEngine/Transform.h"
 
 
 class ShipController {

@@ -1,7 +1,7 @@
 #pragma once
 
 
-#include "../src/shader.h"
+#include "../../../game/src/shader.h"
 #include "mesh.h"
 #include "../FileManager/FileManager.h"
 

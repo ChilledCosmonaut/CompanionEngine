@@ -1,14 +1,13 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "shader.h"
-#include "../FileManager/stb_image.h"
-#include "../GraphicsEngine/camera.h"
-#include "../GraphicsEngine/Model.h"
-#include "../GraphicsEngine/Scene.h"
-#include "../InputSystem/InputManager.h"
 #include <iostream>
 #include "ShipController.h"
-#include "../GameLogic/Grid.h"
+#include "GraphicsEngine/camera.h"
+#include "InputSystem/InputManager.h"
+#include "GraphicsEngine/Model.h"
+#include "GraphicsEngine/Scene.h"
+#include "Tools/Grid.h"
 
 double deltaTime;
 
