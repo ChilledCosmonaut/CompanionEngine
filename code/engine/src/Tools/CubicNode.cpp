@@ -1,5 +1,5 @@
-#include "CubicNode.h"
-#include "Grid.h"
+#include "../../Tools/CubicNode.h"
+#include "../../Tools/Grid.h"
 
 namespace logic{
 
