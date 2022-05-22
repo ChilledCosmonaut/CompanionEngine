@@ -34,13 +34,14 @@ namespace Sound{
         }
 
         /// Stops the sound if currently played.
-        void Stop(){
+        void Stop() const{
+            if(soundHandle == -1) return;
             AudioListener::soLoud.stop(soundHandle);
         }
 
     private:
         SoLoud::Wav sound;
-        int soundHandle;
+        int soundHandle = -1;
         Graphics::Transform* sourceTransform;
     };
 }
