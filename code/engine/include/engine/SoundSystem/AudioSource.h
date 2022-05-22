@@ -33,6 +33,11 @@ namespace Sound{
             soundHandle = AudioListener::soLoud.playBackground(sound, AudioListener::masterVolume);
         }
 
+        /// Stops the sound if currently played.
+        void Stop(){
+            AudioListener::soLoud.stop(soundHandle);
+        }
+
     private:
         SoLoud::Wav sound;
         int soundHandle;
