@@ -43,4 +43,5 @@ pages:
     paths:
     - public
   only:
-  - feature/35_automated-documentation
+  - develop
+  - master
