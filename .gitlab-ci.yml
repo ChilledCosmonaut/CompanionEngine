@@ -31,13 +31,14 @@
   # stage: test
   # script:
     # - ./runmytests.sh
+
 image: alpine
 
 pages:
   script:
   - apk update && apk add doxygen graphviz ttf-freefont
-  - doxygen Doxyfile
-  - mv code/docs/html/ public/
+  - doxygen code/docs/doxgenConfig
+  - mv code/docs/out/html/ public/
   artifacts:
     paths:
     - public
