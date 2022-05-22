@@ -7,19 +7,20 @@ namespace Sound {
 
     class AudioListener {
     public:
-        static AudioListener* GetAudioListener(Graphics::Transform* newTransform){
-            __if_not_exists(listener) {
-                listener = AudioListener();
-            }
-            AudioListener::transform = newTransform;
-            return &listener;
+        static void StartAudioListener(Graphics::Transform* transform){
+            audioTransform = transform;
+            soLoud = SoLoud::Soloud();
+            soLoud.init();
+        }
+
+        static void StopAudioListener(){
+            soLoud.deinit();
         }
 
     private:
-        AudioListener() = delete;
 
         static AudioListener listener;
-
-        static Graphics::Transform* transform;
+        static SoLoud::Soloud soLoud;
+        static Graphics::Transform* audioTransform;
     };
 }
