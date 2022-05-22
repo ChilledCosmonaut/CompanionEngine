@@ -17,4 +17,4 @@ This gives the Player more variable approaches on how to turn the tide in battle
 
 Furthermore, the game is programmed for Windows by utilizing OpenGL and other supporting libraries.
 
-
+You can find more details about the engine API under: http://ge.gitlab-pages.informatik.uni-wuerzburg.de/Teaching/gl3/2021/projects/35-gl3-schindler
