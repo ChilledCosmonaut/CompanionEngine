@@ -20,10 +20,17 @@ namespace Sound {
             soLoud.deinit();
         }
 
-    private:
+        /// Sets a maximum range for when audio sources can be heard.
+        /// @param distance Maximum hearing range.
+        static void SetMaxHearingDistance(int distance){
+            hearingDistance = distance;
+        }
 
+    private:
         static AudioListener listener;
         static SoLoud::Soloud soLoud;
         static Graphics::Transform* audioTransform;
+        static int hearingDistance;
+
     };
 }
