@@ -31,7 +31,15 @@ namespace Graphics {
         glm::mat4* GetModelMatrix();
         glm::mat4 GetInverseModelMatrix();
 
+        /// Rotates the current transform towards an arbitrary position.
+        /// @param position Position to which the transform will be rotate to.
         void RotateTowardsPosition(glm::vec3 position);
+
+        /// Projects an arbitrary vector onto a plane defined by a plane normal.
+        /// @param vector The vectored to be projected onto the plane.
+        /// @param planeNormal The normal defining the plane on which the projection will take place.
+        /// @return Returns the projected vector as copy.
+        static glm::vec3 ProjectOntoPlane(glm::vec3 vector, glm::vec3 planeNormal);
 
     private:
         glm::vec3 translation{};
