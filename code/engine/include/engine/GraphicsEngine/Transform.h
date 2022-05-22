@@ -1,7 +1,7 @@
 #pragma once
 
 #include "glm/vec3.hpp"
-#include "glm/gtx/dual_quaternion.hpp"
+#include "glm/gtx/quaternion.hpp"
 
 namespace Graphics {
 
