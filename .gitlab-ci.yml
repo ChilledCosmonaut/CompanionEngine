@@ -42,4 +42,4 @@ pages:
     paths:
     - public
   only:
-  - feature/add-gitlab-pages-support
+  - feature/35_automated-documentation
