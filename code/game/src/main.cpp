@@ -3,11 +3,10 @@
 #include "shader.h"
 #include <iostream>
 #include "ShipController.h"
-#include "GraphicsEngine/camera.h"
-#include "InputSystem/InputManager.h"
-#include "GraphicsEngine/Model.h"
-#include "GraphicsEngine/Scene.h"
-#include "Tools/Grid.h"
+#include "engine/GraphicsEngine/camera.h"
+#include "engine/InputSystem/InputManager.h"
+#include "engine/GraphicsEngine/Model.h"
+#include "engine/Tools/Grid.h"
 
 double deltaTime;
 

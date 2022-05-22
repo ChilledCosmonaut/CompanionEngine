@@ -6,7 +6,7 @@
 #include <unordered_set>
 #include "glm/vec3.hpp"
 #include "CubicNode.h"
-#include "../GraphicsEngine/Scene.h"
+#include "engine/GraphicsEngine/Scene.h"
 
 namespace logic {
 

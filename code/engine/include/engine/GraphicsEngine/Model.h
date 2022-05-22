@@ -1,9 +1,9 @@
 #pragma once
 
 
-#include "../../../game/src/shader.h"
+#include "../../../../game/src/shader.h"
 #include "mesh.h"
-#include "../FileManager/FileManager.h"
+#include "engine/FileManager/FileManager.h"
 
 class Model {
 public:

@@ -9,7 +9,7 @@
 #include "assimp/scene.h"
 #include "assimp/postprocess.h"
 
-#include "../../src/FileManager/stb_image.h"
+#include "../../../src/FileManager/stb_image.h"
 
 namespace files{
     namespace fs = std::filesystem;
