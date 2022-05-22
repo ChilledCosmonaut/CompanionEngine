@@ -2,10 +2,13 @@
 
 #include "engine/GraphicsEngine/Transform.h"
 #include "soloud.h"
+#include "AudioSource.h"
 
 namespace Sound {
     /// Provides a static class to interact with @AudioSource to provide a more spatial sound and overall control.
     class AudioListener {
+        friend class AudioSource;
+
     public:
         /// Starts the audio listener by initializing SoLoud and setting the location of the listener.
         /// @param transform Global position of the AudioListener
