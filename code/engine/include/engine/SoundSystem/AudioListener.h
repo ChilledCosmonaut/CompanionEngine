@@ -4,15 +4,18 @@
 #include "soloud.h"
 
 namespace Sound {
-
+    /// Provides a static class to interact with @AudioSource to provide a more spatial sound and overall control.
     class AudioListener {
     public:
+        /// Starts the audio listener by initializing SoLoud and setting the location of the listener.
+        /// @param transform Global position of the AudioListener
         static void StartAudioListener(Graphics::Transform* transform){
             audioTransform = transform;
             soLoud = SoLoud::Soloud();
             soLoud.init();
         }
 
+        /// Stops the AudioListener and deinitializes SoLoud.
         static void StopAudioListener(){
             soLoud.deinit();
         }
