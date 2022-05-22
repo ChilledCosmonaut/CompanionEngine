@@ -26,11 +26,17 @@ namespace Sound {
             hearingDistance = distance;
         }
 
+        /// Sets the master volume for all audio sources in the program.
+        /// @param volume New master volume value.
+        static void SetMasterVolume(float volume){
+            masterVolume = volume;
+        }
+
     private:
         static AudioListener listener;
         static SoLoud::Soloud soLoud;
         static Graphics::Transform* audioTransform;
         static int hearingDistance;
-
+        static float masterVolume;
     };
 }
