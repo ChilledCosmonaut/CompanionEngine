@@ -1,5 +1,5 @@
 #include <iostream>
-#include "GraphicsEngine/Model.h"
+#include "engine/GraphicsEngine/Model.h"
 
 unsigned int TextureFromFile(const char *path, const string &directory, bool gamma = false);
 
