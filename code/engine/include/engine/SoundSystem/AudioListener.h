@@ -20,6 +20,7 @@ namespace Sound {
 
         /// Stops the AudioListener and deinitializes SoLoud.
         static void StopAudioListener(){
+            soLoud.stopAll();
             soLoud.deinit();
         }
 
