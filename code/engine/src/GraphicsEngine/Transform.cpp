@@ -1,5 +1,4 @@
-#include "GraphicsEngine/Transform.h"
-#include "glm/gtx/quaternion.hpp"
+#include "engine/GraphicsEngine/Transform.h"
 
 namespace Graphics {
 
@@ -95,5 +94,10 @@ namespace Graphics {
                     position,
                     translation,
                     glm::vec3(0, 1, 0)));
+    }
+
+    glm::vec3 Transform::ProjectOntoPlane(glm::vec3 vector, glm::vec3 planeNormal) {
+        glm::vec3 projectedOntoNormal = ((vector * planeNormal)/(float)pow(glm::length(planeNormal),2));
+        return vector - planeNormal;
     }
 }

@@ -1,4 +1,4 @@
-#include "GraphicsEngine/mesh.h"
+#include "engine/GraphicsEngine/mesh.h"
 
 Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures) {
     this->vertices = vertices;

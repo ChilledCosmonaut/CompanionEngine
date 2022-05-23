@@ -3,11 +3,12 @@
 #include "shader.h"
 #include <iostream>
 #include "ShipController.h"
-#include "GraphicsEngine/camera.h"
-#include "InputSystem/InputManager.h"
-#include "GraphicsEngine/Model.h"
-#include "GraphicsEngine/Scene.h"
-#include "Tools/Grid.h"
+#include "engine/GraphicsEngine/camera.h"
+#include "engine/InputSystem/InputManager.h"
+#include "engine/GraphicsEngine/Model.h"
+#include "engine/Tools/Grid.h"
+#include "engine/SoundSystem/AudioListener.h"
+#include "engine/SoundSystem/AudioSource.h"
 
 double deltaTime;
 
@@ -316,6 +317,7 @@ int main() {
 
     /*scene.AddSceneModels(model4, &shader, &modelMatrixTransform);*/
 
+
     Graphics::Transform standardTransform = Graphics::Transform(glm::vec3(0,0,0),glm::vec3(0,0,0),glm::vec3(0.5f,0.5f,0.5f));
 
     Graphics::Transform standardTransform2 = Graphics::Transform(glm::vec3(0,0,0),glm::vec3(-5,3,14),glm::vec3(0.5f,0.5f,0.5f));
@@ -333,6 +335,10 @@ int main() {
     scene.AddSceneModels(asteroid, &shader, &standardTransform4);
 
     scene.AddSceneModels(playerShip, &shader, camera->GetTransform());
+
+    Sound::AudioListener::StartAudioListener(&standardTransform);
+
+    Sound::AudioSource audioSource = Sound::AudioSource("../../assets/audio/electronic-wave.mp3", &standardTransform4);
 
     ShipController controller1 = ShipController();
     auto endTime = glfwGetTime();
@@ -356,6 +362,8 @@ int main() {
     glEnable(GL_DEPTH_TEST);
 
     grid.SwitchVisiblePlane(currentVisiblePlane);
+
+    audioSource.PlayBackground(true);
 
     while (!glfwWindowShouldClose(window)) {
         glClearColor(0, 0, 0, 1.0f);
@@ -435,6 +443,8 @@ int main() {
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
+
+    Sound::AudioListener::StopAudioListener();
 
     glfwTerminate();
     return 0;
