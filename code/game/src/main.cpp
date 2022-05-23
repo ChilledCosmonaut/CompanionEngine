@@ -8,6 +8,7 @@
 #include "engine/GraphicsEngine/Model.h"
 #include "engine/Tools/Grid.h"
 #include "engine/SoundSystem/AudioListener.h"
+#include "engine/SoundSystem/AudioSource.h"
 
 double deltaTime;
 
