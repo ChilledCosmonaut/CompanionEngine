@@ -36,10 +36,9 @@ namespace Sound {
         }
 
     private:
-        static AudioListener listener;
-        static SoLoud::Soloud soLoud;
-        static Graphics::Transform* audioTransform;
-        static int hearingDistance;
-        static float masterVolume;
+        static inline SoLoud::Soloud soLoud {};
+        static inline Graphics::Transform* audioTransform = nullptr;
+        static inline int hearingDistance = 100;
+        static inline float masterVolume = 1.0f;
     };
 }
