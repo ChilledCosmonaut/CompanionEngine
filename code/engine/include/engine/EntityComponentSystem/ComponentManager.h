@@ -6,7 +6,7 @@
 #include <typeinfo>
 #include <utility>
 #include <functional>
-#include "engine/EntityComponentSystem/ecs.h"
+#include "engine/EntityComponentSystem/EntityComponentSystem.h"
 #include "engine/EntityComponentSystem/Component.h"
 
 namespace gl3::engine {

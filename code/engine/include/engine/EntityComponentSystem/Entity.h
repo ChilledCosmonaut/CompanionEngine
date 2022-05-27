@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "ecs.h"
+#include "EntityComponentSystem.h"
 #include "engine/EntityComponentSystem/ComponentManager.h"
 
 namespace gl3::engine::entityComponentSystem {

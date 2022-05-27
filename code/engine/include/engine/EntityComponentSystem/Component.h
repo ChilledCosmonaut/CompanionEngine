@@ -1,5 +1,5 @@
 #pragma once
-#include "engine/EntityComponentSystem/ecs.h"
+#include "engine/EntityComponentSystem/EntityComponentSystem.h"
 
 namespace gl3::engine::entityComponentSystem {
     class Component {

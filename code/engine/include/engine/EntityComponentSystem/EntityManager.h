@@ -2,7 +2,7 @@
 #include <map>
 #include <memory>
 #include <vector>
-#include "engine/EntityComponentSystem/ecs.h"
+#include "engine/EntityComponentSystem/EntityComponentSystem.h"
 #include "engine/EntityComponentSystem/Entity.h"
 #include "engine/EntityComponentSystem/ComponentManager.h"
 
