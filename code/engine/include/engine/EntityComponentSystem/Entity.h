@@ -3,7 +3,7 @@
 #include "ecs.h"
 #include "engine/EntityComponentSystem/ComponentManager.h"
 
-namespace gl3::engine::ecs {
+namespace gl3::engine::entityComponentSystem {
     class Entity final {
         friend class EntityManager;
 

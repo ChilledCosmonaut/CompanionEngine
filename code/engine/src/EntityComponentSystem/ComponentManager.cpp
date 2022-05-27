@@ -1,7 +1,7 @@
 #include "engine/ecs/ComponentManager.h"
 #include "engine/Game.h"
 
-namespace gl3::engine::ecs {
+namespace gl3::engine::entityComponentSystem {
     ComponentManager::ComponentManager(Game &engine) {
         engine.onAfterUpdate.addListener([&](engine::Game &) {
             purgeComponents();

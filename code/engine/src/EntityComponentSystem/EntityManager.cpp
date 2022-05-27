@@ -2,7 +2,7 @@
 #include "engine/Game.h"
 
 
-namespace gl3::engine::ecs {
+namespace gl3::engine::entityComponentSystem {
     EntityManager::EntityManager(ComponentManager &componentManager, engine::Game &game)
             : componentManager(componentManager) {
         game.onAfterUpdate.addListener([&](engine::Game &) {

@@ -10,7 +10,7 @@ namespace gl3::engine {
     class Game;
 }
 
-namespace gl3::engine::ecs {
+namespace gl3::engine::entityComponentSystem {
     class EntityManager {
     public:
         EntityManager(ComponentManager &componentManager, engine::Game &game);

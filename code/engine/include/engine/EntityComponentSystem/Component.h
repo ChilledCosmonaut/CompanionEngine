@@ -1,7 +1,7 @@
 #pragma once
 #include "engine/EntityComponentSystem/ecs.h"
 
-namespace gl3::engine::ecs {
+namespace gl3::engine::entityComponentSystem {
     class Component {
         friend class ComponentManager;
         friend class Entity;
