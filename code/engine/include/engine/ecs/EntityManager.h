@@ -1,8 +1,30 @@
-//
-// Created by GoPJo on 27.05.2022.
-//
+#pragma once
+#include <map>
+#include <memory>
+#include <vector>
+#include "engine/ecs/ecs.h"
+#include "engine/ecs/Entity.h"
+#include "engine/ecs/ComponentManager.h"
 
-#ifndef CODE_ENTITYMANAGER_H
-#define CODE_ENTITYMANAGER_H
+namespace gl3::engine {
+    class Game;
+}
 
-#endif //CODE_ENTITYMANAGER_H
+namespace gl3::engine::ecs {
+    class EntityManager {
+    public:
+        EntityManager(ComponentManager &componentManager, engine::Game &game);
+
+        Entity &createEntity();
+        [[nodiscard]] Entity &getEntity(guid_t guid);
+        void deleteEntity(Entity &entity);
+
+    private:
+        void purgeEntities();
+
+        ComponentManager &componentManager;
+        std::map<guid_t, std::unique_ptr<Entity>> entities;
+        std::vector<guid_t> deleteList;
+        int entityCounter = 0;
+    };
+}

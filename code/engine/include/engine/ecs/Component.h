@@ -1,8 +1,22 @@
-//
-// Created by GoPJo on 27.05.2022.
-//
+#pragma once
+#include "ecs.h"
 
-#ifndef CODE_COMPONENT_H
-#define CODE_COMPONENT_H
+namespace gl3::engine::ecs {
+    class Component {
+        friend class ComponentManager;
+        friend class Entity;
 
-#endif //CODE_COMPONENT_H
+    public:
+        virtual ~Component() = default;
+
+        [[nodiscard]] guid_t entity() const { return owner; }
+        [[nodiscard]] bool isDeleted() const { return deleted; }
+
+    protected:
+        explicit Component(guid_t owner = invalidID)
+                : owner(owner) {};
+
+        guid_t owner;
+        bool deleted = false;
+    };
+}
