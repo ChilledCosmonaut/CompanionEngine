@@ -1,0 +1,8 @@
+//
+// Created by GoPJo on 27.05.2022.
+//
+
+#ifndef CODE_ENTITYMANAGER_H
+#define CODE_ENTITYMANAGER_H
+
+#endif //CODE_ENTITYMANAGER_H

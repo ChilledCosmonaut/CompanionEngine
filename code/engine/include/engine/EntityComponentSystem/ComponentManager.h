@@ -1,0 +1,8 @@
+//
+// Created by GoPJo on 27.05.2022.
+//
+
+#ifndef CODE_COMPONENTMANAGER_H
+#define CODE_COMPONENTMANAGER_H
+
+#endif //CODE_COMPONENTMANAGER_H
