@@ -6,14 +6,14 @@
 #include <typeinfo>
 #include <utility>
 #include <functional>
-#include "engine/EntityComponentSystem/EntityComponentSystem.h"
-#include "engine/EntityComponentSystem/Component.h"
+#include "engine/ecs/ecs.h"
+#include "engine/ecs/Component.h"
 
 namespace gl3::engine {
     class Game;
 }
 
-namespace gl3::engine::entityComponentSystem {
+namespace gl3::engine::ecs {
     class ComponentManager {
     public:
         explicit ComponentManager(engine::Game &engine);
