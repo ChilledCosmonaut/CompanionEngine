@@ -2,9 +2,9 @@
 #include <map>
 #include <memory>
 #include <vector>
-#include "engine/ecs/ecs.h"
-#include "engine/ecs/Entity.h"
-#include "engine/ecs/ComponentManager.h"
+#include "engine/EntityComponentSystem/ecs.h"
+#include "engine/EntityComponentSystem/Entity.h"
+#include "engine/EntityComponentSystem/ComponentManager.h"
 
 namespace gl3::engine {
     class Game;

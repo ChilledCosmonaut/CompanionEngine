@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include "ecs.h"
-#include "engine/ecs/ComponentManager.h"
+#include "engine/EntityComponentSystem/ComponentManager.h"
 
 namespace gl3::engine::ecs {
     class Entity final {

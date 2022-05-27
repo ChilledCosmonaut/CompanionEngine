@@ -6,8 +6,8 @@
 #include <typeinfo>
 #include <utility>
 #include <functional>
-#include "engine/ecs/ecs.h"
-#include "engine/ecs/Component.h"
+#include "engine/EntityComponentSystem/ecs.h"
+#include "engine/EntityComponentSystem/Component.h"
 
 namespace gl3::engine {
     class Game;
