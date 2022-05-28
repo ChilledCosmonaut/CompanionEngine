@@ -29,9 +29,9 @@ namespace gl3::engine {
 
     protected:
         Game(int width, int height, const std::string &title);
-        virtual void start() {}
+        void start() {}
         virtual void update(GLFWwindow *window) {}
-        virtual void draw() {}
+        void draw() {}
         virtual ~Game();
 
         SoLoud::Soloud audio;
