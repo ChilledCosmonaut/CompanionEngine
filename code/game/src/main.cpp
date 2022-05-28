@@ -360,8 +360,6 @@ int main() {
 
     inputCallback.StartListening(window);
 
-    glEnable(GL_DEPTH_TEST);
-
     grid.SwitchVisiblePlane(currentVisiblePlane);
 
     audioSource.PlayBackground(true);
@@ -440,7 +438,6 @@ int main() {
         // update deltaTime
         Time::updateDeltaTime();
 
-        glfwSwapBuffers(window);
         glfwPollEvents();
     }
 

@@ -9,7 +9,9 @@ namespace gl3::engine {
             context(width, height, title),
             componentManager(*this),
             entityManager(componentManager, *this),
-            currentScene(startScene) {}
+            currentScene(startScene) {
+        glEnable(GL_DEPTH_TEST);
+    }
 
     void Game::run() {
         onStartup.invoke(*this);
@@ -30,7 +32,11 @@ namespace gl3::engine {
         glClearColor(0, 0, 0, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        currentScene->Render();
+        if (currentScene != nullptr) {
+            currentScene->Render();
+        }
+
+        glfwSwapBuffers(getWindow());
     }
 
     Game::~Game() {
