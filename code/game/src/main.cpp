@@ -221,9 +221,13 @@ int main() {
 
     audioSource.PlayBackground(true);
 
-    controller1.GetUpdatedShipPosition(camera->GetTransform(), game.getWindow(), &W_WIDTH, &W_HEIGHT, Time::GetDeltaTime());
-
     updateKeys(game.getWindow());
+
+    game.onBeforeUpdate.addListener([&](Game& game) {
+        updateKeys(game.getWindow());
+
+        controller1.GetUpdatedShipPosition(camera->GetTransform(), game.getWindow(), &W_WIDTH, &W_HEIGHT, Time::GetDeltaTime());
+    });
 
     game.run();
 
