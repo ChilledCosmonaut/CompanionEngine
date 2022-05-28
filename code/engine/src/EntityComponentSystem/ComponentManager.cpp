@@ -1,4 +1,4 @@
-#include "engine/ecs/ComponentManager.h"
+#include "engine/EntityComponentSystem/ComponentManager.h"
 #include "engine/Game.h"
 
 namespace gl3::engine::entityComponentSystem {
