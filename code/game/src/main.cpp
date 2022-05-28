@@ -142,47 +142,6 @@ void updateKeys(GLFWwindow *window) {
 
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
-
-    /*if (key == GLFW_KEY_UP){
-        rota.x += 10 * deltaTime;
-        modelMatrixTransform.SetRotation(rota);
-        std::cout << rota.x << std::endl;
-    }*/
-
-
-    // user input
-    /*if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-        camera->ProcessKeyboard(RIGHT, deltaTime);
-        //std::cout<<"Pressed D" + to_string(deltaTime) <<endl;
-        //cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-        //zRotation -= rotStep * deltaTime;
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-        camera->ProcessKeyboard(LEFT, deltaTime);
-        //cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-        //zRotation += rotStep * deltaTime;
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-        camera->ProcessKeyboard(FORWARD, deltaTime);
-        //*yTranslate += sin(glm::radians(zRotation)) * transStep * deltaTime;
-        xTranslate += cos(glm::radians(zRotation)) * transStep * deltaTime;//*
-        //cameraPos += cameraSpeed * cameraFront;
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-        camera->ProcessKeyboard(BACKWARD, deltaTime);
-        //cameraPos -= cameraSpeed * cameraFront;
-        //*yTranslate -= sin(glm::radians(zRotation)) * transStep * deltaTime;
-        xTranslate -= cos(glm::radians(zRotation)) * transStep * deltaTime;//*
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
-        *//*shipPos1.z += transStep * deltaTime;
-        shipPos2.z += transStep * deltaTime;
-        shipPos3.z += transStep * deltaTime;*//*
-    }*/
 }
 
 
@@ -208,14 +167,6 @@ int main() {
     input::InputManager inputCallback = input::InputManager();
 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-
-    //glfwSetCursorPosCallback(window, mouse_callback);
-    //inputCallback.AddMouseMoveCallback(mouse_callback);
-
-    //glfwSetScrollCallback(window, scroll_callback);
-    //inputCallback.AddScrollCallback(scroll_callback);
-
-    //inputCallback.AddKeyboardCallback(processUserInput);
 
     if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
         std::cout << "Failed to initialize GLAD" << std::endl;
@@ -298,26 +249,13 @@ int main() {
 
     gl3::shader shader = gl3::shader("shaders/vertexShader.glsl", "shaders/fragmentShader.glsl");
 
-    glm::mat4 model = glm::mat4(1.0f);
-    model = glm::rotate(model, glm::radians(180.0f),glm::vec3(0,1.0f,0));
-    model = glm::rotate(model, glm::radians(-90.0f),glm::vec3(1.0f,0,0));
-    model = glm::translate(model, shipPos1);
-    model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-
     Graphics::Transform model1Transform = Graphics::Transform(glm::vec3(-90.0f,180.0f,0.0f), shipPos1);
-
-    /*scene.AddSceneModels(model1, &shader, &model1Transform);
-
-    scene.AddSceneModels(model4, &shader, &modelMatrixTransform);*/
 
     std::cout<<"Generating Grid"<<std::endl;
 
     auto startTime = glfwGetTime();
 
     logic::Grid grid = logic::Grid(glm::vec3(0,0,0));
-
-    /*scene.AddSceneModels(model4, &shader, &modelMatrixTransform);*/
-
 
     Graphics::Transform standardTransform = Graphics::Transform(glm::vec3(0,0,0),glm::vec3(0,0,0),glm::vec3(0.5f,0.5f,0.5f));
 
@@ -373,69 +311,6 @@ int main() {
         updateKeys(window);
 
         radarScene.Render();
-
-        // ... draw rest of the scene
-
-        // don't forget to enable shader before setting uniforms
-        /*litShader.use();
-
-        litShader.setVector("viewPos",glm::vec4(camera->Position, 1.0f));
-
-        litShader.setVector3("dirLight.direction", -lightPos);
-
-        litShader.setVector3("dirLight.ambient", glm::vec3(0.05f, 0.05f, 0.05f));
-        litShader.setVector3("dirLight.diffuse", glm::vec3(0.4f, 0.4f, 0.4f));
-        litShader.setVector3("dirLight.specular", glm::vec3(0.7f, 0.7f, 0.7f));*/
-
-
-
-        // render the loaded modelTransform
-        /*glm::mat4 modelTransform = glm::mat4(1.0f);
-        modelTransform = glm::rotate(modelTransform, glm::radians(-90.0f), glm::vec3(0, 1.0f, 0.0f));
-        modelTransform = glm::translate(modelTransform, glm::vec3(5.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
-        modelTransform = glm::scale(modelTransform, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
-        litShader.setMatrix("modelTransform", modelTransform);
-        model4.Draw(litShader);*/
-
-        /*modelTransform = glm::mat4(1.0f);
-        modelTransform = glm::rotate(modelTransform, glm::radians(180.0f),glm::vec3(0,1.0f,0));
-        modelTransform = glm::rotate(modelTransform, glm::radians(-90.0f),glm::vec3(1.0f,0,0));
-        modelTransform = glm::translate(modelTransform, shipPos2);
-        modelTransform = glm::scale(modelTransform, glm::vec3(1.0f, 1.0f, 1.0f));
-        litShader.setMatrix("modelTransform", modelTransform);
-        model2.Draw(litShader);
-
-        modelTransform = glm::mat4(1.0f);
-        modelTransform = glm::rotate(modelTransform, glm::radians(180.0f),glm::vec3(0,1.0f,0));
-        modelTransform = glm::rotate(modelTransform, glm::radians(-90.0f),glm::vec3(1.0f,0,0));
-        modelTransform = glm::translate(modelTransform, shipPos3);
-        modelTransform = glm::scale(modelTransform, glm::vec3(1.0f, 1.0f, 1.0f));
-        litShader.setMatrix("modelTransform", modelTransform);
-        model3.Draw(litShader);*/
-
-        // also draw the lamp object
-        /*lightShader.use();
-        lightShader.setMatrix("projection", projection);
-        lightShader.setMatrix("view", view);
-        modelTransform = glm::mat4(1.0f);
-        modelTransform = glm::translate(modelTransform, lightPos);
-        modelTransform = glm::scale(modelTransform, glm::vec3(0.2f)); // a smaller cube
-        lightShader.setMatrix("modelTransform", modelTransform);*/
-
-        /*glBindVertexArray(lightCubeVAO);
-        glDrawArrays(GL_TRIANGLES, 0, 36);*/
-
-        /*lightShader.setMatrix("projection", projection);
-        lightShader.setMatrix("view", view);
-        modelTransform = glm::mat4(1.0f);
-        modelTransform = glm::translate(modelTransform, glm::vec3(0.0f,0.0f,0.0f));
-        modelTransform = glm::scale(modelTransform, glm::vec3(0.4f)); // a smaller cube
-        lightShader.setMatrix("modelTransform", modelTransform);
-
-        glBindVertexArray(lightCubeVAO);
-        glDrawArrays(GL_TRIANGLES, 0, 36);*/
-
-        // update deltaTime
         Time::updateDeltaTime();
 
         glfwPollEvents();
@@ -445,43 +320,4 @@ int main() {
 
     glfwTerminate();
     return 0;
-}
-
-void modelTransform(gl3::shader *shaderProgram) {//unsigned int shaderProgram){
-
-    glm::mat4 model = glm::mat4(1.0f);
-    model = glm::rotate(model, (float) glfwGetTime() * glm::radians(50.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-    //model = glm::translate(model, glm::vec3(0.0f, 0.0f, -3.0f));
-    //model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
-
-    shaderProgram->setMatrix("model", model);
-
-    /*int modelLocation = glGetUniformLocation(shaderProgram, "model");
-    glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));*/
-}
-
-void viewTransform(gl3::shader *shaderProgram) {//unsigned int shaderProgram){
-
-    glm::mat4 view = glm::mat4(1.0f);
-    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-    /*view = glm::lookAt(glm::vec3(0.0f,0.0f,25.0f),
-                       glm::vec3(0.0f,0.0f,0.0f),
-                       glm::vec3(0.0f,1.0f,0.0f));//glm::vec3(0.0f,0.0f,0.0f),
-                       glm::vec3(0.0f,0.0f,-1.0f),
-                       glm::vec3(0.0f,1.0f,0.0f));*/
-
-    shaderProgram->setMatrix("view", view);
-
-    /*int viewLocation = glGetUniformLocation(shaderProgram, "view");
-    glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(view));*/
-}
-
-void projectionTransform(gl3::shader *shaderProgram) {//unsigned int shaderProgram){
-
-    glm::mat4 projection = glm::perspective(glm::radians(45.0f), W_WIDTH / W_HEIGHT, 0.1f, 100.0f);
-
-    shaderProgram->setMatrix("projection", projection);
-
-    /*int projectionLocation = glGetUniformLocation(shaderProgram, "projection");
-    glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(projection));*/
 }
