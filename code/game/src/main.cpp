@@ -9,8 +9,9 @@
 #include "engine/Tools/Grid.h"
 #include "engine/SoundSystem/AudioListener.h"
 #include "engine/SoundSystem/AudioSource.h"
+#include "engine/Time.h"
 
-double deltaTime;
+using namespace gl3::engine;
 
 const float W_WIDTH = 1920.0f;
 const float W_HEIGHT = 1080.0f;
@@ -88,13 +89,13 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height) {
 
 void processUserInput(GLFWwindow *window, int key, int scancode, int action, int mods) {
 
-    const float cameraSpeed = 0.5f * deltaTime; // adjust accordingly
+    const float cameraSpeed = 0.5f * Time::GetDeltaTime(); // adjust accordingly
 
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 
     if (key == GLFW_KEY_UP){
-        rota.x += 10 * deltaTime;
+        rota.x += 10 * Time::GetDeltaTime();
         modelMatrixTransform.SetRotation(rota);
         std::cout << rota.x << std::endl;
     }
@@ -102,30 +103,30 @@ void processUserInput(GLFWwindow *window, int key, int scancode, int action, int
 
     // user input
     if (key == GLFW_KEY_D) {
-        camera->ProcessKeyboard(RIGHT, deltaTime);
+        camera->ProcessKeyboard(RIGHT, Time::GetDeltaTime());
         //std::cout<<"Pressed D" + to_string(deltaTime) <<endl;
         //cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
         //zRotation -= rotStep * deltaTime;
     }
 
     if (key == GLFW_KEY_A) {
-        camera->ProcessKeyboard(LEFT, deltaTime);
+        camera->ProcessKeyboard(LEFT, Time::GetDeltaTime());
         //cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
         //zRotation += rotStep * deltaTime;
     }
 
     if (key == GLFW_KEY_W) {
-        camera->ProcessKeyboard(FORWARD, deltaTime);
+        camera->ProcessKeyboard(FORWARD, Time::GetDeltaTime());
         //*yTranslate += sin(glm::radians(zRotation)) * transStep * deltaTime;
-        xTranslate += cos(glm::radians(zRotation)) * transStep * deltaTime;//*
+        xTranslate += cos(glm::radians(zRotation)) * transStep * Time::GetDeltaTime();//*
         //cameraPos += cameraSpeed * cameraFront;
     }
 
     if (key == GLFW_KEY_S) {
-        camera->ProcessKeyboard(BACKWARD, deltaTime);
+        camera->ProcessKeyboard(BACKWARD, Time::GetDeltaTime());
         //cameraPos -= cameraSpeed * cameraFront;
         //*yTranslate -= sin(glm::radians(zRotation)) * transStep * deltaTime;
-        xTranslate -= cos(glm::radians(zRotation)) * transStep * deltaTime;//*
+        xTranslate -= cos(glm::radians(zRotation)) * transStep * Time::GetDeltaTime();//*
     }
 
     if (key == GLFW_KEY_SPACE) {
@@ -137,7 +138,7 @@ void processUserInput(GLFWwindow *window, int key, int scancode, int action, int
 
 void updateKeys(GLFWwindow *window) {
 
-    const float cameraSpeed = 0.5f * deltaTime; // adjust accordingly
+    const float cameraSpeed = 0.5f * Time::GetDeltaTime(); // adjust accordingly
 
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
@@ -369,7 +370,7 @@ int main() {
         glClearColor(0, 0, 0, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        controller1.GetUpdatedShipPosition(camera->GetTransform(), window, &W_WIDTH, &W_HEIGHT, deltaTime);
+        controller1.GetUpdatedShipPosition(camera->GetTransform(), window, &W_WIDTH, &W_HEIGHT, Time::GetDeltaTime());
 
         updateKeys(window);
 
@@ -437,8 +438,7 @@ int main() {
         glDrawArrays(GL_TRIANGLES, 0, 36);*/
 
         // update deltaTime
-        deltaTime = glfwGetTime();
-        glfwSetTime(0);
+        Time::updateDeltaTime();
 
         glfwSwapBuffers(window);
         glfwPollEvents();

@@ -22,7 +22,6 @@ namespace gl3::engine {
         event_t onShutdown;
 
         void run();
-        glm::mat4 calculateMvpMatrix(glm::vec3 position, float zRotationInDegrees, glm::vec3 scale);
         GLFWwindow *getWindow() { return context.getWindow(); }
 
         entityComponentSystem::EntityManager entityManager;
@@ -36,12 +35,8 @@ namespace gl3::engine {
         virtual ~Game();
 
         SoLoud::Soloud audio;
-        float deltaTime = 1.0f / 60;
 
     private:
-        void updateDeltaTime();
-
         context::Context context;
-        float lastFrameTime = 1.0f / 60;
     };
 }
