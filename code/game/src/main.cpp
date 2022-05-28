@@ -10,6 +10,7 @@
 #include "engine/SoundSystem/AudioListener.h"
 #include "engine/SoundSystem/AudioSource.h"
 #include "engine/Time.h"
+#include "engine/Game.h"
 
 using namespace gl3::engine;
 
@@ -147,31 +148,7 @@ void updateKeys(GLFWwindow *window) {
 
 int main() {
 
-    glfwInit();
-
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-
-    GLFWwindow *window = glfwCreateWindow(W_WIDTH, W_HEIGHT, W_TITLE, nullptr, nullptr);
-    if (window == nullptr) {
-        std::cout << "Failed to create GLFW window" << std::endl;
-        glfwTerminate();
-        return -1;
-    }
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-
-    glfwMakeContextCurrent(window);
-
-    input::InputManager inputCallback = input::InputManager();
-
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-
-    if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
-        std::cout << "Failed to initialize GLAD" << std::endl;
-        return -1;
-    }
+    Game game = Game(1280, 720, "A Journey through Space");
 
     gl3::shader litShader = gl3::shader("shaders/vertexShader.glsl", "shaders/fragmentShader.glsl");
 
@@ -183,65 +160,9 @@ int main() {
     Model playerShip("../../assets/playerShip.obj");
     Model radarCubeModel = Model("../../assets/RadarBox.obj");
 
-
-    float vertices[] = {
-            -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
-            0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
-            0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
-            0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
-            -0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
-            -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
-
-            -0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
-            0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
-            0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
-            0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
-            -0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
-            -0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
-
-            -0.5f, 0.5f, 0.5f, -1.0f, 0.0f, 0.0f,
-            -0.5f, 0.5f, -0.5f, -1.0f, 0.0f, 0.0f,
-            -0.5f, -0.5f, -0.5f, -1.0f, 0.0f, 0.0f,
-            -0.5f, -0.5f, -0.5f, -1.0f, 0.0f, 0.0f,
-            -0.5f, -0.5f, 0.5f, -1.0f, 0.0f, 0.0f,
-            -0.5f, 0.5f, 0.5f, -1.0f, 0.0f, 0.0f,
-
-            0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f,
-            0.5f, 0.5f, -0.5f, 1.0f, 0.0f, 0.0f,
-            0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f,
-            0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f,
-            0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 0.0f,
-            0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f,
-
-            -0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f,
-            0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f,
-            0.5f, -0.5f, 0.5f, 0.0f, -1.0f, 0.0f,
-            0.5f, -0.5f, 0.5f, 0.0f, -1.0f, 0.0f,
-            -0.5f, -0.5f, 0.5f, 0.0f, -1.0f, 0.0f,
-            -0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f,
-
-            -0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-            0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-            0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f,
-            0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f,
-            -0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f,
-            -0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f
-    };
-
-    // second, configure the light's VAO (VBO stays the same; the vertices are the same for the light object which is also a 3D cube)
-    unsigned int VBO, lightCubeVAO;
-    glGenVertexArrays(1, &lightCubeVAO);
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    glBindVertexArray(lightCubeVAO);
-
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    // note that we update the lamp's position attribute's stride to reflect the updated buffer data
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *) 0);
-    glEnableVertexAttribArray(0);
-
     Graphics::Scene scene = Graphics::Scene();
+
+    game.ChangeActiveSceneTo(&scene);
 
     Graphics::Scene radarScene = Graphics::Scene();
 
@@ -265,15 +186,15 @@ int main() {
 
     Graphics::Transform standardTransform4 = Graphics::Transform(glm::vec3(0,0,0),glm::vec3(20,-10,0),glm::vec3(0.5f,0.5f,0.5f));
 
-    scene.AddSceneModels(asteroid, &shader, &standardTransform);
+    //scene.AddSceneModels(asteroid, &shader, &standardTransform);
 
-    scene.AddSceneModels(asteroid, &shader, &standardTransform2);
+    //scene.AddSceneModels(asteroid, &shader, &standardTransform2);
 
-    scene.AddSceneModels(asteroid, &shader, &standardTransform3);
+    //scene.AddSceneModels(asteroid, &shader, &standardTransform3);
 
-    scene.AddSceneModels(asteroid, &shader, &standardTransform4);
+    //scene.AddSceneModels(asteroid, &shader, &standardTransform4);
 
-    scene.AddSceneModels(playerShip, &shader, camera->GetTransform());
+    //scene.AddSceneModels(playerShip, &shader, camera->GetTransform());
 
     Sound::AudioListener::StartAudioListener(&standardTransform);
 
@@ -296,28 +217,17 @@ int main() {
 
     std::cout<<calculationTime2<<std::endl;
 
-    inputCallback.StartListening(window);
-
     grid.SwitchVisiblePlane(currentVisiblePlane);
 
     audioSource.PlayBackground(true);
 
-    while (!glfwWindowShouldClose(window)) {
-        glClearColor(0, 0, 0, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    controller1.GetUpdatedShipPosition(camera->GetTransform(), game.getWindow(), &W_WIDTH, &W_HEIGHT, Time::GetDeltaTime());
 
-        controller1.GetUpdatedShipPosition(camera->GetTransform(), window, &W_WIDTH, &W_HEIGHT, Time::GetDeltaTime());
+    updateKeys(game.getWindow());
 
-        updateKeys(window);
-
-        radarScene.Render();
-        Time::updateDeltaTime();
-
-        glfwPollEvents();
-    }
+    game.run();
 
     Sound::AudioListener::StopAudioListener();
 
-    glfwTerminate();
     return 0;
 }

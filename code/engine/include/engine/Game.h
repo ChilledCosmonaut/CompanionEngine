@@ -13,6 +13,8 @@
 
 namespace gl3::engine {
     class Game {
+
+    public:
         using event_t = events::Event<Game, Game&>;
 
         event_t onStartup;
@@ -22,18 +24,22 @@ namespace gl3::engine {
         event_t onBeforeShutdown;
         event_t onShutdown;
 
+        Game(int width, int height, const std::string &title, Graphics::Scene* startScene = nullptr);
+        virtual ~Game();
+
         void run();
         GLFWwindow *getWindow() { return context.getWindow(); }
+        void ChangeActiveSceneTo(Graphics::Scene* scene){
+            currentScene = scene;
+        }
 
         entityComponentSystem::EntityManager entityManager;
         entityComponentSystem::ComponentManager componentManager;
 
     protected:
-        Game(int width, int height, const std::string &title, Graphics::Scene* startScene = nullptr);
         void start() {}
         virtual void update(GLFWwindow *window) {}
         void draw();
-        virtual ~Game();
 
     private:
         context::Context context;
