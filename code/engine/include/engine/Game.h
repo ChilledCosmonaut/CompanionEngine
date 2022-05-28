@@ -9,6 +9,7 @@
 #include <soloud_wav.h>
 #include "engine/Context.h"
 #include "engine/EntityComponentSystem/EntityManager.h"
+#include "engine/GraphicsEngine/Scene.h"
 
 namespace gl3::engine {
     class Game {
@@ -28,15 +29,14 @@ namespace gl3::engine {
         entityComponentSystem::ComponentManager componentManager;
 
     protected:
-        Game(int width, int height, const std::string &title);
+        Game(int width, int height, const std::string &title, Graphics::Scene* startScene = nullptr);
         void start() {}
         virtual void update(GLFWwindow *window) {}
-        void draw() {}
+        void draw();
         virtual ~Game();
-
-        SoLoud::Soloud audio;
 
     private:
         context::Context context;
+        Graphics::Scene* currentScene;
     };
 }

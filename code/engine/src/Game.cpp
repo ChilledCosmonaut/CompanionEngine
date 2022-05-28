@@ -5,13 +5,11 @@
 namespace gl3::engine {
     using Context = engine::context::Context;
 
-    Game::Game(int width, int height, const std::string &title) :
+    Game::Game(int width, int height, const std::string &title, Graphics::Scene* startScene):
             context(width, height, title),
             componentManager(*this),
-            entityManager(componentManager, *this) {
-        audio.init();
-        audio.setGlobalVolume(0.1f);
-    }
+            entityManager(componentManager, *this),
+            currentScene(startScene) {}
 
     void Game::run() {
         onStartup.invoke(*this);
@@ -26,6 +24,13 @@ namespace gl3::engine {
         });
         onBeforeShutdown.invoke(*this);
         onShutdown.invoke(*this);
+    }
+
+    void Game::draw() {
+        glClearColor(0, 0, 0, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        currentScene->Render();
     }
 
     Game::~Game() {
