@@ -2,6 +2,7 @@
 #include <vector>
 #include "EntityComponentSystem.h"
 #include "engine/EntityComponentSystem/ComponentManager.h"
+#include "entt.hpp"
 
 namespace gl3::engine::entityComponentSystem {
     class Entity final {

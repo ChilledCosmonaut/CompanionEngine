@@ -8,6 +8,7 @@ add_subdirectory(externalCode/glfw)
 add_subdirectory(externalCode/glm)
 add_subdirectory(externalCode/assimp)
 add_subdirectory(externalCode/soloud)
+add_subdirectory(externalCode/EnTT)
 add_subdirectory(engine)
 add_subdirectory(game)
 
