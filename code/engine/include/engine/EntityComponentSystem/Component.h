@@ -3,8 +3,6 @@
 
 namespace gl3::engine::entityComponentSystem {
     class Component {
-        friend class ComponentManager;
-        friend class Entity;
 
     public:
         virtual ~Component() = default;

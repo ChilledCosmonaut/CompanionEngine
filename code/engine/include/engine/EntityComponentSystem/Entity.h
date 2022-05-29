@@ -1,15 +1,13 @@
 #pragma once
 #include <vector>
-#include "EntityComponentSystem.h"
-#include "engine/EntityComponentSystem/ComponentManager.h"
 #include "entt.hpp"
+#include "Component.h"
 
 namespace gl3::engine::entityComponentSystem {
     class Entity final {
-        friend class EntityManager;
 
     public:
-        [[nodiscard]] guid_t guid() const { /*return id;*/ }
+        [[nodiscard]] entt::entity entityId() const { return entity; }
         [[nodiscard]] bool isDeleted() const { return deleted; }
 
         template<typename C, typename ...Args>
@@ -26,26 +24,17 @@ namespace gl3::engine::entityComponentSystem {
         }
 
         template<typename C>
-        void removeComponent(Component &component) {
-            component.deleted = true;
+        void removeComponent() {
             registry.remove<C>(entity);
         }
 
-        template<typename C>
-        void removeComponent() {
-            auto &component = registry.all_of<C>(entity);
-            removeComponent<C>(component);
-        }
-
     private:
-        explicit Entity(entt::registry currentRegistry, ComponentManager &componentManager) : componentManager(componentManager) {
+        explicit Entity(entt::registry currentRegistry) {
             entity = currentRegistry.create();
         }
-        void deleteAllComponents() {}
 
         entt::entity entity;
         entt::registry registry;
         bool deleted = false;
-        ComponentManager &componentManager;
     };
 }
