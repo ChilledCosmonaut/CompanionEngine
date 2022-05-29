@@ -9,38 +9,42 @@ namespace gl3::engine::entityComponentSystem {
         friend class EntityManager;
 
     public:
-        [[nodiscard]] guid_t guid() const { return id; }
+        [[nodiscard]] guid_t guid() const { /*return id;*/ }
         [[nodiscard]] bool isDeleted() const { return deleted; }
 
-        template<typename C>
-        [[nodiscard]] C &addComponent() {
-            return componentManager.addComponent<C>(id);
+        template<typename C, typename ...Args>
+        [[nodiscard]] C &addComponent(Args ...args) {
+            if(!registry.all_of<C>(entity)) {
+                return registry.emplace<C>(entity, args...);
+            }
+            return nullptr;
         }
 
         template<typename C>
         C &getComponent() {
-            return componentManager.getComponent<C>(id);
+            return registry.all_of<C>(entity);
         }
 
         template<typename C>
         void removeComponent(Component &component) {
             component.deleted = true;
-            componentManager.removeComponent<C>(id);
+            registry.remove<C>(entity);
         }
 
         template<typename C>
         void removeComponent() {
-            auto &component = getComponent<C>();
+            auto &component = registry.all_of<C>(entity);
             removeComponent<C>(component);
         }
 
     private:
-        explicit Entity(guid_t id, ComponentManager &componentManager) : id(id), componentManager(componentManager) {}
-        void deleteAllComponents() {
-            componentManager.removeComponents(id);
+        explicit Entity(entt::registry currentRegistry, ComponentManager &componentManager) : componentManager(componentManager) {
+            entity = currentRegistry.create();
         }
+        void deleteAllComponents() {}
 
-        guid_t id = invalidID;
+        entt::entity entity;
+        entt::registry registry;
         bool deleted = false;
         ComponentManager &componentManager;
     };
