@@ -3,6 +3,8 @@
 
 namespace gl3::engine::ecs {
     class System {
+        friend class Graphics::Scene;
+
     public:
         explicit System(Game &engine) : engine(engine) {}
         System(System &&) = delete;
@@ -10,6 +12,24 @@ namespace gl3::engine::ecs {
         virtual ~System() = default;
 
     protected:
+        virtual void Start(engine::Game &game) {};
+        virtual void Update(engine::Game &game) {};
+        virtual void OnShutdown(engine::Game &game) {};
+
         engine::Game &engine;
+
+    private:
+        void SetUpSystem(engine::Game &game){
+            engine = game;
+            engine.onStartup.addListener([&] (engine::Game &game){
+                Start(game);
+            });
+            engine.onBeforeUpdate.addListener([&] (engine::Game &game){
+                Update(game);
+            });
+            engine.onShutdown.addListener([&] (engine::Game &game){
+                OnShutdown(game);
+            });
+        }
     };
 }
