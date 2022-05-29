@@ -1,20 +1,18 @@
 #pragma once
-#include "engine/EntityComponentSystem/EntityComponentSystem.h"
+#include "Entity.h"
+#include "engine/GraphicsEngine/Scene.h"
 
 namespace gl3::engine::entityComponentSystem {
     class Component {
+        friend class Graphics::Scene;
 
     public:
         virtual ~Component() = default;
 
-        [[nodiscard]] guid_t entity() const { return owner; }
-        [[nodiscard]] bool isDeleted() const { return deleted; }
-
     protected:
-        explicit Component(guid_t owner = invalidID)
+        explicit Component(Entity& owner)
                 : owner(owner) {};
 
-        guid_t owner;
-        bool deleted = false;
+        Entity& owner;
     };
 }
