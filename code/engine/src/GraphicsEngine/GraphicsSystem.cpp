@@ -1,4 +1,4 @@
-#include "engine/GraphicsEngine/Scene.h"
+#include "engine/GraphicsEngine/GraphicsSystem.h"
 
 namespace Graphics{
 
@@ -36,13 +36,13 @@ namespace Graphics{
         return textureID;
     }
 
-    void Graphics::Scene::Render() {
+    void GraphicsSystem::Render() {
         DisplaySkybox();
         DisplayLights();
         DisplayModels();
     }
 
-    void Scene::DisplaySkybox() {
+    void GraphicsSystem::DisplaySkybox() {
         glDepthMask(GL_FALSE);
         skybox.shader.use();
         // ... set view and projection matrix
@@ -56,11 +56,11 @@ namespace Graphics{
         glDepthMask(GL_TRUE);
     }
 
-    void Scene::DisplayLights() {
+    void GraphicsSystem::DisplayLights() {
 
     }
 
-    void Scene::DisplayModels() {
+    void GraphicsSystem::DisplayModels() {
         for (auto &[model, shaderAndTransform] : sceneModels) {
             if(!shaderAndTransform.second->IsActive()) continue;
             shaderAndTransform.first->use();
@@ -84,11 +84,11 @@ namespace Graphics{
         }
     }
 
-    Scene::Scene() {
+    GraphicsSystem::GraphicsSystem() {
         SetUpSkybox();
     }
 
-    void Scene::SetUpSkybox() {
+    void GraphicsSystem::SetUpSkybox() {
         float skyboxVertices[] = {
                 // positions
                 -1.0f,  1.0f, -1.0f,
@@ -145,25 +145,25 @@ namespace Graphics{
         skybox.texture = loadCubemap(skybox.faces);
     }
 
-    [[maybe_unused]] const glm::vec3 &Scene::getDirectionalLightPositionAtIndex(int index) const {
+    [[maybe_unused]] const glm::vec3 &GraphicsSystem::getDirectionalLightPositionAtIndex(int index) const {
         return directionalLightPositions[index];
     }
 
-    [[maybe_unused]] void Scene::setDirectionalLightPosition(glm::vec3 &directionalLightPosition) {
-        Scene::directionalLightPositions.push_back(directionalLightPosition);
+    [[maybe_unused]] void GraphicsSystem::setDirectionalLightPosition(glm::vec3 &directionalLightPosition) {
+        GraphicsSystem::directionalLightPositions.push_back(directionalLightPosition);
     }
 
-    [[maybe_unused]] const std::pair<Model, std::pair<const gl3::shader *, Graphics::Transform *>> &Scene::getSceneModelAtIndex(int index) const {
+    [[maybe_unused]] const std::pair<Model, std::pair<const gl3::shader *, Graphics::Transform *>> &GraphicsSystem::getSceneModelAtIndex(int index) const {
         return sceneModels[index];
     }
 
-    [[maybe_unused]] void Scene::AddSceneModels(const Model& model, const gl3::shader* shader, Graphics::Transform* transform) {
+    [[maybe_unused]] void GraphicsSystem::AddSceneModels(const Model& model, const gl3::shader* shader, Graphics::Transform* transform) {
         std::pair<const gl3::shader *, Graphics::Transform *> temporary(shader, transform);
         std::pair<Model, std::pair<const gl3::shader *, Graphics::Transform *>> sceneModel(model, temporary);
-        Scene::sceneModels.push_back(sceneModel);
+        GraphicsSystem::sceneModels.push_back(sceneModel);
     }
 
-    Camera *Scene::getCamera() {
+    Camera *GraphicsSystem::getCamera() {
         return &camera;
     }
 }

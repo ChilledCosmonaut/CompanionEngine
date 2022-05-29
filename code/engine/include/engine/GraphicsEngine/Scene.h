@@ -1,56 +1,22 @@
 #pragma once
 
-#include <iostream>
-
-#include "Model.h"
 #include "camera.h"
-#include "Transform.h"
+#include "entt.hpp"
+#include "engine/EntityComponentSystem/Entity.h"
 
-namespace Graphics{
-
-    struct Skybox{
-        gl3::shader shader  = gl3::shader("shaders/SkyBoxVertexShader.glsl", "shaders/SkyBoxFragmentShader.glsl");
-        unsigned int VAO, VBO;
-        vector<std::string> faces{
-                "AllSky_Space_AnotherPlanet_Cam_3_Right-X.png",
-                "AllSky_Space_AnotherPlanet_Cam_2_Left+X.png",
-                "AllSky_Space_AnotherPlanet_Cam_4_Up+Y.png",
-                "AllSky_Space_AnotherPlanet_Cam_5_Down-Y.png",
-                "AllSky_Space_AnotherPlanet_Cam_0_Front+Z.png",
-                "AllSky_Space_AnotherPlanet_Cam_1_Back-Z.png"
-        };
-        unsigned int texture;
-        float vertices[];
-    };
+namespace gl3::engine::Graphics{
 
     class Scene {
-    public:
-        Scene();
+    protected:
+        virtual void onSetup() = 0;
 
-        void Render();
-
-        [[maybe_unused]] [[nodiscard]] const glm::vec3 &getDirectionalLightPositionAtIndex(int index) const;
-
-        [[maybe_unused]] void setDirectionalLightPosition(glm::vec3 &directionalLightPosition);
-
-        [[maybe_unused]] [[nodiscard]] const std::pair<Model, std::pair<const gl3::shader *, Graphics::Transform *>> &getSceneModelAtIndex(int index) const;
-
-        [[maybe_unused]] void AddSceneModels(const Model& model, const gl3::shader* shader, Graphics::Transform* modelMatrix);
+        std::unique_ptr<entityComponentSystem::Entity> CreateEntity(){
+            auto newEntity = entityComponentSystem::Entity(registry);
+            return std::make_unique<entityComponentSystem::Entity>(newEntity);
+        }
 
     private:
-        void DisplaySkybox();
-        void DisplayLights();
-        void DisplayModels();
-        void SetUpSkybox();
-
-        vector<std::pair<Model, std::pair<const gl3::shader *, Graphics::Transform *>>> sceneModels;
-        Camera camera;
-    public:
-        [[nodiscard]] Camera *getCamera();
-
-    private:
-        vector<glm::vec3> directionalLightPositions;
-        Skybox skybox;
+        entt::registry registry;
     };
 }
 

@@ -5,6 +5,7 @@
 
 namespace gl3::engine::entityComponentSystem {
     class Entity final {
+        friend class Graphics::Scene;
 
     public:
         [[nodiscard]] entt::entity entityId() const { return entity; }
@@ -28,13 +29,14 @@ namespace gl3::engine::entityComponentSystem {
             registry.remove<C>(entity);
         }
 
-    private:
-        explicit Entity(entt::registry currentRegistry) {
+        explicit Entity(entt::registry &currentRegistry) : registry(currentRegistry) {
             entity = currentRegistry.create();
         }
 
+    private:
+
         entt::entity entity;
-        entt::registry registry;
+        entt::registry &registry;
         bool deleted = false;
     };
 }
