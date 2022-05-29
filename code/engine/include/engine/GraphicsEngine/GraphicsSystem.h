@@ -6,7 +6,9 @@
 #include "camera.h"
 #include "Transform.h"
 
-namespace Graphics{
+#include "engine/EntityComponentSystem/System.h"
+
+namespace gl3::engine::Graphics{
 
     struct Skybox{
         gl3::shader shader  = gl3::shader("shaders/SkyBoxVertexShader.glsl", "shaders/SkyBoxFragmentShader.glsl");
@@ -23,7 +25,7 @@ namespace Graphics{
         float vertices[];
     };
 
-    class GraphicsSystem {
+    class GraphicsSystem : ecs::System {
     public:
         void SetUpScene();
 

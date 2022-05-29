@@ -3,7 +3,7 @@
 #include "glm/vec3.hpp"
 #include "glm/gtx/quaternion.hpp"
 
-namespace Graphics {
+namespace gl3::engine::Graphics {
 
     class Transform {
     public:

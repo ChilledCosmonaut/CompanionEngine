@@ -1,6 +1,6 @@
 #include "engine/GraphicsEngine/GraphicsSystem.h"
 
-namespace Graphics{
+namespace gl3::engine::Graphics{
 
     glm::vec3 lightPos = glm::vec3(0.0f, -0.5f, 1.0f);
 

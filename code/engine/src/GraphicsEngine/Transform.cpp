@@ -1,6 +1,6 @@
 #include "engine/GraphicsEngine/Transform.h"
 
-namespace Graphics {
+namespace gl3::engine::Graphics{
 
     Transform::Transform(glm::vec3 startRotation, glm::vec3 startTranslation, glm::vec3 startScale) {
         //Translation and Scale are set directly here to minimize Matrix recalculation

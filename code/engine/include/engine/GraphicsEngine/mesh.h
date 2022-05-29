@@ -8,33 +8,36 @@
 #include <string>
 #include <vector>
 #include <utility>
+namespace gl3::engine::Graphics {
+    using namespace std;
 
-using namespace std;
+    struct Vertex {
+        glm::vec3 Position;
+        glm::vec3 Normal;
+        glm::vec2 TexCoords;
+    };
 
-struct Vertex {
-    glm::vec3 Position;
-    glm::vec3 Normal;
-    glm::vec2 TexCoords;
-};
+    struct Texture {
+        unsigned int id;
+        string type;
+        aiString path;
+    };
 
-struct Texture {
-    unsigned int id;
-    string type;
-    aiString path;
-};
-
-class Mesh {
+    class Mesh {
     public:
         // mesh data
-        vector<Vertex>       vertices;
+        vector<Vertex> vertices;
         vector<unsigned int> indices;
-        vector<Texture>      textures;
+        vector<Texture> textures;
 
         Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures);
+
         void Draw(gl3::shader &shader);
+
     private:
         //  render data
         unsigned int VAO, VBO, EBO;
 
         void setupMesh();
-};
+    };
+}
