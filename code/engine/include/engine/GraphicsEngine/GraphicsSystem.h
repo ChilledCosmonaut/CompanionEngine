@@ -27,11 +27,17 @@ namespace gl3::engine::Graphics{
 
     class GraphicsSystem : ecs::System {
     public:
-        void SetUpScene();
-
         GraphicsSystem();
 
         void Render();
+
+        void Start(Game &game) {
+            SetUpSkybox();
+        }
+
+        void Update(Game &game);
+
+        void OnShutdown(Game &engine);
 
         [[maybe_unused]] [[nodiscard]] const glm::vec3 &getDirectionalLightPositionAtIndex(int index) const;
 
@@ -42,10 +48,10 @@ namespace gl3::engine::Graphics{
         [[maybe_unused]] void AddSceneModels(const Model& model, const gl3::shader* shader, Graphics::Transform* modelMatrix);
 
     private:
+        void SetUpSkybox();
         void DisplaySkybox();
         void DisplayLights();
         void DisplayModels();
-        void SetUpSkybox();
 
         vector<std::pair<Model, std::pair<const gl3::shader *, Graphics::Transform *>>> sceneModels;
         Camera camera;

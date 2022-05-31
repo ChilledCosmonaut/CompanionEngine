@@ -85,7 +85,6 @@ namespace gl3::engine::Graphics{
     }
 
     GraphicsSystem::GraphicsSystem() {
-        SetUpSkybox();
     }
 
     void GraphicsSystem::SetUpSkybox() {

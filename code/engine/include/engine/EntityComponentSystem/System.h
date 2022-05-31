@@ -12,9 +12,9 @@ namespace gl3::engine::ecs {
         virtual ~System() = default;
 
     protected:
-        virtual void Start(engine::Game &game) {};
-        virtual void Update(engine::Game &game) {};
-        virtual void OnShutdown(engine::Game &game) {};
+        virtual void Start(engine::Game &game) = 0;
+        virtual void Update(engine::Game &game) = 0;
+        virtual void OnShutdown(engine::Game &game) = 0;
 
         engine::Game &engine;
 
