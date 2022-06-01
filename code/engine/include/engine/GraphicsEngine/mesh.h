@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../../../game/src/shader.h"
+#include "shader.h"
 
 #include "glm/vec3.hpp"
 #include "glm/vec2.hpp"
@@ -32,7 +32,7 @@ namespace gl3::engine::Graphics {
 
         Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures);
 
-        void Draw(gl3::shader &shader);
+        void Draw(Graphics::shader &shader);
 
     private:
         //  render data

@@ -1,11 +1,11 @@
 
 #pragma once
 
-#include <glm/mat4x4.hpp>
-#include <glm/vec4.hpp>
-#include <glm/vec3.hpp>
-#include <glad/glad.h>
-#include <glm/gtc/type_ptr.hpp>
+#include "glm/mat4x4.hpp"
+#include "glm/vec4.hpp"
+#include "glm/vec3.hpp"
+#include "glad/glad.h"
+#include "glm/gtc/type_ptr.hpp"
 
 #include <filesystem>
 #include <string>
@@ -13,7 +13,7 @@
 #include "engine/FileManager/FileManager.h"
 
 
-namespace gl3{
+namespace gl3::engine::Graphics {
     class shader {
     public:
         shader(const std::filesystem::path &vertexShaderAsset, const std::filesystem::path &fragmentShaderAsset);

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "camera.h"
-#include "entt.hpp"
+#include "../../../src/EntityComponentSystem/entt.hpp"
 #include "engine/EntityComponentSystem/Entity.h"
 
 namespace gl3::engine::Graphics{

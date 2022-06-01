@@ -1,6 +1,6 @@
 #include "engine/Tools/CubicNode.h"
 
-namespace logic{
+namespace gl3::engine::tools{
 
     CubicNode::CubicNode(int radiusCount, glm::vec3 globalPosition) {
         radiusCounter = radiusCount;

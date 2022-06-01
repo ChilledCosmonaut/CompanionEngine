@@ -5,7 +5,7 @@
 #include "engine/GraphicsEngine/Transform.h"
 #include "AudioListener.h"
 
-namespace Sound{
+namespace gl3::engine::soundSystem {
     /// Provides a wrapper for some simplified spatial audio.
     class AudioSource{
     public:

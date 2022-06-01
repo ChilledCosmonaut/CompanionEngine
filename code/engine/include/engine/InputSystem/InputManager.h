@@ -4,7 +4,7 @@
 #include <functional>
 #include "GLFW/glfw3.h"
 
-namespace input{
+namespace gl3::engine::inputSystem {
     class [[maybe_unused]] InputManager {
     public:
         [[maybe_unused]] void StartListening(GLFWwindow* window);

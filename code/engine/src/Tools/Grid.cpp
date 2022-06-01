@@ -2,7 +2,7 @@
 #include "engine/Tools/Grid.h"
 
 
-namespace logic {
+namespace gl3::engine::tools {
 
     Grid::Grid(glm::vec3 startPosition) {
         glm::vec3 discreteStartPosition = glm::vec3(std::floor((int) startPosition.x / nodeLength),
@@ -55,11 +55,11 @@ namespace logic {
 
     }
 
-    void Grid::VisualizeGrid(Graphics::Scene* scene, Model *model, const gl3::shader* shader) {
+    void Grid::VisualizeGrid(Graphics::Scene* scene, Graphics::Model *model, const Graphics::shader* shader) {
         std::cout<<"Beginning Visualizing"<<std::endl;
 
         for (auto &position:positions) {
-            scene->AddSceneModels(*model, shader, &position);
+            //scene->AddSceneModels(*model, shader, &position);
         }
     }
 

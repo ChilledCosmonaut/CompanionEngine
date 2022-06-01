@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../../../game/src/shader.h"
+#include "shader.h"
 #include "mesh.h"
 #include "engine/FileManager/FileManager.h"
 
@@ -19,7 +19,7 @@ namespace gl3::engine::Graphics {
             loadModel(path);
         }
 
-        void Draw(gl3::shader &shader);
+        void Draw(Graphics::shader &shader);
 
     private:
 

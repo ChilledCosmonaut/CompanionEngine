@@ -8,10 +8,12 @@
 
 #include "engine/EntityComponentSystem/System.h"
 
+#include "engine/FileManager/FileManager.h"
+
 namespace gl3::engine::Graphics{
 
     struct Skybox{
-        gl3::shader shader  = gl3::shader("shaders/SkyBoxVertexShader.glsl", "shaders/SkyBoxFragmentShader.glsl");
+        Graphics::shader shader  = Graphics::shader("shaders/SkyBoxVertexShader.glsl", "shaders/SkyBoxFragmentShader.glsl");
         unsigned int VAO, VBO;
         vector<std::string> faces{
                 "AllSky_Space_AnotherPlanet_Cam_3_Right-X.png",
@@ -25,9 +27,9 @@ namespace gl3::engine::Graphics{
         float vertices[];
     };
 
-    class GraphicsSystem : ecs::System {
+    class GraphicsSystem : entityComponentSystem::System {
     public:
-        GraphicsSystem();
+        GraphicsSystem() = default;
 
         void Render();
 
@@ -43,9 +45,9 @@ namespace gl3::engine::Graphics{
 
         [[maybe_unused]] void setDirectionalLightPosition(glm::vec3 &directionalLightPosition);
 
-        [[maybe_unused]] [[nodiscard]] const std::pair<Model, std::pair<const gl3::shader *, Graphics::Transform *>> &getSceneModelAtIndex(int index) const;
+        [[maybe_unused]] [[nodiscard]] const std::pair<Model, std::pair<const Graphics::shader *, Graphics::Transform *>> &getSceneModelAtIndex(int index) const;
 
-        [[maybe_unused]] void AddSceneModels(const Model& model, const gl3::shader* shader, Graphics::Transform* modelMatrix);
+        [[maybe_unused]] void AddSceneModels(const Model& model, const Graphics::shader* shader, Graphics::Transform* modelMatrix);
 
     private:
         void SetUpSkybox();
@@ -53,7 +55,7 @@ namespace gl3::engine::Graphics{
         void DisplayLights();
         void DisplayModels();
 
-        vector<std::pair<Model, std::pair<const gl3::shader *, Graphics::Transform *>>> sceneModels;
+        vector<std::pair<Model, std::pair<const Graphics::shader *, Graphics::Transform *>>> sceneModels;
         Camera camera;
     public:
         [[nodiscard]] Camera *getCamera();

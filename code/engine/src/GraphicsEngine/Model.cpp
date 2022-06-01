@@ -5,7 +5,7 @@ namespace gl3::engine::Graphics {
 
     unsigned int TextureFromFile(const char *path, const string &directory, bool gamma = false);
 
-    void Model::Draw(gl3::shader &shader) {
+    void Model::Draw(Graphics::shader &shader) {
         for (auto &mesh: meshes)
             mesh.Draw(shader);
     }

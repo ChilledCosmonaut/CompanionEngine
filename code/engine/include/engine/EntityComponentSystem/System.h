@@ -1,7 +1,7 @@
 #pragma once
 #include "engine/Game.h"
 
-namespace gl3::engine::ecs {
+namespace gl3::engine::entityComponentSystem {
     class System {
         friend class Graphics::Scene;
 

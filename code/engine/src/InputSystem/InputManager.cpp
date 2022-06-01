@@ -1,6 +1,6 @@
 #include "engine/InputSystem/InputManager.h"
 
-namespace input {
+namespace gl3::engine::inputSystem {
     /*template<typename inputFunction>
     int findFunctionInVector(inputFunction targetFunction, std::vector<inputFunction> functionVector) {
         auto res = find(functionVector.begin(), functionVector.end(), targetFunction);

@@ -80,11 +80,8 @@ namespace gl3::engine::Graphics{
             shaderAndTransform.first->setVector3("dirLight.diffuse", glm::vec3(0.4f, 0.4f, 0.4f));
             shaderAndTransform.first->setVector3("dirLight.specular", glm::vec3(0.7f, 0.7f, 0.7f));
 
-            model.Draw((gl3::shader &) shaderAndTransform);
+            model.Draw((Graphics::shader &) shaderAndTransform);
         }
-    }
-
-    GraphicsSystem::GraphicsSystem() {
     }
 
     void GraphicsSystem::SetUpSkybox() {
@@ -152,13 +149,13 @@ namespace gl3::engine::Graphics{
         GraphicsSystem::directionalLightPositions.push_back(directionalLightPosition);
     }
 
-    [[maybe_unused]] const std::pair<Model, std::pair<const gl3::shader *, Graphics::Transform *>> &GraphicsSystem::getSceneModelAtIndex(int index) const {
+    [[maybe_unused]] const std::pair<Model, std::pair<const Graphics::shader *, Graphics::Transform *>> &GraphicsSystem::getSceneModelAtIndex(int index) const {
         return sceneModels[index];
     }
 
-    [[maybe_unused]] void GraphicsSystem::AddSceneModels(const Model& model, const gl3::shader* shader, Graphics::Transform* transform) {
-        std::pair<const gl3::shader *, Graphics::Transform *> temporary(shader, transform);
-        std::pair<Model, std::pair<const gl3::shader *, Graphics::Transform *>> sceneModel(model, temporary);
+    [[maybe_unused]] void GraphicsSystem::AddSceneModels(const Model& model, const Graphics::shader* shader, Graphics::Transform* transform) {
+        std::pair<const Graphics::shader *, Graphics::Transform *> temporary(shader, transform);
+        std::pair<Model, std::pair<const Graphics::shader *, Graphics::Transform *>> sceneModel(model, temporary);
         GraphicsSystem::sceneModels.push_back(sceneModel);
     }
 

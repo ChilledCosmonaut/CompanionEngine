@@ -11,7 +11,7 @@
 
 #include "../../../src/FileManager/stb_image.h"
 
-namespace files{
+namespace gl3::engine::filesystem {
     namespace fs = std::filesystem;
 
     struct texture{

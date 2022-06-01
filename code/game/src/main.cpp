@@ -1,6 +1,6 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include "shader.h"
+#include "engine/GraphicsEngine/shader.h"
 #include <iostream>
 #include "ShipController.h"
 #include "engine/GraphicsEngine/camera.h"
@@ -13,13 +13,14 @@
 #include "engine/Game.h"
 
 using namespace gl3::engine;
+using namespace gl3::game;
 
 const float W_WIDTH = 1920.0f;
 const float W_HEIGHT = 1080.0f;
 const char *W_TITLE = "GameLab III";
 
 // camera
-Camera *camera;
+Graphics::Camera *camera;
 float lastX = W_WIDTH / 2.0f;
 float lastY = W_HEIGHT / 2.0f;
 bool firstMouse = true;
@@ -48,9 +49,9 @@ auto modelMatrixTransform = Graphics::Transform(rota, glm::vec3(0, 0, -10.0f));
 float yaw = -90.0f, pitch = 0.0f, fov = 45.0f;
 
 
-void modelTransform(gl3::shader *shaderProgram);//unsigned int shaderProgram);
-void viewTransform(gl3::shader *shaderProgram);//unsigned int shaderProgram);
-void projectionTransform(gl3::shader *shaderProgram);//unsigned int shaderProgram);
+void modelTransform(Graphics::shader *shaderProgram);//unsigned int shaderProgram);
+void viewTransform(Graphics::shader *shaderProgram);//unsigned int shaderProgram);
+void projectionTransform(Graphics::shader *shaderProgram);//unsigned int shaderProgram);
 
 void scroll_callback(GLFWwindow *window, double xoffset, double yoffset) {
     camera->ProcessMouseScroll(static_cast<float>(yoffset));
@@ -104,27 +105,27 @@ void processUserInput(GLFWwindow *window, int key, int scancode, int action, int
 
     // user input
     if (key == GLFW_KEY_D) {
-        camera->ProcessKeyboard(RIGHT, Time::GetDeltaTime());
+        camera->ProcessKeyboard(Graphics::RIGHT, Time::GetDeltaTime());
         //std::cout<<"Pressed D" + to_string(deltaTime) <<endl;
         //cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
         //zRotation -= rotStep * deltaTime;
     }
 
     if (key == GLFW_KEY_A) {
-        camera->ProcessKeyboard(LEFT, Time::GetDeltaTime());
+        camera->ProcessKeyboard(Graphics::LEFT, Time::GetDeltaTime());
         //cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
         //zRotation += rotStep * deltaTime;
     }
 
     if (key == GLFW_KEY_W) {
-        camera->ProcessKeyboard(FORWARD, Time::GetDeltaTime());
+        camera->ProcessKeyboard(Graphics::FORWARD, Time::GetDeltaTime());
         //*yTranslate += sin(glm::radians(zRotation)) * transStep * deltaTime;
         xTranslate += cos(glm::radians(zRotation)) * transStep * Time::GetDeltaTime();//*
         //cameraPos += cameraSpeed * cameraFront;
     }
 
     if (key == GLFW_KEY_S) {
-        camera->ProcessKeyboard(BACKWARD, Time::GetDeltaTime());
+        camera->ProcessKeyboard(Graphics::BACKWARD, Time::GetDeltaTime());
         //cameraPos -= cameraSpeed * cameraFront;
         //*yTranslate -= sin(glm::radians(zRotation)) * transStep * deltaTime;
         xTranslate -= cos(glm::radians(zRotation)) * transStep * Time::GetDeltaTime();//*
@@ -150,25 +151,25 @@ int main() {
 
     Game game = Game(1280, 720, "A Journey through Space");
 
-    gl3::shader litShader = gl3::shader("shaders/vertexShader.glsl", "shaders/fragmentShader.glsl");
+    Graphics::shader litShader = Graphics::shader("shaders/vertexShader.glsl", "shaders/fragmentShader.glsl");
 
-    Model model4 = Model("../../assets/backpack.obj");
-    Model model1 = Model("../../assets/SpaceShip4.obj");
-    Model model2 = Model("../../assets/SpaceShip2.obj");
-    Model model3 = Model("../../assets/SpaceShip3.obj");
-    Model asteroid = Model("../../assets/asteriod1.obj");
-    Model playerShip("../../assets/playerShip.obj");
-    Model radarCubeModel = Model("../../assets/RadarBox.obj");
+    Graphics::Model model4 = Graphics::Model("../../assets/backpack.obj");
+    Graphics::Model model1 = Graphics::Model("../../assets/SpaceShip4.obj");
+    Graphics::Model model2 = Graphics::Model("../../assets/SpaceShip2.obj");
+    Graphics::Model model3 = Graphics::Model("../../assets/SpaceShip3.obj");
+    Graphics::Model asteroid = Graphics::Model("../../assets/asteriod1.obj");
+    Graphics::Model playerShip("../../assets/playerShip.obj");
+    Graphics::Model radarCubeModel = Graphics::Model("../../assets/RadarBox.obj");
 
-    Graphics::Scene scene = Graphics::Scene();
+    /*Graphics::Scene scene = Graphics::Scene();
 
     game.ChangeActiveSceneTo(&scene);
 
     Graphics::Scene radarScene = Graphics::Scene();
 
-    camera = scene.getCamera();
+    camera = scene.getCamera();*/
 
-    gl3::shader shader = gl3::shader("shaders/vertexShader.glsl", "shaders/fragmentShader.glsl");
+    Graphics::shader shader = Graphics::shader("shaders/vertexShader.glsl", "shaders/fragmentShader.glsl");
 
     Graphics::Transform model1Transform = Graphics::Transform(glm::vec3(-90.0f,180.0f,0.0f), shipPos1);
 
@@ -176,7 +177,7 @@ int main() {
 
     auto startTime = glfwGetTime();
 
-    logic::Grid grid = logic::Grid(glm::vec3(0,0,0));
+    tools::Grid grid = tools::Grid(glm::vec3(0,0,0));
 
     Graphics::Transform standardTransform = Graphics::Transform(glm::vec3(0,0,0),glm::vec3(0,0,0),glm::vec3(0.5f,0.5f,0.5f));
 
@@ -196,9 +197,9 @@ int main() {
 
     //scene.AddSceneModels(playerShip, &shader, camera->GetTransform());
 
-    Sound::AudioListener::StartAudioListener(&standardTransform);
+    soundSystem::AudioListener::StartAudioListener(&standardTransform);
 
-    Sound::AudioSource audioSource = Sound::AudioSource("../../assets/audio/electronic-wave.mp3", &standardTransform4);
+    soundSystem::AudioSource audioSource = soundSystem::AudioSource("../../assets/audio/electronic-wave.mp3", &standardTransform4);
 
     ShipController controller1 = ShipController();
     auto endTime = glfwGetTime();
@@ -209,7 +210,7 @@ int main() {
 
     auto startTime2 = glfwGetTime();
 
-    grid.VisualizeGrid(&radarScene, &radarCubeModel, &shader);
+    //grid.VisualizeGrid(&radarScene, &radarCubeModel, &shader);
 
     auto endTime2 = glfwGetTime();
 
@@ -221,17 +222,17 @@ int main() {
 
     audioSource.PlayBackground(true);
 
-    updateKeys(game.getWindow());
+    /*updateKeys(game.getWindow());
 
     game.onBeforeUpdate.addListener([&](Game& game) {
         updateKeys(game.getWindow());
 
         controller1.GetUpdatedShipPosition(camera->GetTransform(), game.getWindow(), &W_WIDTH, &W_HEIGHT, Time::GetDeltaTime());
-    });
+    });*/
 
     game.run();
 
-    Sound::AudioListener::StopAudioListener();
+    soundSystem::AudioListener::StopAudioListener();
 
     return 0;
 }

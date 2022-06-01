@@ -8,7 +8,6 @@
 #include <soloud.h>
 #include <soloud_wav.h>
 #include "engine/Context.h"
-#include "engine/EntityComponentSystem/EntityManager.h"
 #include "engine/GraphicsEngine/Scene.h"
 
 namespace gl3::engine {
@@ -32,9 +31,6 @@ namespace gl3::engine {
         void ChangeActiveSceneTo(Graphics::Scene* scene){
             currentScene = scene;
         }
-
-        entityComponentSystem::EntityManager entityManager;
-        entityComponentSystem::ComponentManager componentManager;
 
     protected:
         void start() {}

@@ -1,10 +1,10 @@
 
 #pragma once
 
-#include "shader.h"
+#include "engine/GraphicsEngine/shader.h"
 
 
-namespace gl3{
+namespace gl3::engine::Graphics {
 
     struct glStatusData {
         int success;
@@ -14,7 +14,7 @@ namespace gl3{
 
     unsigned int loadAndCompileShader(GLuint shaderType, const std::filesystem::path &shaderAssetPath){
 
-        auto shaderAsset = files::FileManager::getAssetFileFrom(shaderAssetPath);
+        auto shaderAsset = filesystem::FileManager::getAssetFileFrom(shaderAssetPath);
         const char* shaderSource = shaderAsset.c_str();
         unsigned int shader = glCreateShader(shaderType);
 

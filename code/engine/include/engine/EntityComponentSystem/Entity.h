@@ -1,11 +1,9 @@
 #pragma once
 #include <vector>
-#include "entt.hpp"
-#include "Component.h"
+#include "../../../src/EntityComponentSystem/entt.hpp"
 
 namespace gl3::engine::entityComponentSystem {
     class Entity final {
-        friend class Graphics::Scene;
 
     public:
         [[nodiscard]] entt::entity entityId() const { return entity; }

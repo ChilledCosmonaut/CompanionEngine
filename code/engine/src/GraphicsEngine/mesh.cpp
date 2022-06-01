@@ -10,7 +10,7 @@ namespace gl3::engine::Graphics {
         setupMesh();
     }
 
-    void Mesh::Draw(gl3::shader &shader) {
+    void Mesh::Draw(Graphics::shader &shader) {
         unsigned int diffuseNr = 1;
         unsigned int specularNr = 1;
         for (unsigned int i = 0; i < textures.size(); i++) {

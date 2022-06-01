@@ -7,8 +7,6 @@ namespace gl3::engine {
 
     Game::Game(int width, int height, const std::string &title, Graphics::Scene* startScene):
             context(width, height, title),
-            componentManager(*this),
-            entityManager(componentManager, *this),
             currentScene(startScene) {
         glEnable(GL_DEPTH_TEST);
     }
@@ -30,7 +28,7 @@ namespace gl3::engine {
 
     void Game::draw() {
         if (currentScene != nullptr) {
-            currentScene->Render();
+            //currentScene->Render();
         }
     }
 

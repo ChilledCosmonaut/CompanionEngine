@@ -20,7 +20,7 @@ namespace std{
 }
 
 
-namespace logic{
+namespace gl3::engine::tools {
 
     class CubicNode{
     public:
