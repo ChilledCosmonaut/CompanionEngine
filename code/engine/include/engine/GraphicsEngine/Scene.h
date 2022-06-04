@@ -3,10 +3,16 @@
 #include "camera.h"
 #include "../../../src/EntityComponentSystem/entt.hpp"
 #include "engine/EntityComponentSystem/Entity.h"
+#include "engine/GraphicsEngine/Components/Skybox.h"
 
 namespace gl3::engine::Graphics{
 
     class Scene {
+    public:
+        entt::registry* getRegistry(){
+            return &registry;
+        }
+
     protected:
         virtual void onSetup() = 0;
 

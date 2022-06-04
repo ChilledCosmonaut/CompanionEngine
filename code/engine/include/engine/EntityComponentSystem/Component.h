@@ -5,7 +5,7 @@ namespace gl3::engine::entityComponentSystem {
     class Component {
 
     public:
-        virtual ~Component() = default;
+        //virtual ~Component() = default;
 
     protected:
         explicit Component(Entity& owner)

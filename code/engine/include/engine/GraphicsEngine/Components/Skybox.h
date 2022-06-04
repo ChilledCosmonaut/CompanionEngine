@@ -4,9 +4,9 @@
 #include "engine/GraphicsEngine/shader.h"
 
 namespace gl3::engine::Graphics::Components {
-class SkyboxComponent : public gl3::engine::entityComponentSystem::Component {
+struct SkyboxComponent /*: public gl3::engine::entityComponentSystem::Component*/ {
     public:
-        SkyboxComponent(const std::string& name, const std::string& texture_path);
+        SkyboxComponent(const SkyboxComponent&) = default;
 
         void SetVAO(GLuint vao) {
             VAO = vao;
@@ -20,7 +20,51 @@ class SkyboxComponent : public gl3::engine::entityComponentSystem::Component {
             this->texture = newTexture;
         }
 
-        ~SkyboxComponent();
+
+    float vertices[108] = {
+            // positions
+            -1.0f,  1.0f, -1.0f,
+            -1.0f, -1.0f, -1.0f,
+            1.0f, -1.0f, -1.0f,
+            1.0f, -1.0f, -1.0f,
+            1.0f,  1.0f, -1.0f,
+            -1.0f,  1.0f, -1.0f,
+
+            -1.0f, -1.0f,  1.0f,
+            -1.0f, -1.0f, -1.0f,
+            -1.0f,  1.0f, -1.0f,
+            -1.0f,  1.0f, -1.0f,
+            -1.0f,  1.0f,  1.0f,
+            -1.0f, -1.0f,  1.0f,
+
+            1.0f, -1.0f, -1.0f,
+            1.0f, -1.0f,  1.0f,
+            1.0f,  1.0f,  1.0f,
+            1.0f,  1.0f,  1.0f,
+            1.0f,  1.0f, -1.0f,
+            1.0f, -1.0f, -1.0f,
+
+            -1.0f, -1.0f,  1.0f,
+            -1.0f,  1.0f,  1.0f,
+            1.0f,  1.0f,  1.0f,
+            1.0f,  1.0f,  1.0f,
+            1.0f, -1.0f,  1.0f,
+            -1.0f, -1.0f,  1.0f,
+
+            -1.0f,  1.0f, -1.0f,
+            1.0f,  1.0f, -1.0f,
+            1.0f,  1.0f,  1.0f,
+            1.0f,  1.0f,  1.0f,
+            -1.0f,  1.0f,  1.0f,
+            -1.0f,  1.0f, -1.0f,
+
+            -1.0f, -1.0f, -1.0f,
+            -1.0f, -1.0f,  1.0f,
+            1.0f, -1.0f, -1.0f,
+            1.0f, -1.0f, -1.0f,
+            -1.0f, -1.0f,  1.0f,
+            1.0f, -1.0f,  1.0f
+    };
 
     private:
         Graphics::shader shader  = Graphics::shader("shaders/SkyBoxVertexShader.glsl", "shaders/SkyBoxFragmentShader.glsl");
@@ -34,49 +78,5 @@ class SkyboxComponent : public gl3::engine::entityComponentSystem::Component {
                 "AllSky_Space_AnotherPlanet_Cam_1_Back-Z.png"
         };
         unsigned int texture;
-        float vertices[108] = {
-                // positions
-                -1.0f,  1.0f, -1.0f,
-                -1.0f, -1.0f, -1.0f,
-                1.0f, -1.0f, -1.0f,
-                1.0f, -1.0f, -1.0f,
-                1.0f,  1.0f, -1.0f,
-                -1.0f,  1.0f, -1.0f,
-
-                -1.0f, -1.0f,  1.0f,
-                -1.0f, -1.0f, -1.0f,
-                -1.0f,  1.0f, -1.0f,
-                -1.0f,  1.0f, -1.0f,
-                -1.0f,  1.0f,  1.0f,
-                -1.0f, -1.0f,  1.0f,
-
-                1.0f, -1.0f, -1.0f,
-                1.0f, -1.0f,  1.0f,
-                1.0f,  1.0f,  1.0f,
-                1.0f,  1.0f,  1.0f,
-                1.0f,  1.0f, -1.0f,
-                1.0f, -1.0f, -1.0f,
-
-                -1.0f, -1.0f,  1.0f,
-                -1.0f,  1.0f,  1.0f,
-                1.0f,  1.0f,  1.0f,
-                1.0f,  1.0f,  1.0f,
-                1.0f, -1.0f,  1.0f,
-                -1.0f, -1.0f,  1.0f,
-
-                -1.0f,  1.0f, -1.0f,
-                1.0f,  1.0f, -1.0f,
-                1.0f,  1.0f,  1.0f,
-                1.0f,  1.0f,  1.0f,
-                -1.0f,  1.0f,  1.0f,
-                -1.0f,  1.0f, -1.0f,
-
-                -1.0f, -1.0f, -1.0f,
-                -1.0f, -1.0f,  1.0f,
-                1.0f, -1.0f, -1.0f,
-                1.0f, -1.0f, -1.0f,
-                -1.0f, -1.0f,  1.0f,
-                1.0f, -1.0f,  1.0f
-        };
     };
 }
