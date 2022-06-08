@@ -32,6 +32,10 @@ namespace gl3::engine {
             currentScene = scene;
         }
 
+        Graphics::Scene *getCurrentScene() {
+            return currentScene;
+        }
+
     protected:
         void start() {}
         virtual void update(GLFWwindow *window) {}

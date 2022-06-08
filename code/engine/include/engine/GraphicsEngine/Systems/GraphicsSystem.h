@@ -2,30 +2,16 @@
 
 #include <iostream>
 
-#include "Model.h"
-#include "camera.h"
-#include "Transform.h"
+#include "engine/GraphicsEngine/Model.h"
+#include "engine/GraphicsEngine/camera.h"
+#include "engine/GraphicsEngine/Transform.h"
 
 #include "engine/EntityComponentSystem/System.h"
 
 #include "engine/FileManager/FileManager.h"
+#include "SkyboxRenderer.h"
 
-namespace gl3::engine::Graphics{
-
-    struct Skybox{
-        Graphics::shader shader  = Graphics::shader("shaders/SkyBoxVertexShader.glsl", "shaders/SkyBoxFragmentShader.glsl");
-        unsigned int VAO, VBO;
-        vector<std::string> faces{
-                "AllSky_Space_AnotherPlanet_Cam_3_Right-X.png",
-                "AllSky_Space_AnotherPlanet_Cam_2_Left+X.png",
-                "AllSky_Space_AnotherPlanet_Cam_4_Up+Y.png",
-                "AllSky_Space_AnotherPlanet_Cam_5_Down-Y.png",
-                "AllSky_Space_AnotherPlanet_Cam_0_Front+Z.png",
-                "AllSky_Space_AnotherPlanet_Cam_1_Back-Z.png"
-        };
-        unsigned int texture;
-        float vertices[];
-    };
+namespace gl3::engine::Graphics::Systems{
 
     class GraphicsSystem : entityComponentSystem::System {
     public:
@@ -34,10 +20,11 @@ namespace gl3::engine::Graphics{
         void Render();
 
         void Start(Game &game) {
-            SetUpSkybox();
+            auto currentScene = game.getCurrentScene();
+            skyboxRenderer.SetupSkybox(*currentScene);
         }
 
-        void Update(Game &game);
+        void Update(Game &game) override;
 
         void OnShutdown(Game &engine);
 
@@ -49,19 +36,16 @@ namespace gl3::engine::Graphics{
 
         [[maybe_unused]] void AddSceneModels(const Model& model, const Graphics::shader* shader, Graphics::Transform* modelMatrix);
 
+        [[nodiscard]] Camera *getCamera();
+
     private:
-        void SetUpSkybox();
-        void DisplaySkybox();
         void DisplayLights();
         void DisplayModels();
 
         vector<std::pair<Model, std::pair<const Graphics::shader *, Graphics::Transform *>>> sceneModels;
         Camera camera;
-    public:
-        [[nodiscard]] Camera *getCamera();
-
-    private:
         vector<glm::vec3> directionalLightPositions;
-        Skybox skybox;
+        SkyboxRenderer skyboxRenderer {};
+
     };
 }

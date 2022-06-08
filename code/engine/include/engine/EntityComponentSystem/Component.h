@@ -2,7 +2,7 @@
 #include "Entity.h"
 
 namespace gl3::engine::entityComponentSystem {
-    class Component {
+    struct Component {
 
     public:
         //virtual ~Component() = default;
