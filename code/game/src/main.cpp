@@ -12,6 +12,8 @@
 #include "engine/Time.h"
 #include "engine/Game.h"
 
+#include "SampleScene.h"
+
 using namespace gl3::engine;
 using namespace gl3::game;
 
@@ -161,7 +163,7 @@ int main() {
     Graphics::Model playerShip("../../assets/playerShip.obj");
     Graphics::Model radarCubeModel = Graphics::Model("../../assets/RadarBox.obj");
 
-    Graphics::Scene scene = Graphics::Scene();
+    auto scene = SampleScene();
 
     game.ChangeActiveSceneTo(&scene);
 

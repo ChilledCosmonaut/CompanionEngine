@@ -27,8 +27,9 @@ namespace gl3::engine::Graphics{
             return registry.view<Included, Excluded>();
         }
 
-    protected:
         virtual void onSetup() = 0;
+
+    protected:
 
         std::unique_ptr<entityComponentSystem::Entity> CreateEntity(){
             auto newEntity = entityComponentSystem::Entity(registry);

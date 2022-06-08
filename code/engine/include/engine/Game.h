@@ -32,6 +32,8 @@ namespace gl3::engine {
         GLFWwindow *getWindow() { return context.getWindow(); }
         void ChangeActiveSceneTo(Graphics::Scene* scene){
             currentScene = scene;
+            currentScene->onSetup();
+            graphicsSystem.Start(*currentScene);
         }
 
         Graphics::Scene *getCurrentScene() {
