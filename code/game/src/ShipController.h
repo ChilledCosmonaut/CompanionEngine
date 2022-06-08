@@ -1,12 +1,12 @@
 #pragma once
 #include <GLFW/glfw3.h>
 #include "iostream"
-#include "engine/GraphicsEngine/Transform.h"
+#include "engine/GraphicsEngine/Components/Transform.h"
 
 namespace gl3::game {
     class ShipController {
     public:
-        void GetUpdatedShipPosition(engine::Graphics::Transform *formerPosition, GLFWwindow *window, const float *screenWidth,
+        void GetUpdatedShipPosition(engine::Graphics::Components::Transform *formerPosition, GLFWwindow *window, const float *screenWidth,
                                     const float *screenHeight, float deltaTime);
 
     private:

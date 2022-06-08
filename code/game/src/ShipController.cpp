@@ -7,7 +7,7 @@ namespace gl3::game {
         return (T(0) < val) - (val < T(0));
     }
 
-    void ShipController::GetUpdatedShipPosition(engine::Graphics::Transform *formerPosition, GLFWwindow *window,
+    void ShipController::GetUpdatedShipPosition(engine::Graphics::Components::Transform *formerPosition, GLFWwindow *window,
                                                 const float *screenWidth, const float *screenHeight, float deltaTime) {
         HandleKeyboard(window, deltaTime);
         CheckMousePosition(window, screenWidth, screenHeight, deltaTime);

@@ -5,7 +5,7 @@
 #include <string>
 #include <set>
 #include "glm/vec3.hpp"
-#include "engine/GraphicsEngine/Transform.h"
+#include "engine/GraphicsEngine/Components/Transform.h"
 
 namespace std{
     template<>
@@ -40,7 +40,7 @@ namespace gl3::engine::tools {
         };
 
         void SetNeighbourAtDirection(glm::vec3 directionVector, CubicNode* node);
-        Graphics::Transform globalTransform;
+        Graphics::Components::Transform globalTransform;
 
     private:
         glm::vec3 positionInGlobalSpace{};

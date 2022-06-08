@@ -7,7 +7,7 @@
 
 #include <vector>
 #include <iostream>
-#include "Transform.h"
+#include "engine/GraphicsEngine/Components/Transform.h"
 
 namespace gl3::engine::Graphics {
 
@@ -45,7 +45,7 @@ namespace gl3::engine::Graphics {
         float MouseSensitivity;
         float Zoom;
         //modelMatrix
-        Graphics::Transform modelMatrix = Graphics::Transform();
+        Graphics::Components::Transform modelMatrix = Graphics::Components::Transform();
 
         // constructor with vectors
         Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f),
@@ -116,7 +116,7 @@ namespace gl3::engine::Graphics {
                 Zoom = 45.0f;
         }
 
-        Graphics::Transform *GetTransform() {
+        Graphics::Components::Transform *GetTransform() {
             return &modelMatrix;
         };
 

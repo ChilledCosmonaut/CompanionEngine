@@ -36,7 +36,7 @@ namespace gl3::engine::tools {
         }
 
         for(auto position:knowledgeBase){
-            positions.emplace_back(Graphics::Transform(
+            positions.emplace_back(Graphics::Components::Transform(
                     glm::vec3(0, 0, 0),
                     position,
                     glm::vec3(0.5f, 0.5f, 0.5f)));

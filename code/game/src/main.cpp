@@ -47,7 +47,7 @@ glm::vec3 rota = glm::vec3(0,0,0);
 
 int currentVisiblePlane = 3;
 
-auto modelMatrixTransform = Graphics::Transform(rota, glm::vec3(0, 0, -10.0f));
+auto modelMatrixTransform = Graphics::Components::Transform(rota, glm::vec3(0, 0, -10.0f));
 
 float yaw = -90.0f, pitch = 0.0f, fov = 45.0f;
 
@@ -178,7 +178,7 @@ int main() {
 
     Graphics::shader shader = Graphics::shader("shaders/vertexShader.glsl", "shaders/fragmentShader.glsl");
 
-    Graphics::Transform model1Transform = Graphics::Transform(glm::vec3(-90.0f,180.0f,0.0f), shipPos1);
+    Graphics::Components::Transform model1Transform = Graphics::Components::Transform(glm::vec3(-90.0f,180.0f,0.0f), shipPos1);
 
     std::cout<<"Generating Grid"<<std::endl;
 
@@ -186,13 +186,13 @@ int main() {
 
     tools::Grid grid = tools::Grid(glm::vec3(0,0,0));
 
-    Graphics::Transform standardTransform = Graphics::Transform(glm::vec3(0,0,0),glm::vec3(0,0,0),glm::vec3(0.5f,0.5f,0.5f));
+    Graphics::Components::Transform standardTransform = Graphics::Components::Transform(glm::vec3(0,0,0),glm::vec3(0,0,0),glm::vec3(0.5f,0.5f,0.5f));
 
-    Graphics::Transform standardTransform2 = Graphics::Transform(glm::vec3(0,0,0),glm::vec3(-5,3,14),glm::vec3(0.5f,0.5f,0.5f));
+    Graphics::Components::Transform standardTransform2 = Graphics::Components::Transform(glm::vec3(0,0,0),glm::vec3(-5,3,14),glm::vec3(0.5f,0.5f,0.5f));
 
-    Graphics::Transform standardTransform3 = Graphics::Transform(glm::vec3(0,0,0),glm::vec3(0,12,5),glm::vec3(0.5f,0.5f,0.5f));
+    Graphics::Components::Transform standardTransform3 = Graphics::Components::Transform(glm::vec3(0,0,0),glm::vec3(0,12,5),glm::vec3(0.5f,0.5f,0.5f));
 
-    Graphics::Transform standardTransform4 = Graphics::Transform(glm::vec3(0,0,0),glm::vec3(20,-10,0),glm::vec3(0.5f,0.5f,0.5f));
+    Graphics::Components::Transform standardTransform4 = Graphics::Components::Transform(glm::vec3(0,0,0),glm::vec3(20,-10,0),glm::vec3(0.5f,0.5f,0.5f));
 
     //scene.AddSceneModels(asteroid, &shader, &standardTransform);
 

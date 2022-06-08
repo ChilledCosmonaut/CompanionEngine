@@ -50,13 +50,13 @@ namespace gl3::engine::Graphics::Systems{
         GraphicsSystem::directionalLightPositions.push_back(directionalLightPosition);
     }
 
-    [[maybe_unused]] const std::pair<Model, std::pair<const Graphics::shader *, Graphics::Transform *>> &GraphicsSystem::getSceneModelAtIndex(int index) const {
+    [[maybe_unused]] const std::pair<Model, std::pair<const Graphics::shader *, Graphics::Components::Transform *>> &GraphicsSystem::getSceneModelAtIndex(int index) const {
         return sceneModels[index];
     }
 
-    [[maybe_unused]] void GraphicsSystem::AddSceneModels(const Model& model, const Graphics::shader* shader, Graphics::Transform* transform) {
-        std::pair<const Graphics::shader *, Graphics::Transform *> temporary(shader, transform);
-        std::pair<Model, std::pair<const Graphics::shader *, Graphics::Transform *>> sceneModel(model, temporary);
+    [[maybe_unused]] void GraphicsSystem::AddSceneModels(const Model& model, const Graphics::shader* shader, Graphics::Components::Transform* transform) {
+        std::pair<const Graphics::shader *, Graphics::Components::Transform *> temporary(shader, transform);
+        std::pair<Model, std::pair<const Graphics::shader *, Graphics::Components::Transform *>> sceneModel(model, temporary);
         GraphicsSystem::sceneModels.push_back(sceneModel);
     }
 

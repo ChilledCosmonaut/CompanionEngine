@@ -4,7 +4,7 @@
 
 #include "engine/GraphicsEngine/Model.h"
 #include "engine/GraphicsEngine/camera.h"
-#include "engine/GraphicsEngine/Transform.h"
+#include "engine/GraphicsEngine/Components/Transform.h"
 
 #include "engine/FileManager/FileManager.h"
 #include "SkyboxRenderer.h"
@@ -32,9 +32,9 @@ namespace gl3::engine::Graphics::Systems{
 
         [[maybe_unused]] void setDirectionalLightPosition(glm::vec3 &directionalLightPosition);
 
-        [[maybe_unused]] [[nodiscard]] const std::pair<Model, std::pair<const Graphics::shader *, Graphics::Transform *>> &getSceneModelAtIndex(int index) const;
+        [[maybe_unused]] [[nodiscard]] const std::pair<Model, std::pair<const Graphics::shader *, Graphics::Components::Transform *>> &getSceneModelAtIndex(int index) const;
 
-        [[maybe_unused]] void AddSceneModels(const Model& model, const Graphics::shader* shader, Graphics::Transform* modelMatrix);
+        [[maybe_unused]] void AddSceneModels(const Model& model, const Graphics::shader* shader, Graphics::Components::Transform* modelMatrix);
 
         [[nodiscard]] Camera *getCamera();
 
@@ -42,7 +42,7 @@ namespace gl3::engine::Graphics::Systems{
         void DisplayLights();
         void DisplayModels();
 
-        vector<std::pair<Model, std::pair<const Graphics::shader *, Graphics::Transform *>>> sceneModels;
+        vector<std::pair<Model, std::pair<const Graphics::shader *, Graphics::Components::Transform *>>> sceneModels;
         Camera camera;
         vector<glm::vec3> directionalLightPositions;
         SkyboxRenderer skyboxRenderer {};

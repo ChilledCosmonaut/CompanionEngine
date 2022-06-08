@@ -35,6 +35,6 @@ namespace gl3::engine::tools {
                 glm::vec3(0.0f,-1.0f,0.0f),
                 glm::vec3(0.0f,0.0f,-1.0f)
         };
-        std::vector<Graphics::Transform> positions;
+        std::vector<Graphics::Components::Transform> positions;
     };
 }

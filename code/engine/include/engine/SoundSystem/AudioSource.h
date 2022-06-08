@@ -2,7 +2,7 @@
 
 #include <string>
 #include "soloud_wav.h"
-#include "engine/GraphicsEngine/Transform.h"
+#include "engine/GraphicsEngine/Components/Transform.h"
 #include "AudioListener.h"
 
 namespace gl3::engine::soundSystem {
@@ -13,7 +13,7 @@ namespace gl3::engine::soundSystem {
         /// Creates the AudioSource.
         /// @param soundPath Defines the filepath for the to be played sound.
         /// @param transform The global position of the audio source.
-        explicit AudioSource(const std::string& soundPath, Graphics::Transform* transform){
+        explicit AudioSource(const std::string& soundPath, Graphics::Components::Transform* transform){
             sound = SoLoud::Wav();
             sound.load(soundPath.c_str());
             sourceTransform = transform;
@@ -42,6 +42,6 @@ namespace gl3::engine::soundSystem {
     private:
         SoLoud::Wav sound;
         int soundHandle = -1;
-        Graphics::Transform* sourceTransform;
+        Graphics::Components::Transform* sourceTransform;
     };
 }
