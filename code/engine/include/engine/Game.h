@@ -9,7 +9,9 @@
 #include <soloud_wav.h>
 #include "engine/Context.h"
 #include "engine/GraphicsEngine/Scene.h"
+#include "engine/GraphicsEngine/Systems/GraphicsSystem.h"
 
+class GraphicsSystem;
 namespace gl3::engine {
     class Game {
 
@@ -44,5 +46,6 @@ namespace gl3::engine {
     private:
         context::Context context;
         Graphics::Scene* currentScene;
+        Graphics::Systems::GraphicsSystem graphicsSystem {};
     };
 }

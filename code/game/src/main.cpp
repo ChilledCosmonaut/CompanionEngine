@@ -161,11 +161,11 @@ int main() {
     Graphics::Model playerShip("../../assets/playerShip.obj");
     Graphics::Model radarCubeModel = Graphics::Model("../../assets/RadarBox.obj");
 
-    /*Graphics::Scene scene = Graphics::Scene();
+    Graphics::Scene scene = Graphics::Scene();
 
     game.ChangeActiveSceneTo(&scene);
 
-    Graphics::Scene radarScene = Graphics::Scene();
+    /*Graphics::Scene radarScene = Graphics::Scene();
 
     camera = scene.getCamera();*/
 

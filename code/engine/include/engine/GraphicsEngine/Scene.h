@@ -12,6 +12,7 @@ namespace gl3::engine::Graphics{
     class Scene {
 
     public:
+
         entt::registry* getRegistry(){
             return &registry;
         }

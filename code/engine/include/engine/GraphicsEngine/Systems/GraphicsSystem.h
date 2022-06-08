@@ -6,27 +6,22 @@
 #include "engine/GraphicsEngine/camera.h"
 #include "engine/GraphicsEngine/Transform.h"
 
-#include "engine/EntityComponentSystem/System.h"
-
 #include "engine/FileManager/FileManager.h"
 #include "SkyboxRenderer.h"
 
 namespace gl3::engine::Graphics::Systems{
 
-    class GraphicsSystem : entityComponentSystem::System {
+    class GraphicsSystem {
     public:
-        GraphicsSystem() = default;
-
-        void Render();
-
-        void Start(Game &game) {
-            auto currentScene = game.getCurrentScene();
-            skyboxRenderer.SetupSkybox(*currentScene);
+        void Start(Scene &scene) {
+            skyboxRenderer.SetupSkybox(scene);
         }
 
-        void Update(Game &game) override;
+        void Render(Scene &scene);
 
-        void OnShutdown(Game &engine);
+        /*void Update(Game &game) override;
+
+        void OnShutdown(Game &engine);*/
 
         [[maybe_unused]] [[nodiscard]] const glm::vec3 &getDirectionalLightPositionAtIndex(int index) const;
 
