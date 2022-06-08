@@ -11,7 +11,7 @@ namespace gl3::engine {
             return deltaTime;
         }
 
-        static void Time::updateDeltaTime() {
+        static void updateDeltaTime() {
             float frameTime = glfwGetTime();
             deltaTime = frameTime - lastFrameTime;
             lastFrameTime = frameTime;
