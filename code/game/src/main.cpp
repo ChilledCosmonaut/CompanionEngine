@@ -164,7 +164,7 @@ int main() {
     Graphics::Model playerShip("../../assets/playerShip.obj");
     Graphics::Model radarCubeModel = Graphics::Model("../../assets/RadarBox.obj");
 
-    Graphics::Systems::GraphicsSystem graphicsSystem(game);
+    Graphics::Systems::GraphicsSystem graphicsSystem {};
 
     graphicsSystem.SetUpSystem(game);
 

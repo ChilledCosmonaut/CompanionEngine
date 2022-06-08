@@ -1,4 +1,5 @@
 #pragma once
+
 #include "engine/Events.h"
 #include <memory>
 #include <string>
@@ -10,7 +11,6 @@
 #include "engine/Context.h"
 #include "engine/GraphicsEngine/Scene.h"
 
-class GraphicsSystem;
 namespace gl3::engine {
     class Game {
 

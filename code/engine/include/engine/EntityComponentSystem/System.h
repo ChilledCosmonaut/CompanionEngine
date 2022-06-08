@@ -6,26 +6,25 @@ namespace gl3::engine::entityComponentSystem {
         friend class Graphics::Scene;
 
     public:
-        explicit System(Game &engine) : engine(engine) {}
+        System() = default;
         System(System &&) = delete;
         System(const System &) = delete;
         virtual ~System() = default;
 
         void SetUpSystem(engine::Game &game){
-            engine = game;
-            engine.onStartup.addListener([&] (engine::Game &game){
+            game.onStartup.addListener([&] (engine::Game &game){
                 Start(game);
             });
-            engine.onBeforeUpdate.addListener([&] (engine::Game &game){
+            game.onBeforeUpdate.addListener([&] (engine::Game &game){
                 Update(game);
             });
-            engine.onShutdown.addListener([&] (engine::Game &game){
+            game.onShutdown.addListener([&] (engine::Game &game){
                 OnShutdown(game);
             });
-            engine.onSwitchingScenes.addListener([&] (Graphics::Scene &scene){
+            game.onSwitchingScenes.addListener([&] (Graphics::Scene &scene){
                 OnSwitchingScenes(scene);
             });
-            engine.onDrawCall.addListener([&] (Graphics::Scene &scene){
+            game.onDrawCall.addListener([&] (Graphics::Scene &scene){
                 OnDrawCall(scene);
             });
         }
@@ -37,7 +36,5 @@ namespace gl3::engine::entityComponentSystem {
 
         virtual void OnSwitchingScenes(Graphics::Scene &scene) = 0;
         virtual void OnDrawCall(Graphics::Scene &scene) = 0;
-
-        engine::Game &engine;
     };
 }

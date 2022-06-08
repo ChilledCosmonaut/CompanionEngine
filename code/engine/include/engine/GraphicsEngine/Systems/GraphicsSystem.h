@@ -14,7 +14,7 @@ namespace gl3::engine::Graphics::Systems{
 
     class GraphicsSystem : public entityComponentSystem::System {
     public:
-        GraphicsSystem(Game &engine) : System(engine) {};
+        GraphicsSystem() = default;
 
         void OnSwitchingScenes(Scene &scene) override {
             skyboxRenderer.SetupSkybox(scene);

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <memory>
-
 #include "camera.h"
 #include "../../../src/EntityComponentSystem/entt.hpp"
 #include "engine/EntityComponentSystem/Entity.h"
@@ -40,4 +39,3 @@ namespace gl3::engine::Graphics{
         entt::registry registry;
     };
 }
-
