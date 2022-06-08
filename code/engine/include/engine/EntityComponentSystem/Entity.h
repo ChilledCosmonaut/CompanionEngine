@@ -10,11 +10,10 @@ namespace gl3::engine::entityComponentSystem {
         [[nodiscard]] bool isDeleted() const { return deleted; }
 
         template<typename C, typename ...Args>
-        [[nodiscard]] C &addComponent(Args ...args) {
+        void addComponent(Args ...args) {
             if(!registry.all_of<C>(entity)) {
-                return registry.emplace<C>(entity, args...);
+                registry.emplace<C>(entity, args...);
             }
-            return nullptr;
         }
 
         template<typename C>

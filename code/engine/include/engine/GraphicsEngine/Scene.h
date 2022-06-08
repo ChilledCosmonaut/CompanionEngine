@@ -16,11 +16,6 @@ namespace gl3::engine::Graphics{
             return &registry;
         }
 
-        void addSkybox(){
-            entt::entity entity = registry.create();
-            registry.emplace<Components::SkyboxComponent>(entity);
-        }
-
         template<typename Included, typename Excluded>
         entt::basic_view<entt::entity, entt::get_t<Included>, entt::exclude_t<Excluded>> getAllComponents(){
             return registry.view<Included, Excluded>();
@@ -30,9 +25,15 @@ namespace gl3::engine::Graphics{
 
     protected:
 
-        std::unique_ptr<entityComponentSystem::Entity> CreateEntity(){
+        void AddSkybox(){
+            entt::entity entity = registry.create();
+            registry.emplace<Components::SkyboxComponent>(entity);
+        }
+
+        entityComponentSystem::Entity CreateEntity(){
             auto newEntity = entityComponentSystem::Entity(registry);
-            return std::make_unique<entityComponentSystem::Entity>(newEntity);
+            newEntity.addComponent<Components::Transform>();
+            return newEntity;
         }
 
     private:
