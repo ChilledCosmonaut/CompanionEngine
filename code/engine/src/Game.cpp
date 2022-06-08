@@ -28,7 +28,7 @@ namespace gl3::engine {
 
     void Game::draw() {
         if (currentScene != nullptr) {
-            graphicsSystem.Render(*currentScene);
+            onDrawCall.invoke(*currentScene);
         }
     }
 

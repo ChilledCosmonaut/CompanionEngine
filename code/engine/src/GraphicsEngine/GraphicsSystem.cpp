@@ -4,7 +4,7 @@ namespace gl3::engine::Graphics::Systems{
 
     glm::vec3 lightPos = glm::vec3(0.0f, -0.5f, 1.0f);
 
-    void GraphicsSystem::Render(Scene &scene) {
+    void GraphicsSystem::OnDrawCall(Scene &scene) {
         glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), 1920.0f / 1080.0f, 0.1f, 1000.0f);
         glm::mat4 view = camera.GetViewMatrix();
 

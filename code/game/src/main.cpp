@@ -13,6 +13,7 @@
 #include "engine/Game.h"
 
 #include "SampleScene.h"
+#include "engine/GraphicsEngine/Systems/GraphicsSystem.h"
 
 using namespace gl3::engine;
 using namespace gl3::game;
@@ -162,6 +163,10 @@ int main() {
     Graphics::Model asteroid = Graphics::Model("../../assets/asteriod1.obj");
     Graphics::Model playerShip("../../assets/playerShip.obj");
     Graphics::Model radarCubeModel = Graphics::Model("../../assets/RadarBox.obj");
+
+    Graphics::Systems::GraphicsSystem graphicsSystem(game);
+
+    graphicsSystem.SetUpSystem(game);
 
     auto scene = SampleScene();
 

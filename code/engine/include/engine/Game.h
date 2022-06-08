@@ -9,7 +9,6 @@
 #include <soloud_wav.h>
 #include "engine/Context.h"
 #include "engine/GraphicsEngine/Scene.h"
-#include "engine/GraphicsEngine/Systems/GraphicsSystem.h"
 
 class GraphicsSystem;
 namespace gl3::engine {
@@ -17,13 +16,17 @@ namespace gl3::engine {
 
     public:
         using event_t = events::Event<Game, Game&>;
+        using event_render = events::Event<Game, Graphics::Scene&>;
 
         event_t onStartup;
         event_t onAfterStartup;
         event_t onBeforeUpdate;
+        event_render onDrawCall;
         event_t onAfterUpdate;
         event_t onBeforeShutdown;
         event_t onShutdown;
+
+        event_render onSwitchingScenes;
 
         Game(int width, int height, const std::string &title, Graphics::Scene* startScene = nullptr);
         virtual ~Game();
@@ -33,7 +36,7 @@ namespace gl3::engine {
         void ChangeActiveSceneTo(Graphics::Scene* scene){
             currentScene = scene;
             currentScene->onSetup();
-            graphicsSystem.Start(*currentScene);
+            onSwitchingScenes.invoke(*currentScene);
         }
 
         Graphics::Scene *getCurrentScene() {
@@ -48,6 +51,5 @@ namespace gl3::engine {
     private:
         context::Context context;
         Graphics::Scene* currentScene;
-        Graphics::Systems::GraphicsSystem graphicsSystem {};
     };
 }

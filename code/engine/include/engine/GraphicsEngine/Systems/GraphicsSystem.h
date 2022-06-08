@@ -8,20 +8,25 @@
 
 #include "engine/FileManager/FileManager.h"
 #include "SkyboxRenderer.h"
+#include "engine/EntityComponentSystem/System.h"
 
 namespace gl3::engine::Graphics::Systems{
 
-    class GraphicsSystem {
+    class GraphicsSystem : public entityComponentSystem::System {
     public:
-        void Start(Scene &scene) {
+        GraphicsSystem(Game &engine) : System(engine) {};
+
+        void OnSwitchingScenes(Scene &scene) override {
             skyboxRenderer.SetupSkybox(scene);
         }
 
-        void Render(Scene &scene);
+        void OnDrawCall(Scene &scene) override;
 
-        /*void Update(Game &game) override;
+        void Start(Game &game) override {};
 
-        void OnShutdown(Game &engine);*/
+        void Update(Game &game) override {};
+
+        void OnShutdown(Game &engine) override {};
 
         [[maybe_unused]] [[nodiscard]] const glm::vec3 &getDirectionalLightPositionAtIndex(int index) const;
 
