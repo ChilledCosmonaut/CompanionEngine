@@ -8,6 +8,8 @@ namespace gl3::game {
     public:
         void onSetup(){
             AddMainCamera();
+            registry.emplace<ShipMovementSettings>(mainCameraObject);
+
             AddSkybox();
 
             auto test = CreateEntity();

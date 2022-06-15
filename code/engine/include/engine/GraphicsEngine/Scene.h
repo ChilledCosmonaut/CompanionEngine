@@ -43,6 +43,7 @@ namespace gl3::engine::Graphics{
         void AddMainCamera(){
             entt::entity entity = registry.create();
             registry.emplace<Camera>(entity);
+            registry.emplace<Components::Transform>(entity);
         }
 
         entt::entity CreateEntity(){
