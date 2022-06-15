@@ -59,7 +59,7 @@ namespace gl3::engine::Graphics::Systems {
             }
         }
 
-        void render(Graphics::Scene& scene, const glm::mat4 &view, const glm::mat4 &projection) {
+        void Render(Graphics::Scene& scene, const glm::mat4 &view, const glm::mat4 &projection) {
             auto registry = scene.getRegistry();
             auto componentView = registry->view<Components::SkyboxComponent>();
 

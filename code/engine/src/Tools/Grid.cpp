@@ -55,13 +55,13 @@ namespace gl3::engine::tools {
 
     }
 
-    void Grid::VisualizeGrid(Graphics::Scene* scene, Graphics::Model *model, const Graphics::shader* shader) {
+    /*void Grid::VisualizeGrid(Graphics::Scene* scene, Graphics::Components::Model *model, const Graphics::shader* shader) {
         std::cout<<"Beginning Visualizing"<<std::endl;
 
         for (auto &position:positions) {
             //scene->AddSceneModels(*model, shader, &position);
         }
-    }
+    }*/
 
     void Grid::SwitchVisiblePlane(int plane) {
         for (auto &position:positions) {

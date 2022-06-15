@@ -5,7 +5,7 @@
 #include "ShipController.h"
 #include "engine/GraphicsEngine/camera.h"
 #include "engine/InputSystem/InputManager.h"
-#include "engine/GraphicsEngine/Model.h"
+#include "engine/GraphicsEngine/Components/Model.h"
 #include "engine/Tools/Grid.h"
 #include "engine/SoundSystem/AudioListener.h"
 #include "engine/SoundSystem/AudioSource.h"
@@ -38,7 +38,6 @@ float mouseOffset = 20.0f;
 glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
-glm::vec3 lightPos = glm::vec3(0.0f, -0.5f, 1.0f);
 glm::vec3 shipPos1 = glm::vec3(5.0f, -95.0f, -55.0f);
 glm::vec3 shipPos2 = glm::vec3(20.0f, -65.0f, -50.0f);
 glm::vec3 shipPos3 = glm::vec3(40.0f, -90.0f, -60.0f);
@@ -156,13 +155,13 @@ int main() {
 
     Graphics::shader litShader = Graphics::shader("shaders/vertexShader.glsl", "shaders/fragmentShader.glsl");
 
-    Graphics::Model model4 = Graphics::Model("../../assets/backpack.obj");
-    Graphics::Model model1 = Graphics::Model("../../assets/SpaceShip4.obj");
-    Graphics::Model model2 = Graphics::Model("../../assets/SpaceShip2.obj");
-    Graphics::Model model3 = Graphics::Model("../../assets/SpaceShip3.obj");
-    Graphics::Model asteroid = Graphics::Model("../../assets/asteriod1.obj");
-    Graphics::Model playerShip("../../assets/playerShip.obj");
-    Graphics::Model radarCubeModel = Graphics::Model("../../assets/RadarBox.obj");
+    /*Graphics::Components::Model model4 = Graphics::Components::Model("../../assets/backpack.obj");
+    Graphics::Components::Model model1 = Graphics::Components::Model("../../assets/SpaceShip4.obj");
+    Graphics::Components::Model model2 = Graphics::Components::Model("../../assets/SpaceShip2.obj");
+    Graphics::Components::Model model3 = Graphics::Components::Model("../../assets/SpaceShip3.obj");
+    Graphics::Components::Model asteroid = Graphics::Components::Model("../../assets/asteriod1.obj");
+    Graphics::Components::Model playerShip("../../assets/playerShip.obj");
+    Graphics::Components::Model radarCubeModel = Graphics::Components::Model("../../assets/RadarBox.obj");*/
 
     Graphics::Systems::GraphicsSystem graphicsSystem {};
 
