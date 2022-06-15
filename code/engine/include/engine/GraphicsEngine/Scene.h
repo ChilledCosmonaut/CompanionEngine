@@ -58,8 +58,6 @@ namespace gl3::engine::Graphics{
         }
 
         entt::registry registry;
-
-    private:
         entt::entity mainCameraObject;
     };
 }

@@ -5,7 +5,6 @@
 #include "ShipController.h"
 #include "engine/GraphicsEngine/camera.h"
 #include "engine/InputSystem/InputManager.h"
-#include "engine/GraphicsEngine/Components/Model.h"
 #include "engine/Tools/Grid.h"
 #include "engine/SoundSystem/AudioListener.h"
 #include "engine/SoundSystem/AudioSource.h"
@@ -167,6 +166,10 @@ int main() {
 
     graphicsSystem.SetUpSystem(game);
 
+    ShipController shipController {};
+
+    shipController.SetUpSystem(game);
+
     auto scene = SampleScene();
 
     game.ChangeActiveSceneTo(&scene);
@@ -226,7 +229,7 @@ int main() {
 
     grid.SwitchVisiblePlane(currentVisiblePlane);
 
-    audioSource.PlayBackground(true);
+    //audioSource.PlayBackground(true);
 
     /*updateKeys(game.getWindow());
 
