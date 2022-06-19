@@ -2,10 +2,13 @@
 
 #include "glm/vec3.hpp"
 #include "glm/gtx/quaternion.hpp"
+#include "engine/EntityComponentSystem/Entity.h"
 
 namespace gl3::engine::Graphics::Components {
+    class TransformUtils;
 
     class Transform {
+        friend class TransformUtils;
     public:
         explicit Transform(glm::vec3 startRotation = glm::vec3(0.0f,0.0f,0.0f),
                            glm::vec3 startTranslation = glm::vec3(0.0f,0.0f,0.0f),
@@ -49,8 +52,16 @@ namespace gl3::engine::Graphics::Components {
         glm::mat4 modelMatrix{};
         glm::mat4 inverseModelMatrix{};
 
+        std::vector<entt::entity> childs{};
+
         bool active;
 
         void recalculateModel();
+    };
+
+    class TransformUtils{
+        void SetChildEntity(Transform &currentTransform, entt::entity child){
+            currentTransform.childs.emplace_back(child);
+        }
     };
 }
