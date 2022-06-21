@@ -2,7 +2,7 @@
 #include "engine/Tools/Grid.h"
 
 
-namespace logic {
+namespace gl3::engine::tools {
 
     Grid::Grid(glm::vec3 startPosition) {
         glm::vec3 discreteStartPosition = glm::vec3(std::floor((int) startPosition.x / nodeLength),
@@ -36,7 +36,7 @@ namespace logic {
         }
 
         for(auto position:knowledgeBase){
-            positions.emplace_back(Graphics::Transform(
+            positions.emplace_back(Graphics::Components::Transform(
                     glm::vec3(0, 0, 0),
                     position,
                     glm::vec3(0.5f, 0.5f, 0.5f)));
@@ -55,21 +55,21 @@ namespace logic {
 
     }
 
-    void Grid::VisualizeGrid(Graphics::Scene* scene, Model *model, const gl3::shader* shader) {
+    /*void Grid::VisualizeGrid(Graphics::Scene* scene, Graphics::Components::Model *model, const Graphics::shader* shader) {
         std::cout<<"Beginning Visualizing"<<std::endl;
 
         for (auto &position:positions) {
-            scene->AddSceneModels(*model, shader, &position);
+            //scene->AddSceneModels(*model, shader, &position);
         }
-    }
+    }*/
 
     void Grid::SwitchVisiblePlane(int plane) {
-        for (auto &position:positions) {
+        /*for (auto &position:positions) {
             if (position.GetTranslation().y != plane){
                 position.SetActive(false);
             } else {
                 position.SetActive(true);
             }
-        }
+        }*/
     }
 }

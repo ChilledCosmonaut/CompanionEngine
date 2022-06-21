@@ -2,8 +2,11 @@
 
 #include <vector>
 
-class Node {
-public:
-    virtual std::vector<Node*> checkForNeighbours() = 0;
-private:
-};
+namespace gl3::engine::tools {
+    class Node {
+    public:
+        virtual std::vector<Node *> checkForNeighbours() = 0;
+
+    private:
+    };
+}

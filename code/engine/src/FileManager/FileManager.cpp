@@ -1,23 +1,23 @@
 #include "engine/FileManager/FileManager.h"
 
-namespace files{
+namespace  gl3::engine::filesystem{
 
-    std::string files::FileManager::getAssetFileFrom(const std::filesystem::path &relativeFilePath) {
+    std::string FileManager::getAssetFileFrom(const std::filesystem::path &relativeFilePath) {
         fs::path fullAssetPath = resolveForSubdirectory(relativeFilePath, "../../assets");
         return readText(fullAssetPath);
     }
 
-    void files::FileManager::writeFileToTemp(const char *stringToSave, const std::filesystem::path &fileName) {
+    void FileManager::writeFileToTemp(const char *stringToSave, const std::filesystem::path &fileName) {
         fs::path tempFilePath = resolveForSubdirectory(fileName, std::filesystem::temp_directory_path());
         saveTextAt(stringToSave, tempFilePath);
     }
 
-    void files::FileManager::saveFileAt(const char *stringToSave, const std::filesystem::path &relativeFilePath) {
+    void FileManager::saveFileAt(const char *stringToSave, const std::filesystem::path &relativeFilePath) {
         fs::path tempFilePath = resolveForSubdirectory(relativeFilePath, "../..");
         saveTextAt(stringToSave, tempFilePath);
     }
 
-    std::string files::FileManager::readText(const std::filesystem::path &fileName) {
+    std::string FileManager::readText(const std::filesystem::path &fileName) {
         std::ifstream sourceFile(fileName);
         std::stringstream buffer;
         buffer << sourceFile.rdbuf();
@@ -25,7 +25,7 @@ namespace files{
         return buffer.str();
     }
 
-    void files::FileManager::saveTextAt(const char *stringToSave, const std::filesystem::path &fileName) {
+    void FileManager::saveTextAt(const char *stringToSave, const std::filesystem::path &fileName) {
         std::ofstream sourceFile(fileName);
         sourceFile << sourceFile.rdbuf();
         sourceFile.close();

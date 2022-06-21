@@ -1,10 +1,10 @@
 #include "engine/Tools/CubicNode.h"
 
-namespace logic{
+namespace gl3::engine::tools{
 
     CubicNode::CubicNode(int radiusCount, glm::vec3 globalPosition) {
         radiusCounter = radiusCount;
-        globalTransform = Graphics::Transform(glm::vec3(0,0,0), globalPosition, glm::vec3(0.5f,0.5f,0.5f));
+        globalTransform = Graphics::Components::Transform(glm::vec3(0,0,0), globalPosition, glm::vec3(0.5f,0.5f,0.5f));
         positionInGlobalSpace = globalPosition;
     }
 

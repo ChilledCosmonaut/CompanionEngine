@@ -1,17 +1,18 @@
 #pragma once
 
-#include "engine/GraphicsEngine/Transform.h"
+#include "engine/GraphicsEngine/Components/Transform.h"
 #include "soloud.h"
 
-namespace Sound {
+namespace gl3::engine::soundSystem {
     /// Provides a static class to interact with @AudioSource to provide a more spatial sound and overall control.
     class AudioListener {
         friend class AudioSource;
+        friend class AudioSourceUtils;
 
     public:
         /// Starts the audio listener by initializing SoLoud and setting the location of the listener.
         /// @param transform Global position of the AudioListener
-        static void StartAudioListener(Graphics::Transform* transform){
+        static void StartAudioListener(Graphics::Components::Transform* transform){
             audioTransform = transform;
             soLoud = SoLoud::Soloud();
             soLoud.init();
@@ -37,7 +38,7 @@ namespace Sound {
 
     private:
         static inline SoLoud::Soloud soLoud {};
-        static inline Graphics::Transform* audioTransform = nullptr;
+        static inline Graphics::Components::Transform* audioTransform = nullptr;
         static inline int hearingDistance = 100;
         static inline float masterVolume = 1.0f;
     };

@@ -1,56 +1,64 @@
 #pragma once
 
-#include <iostream>
+#include <memory>
+#include <utility>
+#include "../../../src/EntityComponentSystem/entt.hpp"
+#include "engine/GraphicsEngine/Components/Skybox.h"
+#include "engine/GraphicsEngine/Components/Model.h"
+#include "engine/GraphicsEngine/Components/Camera.h"
 
-#include "Model.h"
-#include "camera.h"
-#include "Transform.h"
-
-namespace Graphics{
-
-    struct Skybox{
-        gl3::shader shader  = gl3::shader("shaders/SkyBoxVertexShader.glsl", "shaders/SkyBoxFragmentShader.glsl");
-        unsigned int VAO, VBO;
-        vector<std::string> faces{
-                "AllSky_Space_AnotherPlanet_Cam_3_Right-X.png",
-                "AllSky_Space_AnotherPlanet_Cam_2_Left+X.png",
-                "AllSky_Space_AnotherPlanet_Cam_4_Up+Y.png",
-                "AllSky_Space_AnotherPlanet_Cam_5_Down-Y.png",
-                "AllSky_Space_AnotherPlanet_Cam_0_Front+Z.png",
-                "AllSky_Space_AnotherPlanet_Cam_1_Back-Z.png"
-        };
-        unsigned int texture;
-        float vertices[];
-    };
+namespace gl3::engine::Graphics{
 
     class Scene {
+
     public:
-        Scene();
 
-        void Render();
+        entt::registry* getRegistry(){
+            return &registry;
+        }
 
-        [[maybe_unused]] [[nodiscard]] const glm::vec3 &getDirectionalLightPositionAtIndex(int index) const;
+        template<typename Included, typename Excluded>
+        entt::basic_view<entt::entity, entt::get_t<Included>, entt::exclude_t<Excluded>> getAllComponents(){
+            return registry.view<Included, Excluded>();
+        }
 
-        [[maybe_unused]] void setDirectionalLightPosition(glm::vec3 &directionalLightPosition);
+        void setMainCamera(entt::entity newMainCameraObject){
+            mainCameraObject = newMainCameraObject;
+        }
 
-        [[maybe_unused]] [[nodiscard]] const std::pair<Model, std::pair<const gl3::shader *, Graphics::Transform *>> &getSceneModelAtIndex(int index) const;
+        entt::entity getMainCamera(){
+            return mainCameraObject;
+        }
 
-        [[maybe_unused]] void AddSceneModels(const Model& model, const gl3::shader* shader, Graphics::Transform* modelMatrix);
+        virtual void onSetup() = 0;
 
-    private:
-        void DisplaySkybox();
-        void DisplayLights();
-        void DisplayModels();
-        void SetUpSkybox();
+    protected:
 
-        vector<std::pair<Model, std::pair<const gl3::shader *, Graphics::Transform *>>> sceneModels;
-        Camera camera;
-    public:
-        [[nodiscard]] Camera *getCamera();
+        void AddSkybox(){
+            entt::entity entity = registry.create();
+            registry.emplace<Components::SkyboxComponent>(entity);
+        }
 
-    private:
-        vector<glm::vec3> directionalLightPositions;
-        Skybox skybox;
+        void AddMainCamera(){
+            entt::entity entity = registry.create();
+            registry.emplace<Components::CameraComponent>(entity);
+            registry.emplace<Components::Transform>(entity);
+            mainCameraObject = entity;
+        }
+
+        entt::entity CreateEntity(){
+            entt::entity newEntity = registry.create();
+            registry.emplace<Components::Transform>(newEntity);
+            return newEntity;
+        }
+
+        //template<typename component>
+        /*void AddModel(entt::entity entity, std::string path){
+            Components::Model model = registry.emplace<Components::Model>(entity);
+            model.path = std::move(path);
+        }*/
+
+        entt::registry registry;
+        entt::entity mainCameraObject;
     };
 }
-
