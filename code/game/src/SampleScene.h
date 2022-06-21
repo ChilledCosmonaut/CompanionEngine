@@ -18,8 +18,8 @@ namespace gl3::game {
             model.shader = std::make_shared<engine::Graphics::shader>("shaders/vertexShader.glsl", "shaders/fragmentShader.glsl");
 
             auto &transform = registry.get<engine::Graphics::Components::Transform>(test);
-
-
+            transform.SetTranslation(glm::vec3(0,0,-14));
+            transform.SetScale(glm::vec3(50,50,50));
         }
 
     private:

@@ -44,7 +44,7 @@ namespace gl3::engine::Graphics::Components {
     private:
         glm::vec3 translation{};
         glm::quat rotation{};
-        glm::vec3 scale{};
+        glm::vec3 scale = glm::vec3(1,1,1);
 
         glm::mat4 modelMatrix{};
         glm::mat4 inverseModelMatrix{};

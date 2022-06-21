@@ -50,8 +50,8 @@ namespace gl3::engine::Graphics::Utils {
         static inline glm::vec3 lightPos = glm::vec3(0.0f, -0.5f, 1.0f);
 
         static void Draw(Components::Model &modelData) {
-            /*for (auto &mesh: modelData.meshes)
-                mesh.Draw(*modelData.shader);*/
+            for (auto &mesh: modelData.meshes)
+                mesh.Draw(*modelData.shader);
         }
 
         static void loadModel(Components::Model &modelData, const string &path) {
