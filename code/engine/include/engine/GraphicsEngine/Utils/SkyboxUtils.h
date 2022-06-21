@@ -76,5 +76,17 @@ namespace gl3::engine::Graphics::Utils {
                 glDepthMask(GL_TRUE);
             }
         };
+
+        void SetVAO(Components::SkyboxComponent &skybox, GLuint vao) {
+            skybox.VAO = vao;
+        }
+
+        void SetVBO(Components::SkyboxComponent &skybox, GLuint vbo) {
+            skybox.VBO = vbo;
+        }
+
+        void SetTexture(Components::SkyboxComponent &skybox, GLuint newTexture) {
+            skybox.texture = newTexture;
+        }
     };
 }

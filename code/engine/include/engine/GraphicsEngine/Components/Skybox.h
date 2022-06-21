@@ -4,18 +4,8 @@
 #include "engine/GraphicsEngine/shader.h"
 
 namespace gl3::engine::Graphics::Components {
-    struct SkyboxComponent /*: public gl3::engine::entityComponentSystem::Component*/ {
-        void SetVAO(GLuint vao) {
-            VAO = vao;
-        }
-
-        void SetVBO(GLuint vbo) {
-            VBO = vbo;
-        }
-
-        void SetTexture(GLuint newTexture) {
-            this->texture = newTexture;
-        }
+    struct SkyboxComponent {
+        friend class SkyboxUtils;
 
         float vertices[108]= {
                 // positions
