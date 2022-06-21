@@ -1,6 +1,7 @@
 #pragma once
 
 #include "engine/GraphicsEngine/Scene.h"
+#include "engine/SoundSystem/AudioSourceUtils.h"
 
 namespace gl3::game {
 
@@ -20,6 +21,9 @@ namespace gl3::game {
             auto &transform = registry.get<engine::Graphics::Components::Transform>(test);
             transform.SetTranslation(glm::vec3(0,0,-14));
             transform.SetScale(glm::vec3(50,50,50));
+
+            auto &audioSource = registry.emplace<engine::soundSystem::AudioSource>(test);
+            engine::soundSystem::AudioSourceUtils::SetupAudioSource(audioSource, "../../assets/audio/electronic-wave.mp3");
         }
 
     private:

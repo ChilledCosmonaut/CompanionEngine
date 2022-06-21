@@ -7,6 +7,7 @@ namespace gl3::engine::soundSystem {
     /// Provides a static class to interact with @AudioSource to provide a more spatial sound and overall control.
     class AudioListener {
         friend class AudioSource;
+        friend class AudioSourceUtils;
 
     public:
         /// Starts the audio listener by initializing SoLoud and setting the location of the listener.
