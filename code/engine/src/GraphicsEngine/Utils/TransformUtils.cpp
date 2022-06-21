@@ -1,6 +1,18 @@
 #include "engine/GraphicsEngine/Utils/TransformUtils.h"
 
 namespace gl3::engine::Graphics::Utils {
+    void TransformUtils::AddChildEntity(Components::Transform &transform, entt::entity childEntity) {
+        transform.children.emplace_back(childEntity);
+    }
+
+    void TransformUtils::RemoveChildEntity(Components::Transform &transform, entt::entity childEntity) {
+        transform.children.emplace_back(childEntity);
+    }
+
+    void TransformUtils::SetCurrentRegistry(Components::Transform &transform, entt::registry &registry) {
+        transform.currentRegistry = &registry;
+    }
+
     void TransformUtils::SetRotation(Components::Transform &transform, glm::vec3 targetRotation) {
         transform.rotation = glm::quat(glm::radians(targetRotation));
         recalculateModel(transform);
