@@ -13,25 +13,11 @@ namespace gl3::engine::Graphics::Systems{
                 mainCameraComponent,
                 mainCameraTransform);
 
-        skyboxRenderer.Render(scene, currentView, currentProjection);
+        Utils::SkyboxUtils::Render(scene, currentView, currentProjection);
 
         //DisplayLights();
 
         Utils::ModelUtils::Render(scene, currentView, currentProjection, mainCameraTransform.GetTranslation());
-
-    }/*
-    [[maybe_unused]] const std::pair<Components::Model, std::pair<const Graphics::shader *, Graphics::Components::Transform *>> &GraphicsSystem::getSceneModelAtIndex(int index) const {
-        return sceneModels[index];
     }
-
-    [[maybe_unused]] void GraphicsSystem::AddSceneModels(const Components::Model& model, const Graphics::shader* shader, Graphics::Components::Transform* transform) {
-        std::pair<const Graphics::shader *, Graphics::Components::Transform *> temporary(shader, transform);
-        std::pair<Components::Model, std::pair<const Graphics::shader *, Graphics::Components::Transform *>> sceneModel(model, temporary);
-        GraphicsSystem::sceneModels.push_back(sceneModel);
-    }
-
-    Camera *GraphicsSystem::getCamera() {
-        return &camera;
-    }*/
 }
 

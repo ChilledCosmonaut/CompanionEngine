@@ -3,10 +3,11 @@
 #include "engine/GraphicsEngine/Scene.h"
 #include "engine/GraphicsEngine/Components/Skybox.h"
 
-namespace gl3::engine::Graphics::Systems {
+namespace gl3::engine::Graphics::Utils {
 
-    class SkyboxRenderer {
-        unsigned int loadCubemap(std::vector<std::string> faces)
+    class SkyboxUtils {
+
+        static unsigned int loadCubemap(std::vector<std::string> faces)
         {
             unsigned int textureID;
             glGenTextures(1, &textureID);
@@ -37,11 +38,10 @@ namespace gl3::engine::Graphics::Systems {
 
             return textureID;
         }
-    public:
-        SkyboxRenderer() = default;
-        ~SkyboxRenderer() = default;
 
-        void SetupSkybox(Graphics::Scene& scene){
+    public:
+
+        static void SetupSkybox(Graphics::Scene& scene){
             auto registry = scene.getRegistry();
             auto componentView = registry->view<Components::SkyboxComponent>();
 
@@ -59,7 +59,7 @@ namespace gl3::engine::Graphics::Systems {
             }
         }
 
-        void Render(Graphics::Scene& scene, const glm::mat4 &view, const glm::mat4 &projection) {
+        static void Render(Graphics::Scene& scene, const glm::mat4 &view, const glm::mat4 &projection) {
             auto registry = scene.getRegistry();
             auto componentView = registry->view<Components::SkyboxComponent>();
 

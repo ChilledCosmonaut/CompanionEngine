@@ -7,7 +7,7 @@
 #include "engine/GraphicsEngine/Components/Transform.h"
 
 #include "engine/FileManager/FileManager.h"
-#include "SkyboxRenderer.h"
+#include "engine/GraphicsEngine/Utils/SkyboxUtils.h"
 #include "engine/EntityComponentSystem/System.h"
 #include "engine/GraphicsEngine/Utils/ModelUtils.h"
 
@@ -18,7 +18,7 @@ namespace gl3::engine::Graphics::Systems{
         GraphicsSystem() = default;
 
         void OnSwitchingScenes(Scene &scene) override {
-            skyboxRenderer.SetupSkybox(scene);
+            Utils::SkyboxUtils::SetupSkybox(scene);
             Utils::ModelUtils::SetUpModel(scene);
         }
 
@@ -30,24 +30,8 @@ namespace gl3::engine::Graphics::Systems{
 
         void OnShutdown(Game &engine) override {};
 
-        /*[[maybe_unused]] [[nodiscard]] const glm::vec3 &getDirectionalLightPositionAtIndex(int index) const;
-
-        [[maybe_unused]] void setDirectionalLightPosition(glm::vec3 &directionalLightPosition);
-
-        [[maybe_unused]] [[nodiscard]] const std::pair<Components::Model, std::pair<const Graphics::shader *, Graphics::Components::Transform *>> &getSceneModelAtIndex(int index) const;
-
-        [[maybe_unused]] void AddSceneModels(const Components::Model& model, const Graphics::shader* shader, Graphics::Components::Transform* modelMatrix);
-
-        [[nodiscard]] Camera *getCamera();*/
-
     private:
-        /*void DisplayLights();
-        void DisplayModels();*/
-
-        //vector<std::pair<Components::Model, std::pair<const Graphics::shader *, Graphics::Components::Transform *>>> sceneModels;
-        //vector<glm::vec3> directionalLightPositions;
         glm::mat4 currentProjection;
         glm::mat4 currentView;
-        SkyboxRenderer skyboxRenderer {};
     };
 }
