@@ -69,7 +69,7 @@ namespace gl3::engine::Graphics::Utils {
                 glDepthMask(GL_FALSE);
                 skybox.shader->use();
                 skybox.shader->setMatrix("projection", projection);
-                skybox.shader->setMatrix("view", view);
+                skybox.shader->setMatrix("view", glm::mat3(view));
                 glBindVertexArray(skybox.VAO);
                 glBindTexture(GL_TEXTURE_CUBE_MAP, skybox.texture);
                 glDrawArrays(GL_TRIANGLES, 0, 36);
