@@ -5,9 +5,9 @@
 #include <cmath>
 #include <unordered_set>
 #include "glm/vec3.hpp"
-#include "CubicNode.h"
+#include "CubicNode.h"/*
 #include "engine/GraphicsEngine/Scene.h"
-#include "engine/GraphicsEngine/Model.h"
+#include "engine/GraphicsEngine/Components/Model.h"*/
 
 namespace gl3::engine::tools {
 
@@ -15,7 +15,7 @@ namespace gl3::engine::tools {
     public:
         explicit Grid(glm::vec3 startPosition);
 
-        void VisualizeGrid(Graphics::Scene* scene, Graphics::Model *model, const Graphics::shader* shader);
+        //void VisualizeGrid(Graphics::Scene* scene, Graphics::Components::Model *model, const Graphics::shader* shader);
 
         void UpdateGrid();
 

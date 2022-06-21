@@ -1,10 +1,11 @@
 #pragma once
 
 #include <memory>
-#include "camera.h"
+#include <utility>
 #include "../../../src/EntityComponentSystem/entt.hpp"
-#include "engine/EntityComponentSystem/Entity.h"
 #include "engine/GraphicsEngine/Components/Skybox.h"
+#include "engine/GraphicsEngine/Components/Model.h"
+#include "engine/GraphicsEngine/Components/Camera.h"
 
 namespace gl3::engine::Graphics{
 
@@ -21,6 +22,14 @@ namespace gl3::engine::Graphics{
             return registry.view<Included, Excluded>();
         }
 
+        void setMainCamera(entt::entity newMainCameraObject){
+            mainCameraObject = newMainCameraObject;
+        }
+
+        entt::entity getMainCamera(){
+            return mainCameraObject;
+        }
+
         virtual void onSetup() = 0;
 
     protected:
@@ -30,13 +39,26 @@ namespace gl3::engine::Graphics{
             registry.emplace<Components::SkyboxComponent>(entity);
         }
 
-        entityComponentSystem::Entity CreateEntity(){
-            auto newEntity = entityComponentSystem::Entity(registry);
-            newEntity.addComponent<Components::Transform>();
+        void AddMainCamera(){
+            entt::entity entity = registry.create();
+            registry.emplace<Components::CameraComponent>(entity);
+            registry.emplace<Components::Transform>(entity);
+            mainCameraObject = entity;
+        }
+
+        entt::entity CreateEntity(){
+            entt::entity newEntity = registry.create();
+            registry.emplace<Components::Transform>(newEntity);
             return newEntity;
         }
 
-    private:
+        //template<typename component>
+        /*void AddModel(entt::entity entity, std::string path){
+            Components::Model model = registry.emplace<Components::Model>(entity);
+            model.path = std::move(path);
+        }*/
+
         entt::registry registry;
+        entt::entity mainCameraObject;
     };
 }

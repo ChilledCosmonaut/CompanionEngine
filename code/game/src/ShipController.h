@@ -1,36 +1,30 @@
 #pragma once
-#include <GLFW/glfw3.h>
+
 #include "iostream"
-#include "engine/GraphicsEngine/Components/Transform.h"
+#include "engine/GraphicsEngine/Utils/TransformUtils.h"
+#include "engine/System.h"
+#include "ShipMovementSettings.h"
+#include "engine/Time.h"
 
 namespace gl3::game {
-    class ShipController {
+class ShipController : public engine::entityComponentSystem::System {
     public:
-        void GetUpdatedShipPosition(engine::Graphics::Components::Transform *formerPosition, GLFWwindow *window, const float *screenWidth,
-                                    const float *screenHeight, float deltaTime);
+    ShipController() = default;
+
+    void OnSwitchingScenes(engine::Graphics::Scene &scene) override {}
+
+    void OnDrawCall(engine::Graphics::Scene &scene) override {};
+
+    void Start(engine::Game &game) override {};
+
+    void Update(engine::Game &game) override;
+
+    void OnShutdown(engine::Game &engine) override {};
 
     private:
-        void HandleKeyboard(GLFWwindow *window, float deltaTime);
+        void HandleKeyboard(GLFWwindow *window, ShipMovementSettings &movementSettings, float deltaTime);
 
-        void CheckMousePosition(GLFWwindow *window, const float *screenWidth,
-                                const float *screenHeight, float deltaTime);
-
-        float maxSpeed = 1200.0f;
-        float maxRotation = 200.0f;
-
-        float mouseOffset = 0.15f;
-
-        float forwardAcceleration = 0.0f;
-
-        float rotationAccelerationZ = 0.0f;
-        float rotationAccelerationX = 0.0f;
-        float rotationAccelerationY = 0.0f;
-
-        float rotationX = 17.06f;
-        float rotationY = 44.62f;
-
-        float speedX = 200, speedY = 200, speedZ = 200, rotationZ = 200;
-
-        float drag = 400.0f;
+        void CheckMousePosition(GLFWwindow *window, int *screenWidth,
+                                int *screenHeight, ShipMovementSettings &movementSettings, float deltaTime);
     };
 }

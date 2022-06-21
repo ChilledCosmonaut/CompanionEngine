@@ -1,22 +1,27 @@
 #pragma once
 
-#include "engine/EntityComponentSystem/Component.h"
 #include "engine/GraphicsEngine/shader.h"
 
+namespace gl3::engine::Graphics::Utils {
+    class SkyboxUtils;
+}
+
 namespace gl3::engine::Graphics::Components {
-    struct SkyboxComponent /*: public gl3::engine::entityComponentSystem::Component*/ {
-        void SetVAO(GLuint vao) {
-            VAO = vao;
+    struct SkyboxComponent {
+        friend class Utils::SkyboxUtils;
+
+    public:
+        SkyboxComponent() {
+            shader = std::make_shared<Graphics::shader>
+                    ("shaders/SkyBoxVertexShader.glsl", "shaders/SkyBoxFragmentShader.glsl");
+        };
+        SkyboxComponent(const SkyboxComponent&) = default;
+        SkyboxComponent(int VAO, int VBO, int texture) : VAO(VAO), VBO(VBO), texture(texture) {
+            shader = std::make_shared<Graphics::shader>
+                    ("shaders/SkyBoxVertexShader.glsl", "shaders/SkyBoxFragmentShader.glsl");
         }
 
-        void SetVBO(GLuint vbo) {
-            VBO = vbo;
-        }
-
-        void SetTexture(GLuint newTexture) {
-            this->texture = newTexture;
-        }
-
+    private:
         float vertices[108]= {
                 // positions
                 -1.0f, 1.0f, -1.0f,
@@ -72,15 +77,5 @@ namespace gl3::engine::Graphics::Components {
                 "AllSky_Space_AnotherPlanet_Cam_0_Front+Z.png",
                 "AllSky_Space_AnotherPlanet_Cam_1_Back-Z.png"
         };
-
-        SkyboxComponent() {
-            shader = std::make_shared<Graphics::shader>
-                    ("shaders/SkyBoxVertexShader.glsl", "shaders/SkyBoxFragmentShader.glsl");
-        };
-        SkyboxComponent(const SkyboxComponent&) = default;
-        SkyboxComponent(int VAO, int VBO, int texture) : VAO(VAO), VBO(VBO), texture(texture) {
-            shader = std::make_shared<Graphics::shader>
-                    ("shaders/SkyBoxVertexShader.glsl", "shaders/SkyBoxFragmentShader.glsl");
-        }
     };
 }

@@ -3,10 +3,11 @@
 #include "engine/GraphicsEngine/Scene.h"
 #include "engine/GraphicsEngine/Components/Skybox.h"
 
-namespace gl3::engine::Graphics::Systems {
+namespace gl3::engine::Graphics::Utils {
 
-    class SkyboxRenderer {
-        unsigned int loadCubemap(std::vector<std::string> faces)
+    class SkyboxUtils {
+
+        static unsigned int loadCubemap(std::vector<std::string> faces)
         {
             unsigned int textureID;
             glGenTextures(1, &textureID);
@@ -37,11 +38,10 @@ namespace gl3::engine::Graphics::Systems {
 
             return textureID;
         }
-    public:
-        SkyboxRenderer() = default;
-        ~SkyboxRenderer() = default;
 
-        void SetupSkybox(Graphics::Scene& scene){
+    public:
+
+        static void SetupSkybox(Graphics::Scene& scene){
             auto registry = scene.getRegistry();
             auto componentView = registry->view<Components::SkyboxComponent>();
 
@@ -59,7 +59,7 @@ namespace gl3::engine::Graphics::Systems {
             }
         }
 
-        void render(Graphics::Scene& scene, const glm::mat4 &view, const glm::mat4 &projection) {
+        static void Render(Graphics::Scene& scene, const glm::mat4 &view, const glm::mat4 &projection) {
             auto registry = scene.getRegistry();
             auto componentView = registry->view<Components::SkyboxComponent>();
 
@@ -69,12 +69,24 @@ namespace gl3::engine::Graphics::Systems {
                 glDepthMask(GL_FALSE);
                 skybox.shader->use();
                 skybox.shader->setMatrix("projection", projection);
-                skybox.shader->setMatrix("view", view);
+                skybox.shader->setMatrix("view", glm::mat3(view));
                 glBindVertexArray(skybox.VAO);
                 glBindTexture(GL_TEXTURE_CUBE_MAP, skybox.texture);
                 glDrawArrays(GL_TRIANGLES, 0, 36);
                 glDepthMask(GL_TRUE);
             }
         };
+
+        void SetVAO(Components::SkyboxComponent &skybox, GLuint vao) {
+            skybox.VAO = vao;
+        }
+
+        void SetVBO(Components::SkyboxComponent &skybox, GLuint vbo) {
+            skybox.VBO = vbo;
+        }
+
+        void SetTexture(Components::SkyboxComponent &skybox, GLuint newTexture) {
+            skybox.texture = newTexture;
+        }
     };
 }
