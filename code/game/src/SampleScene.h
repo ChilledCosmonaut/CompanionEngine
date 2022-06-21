@@ -23,7 +23,10 @@ namespace gl3::game {
 
             auto &transform = registry.get<engine::Graphics::Components::Transform>(test);
             engine::Graphics::Utils::TransformUtils::SetTranslation(transform, glm::vec3(0,0,-14));
-            engine::Graphics::Utils::TransformUtils::SetScale(transform, glm::vec3(50,50,50));
+            engine::Graphics::Utils::TransformUtils::SetScale(transform, glm::vec3(1,1,1));
+
+            auto &cameraTransform = registry.get<engine::Graphics::Components::Transform>(mainCameraObject);
+            engine::Graphics::Utils::TransformUtils::AddChildEntity(cameraTransform, mainCameraObject, test);
 
             auto &audioSource = registry.emplace<engine::soundSystem::AudioSource>(test);
             engine::soundSystem::AudioSourceUtils::SetupAudioSource(audioSource, "../../assets/audio/electronic-wave.mp3");

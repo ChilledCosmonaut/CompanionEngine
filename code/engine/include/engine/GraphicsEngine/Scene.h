@@ -6,6 +6,7 @@
 #include "engine/GraphicsEngine/Components/Skybox.h"
 #include "engine/GraphicsEngine/Components/Model.h"
 #include "engine/GraphicsEngine/Components/Camera.h"
+#include "engine/GraphicsEngine/Utils/TransformUtils.h"
 
 namespace gl3::engine::Graphics{
 
@@ -35,21 +36,21 @@ namespace gl3::engine::Graphics{
     protected:
 
         void AddSkybox(){
-            entt::entity entity = registry.create();
+            entt::entity entity = CreateEntity();
             registry.emplace<Components::SkyboxComponent>(entity);
         }
 
         void AddMainCamera(){
-            entt::entity entity = registry.create();
+            entt::entity entity = CreateEntity();
             registry.emplace<Components::CameraComponent>(entity);
-            registry.emplace<Components::Transform>(entity);
             mainCameraObject = entity;
         }
 
         entt::entity CreateEntity(){
-            entt::entity newEntity = registry.create();
-            registry.emplace<Components::Transform>(newEntity);
-            return newEntity;
+            entt::entity entity = registry.create();
+            auto &transform = registry.emplace<Components::Transform>(entity);
+            engine::Graphics::Utils::TransformUtils::SetCurrentRegistry(transform, registry);
+            return entity;
         }
 
         //template<typename component>

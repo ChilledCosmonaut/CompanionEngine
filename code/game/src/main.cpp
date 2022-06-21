@@ -1,13 +1,8 @@
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 #include "engine/GraphicsEngine/shader.h"
-#include <iostream>
 #include "ShipController.h"
-#include "engine/InputSystem/InputManager.h"
 #include "engine/Tools/Grid.h"
 #include "engine/SoundSystem/AudioListener.h"
 #include "engine/SoundSystem/AudioSource.h"
-#include "engine/Time.h"
 #include "engine/Game.h"
 
 #include "SampleScene.h"
@@ -19,8 +14,6 @@ using namespace gl3::game;
 const float W_WIDTH = 1920.0f;
 const float W_HEIGHT = 1080.0f;
 const char *W_TITLE = "GameLab III";
-
-
 
 int main() {
 

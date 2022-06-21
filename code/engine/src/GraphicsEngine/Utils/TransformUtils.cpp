@@ -1,6 +1,31 @@
 #include "engine/GraphicsEngine/Utils/TransformUtils.h"
 
 namespace gl3::engine::Graphics::Utils {
+    void TransformUtils::AddChildEntity(Components::Transform &transform, entt::entity currentEntity, entt::entity childEntity) {
+        transform.children.emplace_back(childEntity);
+        auto &childTransform = transform.currentRegistry->get<Components::Transform>(childEntity);
+
+        if (childTransform.parent != entt::null){
+            auto &childParentTransform = transform.currentRegistry->get<Components::Transform>(childTransform.parent);
+            RemoveChildEntity(childParentTransform, childTransform.parent, childEntity);
+        }
+        childTransform.parent = currentEntity;
+    }
+
+    void TransformUtils::RemoveChildEntity(Components::Transform &transform, entt::entity currentEntity, entt::entity childEntity) {
+        auto targetEntity = find(transform.children.begin(), transform.children.end(), childEntity);
+        if (targetEntity != transform.children.end()){
+            transform.children.erase(targetEntity);
+
+            auto &targetTransform = transform.currentRegistry->get<Components::Transform>(childEntity);
+            targetTransform.parent = entt::null;
+        }
+    }
+
+    void TransformUtils::SetCurrentRegistry(Components::Transform &transform, entt::registry &registry) {
+        transform.currentRegistry = &registry;
+    }
+
     void TransformUtils::SetRotation(Components::Transform &transform, glm::vec3 targetRotation) {
         transform.rotation = glm::quat(glm::radians(targetRotation));
         recalculateModel(transform);
@@ -69,6 +94,20 @@ namespace gl3::engine::Graphics::Utils {
         glm::mat4 inverseScaleModel = glm::scale(glm::mat4(1.0f), glm::vec3(1/transform.scale.x, 1/transform.scale.y, 1/transform.scale.z));
         transform.modelMatrix = translateModel * rotateModel * scaleModel;
         transform.inverseModelMatrix = inverseScaleModel * glm::inverse(rotateModel) * inverseTranslateModel;
+
+        if (transform.parent != entt::null){
+            auto &parentTransform = transform.currentRegistry->get<Components::Transform>(transform.parent);
+            transform.modelMatrix = parentTransform.modelMatrix * transform.modelMatrix;
+            transform.inverseModelMatrix = transform.inverseModelMatrix * parentTransform.inverseModelMatrix;
+        }
+
+        auto transformView = transform.currentRegistry->view<Components::Transform>();
+        for (auto child:transform.children) {
+            if(transformView.contains(child)){
+                auto &childTransform = transformView.get<Components::Transform>(child);
+                recalculateModel(childTransform);
+            }
+        }
     }
 
     bool TransformUtils::IsActive(Components::Transform &transform) {
