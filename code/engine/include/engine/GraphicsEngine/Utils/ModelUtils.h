@@ -3,16 +3,13 @@
 #include "engine/GraphicsEngine/Scene.h"
 #include "engine/GraphicsEngine/Components/Model.h"
 
-namespace gl3::engine::Graphics::Systems {
+namespace gl3::engine::Graphics::Utils {
 
     using namespace std;
 
-    class ModelRenderer {
+    class ModelUtils {
     public:
-        ModelRenderer() = default;
-        ~ModelRenderer() = default;
-
-        void SetUpModel(Graphics::Scene& scene){
+        static void SetUpModel(Graphics::Scene& scene){
             auto registry = scene.getRegistry();
             auto componentView = registry->view<Components::Model>();
 
@@ -22,7 +19,7 @@ namespace gl3::engine::Graphics::Systems {
             }
         }
 
-        void Render(Graphics::Scene& scene, const glm::mat4 &view, const glm::mat4 &projection, const glm::vec3 &cameraPosition){
+        static void Render(Graphics::Scene& scene, const glm::mat4 &view, const glm::mat4 &projection, const glm::vec3 &cameraPosition){
             auto registry = scene.getRegistry();
             auto componentView = registry->view<Components::Model, Components::Transform>();
 
@@ -52,12 +49,12 @@ namespace gl3::engine::Graphics::Systems {
     private:
         static inline glm::vec3 lightPos = glm::vec3(0.0f, -0.5f, 1.0f);
 
-        void Draw(Components::Model &modelData) {
+        static void Draw(Components::Model &modelData) {
             /*for (auto &mesh: modelData.meshes)
                 mesh.Draw(*modelData.shader);*/
         }
 
-        void loadModel(Components::Model &modelData, const string &path) {
+        static void loadModel(Components::Model &modelData, const string &path) {
             /*const aiScene *scene = files::FileManager::loadModelFromFile(path);
             directory = path.substr(0, path.find_last_of('/'));*/
             // read file via ASSIMP
@@ -77,7 +74,7 @@ namespace gl3::engine::Graphics::Systems {
             processNode(modelData, scene->mRootNode, scene);
         }
 
-        void processNode(Components::Model &modelData, aiNode *node, const aiScene *scene) {
+        static void processNode(Components::Model &modelData, aiNode *node, const aiScene *scene) {
             // process all the node's meshes (if any)
             for (unsigned int i = 0; i < node->mNumMeshes; i++) {
                 aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
@@ -89,7 +86,7 @@ namespace gl3::engine::Graphics::Systems {
             }
         }
 
-        Mesh processMesh(Components::Model &modelData, aiMesh *mesh, const aiScene *scene) {
+        static Mesh processMesh(Components::Model &modelData, aiMesh *mesh, const aiScene *scene) {
             vector<Vertex> vertices;
             vector<unsigned int> indices;
             vector<Texture> textures;
@@ -136,7 +133,7 @@ namespace gl3::engine::Graphics::Systems {
             return Mesh(vertices, indices, textures);
         }
 
-        unsigned int TextureFromFile(const char *path, const string &directory, bool gamma = false) {
+        static unsigned int TextureFromFile(const char *path, const string &directory, bool gamma = false) {
             string filename = string(path);
             filename = directory + '/' + filename;
 
@@ -173,7 +170,7 @@ namespace gl3::engine::Graphics::Systems {
             return textureID;
         }
 
-        vector<Texture> loadMaterialTextures(Components::Model &modelData, aiMaterial *mat, aiTextureType type, string typeName) {
+        static vector<Texture> loadMaterialTextures(Components::Model &modelData, aiMaterial *mat, aiTextureType type, string typeName) {
             vector<Texture> textures;
             for (unsigned int i = 0; i < mat->GetTextureCount(type); i++) {
                 aiString str;

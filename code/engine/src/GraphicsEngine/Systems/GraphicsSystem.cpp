@@ -17,7 +17,7 @@ namespace gl3::engine::Graphics::Systems{
 
         //DisplayLights();
 
-        modelRenderer.Render(scene, currentView, currentProjection, mainCameraTransform.GetTranslation());
+        Utils::ModelUtils::Render(scene, currentView, currentProjection, mainCameraTransform.GetTranslation());
 
     }/*
     [[maybe_unused]] const std::pair<Components::Model, std::pair<const Graphics::shader *, Graphics::Components::Transform *>> &GraphicsSystem::getSceneModelAtIndex(int index) const {

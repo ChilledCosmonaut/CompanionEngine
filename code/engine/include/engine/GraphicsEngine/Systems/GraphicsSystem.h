@@ -9,7 +9,7 @@
 #include "engine/FileManager/FileManager.h"
 #include "SkyboxRenderer.h"
 #include "engine/EntityComponentSystem/System.h"
-#include "ModelRenderer.h"
+#include "engine/GraphicsEngine/Utils/ModelUtils.h"
 
 namespace gl3::engine::Graphics::Systems{
 
@@ -19,7 +19,7 @@ namespace gl3::engine::Graphics::Systems{
 
         void OnSwitchingScenes(Scene &scene) override {
             skyboxRenderer.SetupSkybox(scene);
-            modelRenderer.SetUpModel(scene);
+            Utils::ModelUtils::SetUpModel(scene);
         }
 
         void OnDrawCall(Scene &scene) override;
@@ -49,6 +49,5 @@ namespace gl3::engine::Graphics::Systems{
         glm::mat4 currentProjection;
         glm::mat4 currentView;
         SkyboxRenderer skyboxRenderer {};
-        ModelRenderer modelRenderer {};
     };
 }
