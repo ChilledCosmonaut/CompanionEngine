@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include "engine/GraphicsEngine/Components/Model.h"
-#include "engine/GraphicsEngine/camera.h"
+#include "engine/GraphicsEngine/Components/Camera.h"
 #include "engine/GraphicsEngine/Components/Transform.h"
 
 #include "engine/FileManager/FileManager.h"
@@ -45,8 +45,9 @@ namespace gl3::engine::Graphics::Systems{
         void DisplayModels();*/
 
         //vector<std::pair<Components::Model, std::pair<const Graphics::shader *, Graphics::Components::Transform *>>> sceneModels;
-        Camera camera;
         //vector<glm::vec3> directionalLightPositions;
+        glm::mat4 currentProjection;
+        glm::mat4 currentView;
         SkyboxRenderer skyboxRenderer {};
         ModelRenderer modelRenderer {};
     };

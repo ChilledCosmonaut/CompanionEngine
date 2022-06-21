@@ -7,6 +7,7 @@
 #include "engine/EntityComponentSystem/Entity.h"
 #include "engine/GraphicsEngine/Components/Skybox.h"
 #include "engine/GraphicsEngine/Components/Model.h"
+#include "engine/GraphicsEngine/Components/Camera.h"
 
 namespace gl3::engine::Graphics{
 
@@ -42,8 +43,9 @@ namespace gl3::engine::Graphics{
 
         void AddMainCamera(){
             entt::entity entity = registry.create();
-            registry.emplace<Camera>(entity);
+            registry.emplace<Components::CameraComponent>(entity);
             registry.emplace<Components::Transform>(entity);
+            mainCameraObject = entity;
         }
 
         entt::entity CreateEntity(){

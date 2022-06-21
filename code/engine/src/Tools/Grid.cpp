@@ -64,12 +64,12 @@ namespace gl3::engine::tools {
     }*/
 
     void Grid::SwitchVisiblePlane(int plane) {
-        for (auto &position:positions) {
+        /*for (auto &position:positions) {
             if (position.GetTranslation().y != plane){
                 position.SetActive(false);
             } else {
                 position.SetActive(true);
             }
-        }
+        }*/
     }
 }

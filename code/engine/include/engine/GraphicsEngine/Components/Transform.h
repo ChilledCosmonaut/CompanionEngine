@@ -28,7 +28,7 @@ namespace gl3::engine::Graphics::Components {
         bool IsActive();
         void SetActive(bool active);
 
-        glm::mat4* GetModelMatrix();
+        glm::mat4 GetModelMatrix();
         glm::mat4 GetInverseModelMatrix();
 
         /// Rotates the current transform towards an arbitrary position.

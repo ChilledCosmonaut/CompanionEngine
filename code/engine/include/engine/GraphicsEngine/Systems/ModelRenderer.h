@@ -22,27 +22,22 @@ namespace gl3::engine::Graphics::Systems {
             }
         }
 
-        void Render(Graphics::Scene& scene, const glm::mat4 &view, const glm::mat4 &projection){
+        void Render(Graphics::Scene& scene, const glm::mat4 &view, const glm::mat4 &projection, const glm::vec3 &cameraPosition){
             auto registry = scene.getRegistry();
             auto componentView = registry->view<Components::Model, Components::Transform>();
-
-            auto cameraObject = scene.getMainCamera();
-            auto cameraComponent = registry->get<Camera>(cameraObject);
 
             for(auto& entity : componentView){
                 auto& model = componentView.get<Components::Model>(entity);
                 auto& transform = componentView.get<Components::Transform>(entity);
                 if(!transform.IsActive()) continue;
                 model.shader->use();
-                // view/projection transformations
-                glm::mat4 projection = glm::perspective(glm::radians(cameraComponent.Zoom), 1920.0f / 1080.0f, 0.1f, 1000.0f);
-                glm::mat4 view = cameraComponent.GetViewMatrix();
+
                 model.shader->setMatrix("projection", projection);
                 model.shader->setMatrix("view", view);
 
-                model.shader->setMatrix("model", *transform.GetModelMatrix());
+                model.shader->setMatrix("model", transform.GetModelMatrix());
 
-                model.shader->setVector("viewPos",glm::vec4(cameraComponent.Position, 1.0f));
+                model.shader->setVector("viewPos",glm::vec4(cameraPosition, 1.0f));
 
                 model.shader->setVector3("dirLight.direction", -lightPos);
 

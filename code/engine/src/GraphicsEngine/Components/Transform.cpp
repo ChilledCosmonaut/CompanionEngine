@@ -61,8 +61,8 @@ namespace gl3::engine::Graphics::Components {
         return scale;
     }
 
-    glm::mat4* Transform::GetModelMatrix() {
-        return &modelMatrix;
+    glm::mat4 Transform::GetModelMatrix() {
+        return modelMatrix;
     }
 
     glm::mat4 Transform::GetInverseModelMatrix() {
