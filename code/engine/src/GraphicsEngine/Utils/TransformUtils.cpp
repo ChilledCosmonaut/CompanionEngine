@@ -95,6 +95,12 @@ namespace gl3::engine::Graphics::Utils {
         transform.modelMatrix = translateModel * rotateModel * scaleModel;
         transform.inverseModelMatrix = inverseScaleModel * glm::inverse(rotateModel) * inverseTranslateModel;
 
+        if (transform.parent != entt::null){
+            auto &parentTransform = transform.currentRegistry->get<Components::Transform>(transform.parent);
+            transform.modelMatrix = parentTransform.modelMatrix * transform.modelMatrix;
+            transform.inverseModelMatrix = transform.inverseModelMatrix * parentTransform.inverseModelMatrix;
+        }
+
         auto transformView = transform.currentRegistry->view<Components::Transform>();
         for (auto child:transform.children) {
             if(transformView.contains(child)){
