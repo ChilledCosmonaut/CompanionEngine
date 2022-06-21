@@ -2,6 +2,7 @@
 
 #include "engine/GraphicsEngine/Scene.h"
 #include "engine/GraphicsEngine/Components/Model.h"
+#include "engine/GraphicsEngine/Utils/TransformUtils.h"
 
 namespace gl3::engine::Graphics::Utils {
 
@@ -26,13 +27,13 @@ namespace gl3::engine::Graphics::Utils {
             for(auto& entity : componentView){
                 auto& model = componentView.get<Components::Model>(entity);
                 auto& transform = componentView.get<Components::Transform>(entity);
-                if(!transform.IsActive()) continue;
+                if(!TransformUtils::IsActive(transform)) continue;
                 model.shader->use();
 
                 model.shader->setMatrix("projection", projection);
                 model.shader->setMatrix("view", view);
 
-                model.shader->setMatrix("model", transform.GetModelMatrix());
+                model.shader->setMatrix("model", TransformUtils::GetModelMatrix(transform));
 
                 model.shader->setVector("viewPos",glm::vec4(cameraPosition, 1.0f));
 
@@ -44,6 +45,14 @@ namespace gl3::engine::Graphics::Utils {
 
                 Draw(model);
             }
+        }
+
+        static void SetPath(Components::Model &model, std::string path){
+            model.path = path;
+        }
+
+        static void SetShader(Components::Model &model, std::shared_ptr<engine::Graphics::shader> shader){
+            model.shader = shader;
         }
 
     private:

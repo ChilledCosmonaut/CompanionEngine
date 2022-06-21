@@ -1,7 +1,7 @@
 #pragma once
 
 #include "iostream"
-#include "engine/GraphicsEngine/Components/Transform.h"
+#include "engine/GraphicsEngine/Utils/TransformUtils.h"
 #include "engine/System.h"
 #include "ShipMovementSettings.h"
 #include "engine/Time.h"

@@ -29,8 +29,8 @@ namespace gl3::game {
             auto translation = glm::vec3(-inputx * movementSettings.speedX, -inputy * movementSettings.speedY, movementSettings.forwardAcceleration) * engine::Time::GetDeltaTime();
             glm::vec3 rotation = glm::vec3(movementSettings.rotationAccelerationX, movementSettings.rotationAccelerationY, movementSettings.rotationAccelerationZ);
 
-            currentTransform.AddRotation(rotation * gl3::engine::Time::GetDeltaTime());
-            currentTransform.AddRelativeTranslation(translation * engine::Time::GetDeltaTime());
+            engine::Graphics::Utils::TransformUtils::AddRotation(currentTransform, rotation * gl3::engine::Time::GetDeltaTime());
+            engine::Graphics::Utils::TransformUtils::AddRelativeTranslation(currentTransform, translation * engine::Time::GetDeltaTime());
         }
     }
 

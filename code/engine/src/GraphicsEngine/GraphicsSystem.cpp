@@ -17,7 +17,7 @@ namespace gl3::engine::Graphics::Systems{
 
         //DisplayLights();
 
-        Utils::ModelUtils::Render(scene, currentView, currentProjection, mainCameraTransform.GetTranslation());
+        Utils::ModelUtils::Render(scene, currentView, currentProjection, Utils::TransformUtils::GetTranslation(mainCameraTransform));
     }
 }
 

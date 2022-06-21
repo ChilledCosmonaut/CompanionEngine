@@ -53,10 +53,10 @@ namespace gl3::engine::Graphics{
         }
 
         //template<typename component>
-        void AddModel(entt::entity entity, std::string path){
+        /*void AddModel(entt::entity entity, std::string path){
             Components::Model model = registry.emplace<Components::Model>(entity);
             model.path = std::move(path);
-        }
+        }*/
 
         entt::registry registry;
         entt::entity mainCameraObject;
