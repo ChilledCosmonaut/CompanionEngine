@@ -3,43 +3,31 @@
 #include "glm/vec3.hpp"
 #include "glm/gtx/quaternion.hpp"
 
-namespace gl3::engine::Graphics::Components {
+namespace gl3::engine::Graphics::Utils {
+    class TransformUtils;
+}
 
+namespace gl3::engine::Graphics::Components {
     class Transform {
+        friend class Utils::TransformUtils;
     public:
         explicit Transform(glm::vec3 startRotation = glm::vec3(0.0f,0.0f,0.0f),
                            glm::vec3 startTranslation = glm::vec3(0.0f,0.0f,0.0f),
-                           glm::vec3 startScale = glm::vec3(1.0f,1.0f,1.0f));
+                           glm::vec3 startScale = glm::vec3(1.0f,1.0f,1.0f)) {
+            //Translation and Scale are set directly here to minimize Matrix recalculation
+            translation = startTranslation;
+            scale = startScale;
+            rotation = startRotation;
 
-        void SetRotation(glm::vec3 targetRotation);
-        void SetRotation(glm::quat targetRotation);
-        void AddRotation(glm::vec3 additiveRotation);
-        glm::vec3 GetRotation();
-
-        void SetTranslation(glm::vec3 targetTranslation);
-        void AddTranslation(glm::vec3 additiveTranslation);
-        void AddRelativeTranslation(glm::vec3 additiveTranslation);
-        glm::vec3 GetTranslation();
-
-        void SetScale(glm::vec3 targetScale);
-        void AddScale(glm::vec3 additiveScale);
-        glm::vec3 GetScale();
-
-        bool IsActive();
-        void SetActive(bool active);
-
-        glm::mat4 GetModelMatrix();
-        glm::mat4 GetInverseModelMatrix();
-
-        /// Rotates the current transform towards an arbitrary position.
-        /// @param position Position to which the transform will be rotate to.
-        void RotateTowardsPosition(glm::vec3 position);
-
-        /// Projects an arbitrary vector onto a plane defined by a plane normal.
-        /// @param vector The vectored to be projected onto the plane.
-        /// @param planeNormal The normal defining the plane on which the projection will take place.
-        /// @return Returns the projected vector as copy.
-        static glm::vec3 ProjectOntoPlane(glm::vec3 vector, glm::vec3 planeNormal);
+            //Initial calculate matrices.... Sadly is a duplicate from the Util class
+            glm::mat4 translateModel = glm::translate(glm::mat4(1.0f), translation);
+            glm::mat4 inverseTranslateModel = glm::translate(glm::mat4(1.0f), -translation);
+            glm::mat4 rotateModel = glm::mat4_cast(rotation);
+            glm::mat4 scaleModel = glm::scale(glm::mat4(1.0f), scale);
+            glm::mat4 inverseScaleModel = glm::scale(glm::mat4(1.0f), glm::vec3(1/scale.x, 1/scale.y, 1/scale.z));
+            modelMatrix = translateModel * rotateModel * scaleModel;
+            inverseModelMatrix = inverseScaleModel * glm::inverse(rotateModel) * inverseTranslateModel;
+        }
 
     private:
         glm::vec3 translation{};
@@ -50,7 +38,5 @@ namespace gl3::engine::Graphics::Components {
         glm::mat4 inverseModelMatrix{};
 
         bool active;
-
-        void recalculateModel();
     };
 }
