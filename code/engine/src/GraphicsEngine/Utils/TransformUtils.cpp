@@ -4,6 +4,11 @@ namespace gl3::engine::Graphics::Utils {
     void TransformUtils::AddChildEntity(Components::Transform &transform, entt::entity currentEntity, entt::entity childEntity) {
         transform.children.emplace_back(childEntity);
         auto &childTransform = transform.currentRegistry->get<Components::Transform>(childEntity);
+
+        if (childTransform.parent != entt::null){
+            auto &childParentTransform = transform.currentRegistry->get<Components::Transform>(childTransform.parent);
+            RemoveChildEntity(childParentTransform, childTransform.parent, childEntity);
+        }
         childTransform.parent = currentEntity;
     }
 
