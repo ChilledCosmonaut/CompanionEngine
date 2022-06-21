@@ -2,14 +2,16 @@
 
 #include <iostream>
 
+#include "engine/System.h"
+#include "engine/FileManager/FileManager.h"
+
 #include "engine/GraphicsEngine/Components/Model.h"
 #include "engine/GraphicsEngine/Components/Camera.h"
 #include "engine/GraphicsEngine/Components/Transform.h"
 
-#include "engine/FileManager/FileManager.h"
 #include "engine/GraphicsEngine/Utils/SkyboxUtils.h"
-#include "engine/System.h"
 #include "engine/GraphicsEngine/Utils/ModelUtils.h"
+#include "engine/GraphicsEngine/Utils/CameraUtils.h"
 
 namespace gl3::engine::Graphics::Systems{
 

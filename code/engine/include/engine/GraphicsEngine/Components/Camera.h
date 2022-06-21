@@ -6,9 +6,13 @@
 
 #include "engine/GraphicsEngine/Components/Transform.h"
 
+namespace gl3::engine::Graphics::Utils {
+    class CameraUtils;
+}
+
 namespace gl3::engine::Graphics::Components {
     struct CameraComponent {
-        friend class CameraUtils;
+        friend class Utils::CameraUtils;
 
     public:
         CameraComponent() {
@@ -18,12 +22,5 @@ namespace gl3::engine::Graphics::Components {
 
     private:
         glm::mat4 lookAtMatrix;
-    };
-
-    class CameraUtils{
-    public:
-        static glm::mat4 GetViewMatrix(Components::CameraComponent &camera, Components::Transform &transform){
-            return camera.lookAtMatrix * transform.GetInverseModelMatrix();
-        }
     };
 }

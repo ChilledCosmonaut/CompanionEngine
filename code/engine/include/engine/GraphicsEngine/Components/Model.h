@@ -3,11 +3,16 @@
 #include "engine/GraphicsEngine/shader.h"
 #include "engine/GraphicsEngine/mesh.h"
 
+namespace gl3::engine::Graphics::Utils {
+    class ModelUtils;
+}
+
 namespace gl3::engine::Graphics::Components {
 
     struct Model {
-        friend class ModelUtils;
+        friend class Utils::ModelUtils;
 
+    private:
         // model data
         vector<Texture> textures_loaded;    // stores all the textures loaded so far, optimization to make sure textures aren't loaded more than once.
         vector<Mesh> meshes;

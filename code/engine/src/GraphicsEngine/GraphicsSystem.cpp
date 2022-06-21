@@ -9,7 +9,7 @@ namespace gl3::engine::Graphics::Systems{
         auto currentRegistry = scene.getRegistry();
         auto& mainCameraComponent = currentRegistry->get<Components::CameraComponent>(mainCamera);
         auto& mainCameraTransform = currentRegistry->get<Components::Transform>(mainCamera);
-        currentView = Components::CameraUtils::GetViewMatrix(
+        currentView = Utils::CameraUtils::GetViewMatrix(
                 mainCameraComponent,
                 mainCameraTransform);
 
