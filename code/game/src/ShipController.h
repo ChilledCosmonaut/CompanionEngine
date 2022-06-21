@@ -2,7 +2,7 @@
 
 #include "iostream"
 #include "engine/GraphicsEngine/Components/Transform.h"
-#include "engine/EntityComponentSystem/System.h"
+#include "engine/System.h"
 #include "ShipMovementSettings.h"
 #include "engine/Time.h"
 

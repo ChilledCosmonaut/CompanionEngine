@@ -1,4 +1,4 @@
-#include "engine/GraphicsEngine/GraphicsSystem.h"
+#include "GraphicsSystem.h"
 
 namespace gl3::engine::Graphics::Systems{
 

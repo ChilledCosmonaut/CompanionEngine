@@ -3,7 +3,6 @@
 #include <memory>
 #include <utility>
 #include "../../../src/EntityComponentSystem/entt.hpp"
-#include "engine/EntityComponentSystem/Entity.h"
 #include "engine/GraphicsEngine/Components/Skybox.h"
 #include "engine/GraphicsEngine/Components/Model.h"
 #include "engine/GraphicsEngine/Components/Camera.h"

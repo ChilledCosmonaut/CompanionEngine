@@ -8,7 +8,7 @@
 
 #include "engine/FileManager/FileManager.h"
 #include "engine/GraphicsEngine/Utils/SkyboxUtils.h"
-#include "engine/EntityComponentSystem/System.h"
+#include "engine/System.h"
 #include "engine/GraphicsEngine/Utils/ModelUtils.h"
 
 namespace gl3::engine::Graphics::Systems{

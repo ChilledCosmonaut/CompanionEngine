@@ -1,6 +1,5 @@
 #pragma once
 
-#include "engine/EntityComponentSystem/Component.h"
 #include "engine/GraphicsEngine/shader.h"
 
 namespace gl3::engine::Graphics::Components {

@@ -11,7 +11,7 @@
 #include "engine/Game.h"
 
 #include "SampleScene.h"
-#include "engine/GraphicsEngine/GraphicsSystem.h"
+#include "../../engine/src/GraphicsEngine/GraphicsSystem.h"
 
 using namespace gl3::engine;
 using namespace gl3::game;
