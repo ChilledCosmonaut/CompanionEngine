@@ -3,7 +3,6 @@
 #include "engine/GraphicsEngine/shader.h"
 #include <iostream>
 #include "ShipController.h"
-#include "engine/GraphicsEngine/camera.h"
 #include "engine/InputSystem/InputManager.h"
 #include "engine/Tools/Grid.h"
 #include "engine/SoundSystem/AudioListener.h"
@@ -12,7 +11,7 @@
 #include "engine/Game.h"
 
 #include "SampleScene.h"
-#include "engine/GraphicsEngine/Systems/GraphicsSystem.h"
+#include "engine/GraphicsEngine/GraphicsSystem.h"
 
 using namespace gl3::engine;
 using namespace gl3::game;
@@ -22,7 +21,6 @@ const float W_HEIGHT = 1080.0f;
 const char *W_TITLE = "GameLab III";
 
 // camera
-Graphics::Camera *camera;
 float lastX = W_WIDTH / 2.0f;
 float lastY = W_HEIGHT / 2.0f;
 bool firstMouse = true;
@@ -55,7 +53,6 @@ void viewTransform(Graphics::shader *shaderProgram);//unsigned int shaderProgram
 void projectionTransform(Graphics::shader *shaderProgram);//unsigned int shaderProgram);
 
 void scroll_callback(GLFWwindow *window, double xoffset, double yoffset) {
-    camera->ProcessMouseScroll(static_cast<float>(yoffset));
 }
 
 void mouse_callback(GLFWwindow *window, double xposIn, double yposIn) {
@@ -81,8 +78,6 @@ void mouse_callback(GLFWwindow *window, double xposIn, double yposIn) {
 
     lastX = xpos;
     lastY = ypos;
-
-    camera->ProcessMouseMovement(xoffset, yoffset);
 }
 
 
@@ -106,27 +101,23 @@ void processUserInput(GLFWwindow *window, int key, int scancode, int action, int
 
     // user input
     if (key == GLFW_KEY_D) {
-        camera->ProcessKeyboard(Graphics::RIGHT, Time::GetDeltaTime());
         //std::cout<<"Pressed D" + to_string(deltaTime) <<endl;
         //cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
         //zRotation -= rotStep * deltaTime;
     }
 
     if (key == GLFW_KEY_A) {
-        camera->ProcessKeyboard(Graphics::LEFT, Time::GetDeltaTime());
         //cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
         //zRotation += rotStep * deltaTime;
     }
 
     if (key == GLFW_KEY_W) {
-        camera->ProcessKeyboard(Graphics::FORWARD, Time::GetDeltaTime());
         //*yTranslate += sin(glm::radians(zRotation)) * transStep * deltaTime;
         xTranslate += cos(glm::radians(zRotation)) * transStep * Time::GetDeltaTime();//*
         //cameraPos += cameraSpeed * cameraFront;
     }
 
     if (key == GLFW_KEY_S) {
-        camera->ProcessKeyboard(Graphics::BACKWARD, Time::GetDeltaTime());
         //cameraPos -= cameraSpeed * cameraFront;
         //*yTranslate -= sin(glm::radians(zRotation)) * transStep * deltaTime;
         xTranslate -= cos(glm::radians(zRotation)) * transStep * Time::GetDeltaTime();//*

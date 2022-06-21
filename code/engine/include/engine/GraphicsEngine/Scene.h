@@ -2,7 +2,6 @@
 
 #include <memory>
 #include <utility>
-#include "camera.h"
 #include "../../../src/EntityComponentSystem/entt.hpp"
 #include "engine/EntityComponentSystem/Entity.h"
 #include "engine/GraphicsEngine/Components/Skybox.h"
