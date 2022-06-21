@@ -40,6 +40,7 @@ namespace gl3::engine::Graphics::Components {
         glm::mat4 inverseModelMatrix{};
 
         entt::registry *currentRegistry;
+        entt::entity parent = entt::null;
         std::vector<entt::entity> children{};
 
         bool active;
