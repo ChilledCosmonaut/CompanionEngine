@@ -1,12 +1,20 @@
 #include "engine/GraphicsEngine/Utils/TransformUtils.h"
 
 namespace gl3::engine::Graphics::Utils {
-    void TransformUtils::AddChildEntity(Components::Transform &transform, entt::entity childEntity) {
+    void TransformUtils::AddChildEntity(Components::Transform &transform, entt::entity currentEntity, entt::entity childEntity) {
         transform.children.emplace_back(childEntity);
+        auto &childTransform = transform.currentRegistry->get<Components::Transform>(childEntity);
+        childTransform.parent = currentEntity;
     }
 
-    void TransformUtils::RemoveChildEntity(Components::Transform &transform, entt::entity childEntity) {
-        transform.children.emplace_back(childEntity);
+    void TransformUtils::RemoveChildEntity(Components::Transform &transform, entt::entity currentEntity, entt::entity childEntity) {
+        auto targetEntity = find(transform.children.begin(), transform.children.end(), childEntity);
+        if (targetEntity != transform.children.end()){
+            transform.children.erase(targetEntity);
+
+            auto &targetTransform = transform.currentRegistry->get<Components::Transform>(childEntity);
+            targetTransform.parent = entt::null;
+        }
     }
 
     void TransformUtils::SetCurrentRegistry(Components::Transform &transform, entt::registry &registry) {
