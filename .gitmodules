@@ -7,3 +7,9 @@
 [submodule "code/externalCode/assimp"]
 	path = code/externalCode/assimp
 	url = https://github.com/assimp/assimp.git
+[submodule "code/externalCode/vcpkg"]
+	path = code/externalCode/vcpkg
+	url = https://github.com/Microsoft/vcpkg.git
+[submodule "code/externalCode/PhysX"]
+	path = code/externalCode/PhysX
+	url = https://github.com/NVIDIAGameWorks/PhysX.git
