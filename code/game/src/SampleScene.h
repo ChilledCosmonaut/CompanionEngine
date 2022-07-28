@@ -17,19 +17,67 @@ namespace gl3::game {
 
             auto test = CreateEntity();
             auto &model = registry.emplace<engine::Graphics::Components::Model>(test);
-            engine::Graphics::Utils::ModelUtils::SetPath(model, "../../assets/backpack.obj");
+            engine::Graphics::Utils::ModelUtils::SetPath(model, "../../assets/SpaceShip/MainFrame.obj");
+            auto test1 = CreateEntity();
+            auto &model1 = registry.emplace<engine::Graphics::Components::Model>(test1);
+            engine::Graphics::Utils::ModelUtils::SetPath(model1, "../../assets/SpaceShip/Screen-Bottom-Middle.obj");
+            auto test2 = CreateEntity();
+            auto &model2 = registry.emplace<engine::Graphics::Components::Model>(test2);
+            engine::Graphics::Utils::ModelUtils::SetPath(model2, "../../assets/SpaceShip/Screen-Middle-Left.obj");
+            auto test3 = CreateEntity();
+            auto &model3 = registry.emplace<engine::Graphics::Components::Model>(test3);
+            engine::Graphics::Utils::ModelUtils::SetPath(model3, "../../assets/SpaceShip/Screen-Top-Right.obj");
             auto shader = std::make_shared<engine::Graphics::shader>("shaders/vertexShader.glsl", "shaders/fragmentShader.glsl");
             engine::Graphics::Utils::ModelUtils::SetShader(model, shader);
+            engine::Graphics::Utils::ModelUtils::SetShader(model1, shader);
+            engine::Graphics::Utils::ModelUtils::SetShader(model2, shader);
+            engine::Graphics::Utils::ModelUtils::SetShader(model3, shader);
 
             auto &transform = registry.get<engine::Graphics::Components::Transform>(test);
-            engine::Graphics::Utils::TransformUtils::SetTranslation(transform, glm::vec3(0,0,-14));
-            engine::Graphics::Utils::TransformUtils::SetScale(transform, glm::vec3(1,1,1));
+            engine::Graphics::Utils::TransformUtils::AddChildEntity(transform, test, test1);
+            engine::Graphics::Utils::TransformUtils::AddChildEntity(transform, test, test2);
+            engine::Graphics::Utils::TransformUtils::AddChildEntity(transform, test, test3);
 
             auto &cameraTransform = registry.get<engine::Graphics::Components::Transform>(mainCameraObject);
             engine::Graphics::Utils::TransformUtils::AddChildEntity(cameraTransform, mainCameraObject, test);
 
             auto &audioSource = registry.emplace<engine::soundSystem::AudioSource>(test);
             engine::soundSystem::AudioSourceUtils::SetupAudioSource(audioSource, "../../assets/audio/electronic-wave.mp3");
+
+            auto asteroid = CreateEntity();
+            auto asteroidModel = registry.emplace<engine::Graphics::Components::Model>(asteroid);
+            engine::Graphics::Utils::ModelUtils::SetPath(asteroidModel, "../../assets/asteriod1.obj");
+            engine::Graphics::Utils::ModelUtils::SetShader(asteroidModel, shader);
+            auto &asteroidTransform = registry.get<engine::Graphics::Components::Transform>(asteroid);
+            engine::Graphics::Utils::TransformUtils::SetTranslation(asteroidTransform, glm::vec3(-5,3,14));
+            engine::Graphics::Utils::TransformUtils::SetScale(asteroidTransform, glm::vec3(0.5f,0.5f,0.5f));
+/*
+
+            auto asteroid1 = CreateEntity();
+            auto asteroid1Model = registry.emplace<engine::Graphics::Components::Model>(asteroid1);
+            engine::Graphics::Utils::ModelUtils::SetPath(asteroid1Model, "../../assets/Asteroid2.obj");
+            engine::Graphics::Utils::ModelUtils::SetShader(asteroid1Model, shader);
+            auto &asteroid1Transform = registry.get<engine::Graphics::Components::Transform>(asteroid1);
+            engine::Graphics::Utils::TransformUtils::SetTranslation(asteroid1Transform, glm::vec3(0,12,5));
+            engine::Graphics::Utils::TransformUtils::SetScale(asteroid1Transform, glm::vec3(0.5f,0.5f,0.5f));
+
+
+            auto asteroid2 = CreateEntity();
+            auto asteroid2Model = registry.emplace<engine::Graphics::Components::Model>(asteroid2);
+            engine::Graphics::Utils::ModelUtils::SetPath(asteroid2Model, "../../assets/Asteroid1.obj");
+            engine::Graphics::Utils::ModelUtils::SetShader(asteroid2Model, shader);
+            auto &asteroid2Transform = registry.get<engine::Graphics::Components::Transform>(asteroid2);
+            engine::Graphics::Utils::TransformUtils::SetTranslation(asteroid2Transform, glm::vec3(20,-10,0));
+            engine::Graphics::Utils::TransformUtils::SetScale(asteroid2Transform, glm::vec3(0.5f,0.5f,0.5f));
+
+
+            auto asteroid3 = CreateEntity();
+            auto asteroid3Model = registry.emplace<engine::Graphics::Components::Model>(asteroid3);
+            engine::Graphics::Utils::ModelUtils::SetPath(asteroid3Model, "../../assets/Asteroid2.obj");
+            engine::Graphics::Utils::ModelUtils::SetShader(asteroid3Model, shader);
+            auto &asteroid3Transform = registry.get<engine::Graphics::Components::Transform>(asteroid3);
+            engine::Graphics::Utils::TransformUtils::SetTranslation(asteroid3Transform, glm::vec3(0,3,24));
+            engine::Graphics::Utils::TransformUtils::SetScale(asteroid3Transform, glm::vec3(0.5f,0.5f,0.5f));*/
         }
 
     private:
