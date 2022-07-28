@@ -18,5 +18,5 @@ public:
 
     float speedX = 200, speedY = 200, speedZ = 200, rotationZ = 200;
 
-    float drag = 400.0f;
+    float drag = 800.0f;
 };
