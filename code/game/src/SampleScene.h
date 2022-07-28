@@ -19,7 +19,7 @@ namespace gl3::game {
             auto test = CreateEntity();
             auto &model = registry.emplace<engine::Graphics::Components::Model>(test);
             engine::Graphics::Utils::ModelUtils::SetPath(model, "../../assets/SpaceShip/MainFrame.obj");
-            auto test1 = CreateEntity();
+            /*auto test1 = CreateEntity();
             auto &model1 = registry.emplace<engine::Graphics::Components::Model>(test1);
             engine::Graphics::Utils::ModelUtils::SetPath(model1, "../../assets/SpaceShip/Screen-Bottom-Middle.obj");
             auto test2 = CreateEntity();
@@ -27,17 +27,18 @@ namespace gl3::game {
             engine::Graphics::Utils::ModelUtils::SetPath(model2, "../../assets/SpaceShip/Screen-Middle-Left.obj");
             auto test3 = CreateEntity();
             auto &model3 = registry.emplace<engine::Graphics::Components::Model>(test3);
-            engine::Graphics::Utils::ModelUtils::SetPath(model3, "../../assets/SpaceShip/Screen-Top-Right.obj");
+            engine::Graphics::Utils::ModelUtils::SetPath(model3, "../../assets/SpaceShip/Screen-Top-Right.obj");*/
             auto shader = std::make_shared<engine::Graphics::shader>("shaders/vertexShader.glsl", "shaders/fragmentShader.glsl");
-            engine::Graphics::Utils::ModelUtils::SetShader(model, shader);
-            engine::Graphics::Utils::ModelUtils::SetShader(model1, shader);
-            engine::Graphics::Utils::ModelUtils::SetShader(model2, shader);
-            engine::Graphics::Utils::ModelUtils::SetShader(model3, shader);
+            auto untexturedShader = std::make_shared<engine::Graphics::shader>("shaders/vertexShader.glsl", "shaders/untexturedFragmentShader.glsl");
+            engine::Graphics::Utils::ModelUtils::SetShader(model, untexturedShader);
+            /*engine::Graphics::Utils::ModelUtils::SetShader(model1, untexturedShader);
+            engine::Graphics::Utils::ModelUtils::SetShader(model2, untexturedShader);
+            engine::Graphics::Utils::ModelUtils::SetShader(model3, untexturedShader);*/
 
-            auto &transform = registry.get<engine::Graphics::Components::Transform>(test);
+            /*auto &transform = registry.get<engine::Graphics::Components::Transform>(test);
             engine::Graphics::Utils::TransformUtils::AddChildEntity(transform, test, test1);
             engine::Graphics::Utils::TransformUtils::AddChildEntity(transform, test, test2);
-            engine::Graphics::Utils::TransformUtils::AddChildEntity(transform, test, test3);
+            engine::Graphics::Utils::TransformUtils::AddChildEntity(transform, test, test3);*/
 
             auto &cameraTransform = registry.get<engine::Graphics::Components::Transform>(mainCameraObject);
             engine::Graphics::Utils::TransformUtils::AddChildEntity(cameraTransform, mainCameraObject, test);
