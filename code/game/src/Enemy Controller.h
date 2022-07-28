@@ -26,8 +26,6 @@ namespace gl3::game {
                     auto &targetTransform = componentView.get<engine::Graphics::Components::Transform>(entity);
                     if (glm::length(engine::Graphics::Utils::TransformUtils::GetTranslation(transform) -
                                     engine::Graphics::Utils::TransformUtils::GetTranslation(targetTransform)) <= 100) {
-                        /*engine::Graphics::Utils::TransformUtils::RotateTowardsPosition(transform, engine::Graphics::Utils::TransformUtils::GetTranslation(targetTransform));*/
-                        std::cout << "Player detected" << std::endl;
 
                         auto targetRotation = glm::toQuat(
                                 glm::inverse(
