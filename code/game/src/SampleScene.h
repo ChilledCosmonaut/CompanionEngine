@@ -45,16 +45,15 @@ namespace gl3::game {
             engine::soundSystem::AudioSourceUtils::SetupAudioSource(audioSource, "../../assets/audio/electronic-wave.mp3");
 
             auto asteroid = CreateEntity();
-            auto asteroidModel = registry.emplace<engine::Graphics::Components::Model>(asteroid);
+            auto &asteroidModel = registry.emplace<engine::Graphics::Components::Model>(asteroid);
             engine::Graphics::Utils::ModelUtils::SetPath(asteroidModel, "../../assets/asteriod1.obj");
             engine::Graphics::Utils::ModelUtils::SetShader(asteroidModel, shader);
             auto &asteroidTransform = registry.get<engine::Graphics::Components::Transform>(asteroid);
             engine::Graphics::Utils::TransformUtils::SetTranslation(asteroidTransform, glm::vec3(-5,3,14));
             engine::Graphics::Utils::TransformUtils::SetScale(asteroidTransform, glm::vec3(0.5f,0.5f,0.5f));
-/*
 
             auto asteroid1 = CreateEntity();
-            auto asteroid1Model = registry.emplace<engine::Graphics::Components::Model>(asteroid1);
+            auto &asteroid1Model = registry.emplace<engine::Graphics::Components::Model>(asteroid1);
             engine::Graphics::Utils::ModelUtils::SetPath(asteroid1Model, "../../assets/Asteroid2.obj");
             engine::Graphics::Utils::ModelUtils::SetShader(asteroid1Model, shader);
             auto &asteroid1Transform = registry.get<engine::Graphics::Components::Transform>(asteroid1);
@@ -63,7 +62,7 @@ namespace gl3::game {
 
 
             auto asteroid2 = CreateEntity();
-            auto asteroid2Model = registry.emplace<engine::Graphics::Components::Model>(asteroid2);
+            auto &asteroid2Model = registry.emplace<engine::Graphics::Components::Model>(asteroid2);
             engine::Graphics::Utils::ModelUtils::SetPath(asteroid2Model, "../../assets/Asteroid1.obj");
             engine::Graphics::Utils::ModelUtils::SetShader(asteroid2Model, shader);
             auto &asteroid2Transform = registry.get<engine::Graphics::Components::Transform>(asteroid2);
@@ -72,12 +71,12 @@ namespace gl3::game {
 
 
             auto asteroid3 = CreateEntity();
-            auto asteroid3Model = registry.emplace<engine::Graphics::Components::Model>(asteroid3);
+            auto &asteroid3Model = registry.emplace<engine::Graphics::Components::Model>(asteroid3);
             engine::Graphics::Utils::ModelUtils::SetPath(asteroid3Model, "../../assets/Asteroid2.obj");
             engine::Graphics::Utils::ModelUtils::SetShader(asteroid3Model, shader);
             auto &asteroid3Transform = registry.get<engine::Graphics::Components::Transform>(asteroid3);
             engine::Graphics::Utils::TransformUtils::SetTranslation(asteroid3Transform, glm::vec3(0,3,24));
-            engine::Graphics::Utils::TransformUtils::SetScale(asteroid3Transform, glm::vec3(0.5f,0.5f,0.5f));*/
+            engine::Graphics::Utils::TransformUtils::SetScale(asteroid3Transform, glm::vec3(0.5f,0.5f,0.5f));
         }
 
     private:
