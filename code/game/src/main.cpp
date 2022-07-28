@@ -1,5 +1,6 @@
 #include "engine/GraphicsEngine/shader.h"
 #include "ShipController.h"
+#include "Enemy Controller.h"
 #include "engine/Tools/Grid.h"
 #include "engine/SoundSystem/AudioListener.h"
 #include "engine/SoundSystem/AudioSource.h"
@@ -28,6 +29,10 @@ int main() {
     ShipController shipController {};
 
     shipController.SetUpSystem(game);
+
+    EnemyController enemyController {};
+
+    enemyController.SetUpSystem(game);
 
     auto scene = SampleScene();
 

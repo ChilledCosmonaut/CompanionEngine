@@ -4,6 +4,7 @@
 #include "engine/SoundSystem/AudioSourceUtils.h"
 #include "engine/GraphicsEngine/Utils/TransformUtils.h"
 #include "engine/GraphicsEngine/Utils/ModelUtils.h"
+#include "EnemyBehavourSettings.h"
 
 namespace gl3::game {
 
@@ -77,6 +78,15 @@ namespace gl3::game {
             auto &asteroid3Transform = registry.get<engine::Graphics::Components::Transform>(asteroid3);
             engine::Graphics::Utils::TransformUtils::SetTranslation(asteroid3Transform, glm::vec3(0,3,24));
             engine::Graphics::Utils::TransformUtils::SetScale(asteroid3Transform, glm::vec3(0.5f,0.5f,0.5f));
+
+            auto enemy = CreateEntity();
+            auto &enemyModel = registry.emplace<engine::Graphics::Components::Model>(enemy);
+            engine::Graphics::Utils::ModelUtils::SetPath(enemyModel, "../../assets/SpaceShip/MainFrame.obj");
+            engine::Graphics::Utils::ModelUtils::SetShader(enemyModel, shader);
+            auto &enemyTransform = registry.get<engine::Graphics::Components::Transform>(enemy);
+            engine::Graphics::Utils::TransformUtils::SetTranslation(enemyTransform, glm::vec3(0,3,24));
+            engine::Graphics::Utils::TransformUtils::SetScale(enemyTransform, glm::vec3(0.5f,0.5f,0.5f));
+            registry.emplace<EnemyBehaviour>(enemy);
         }
 
     private:
