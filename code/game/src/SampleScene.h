@@ -81,12 +81,30 @@ namespace gl3::game {
 
             auto enemy = CreateEntity();
             auto &enemyModel = registry.emplace<engine::Graphics::Components::Model>(enemy);
-            engine::Graphics::Utils::ModelUtils::SetPath(enemyModel, "../../assets/SpaceShip/MainFrame.obj");
+            engine::Graphics::Utils::ModelUtils::SetPath(enemyModel, "../../assets/SpaceShip1.obj");
             engine::Graphics::Utils::ModelUtils::SetShader(enemyModel, shader);
             auto &enemyTransform = registry.get<engine::Graphics::Components::Transform>(enemy);
             engine::Graphics::Utils::TransformUtils::SetTranslation(enemyTransform, glm::vec3(0,3,24));
             engine::Graphics::Utils::TransformUtils::SetScale(enemyTransform, glm::vec3(0.5f,0.5f,0.5f));
             registry.emplace<EnemyBehaviour>(enemy);
+
+            auto enemy1 = CreateEntity();
+            auto &enemy1Model = registry.emplace<engine::Graphics::Components::Model>(enemy1);
+            engine::Graphics::Utils::ModelUtils::SetPath(enemy1Model, "../../assets/SpaceShip2.obj");
+            engine::Graphics::Utils::ModelUtils::SetShader(enemy1Model, shader);
+            auto &enemy1Transform = registry.get<engine::Graphics::Components::Transform>(enemy1);
+            engine::Graphics::Utils::TransformUtils::SetTranslation(enemy1Transform, glm::vec3(20,-10,0));
+            engine::Graphics::Utils::TransformUtils::SetScale(enemy1Transform, glm::vec3(0.5f,0.5f,0.5f));
+            registry.emplace<EnemyBehaviour>(enemy1);
+
+            auto enemy2 = CreateEntity();
+            auto &enemy2Model = registry.emplace<engine::Graphics::Components::Model>(enemy2);
+            engine::Graphics::Utils::ModelUtils::SetPath(enemy2Model, "../../assets/SpaceShip3.obj");
+            engine::Graphics::Utils::ModelUtils::SetShader(enemy2Model, shader);
+            auto &enemy2Transform = registry.get<engine::Graphics::Components::Transform>(enemy2);
+            engine::Graphics::Utils::TransformUtils::SetTranslation(enemy2Transform, glm::vec3(0,12,5));
+            engine::Graphics::Utils::TransformUtils::SetScale(enemy2Transform, glm::vec3(0.5f,0.5f,0.5f));
+            registry.emplace<EnemyBehaviour>(enemy2);
         }
 
     private:

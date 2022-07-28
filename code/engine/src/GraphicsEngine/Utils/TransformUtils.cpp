@@ -129,7 +129,7 @@ namespace gl3::engine::Graphics::Utils {
                         glm::lookAt(
                                 position,
                                 transform.translation,
-                                glm::vec3(0, 1, 0)))) * glm::quat(glm::radians(glm::vec3(0, 180, 0)));
+                                glm::vec3(0, 1, 0))))/* * glm::quat(glm::radians(glm::vec3(0, 90, 0)))*/;
         recalculateModel(transform);
     }
 
