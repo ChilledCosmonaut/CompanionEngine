@@ -22,6 +22,12 @@ namespace gl3::game {
                 auto &enemyStats = enemyView.get<EnemyBehaviour>(enemy);
                 auto &transform = enemyView.get<engine::Graphics::Components::Transform>(enemy);
                 auto componentView = registry->view<ShipMovementSettings, engine::Graphics::Components::Transform>();
+
+                if (enemyStats.lifePoints <= 0){
+                    engine::Graphics::Utils::TransformUtils::SetActive(transform, false);
+                    return;
+                }
+
                 for (auto &entity: componentView) {
                     auto &targetTransform = componentView.get<engine::Graphics::Components::Transform>(entity);
                     if (glm::length(engine::Graphics::Utils::TransformUtils::GetTranslation(transform) -

@@ -4,6 +4,7 @@
 #include "engine/GraphicsEngine/Utils/TransformUtils.h"
 #include "engine/System.h"
 #include "ShipMovementSettings.h"
+#include "ProjectileInfo.h"
 #include "engine/Time.h"
 
 namespace gl3::game {

@@ -30,6 +30,7 @@ namespace gl3::game {
             engine::Graphics::Utils::ModelUtils::SetPath(model3, "../../assets/SpaceShip/Screen-Top-Right.obj");*/
             auto shader = std::make_shared<engine::Graphics::shader>("shaders/vertexShader.glsl", "shaders/fragmentShader.glsl");
             auto untexturedShader = std::make_shared<engine::Graphics::shader>("shaders/vertexShader.glsl", "shaders/untexturedFragmentShader.glsl");
+            auto unlitShader = std::make_shared<engine::Graphics::shader>("shaders/vertexShader.glsl", "shaders/lightFragmentShader.glsl");
             engine::Graphics::Utils::ModelUtils::SetShader(model, untexturedShader);
             /*engine::Graphics::Utils::ModelUtils::SetShader(model1, untexturedShader);
             engine::Graphics::Utils::ModelUtils::SetShader(model2, untexturedShader);
@@ -61,7 +62,6 @@ namespace gl3::game {
             auto &asteroid1Transform = registry.get<engine::Graphics::Components::Transform>(asteroid1);
             engine::Graphics::Utils::TransformUtils::SetTranslation(asteroid1Transform, glm::vec3(0,12,5));
             engine::Graphics::Utils::TransformUtils::SetScale(asteroid1Transform, glm::vec3(0.5f,0.5f,0.5f));
-
 
             auto asteroid2 = CreateEntity();
             auto &asteroid2Model = registry.emplace<engine::Graphics::Components::Model>(asteroid2);
@@ -106,6 +106,14 @@ namespace gl3::game {
             engine::Graphics::Utils::TransformUtils::SetTranslation(enemy2Transform, glm::vec3(0,12,5));
             engine::Graphics::Utils::TransformUtils::SetScale(enemy2Transform, glm::vec3(0.5f,0.5f,0.5f));
             registry.emplace<EnemyBehaviour>(enemy2);
+
+            auto laserPlayer = CreateEntity();
+            auto &laserPlayerModel = registry.emplace<engine::Graphics::Components::Model>(laserPlayer);
+            engine::Graphics::Utils::ModelUtils::SetPath(laserPlayerModel, "../../assets/Laser(Player).obj");
+            engine::Graphics::Utils::ModelUtils::SetShader(laserPlayerModel, unlitShader);
+            auto &laserPlayerTransform = registry.get<engine::Graphics::Components::Transform>(laserPlayer);
+            engine::Graphics::Utils::TransformUtils::SetActive(laserPlayerTransform, false);
+            registry.emplace<PlayerProjectile>(laserPlayer);
         }
 
     private:

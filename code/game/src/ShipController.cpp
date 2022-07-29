@@ -7,6 +7,24 @@ namespace gl3::game {
         return (T(0) < val) - (val < T(0));
     }
 
+    void Fire(int fire, entt::registry* registry, engine::Graphics::Components::Transform& playerTransform) {
+        if (fire == GLFW_PRESS){
+            auto projectileView = registry->view<PlayerProjectile, engine::Graphics::Components::Transform>();
+
+            for (auto& entity : projectileView) {
+                auto& projectile = projectileView.get<PlayerProjectile>(entity);
+                auto& transform = projectileView.get<engine::Graphics::Components::Transform>(entity);
+
+                if (projectile.lifetime <= 0){
+                    engine::Graphics::Utils::TransformUtils::SetActive(transform, true);
+                    engine::Graphics::Utils::TransformUtils::SetTranslation(transform, engine::Graphics::Utils::TransformUtils::GetTranslation(playerTransform));
+                    engine::Graphics::Utils::TransformUtils::SetRotation(transform, engine::Graphics::Utils::TransformUtils::GetQuatRotation(playerTransform));
+                    projectile.lifetime = 5;
+                }
+            }
+        }
+    }
+
     void ShipController::Update(engine::Game &game) {
         auto window = game.getWindow();
         auto registry = game.getCurrentScene()->getRegistry();
@@ -17,6 +35,11 @@ namespace gl3::game {
             auto& movementSettings = componentView.get<ShipMovementSettings>(entity);
             auto& currentTransform = componentView.get<engine::Graphics::Components::Transform>(entity);
 
+            if (movementSettings.life <= 0){
+                engine::Graphics::Utils::TransformUtils::SetActive(currentTransform, false);
+                return;
+            }
+
             HandleKeyboard(window, movementSettings, engine::Time::GetDeltaTime());
             CheckMousePosition(window, &screenWidth, &screenHeight, movementSettings, engine::Time::GetDeltaTime());
 
@@ -25,6 +48,9 @@ namespace gl3::game {
 
             int inputy = glfwGetKey(window, GLFW_KEY_SPACE);
             inputy -= glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL);
+
+            int fire = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
+            Fire(fire, registry, currentTransform);
 
             auto translation = glm::vec3(-inputx * movementSettings.speedX, -inputy * movementSettings.speedY, movementSettings.forwardAcceleration) * engine::Time::GetDeltaTime();
             glm::vec3 rotation = glm::vec3(movementSettings.rotationAccelerationX, movementSettings.rotationAccelerationY, movementSettings.rotationAccelerationZ);
