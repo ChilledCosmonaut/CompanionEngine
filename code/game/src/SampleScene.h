@@ -45,7 +45,7 @@ namespace gl3::game {
             engine::Graphics::Utils::TransformUtils::AddChildEntity(cameraTransform, mainCameraObject, test);
 
             auto &audioSource = registry.emplace<engine::soundSystem::AudioSource>(test);
-            engine::soundSystem::AudioSourceUtils::SetupAudioSource(audioSource, "../../assets/audio/electronic-wave.mp3");
+            engine::soundSystem::AudioSourceUtils::SetupAudioSource(audioSource, "../../assets/audio/ambient-space-4.wav");
 
             auto asteroid = CreateEntity();
             auto &asteroidModel = registry.emplace<engine::Graphics::Components::Model>(asteroid);
