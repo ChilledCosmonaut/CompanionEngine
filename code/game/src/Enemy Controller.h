@@ -33,6 +33,24 @@ namespace gl3::game {
                     if (glm::length(engine::Graphics::Utils::TransformUtils::GetTranslation(transform) -
                                     engine::Graphics::Utils::TransformUtils::GetTranslation(targetTransform)) <= 100) {
 
+                        bool shoot = rand() % 300;
+
+                        if (shoot < 1){
+                            auto projectileView = registry->view<EnemyProjectile, engine::Graphics::Components::Transform>();
+
+                            for (auto& projectileEntity : projectileView) {
+                                auto& projectile = projectileView.get<EnemyProjectile>(projectileEntity);
+                                auto& projectileTransform = projectileView.get<engine::Graphics::Components::Transform>(projectileEntity);
+
+                                if (projectile.lifetime <= 0){
+                                    engine::Graphics::Utils::TransformUtils::SetActive(projectileTransform, true);
+                                    engine::Graphics::Utils::TransformUtils::SetTranslation(projectileTransform, engine::Graphics::Utils::TransformUtils::GetTranslation(transform));
+                                    engine::Graphics::Utils::TransformUtils::SetRotation(projectileTransform, engine::Graphics::Utils::TransformUtils::GetQuatRotation(transform));
+                                    projectile.lifetime = 5;
+                                }
+                            }
+                        }
+
                         auto targetRotation = glm::toQuat(
                                 glm::inverse(
                                         glm::lookAt(

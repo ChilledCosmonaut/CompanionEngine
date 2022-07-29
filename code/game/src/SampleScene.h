@@ -114,6 +114,30 @@ namespace gl3::game {
             auto &laserPlayerTransform = registry.get<engine::Graphics::Components::Transform>(laserPlayer);
             engine::Graphics::Utils::TransformUtils::SetActive(laserPlayerTransform, false);
             registry.emplace<PlayerProjectile>(laserPlayer);
+
+            auto laserEnemy = CreateEntity();
+            auto &laserEnemyModel = registry.emplace<engine::Graphics::Components::Model>(laserEnemy);
+            engine::Graphics::Utils::ModelUtils::SetPath(laserEnemyModel, "../../assets/Laser(Player).obj");
+            engine::Graphics::Utils::ModelUtils::SetShader(laserEnemyModel, unlitShader);
+            auto &laserEnemyTransform = registry.get<engine::Graphics::Components::Transform>(laserEnemy);
+            engine::Graphics::Utils::TransformUtils::SetActive(laserEnemyTransform, false);
+            registry.emplace<EnemyProjectile>(laserEnemy);
+
+            auto laserEnemy1 = CreateEntity();
+            auto &laserEnemyModel1 = registry.emplace<engine::Graphics::Components::Model>(laserEnemy1);
+            engine::Graphics::Utils::ModelUtils::SetPath(laserEnemyModel1, "../../assets/Laser(Player).obj");
+            engine::Graphics::Utils::ModelUtils::SetShader(laserEnemyModel1, unlitShader);
+            auto &laserEnemyTransform1 = registry.get<engine::Graphics::Components::Transform>(laserEnemy1);
+            engine::Graphics::Utils::TransformUtils::SetActive(laserEnemyTransform1, false);
+            registry.emplace<EnemyProjectile>(laserEnemy1);
+
+            auto laserEnemy2 = CreateEntity();
+            auto &laserEnemyModel2 = registry.emplace<engine::Graphics::Components::Model>(laserEnemy2);
+            engine::Graphics::Utils::ModelUtils::SetPath(laserEnemyModel2, "../../assets/Laser(Player).obj");
+            engine::Graphics::Utils::ModelUtils::SetShader(laserEnemyModel2, unlitShader);
+            auto &laserEnemyTransform2 = registry.get<engine::Graphics::Components::Transform>(laserEnemy2);
+            engine::Graphics::Utils::TransformUtils::SetActive(laserEnemyTransform2, false);
+            registry.emplace<EnemyProjectile>(laserEnemy2);
         }
 
     private:

@@ -35,6 +35,8 @@ namespace gl3::game {
             auto& movementSettings = componentView.get<ShipMovementSettings>(entity);
             auto& currentTransform = componentView.get<engine::Graphics::Components::Transform>(entity);
 
+            std::cout<<movementSettings.life<<std::endl;
+
             if (movementSettings.life <= 0){
                 engine::Graphics::Utils::TransformUtils::SetActive(currentTransform, false);
                 return;
