@@ -80,6 +80,30 @@ namespace gl3::game {
             engine::Graphics::Utils::TransformUtils::SetTranslation(asteroid3Transform, glm::vec3(0,3,24));
             engine::Graphics::Utils::TransformUtils::SetScale(asteroid3Transform, glm::vec3(0.5f,0.5f,0.5f));
 
+            auto asteroid4 = CreateEntity();
+            auto &asteroid4Model = registry.emplace<engine::Graphics::Components::Model>(asteroid4);
+            engine::Graphics::Utils::ModelUtils::SetPath(asteroid4Model, "../../assets/asteriod1.obj");
+            engine::Graphics::Utils::ModelUtils::SetShader(asteroid4Model, shader);
+            auto &asteroid4Transform = registry.get<engine::Graphics::Components::Transform>(asteroid4);
+            engine::Graphics::Utils::TransformUtils::SetTranslation(asteroid4Transform, glm::vec3(15,-10,5));
+            engine::Graphics::Utils::TransformUtils::SetScale(asteroid4Transform, glm::vec3(1.5f,1.5f,1.5f));
+
+            auto asteroid5 = CreateEntity();
+            auto &asteroid5Model = registry.emplace<engine::Graphics::Components::Model>(asteroid5);
+            engine::Graphics::Utils::ModelUtils::SetPath(asteroid5Model, "../../assets/Asteroid2.obj");
+            engine::Graphics::Utils::ModelUtils::SetShader(asteroid5Model, shader);
+            auto &asteroid5Transform = registry.get<engine::Graphics::Components::Transform>(asteroid5);
+            engine::Graphics::Utils::TransformUtils::SetTranslation(asteroid5Transform, glm::vec3(5,20,30));
+            engine::Graphics::Utils::TransformUtils::SetScale(asteroid5Transform, glm::vec3(0.5f,0.5f,0.5f));
+
+            auto asteroid6 = CreateEntity();
+            auto &asteroid6Model = registry.emplace<engine::Graphics::Components::Model>(asteroid6);
+            engine::Graphics::Utils::ModelUtils::SetPath(asteroid6Model, "../../assets/Asteroid1.obj");
+            engine::Graphics::Utils::ModelUtils::SetShader(asteroid6Model, shader);
+            auto &asteroid6Transform = registry.get<engine::Graphics::Components::Transform>(asteroid6);
+            engine::Graphics::Utils::TransformUtils::SetTranslation(asteroid6Transform, glm::vec3(-20,10,10));
+            engine::Graphics::Utils::TransformUtils::SetScale(asteroid6Transform, glm::vec3(2.0f,2.0f,2.0f));
+
             auto enemy = CreateEntity();
             auto &enemyModel = registry.emplace<engine::Graphics::Components::Model>(enemy);
             engine::Graphics::Utils::ModelUtils::SetPath(enemyModel, "../../assets/SpaceShip1.obj");

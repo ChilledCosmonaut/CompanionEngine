@@ -29,7 +29,8 @@ namespace gl3::game {
                     auto& playerTransform = componentView.get<engine::Graphics::Components::Transform>(player);
 
                     if (glm::length(engine::Graphics::Utils::TransformUtils::GetTranslation(playerTransform) -
-                                    engine::Graphics::Utils::TransformUtils::GetTranslation(transform)) <= 2){
+                                    engine::Graphics::Utils::TransformUtils::GetTranslation(transform)) <= 2 &&
+                                    engine::Graphics::Utils::TransformUtils::IsActive(transform)){
                         shipSettings.life -= enemyStats.damage;
                         enemyStats.lifetime = 0;
                         engine::Graphics::Utils::TransformUtils::SetActive(transform, false);
@@ -55,7 +56,8 @@ namespace gl3::game {
                     auto& enemyTransform = componentView.get<engine::Graphics::Components::Transform>(enemy);
 
                     if (glm::length(engine::Graphics::Utils::TransformUtils::GetTranslation(enemyTransform) -
-                                    engine::Graphics::Utils::TransformUtils::GetTranslation(playerTransform)) <= 2){
+                                    engine::Graphics::Utils::TransformUtils::GetTranslation(playerTransform)) <= 2 &&
+                                    engine::Graphics::Utils::TransformUtils::IsActive(playerTransform)){
                         shipSettings.lifePoints -= projectileStats.damage;
                         std::cout<<shipSettings.lifePoints<<std::endl;
                         projectileStats.lifetime = 0;

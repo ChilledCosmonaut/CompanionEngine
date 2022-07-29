@@ -46,7 +46,7 @@ namespace gl3::game {
                                     engine::Graphics::Utils::TransformUtils::SetActive(projectileTransform, true);
                                     engine::Graphics::Utils::TransformUtils::SetTranslation(projectileTransform, engine::Graphics::Utils::TransformUtils::GetTranslation(transform));
                                     engine::Graphics::Utils::TransformUtils::SetRotation(projectileTransform, engine::Graphics::Utils::TransformUtils::GetQuatRotation(transform));
-                                    projectile.lifetime = 5;
+                                    projectile.lifetime = 3;
                                 }
                             }
                         }

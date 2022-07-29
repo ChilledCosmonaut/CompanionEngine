@@ -19,7 +19,7 @@ namespace gl3::game {
                     engine::Graphics::Utils::TransformUtils::SetActive(transform, true);
                     engine::Graphics::Utils::TransformUtils::SetTranslation(transform, engine::Graphics::Utils::TransformUtils::GetTranslation(playerTransform));
                     engine::Graphics::Utils::TransformUtils::SetRotation(transform, engine::Graphics::Utils::TransformUtils::GetQuatRotation(playerTransform));
-                    projectile.lifetime = 5;
+                    projectile.lifetime = 3;
                 }
             }
         }
@@ -29,13 +29,11 @@ namespace gl3::game {
         auto window = game.getWindow();
         auto registry = game.getCurrentScene()->getRegistry();
         auto componentView = registry->view<ShipMovementSettings, engine::Graphics::Components::Transform>();
-        int screenWidth = 1280, screenHeight = 720;
+        int screenWidth = 3840, screenHeight = 2160;
 
         for(auto& entity : componentView){
             auto& movementSettings = componentView.get<ShipMovementSettings>(entity);
             auto& currentTransform = componentView.get<engine::Graphics::Components::Transform>(entity);
-
-            std::cout<<movementSettings.life<<std::endl;
 
             if (movementSettings.life <= 0){
                 engine::Graphics::Utils::TransformUtils::SetActive(currentTransform, false);
