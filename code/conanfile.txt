@@ -1,5 +1,7 @@
 [requires]
 physx/4.1.1
+assimp/5.2.2
+imgui/cci.20220621+1.88.docking
 
 [generators]
 cmake
