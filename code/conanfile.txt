@@ -2,6 +2,8 @@
 physx/4.1.1
 assimp/5.2.2
 imgui/cci.20220621+1.88.docking
+glfw/3.3.7
+glm/0.9.9.8
 
 [generators]
 cmake

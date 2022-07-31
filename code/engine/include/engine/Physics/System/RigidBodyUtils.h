@@ -23,7 +23,7 @@ namespace gl3::engine::Physics::Utils {
                         mPhysics->createMaterial(
                                 rigidBody.materialProperties.x, rigidBody.materialProperties.y,
                                 rigidBody.materialProperties.z);
-                auto shape = mPhysics->createShape(physx::PxSphereGeometry(rigidBody.shape), *mMaterial);
+                auto shape = mPhysics->createShape(physx::PxSphereGeometry(1), *mMaterial);
 
                 auto translation = Graphics::Utils::TransformUtils::GetTranslation(transform);
 
