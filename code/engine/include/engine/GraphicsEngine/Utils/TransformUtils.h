@@ -13,6 +13,7 @@ namespace gl3::engine::Graphics::Utils {
         static void SetRotation(Components::Transform &transform, glm::quat targetRotation);
         static void AddRotation(Components::Transform &transform, glm::vec3 additiveRotation);
         static glm::vec3 GetRotation(Components::Transform &transform);
+        static glm::quat GetQuatRotation(Components::Transform &transform);
 
         static void SetTranslation(Components::Transform &transform, glm::vec3 targetTranslation);
         static void AddTranslation(Components::Transform &transform, glm::vec3 additiveTranslation);

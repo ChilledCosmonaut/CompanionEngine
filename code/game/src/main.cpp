@@ -1,5 +1,7 @@
 #include "engine/GraphicsEngine/shader.h"
 #include "ShipController.h"
+#include "Enemy Controller.h"
+#include "ProjectileSystem.h"
 #include "engine/Tools/Grid.h"
 #include "engine/SoundSystem/AudioListener.h"
 #include "engine/SoundSystem/AudioSource.h"
@@ -11,13 +13,9 @@
 using namespace gl3::engine;
 using namespace gl3::game;
 
-const float W_WIDTH = 1920.0f;
-const float W_HEIGHT = 1080.0f;
-const char *W_TITLE = "GameLab III";
-
 int main() {
 
-    Game game = Game(1280, 720, "A Journey through Space");
+    Game game = Game(3840, 2160, "A Journey through Space");
 
     Graphics::shader litShader = Graphics::shader("shaders/vertexShader.glsl", "shaders/fragmentShader.glsl");
 
@@ -28,6 +26,14 @@ int main() {
     ShipController shipController {};
 
     shipController.SetUpSystem(game);
+
+    EnemyController enemyController {};
+
+    enemyController.SetUpSystem(game);
+
+    ProjectileSystem projectileSystem {};
+
+    projectileSystem.SetUpSystem(game);
 
     auto scene = SampleScene();
 

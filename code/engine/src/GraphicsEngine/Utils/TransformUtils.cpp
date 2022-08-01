@@ -45,6 +45,10 @@ namespace gl3::engine::Graphics::Utils {
         return glm::degrees(glm::eulerAngles(transform.rotation));
     }
 
+    glm::quat TransformUtils::GetQuatRotation(Components::Transform &transform) {
+        return transform.rotation;
+    }
+
     void TransformUtils::SetTranslation(Components::Transform &transform, glm::vec3 targetTranslation) {
         transform.translation = targetTranslation;
         recalculateModel(transform);
@@ -121,10 +125,12 @@ namespace gl3::engine::Graphics::Utils {
     void TransformUtils::RotateTowardsPosition(Components::Transform &transform, glm::vec3 position) {
 
         transform.rotation = glm::toQuat(
-                glm::lookAt(
-                    position,
-                    transform.translation,
-                    glm::vec3(0, 1, 0)));
+                glm::inverse(
+                        glm::lookAt(
+                                position,
+                                transform.translation,
+                                glm::vec3(0, 1, 0))))/* * glm::quat(glm::radians(glm::vec3(0, 90, 0)))*/;
+        recalculateModel(transform);
     }
 
     glm::vec3 TransformUtils::ProjectOntoPlane(Components::Transform &transform, glm::vec3 vector, glm::vec3 planeNormal) {

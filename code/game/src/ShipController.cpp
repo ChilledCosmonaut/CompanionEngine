@@ -2,23 +2,50 @@
 
 namespace gl3::game {
 
+    using namespace engine;
+    using namespace engine::Graphics;
+    using namespace engine::Graphics::Utils;
+
     template<typename T>
     int sgn(T val) {
         return (T(0) < val) - (val < T(0));
     }
 
+    void Fire(int fire, entt::registry* registry, Components::Transform& playerTransform) {
+        if (fire == GLFW_PRESS){
+            auto projectileView = registry->view<PlayerProjectile, Components::Transform>();
+
+            for (auto& entity : projectileView) {
+                auto& projectile = projectileView.get<PlayerProjectile>(entity);
+                auto& transform = projectileView.get<Components::Transform>(entity);
+
+                if (projectile.lifetime <= 0){
+                    TransformUtils::SetActive(transform, true);
+                    TransformUtils::SetTranslation(transform, TransformUtils::GetTranslation(playerTransform));
+                    TransformUtils::SetRotation(transform, TransformUtils::GetQuatRotation(playerTransform));
+                    projectile.lifetime = 5;
+                }
+            }
+        }
+    }
+
     void ShipController::Update(engine::Game &game) {
         auto window = game.getWindow();
         auto registry = game.getCurrentScene()->getRegistry();
-        auto componentView = registry->view<ShipMovementSettings, engine::Graphics::Components::Transform>();
-        int screenWidth = 1280, screenHeight = 720;
+        auto componentView = registry->view<ShipMovementSettings, Components::Transform>();
+        int screenWidth = 3840, screenHeight = 2160;
 
         for(auto& entity : componentView){
             auto& movementSettings = componentView.get<ShipMovementSettings>(entity);
-            auto& currentTransform = componentView.get<engine::Graphics::Components::Transform>(entity);
+            auto& currentTransform = componentView.get<Components::Transform>(entity);
 
-            HandleKeyboard(window, movementSettings, engine::Time::GetDeltaTime());
-            CheckMousePosition(window, &screenWidth, &screenHeight, movementSettings, engine::Time::GetDeltaTime());
+            if (movementSettings.life <= 0){
+                TransformUtils::SetActive(currentTransform, false);
+                return;
+            }
+
+            HandleKeyboard(window, movementSettings, Time::GetDeltaTime());
+            CheckMousePosition(window, &screenWidth, &screenHeight, movementSettings, Time::GetDeltaTime());
 
             int inputx = glfwGetKey(window, GLFW_KEY_A);
             inputx -= glfwGetKey(window, GLFW_KEY_D);
@@ -26,11 +53,14 @@ namespace gl3::game {
             int inputy = glfwGetKey(window, GLFW_KEY_SPACE);
             inputy -= glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL);
 
+            int fire = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
+            Fire(fire, registry, currentTransform);
+
             auto translation = glm::vec3(-inputx * movementSettings.speedX, -inputy * movementSettings.speedY, movementSettings.forwardAcceleration) * engine::Time::GetDeltaTime();
             glm::vec3 rotation = glm::vec3(movementSettings.rotationAccelerationX, movementSettings.rotationAccelerationY, movementSettings.rotationAccelerationZ);
 
-            engine::Graphics::Utils::TransformUtils::AddRotation(currentTransform, rotation * gl3::engine::Time::GetDeltaTime());
-            engine::Graphics::Utils::TransformUtils::AddRelativeTranslation(currentTransform, translation * engine::Time::GetDeltaTime());
+            TransformUtils::AddRotation(currentTransform, rotation * Time::GetDeltaTime());
+            TransformUtils::AddRelativeTranslation(currentTransform, translation * Time::GetDeltaTime());
         }
     }
 
