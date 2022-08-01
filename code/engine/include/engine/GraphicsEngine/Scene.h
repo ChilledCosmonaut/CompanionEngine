@@ -1,5 +1,6 @@
 #pragma once
 
+#include "PxConfig.h" //Needs to stay here else PhysX will not find some HeaderFiles
 #include <memory>
 #include <utility>
 #include "../../../src/EntityComponentSystem/entt.hpp"
@@ -7,6 +8,7 @@
 #include "engine/GraphicsEngine/Components/Model.h"
 #include "engine/GraphicsEngine/Components/Camera.h"
 #include "engine/GraphicsEngine/Utils/TransformUtils.h"
+#include "engine/Physics/PhysicsScene.h"
 
 namespace gl3::engine::Graphics{
 
@@ -29,6 +31,14 @@ namespace gl3::engine::Graphics{
 
         entt::entity getMainCamera(){
             return mainCameraObject;
+        }
+
+        physx::PxScene* GetPhysicsScene(){
+            return physicsScene.GetScene();
+        }
+
+        physx::PxPhysics* GetPhysicsBase(){
+            return physicsScene.GetPhysicsBase();
         }
 
         virtual void onSetup() = 0;
@@ -61,5 +71,6 @@ namespace gl3::engine::Graphics{
 
         entt::registry registry;
         entt::entity mainCameraObject;
+        Physics::PhysicsScene physicsScene {};
     };
 }
