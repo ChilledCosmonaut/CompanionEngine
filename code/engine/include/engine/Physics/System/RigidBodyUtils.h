@@ -28,9 +28,9 @@ namespace gl3::engine::Physics::Utils {
                 auto translation = Graphics::Utils::TransformUtils::GetTranslation(transform);
 
                 physx::PxTransform localTm(physx::PxVec3(translation.x, translation.y, translation.z));
-                physx::PxRigidDynamic* body = mPhysics->createRigidDynamic(localTm);
-                body->attachShape(*shape);
-                mScene->addActor(*body);
+                rigidBody.rigidBody = mPhysics->createRigidDynamic(localTm);
+                rigidBody.rigidBody->attachShape(*shape);
+                mScene->addActor(*rigidBody.rigidBody);
                 shape->release();
             }
         }
