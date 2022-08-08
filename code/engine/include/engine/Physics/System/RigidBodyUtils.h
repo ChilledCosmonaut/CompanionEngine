@@ -5,6 +5,7 @@
 #include "engine/Physics/Components/RigidBody.h"
 #include "engine/GraphicsEngine/Components/Transform.h"
 #include "engine/GraphicsEngine/Scene.h"
+#include "engine/Time.h"
 
 namespace gl3::engine::Physics::Utils {
 
@@ -98,6 +99,13 @@ namespace gl3::engine::Physics::Utils {
                 mScene->addActor(*rigidBody.rigidBody);
                 shape->release();
             }
+        }
+
+        static void UpdatePhysics(Graphics::Scene& scene){
+            physx::PxScene* mScene = scene.GetPhysicsScene();
+
+            mScene->simulate(Time::GetDeltaTime());
+            mScene->fetchResults(true);
         }
 
         static void SetSphereDimensions(Components::SphereCollider& sphereCollider, float radius){
