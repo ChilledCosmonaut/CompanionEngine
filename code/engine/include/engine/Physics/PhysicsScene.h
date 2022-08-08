@@ -10,14 +10,18 @@ namespace gl3::engine::Physics {
             // init physx
             mFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, mDefaultAllocatorCallback, mDefaultErrorCallback);
             if (!mFoundation) throw("PxCreateFoundation failed!");
-            /*mPvd = PxCreatePvd(*mFoundation);
-            physx::PxPvdTransport* transport = physx::PxDefaultPvdSocketTransportCreate("127.0.0.1", 5425, 10);
-            mPvd->connect(*transport, physx::PxPvdInstrumentationFlag::eALL);*/
-            //mPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *mFoundation, PxTolerancesScale(),true, mPvd);
+
             mToleranceScale.length = 100;        // typical length of an object
             mToleranceScale.speed = 981;         // typical speed of an object, gravity*1s is a reasonable choice
-            //mPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *mFoundation, mToleranceScale, true, mPvd);
+
+#ifdef DEBUG
+            mPvd = PxCreatePvd(*mFoundation);
+            physx::PxPvdTransport* transport = physx::PxDefaultPvdSocketTransportCreate("127.0.0.1", 5425, 10);
+            mPvd->connect(*transport, physx::PxPvdInstrumentationFlag::eALL);
+            mPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *mFoundation, mToleranceScale, true, mPvd);
+#else
             mPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *mFoundation, mToleranceScale);
+#endif
 
             physx::PxSceneDesc sceneDesc(mPhysics->getTolerancesScale());
             sceneDesc.gravity = physx::PxVec3(0.0f, -9.81f, 0.0f);
@@ -26,13 +30,15 @@ namespace gl3::engine::Physics {
             sceneDesc.filterShader	= physx::PxDefaultSimulationFilterShader;
             mScene = mPhysics->createScene(sceneDesc);
 
-            /*physx::PxPvdSceneClient* pvdClient = mScene->getScenePvdClient();
+#ifdef DEBUG
+            physx::PxPvdSceneClient* pvdClient = mScene->getScenePvdClient();
             if(pvdClient)
             {
                 pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_CONSTRAINTS, true);
                 pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_CONTACTS, true);
                 pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
-            }*/
+            }
+#endif
         }
 
         physx::PxScene* GetScene(){

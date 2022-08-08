@@ -8,17 +8,39 @@ namespace gl3::engine::Physics::Utils {
 
 namespace gl3::engine::Physics::Components {
 
-    enum BodyShapes{
-        Sphere
-    };
-
-    struct RigidBody{
+    struct SphereCollider{
         friend class Utils::RigidBodyUtils;
 
     private:
-        BodyShapes shape = Sphere;
         physx::PxVec3 materialProperties = physx::PxVec3(.5f, .5f, .5f);
-        physx::PxVec3 shapeDimensions;
+        float radius;
+        physx::PxRigidDynamic* rigidBody = nullptr;
+    };
+
+    struct BoxCollider{
+        friend class Utils::RigidBodyUtils;
+
+    private:
+        physx::PxVec3 materialProperties = physx::PxVec3(.5f, .5f, .5f);
+        physx::PxVec3 dimensions;
+        physx::PxRigidDynamic* rigidBody = nullptr;
+    };
+
+    struct CapsuleCollider{
+        friend class Utils::RigidBodyUtils;
+
+    private:
+        physx::PxVec3 materialProperties = physx::PxVec3(.5f, .5f, .5f);
+        float radius;
+        float halfHeight;
+        physx::PxRigidDynamic* rigidBody = nullptr;
+    };
+
+    struct PlaneCollider{
+        friend class Utils::RigidBodyUtils;
+
+    private:
+        physx::PxVec3 materialProperties = physx::PxVec3(.5f, .5f, .5f);
         physx::PxRigidDynamic* rigidBody = nullptr;
     };
 }
