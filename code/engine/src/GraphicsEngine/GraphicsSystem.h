@@ -33,7 +33,9 @@ namespace gl3::engine::Graphics::Systems{
 
         void Update(Game &game) override {};
 
-        void OnShutdown(Game &engine) override {};
+        void OnShutdown(Game &engine) override {
+            engine.getCurrentScene()->ReleasePhysicsScene();
+        };
 
     private:
         glm::mat4 currentProjection;

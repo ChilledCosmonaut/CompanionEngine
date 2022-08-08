@@ -43,19 +43,22 @@ namespace gl3::engine::Physics {
             return mPhysics;
         }
 
+        void ReleasePhysicsScene(){
+            mPhysics->release();
+            mFoundation->release();
+        }
+
     private:
-        // declare variables
         physx::PxDefaultAllocator      mDefaultAllocatorCallback;
         physx::PxDefaultErrorCallback  mDefaultErrorCallback;
-        physx::PxDefaultCpuDispatcher* mDispatcher = NULL;
+        physx::PxDefaultCpuDispatcher* mDispatcher = nullptr;
         physx::PxTolerancesScale       mToleranceScale;
 
-        physx::PxFoundation*           mFoundation = NULL;
-        physx::PxPhysics*              mPhysics = NULL;
+        physx::PxFoundation*           mFoundation = nullptr;
+        physx::PxPhysics*              mPhysics = nullptr;
 
-        physx::PxScene*                mScene = NULL;
-        physx::PxMaterial*             mMaterial = NULL;
+        physx::PxScene*                mScene = nullptr;
 
-        physx::PxPvd*                  mPvd = NULL;
+        physx::PxPvd*                  mPvd = nullptr;
     };
 }

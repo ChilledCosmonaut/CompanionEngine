@@ -34,6 +34,7 @@ namespace gl3::engine {
         void run();
         GLFWwindow *getWindow() { return context.getWindow(); }
         void ChangeActiveSceneTo(Graphics::Scene* scene){
+            currentScene->ReleasePhysicsScene();
             currentScene = scene;
             currentScene->onSetup();
             onSwitchingScenes.invoke(*currentScene);

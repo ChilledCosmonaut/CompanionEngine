@@ -41,6 +41,10 @@ namespace gl3::engine::Graphics{
             return physicsScene.GetPhysicsBase();
         }
 
+        void ReleasePhysicsScene(){
+            physicsScene.ReleasePhysicsScene();
+        }
+
         virtual void onSetup() = 0;
 
     protected:
