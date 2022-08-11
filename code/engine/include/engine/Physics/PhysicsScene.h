@@ -14,7 +14,7 @@ namespace gl3::engine::Physics {
             mToleranceScale.length = 100;        // typical length of an object
             mToleranceScale.speed = 981;         // typical speed of an object, gravity*1s is a reasonable choice
 
-#ifdef DEBUG
+#if DEBUG
             mPvd = PxCreatePvd(*mFoundation);
             physx::PxPvdTransport* transport = physx::PxDefaultPvdSocketTransportCreate("127.0.0.1", 5425, 10);
             mPvd->connect(*transport, physx::PxPvdInstrumentationFlag::eALL);
@@ -30,7 +30,7 @@ namespace gl3::engine::Physics {
             sceneDesc.filterShader	= physx::PxDefaultSimulationFilterShader;
             mScene = mPhysics->createScene(sceneDesc);
 
-#ifdef DEBUG
+#if DEBUG
             physx::PxPvdSceneClient* pvdClient = mScene->getScenePvdClient();
             if(pvdClient)
             {
