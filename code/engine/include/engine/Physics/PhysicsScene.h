@@ -51,6 +51,11 @@ namespace gl3::engine::Physics {
 
         void ReleasePhysicsScene(){
             mPhysics->release();
+#if DEBUG
+
+            mPvd->release();
+            mPvdTransporter->release();
+#endif
             mFoundation->release();
         }
 
@@ -66,5 +71,6 @@ namespace gl3::engine::Physics {
         physx::PxScene*                mScene = nullptr;
 
         physx::PxPvd*                  mPvd = nullptr;
+        physx::PxPvdTransport*         mPvdTransporter = nullptr;
     };
 }

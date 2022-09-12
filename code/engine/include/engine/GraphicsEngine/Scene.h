@@ -9,6 +9,7 @@
 #include "engine/GraphicsEngine/Components/Camera.h"
 #include "engine/GraphicsEngine/Utils/TransformUtils.h"
 #include "engine/Physics/PhysicsScene.h"
+#include "engine/Physics/System/PhysicsSystem.h"
 
 namespace gl3::engine::Graphics{
 
@@ -76,5 +77,6 @@ namespace gl3::engine::Graphics{
         entt::registry registry;
         entt::entity mainCameraObject;
         Physics::PhysicsScene physicsScene {};
+        Physics::PhysicsSystem physicsSystem {};
     };
 }

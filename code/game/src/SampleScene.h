@@ -67,6 +67,7 @@ namespace gl3::game {
             auto &asteroid1Transform = registry.get<engine::Graphics::Components::Transform>(asteroid1);
             engine::Graphics::Utils::TransformUtils::SetTranslation(asteroid1Transform, glm::vec3(0,12,5));
             engine::Graphics::Utils::TransformUtils::SetScale(asteroid1Transform, glm::vec3(0.5f,0.5f,0.5f));
+            auto &asteroidCollider = registry.emplace<engine::Physics::Components::SphereCollider>(asteroid1);
 
             auto asteroid2 = CreateEntity();
             auto &asteroid2Model = registry.emplace<engine::Graphics::Components::Model>(asteroid2);

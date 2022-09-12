@@ -13,7 +13,7 @@ namespace gl3::engine::Physics::Components {
 
     private:
         physx::PxVec3 materialProperties = physx::PxVec3(.5f, .5f, .5f);
-        float radius;
+        float radius = 1;
         physx::PxRigidDynamic* rigidBody = nullptr;
     };
 
