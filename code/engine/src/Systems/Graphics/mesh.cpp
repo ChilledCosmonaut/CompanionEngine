@@ -1,4 +1,4 @@
-#include "engine/GraphicsEngine/mesh.h"
+#include "engine/Systems/Graphics/mesh.h"
 
 namespace gl3::engine::Graphics {
 

@@ -5,13 +5,13 @@
 #include "engine/System.h"
 #include "engine/Systems/FileManager/FileManager.h"
 
-#include "engine/GraphicsEngine/Components/Model.h"
-#include "engine/GraphicsEngine/Components/Camera.h"
-#include "engine/GraphicsEngine/Components/Transform.h"
+#include "engine/Systems/Graphics/Components/Model.h"
+#include "engine/Systems/Graphics/Components/Camera.h"
+#include "engine/Systems/Graphics/Components/Transform.h"
 
-#include "engine/GraphicsEngine/Utils/SkyboxUtils.h"
-#include "engine/GraphicsEngine/Utils/ModelUtils.h"
-#include "engine/GraphicsEngine/Utils/CameraUtils.h"
+#include "engine/Systems/Graphics/Utils/SkyboxUtils.h"
+#include "engine/Systems/Graphics/Utils/ModelUtils.h"
+#include "engine/Systems/Graphics/Utils/CameraUtils.h"
 
 namespace gl3::engine::Graphics::Systems{
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "engine/GraphicsEngine/shader.h"
-#include "engine/GraphicsEngine/mesh.h"
+#include "engine/Systems/Graphics/shader.h"
+#include "engine/Systems/Graphics/mesh.h"
 
 namespace gl3::engine::Graphics::Utils {
     class ModelUtils;

@@ -5,7 +5,7 @@
 #include <string>
 #include <set>
 #include "glm/vec3.hpp"
-#include "engine/GraphicsEngine/Components/Transform.h"
+#include "engine/Systems/Graphics/Components/Transform.h"
 
 namespace std{
     template<>

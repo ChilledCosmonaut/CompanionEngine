@@ -4,7 +4,7 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtx/string_cast.hpp"
 
-#include "engine/GraphicsEngine/Components/Transform.h"
+#include "Transform.h"
 
 namespace gl3::engine::Graphics::Utils {
     class CameraUtils;

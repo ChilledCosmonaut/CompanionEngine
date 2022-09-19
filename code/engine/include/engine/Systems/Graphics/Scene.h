@@ -3,11 +3,11 @@
 #include "PxConfig.h" //Needs to stay here else PhysX won't find some HeaderFiles
 #include <memory>
 #include <utility>
-#include "../../../src/EntityComponentSystem/entt.hpp"
-#include "engine/GraphicsEngine/Components/Skybox.h"
-#include "engine/GraphicsEngine/Components/Model.h"
-#include "engine/GraphicsEngine/Components/Camera.h"
-#include "engine/GraphicsEngine/Utils/TransformUtils.h"
+#include "../../../../src/EntityComponentSystem/entt.hpp"
+#include "engine/Systems/Graphics/Components/Skybox.h"
+#include "engine/Systems/Graphics/Components/Model.h"
+#include "engine/Systems/Graphics/Components/Camera.h"
+#include "engine/Systems/Graphics/Utils/TransformUtils.h"
 
 namespace gl3::engine::Graphics{
 

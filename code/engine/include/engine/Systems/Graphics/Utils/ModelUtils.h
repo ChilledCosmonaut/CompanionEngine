@@ -1,8 +1,8 @@
 #pragma once
 
-#include "engine/GraphicsEngine/Scene.h"
-#include "engine/GraphicsEngine/Components/Model.h"
-#include "engine/GraphicsEngine/Utils/TransformUtils.h"
+#include "engine/Systems/Graphics/Scene.h"
+#include "engine/Systems/Graphics/Components/Model.h"
+#include "TransformUtils.h"
 
 namespace gl3::engine::Graphics::Utils {
 

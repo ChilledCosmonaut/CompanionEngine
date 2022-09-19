@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "engine/GraphicsEngine/shader.h"
+#include "engine/Systems/Graphics/shader.h"
 
 
 namespace gl3::engine::Graphics {

@@ -1,4 +1,4 @@
-#include "engine/GraphicsEngine/shader.h"
+#include "engine/Systems/Graphics/shader.h"
 #include "ShipController.h"
 #include "Enemy Controller.h"
 #include "ProjectileSystem.h"
@@ -8,14 +8,14 @@
 #include "engine/Game.h"
 
 #include "SampleScene.h"
-#include "../../engine/src/GraphicsEngine/GraphicsSystem.h"
+#include "../../engine/src/Systems/Graphics/GraphicsSystem.h"
 
 using namespace gl3::engine;
 using namespace gl3::game;
 
 int main() {
 
-    Game game = Game(3840, 2160, "A Journey through Space");
+    Game game = Game(1920, 1080, "A Journey through Space");
 
     Graphics::shader litShader = Graphics::shader("shaders/vertexShader.glsl", "shaders/fragmentShader.glsl");
 

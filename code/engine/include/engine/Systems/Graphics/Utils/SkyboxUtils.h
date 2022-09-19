@@ -1,7 +1,7 @@
 #pragma once
 
-#include "engine/GraphicsEngine/Scene.h"
-#include "engine/GraphicsEngine/Components/Skybox.h"
+#include "engine/Systems/Graphics/Scene.h"
+#include "engine/Systems/Graphics/Components/Skybox.h"
 
 namespace gl3::engine::Graphics::Utils {
 

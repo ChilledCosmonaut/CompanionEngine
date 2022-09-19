@@ -1,6 +1,6 @@
 #pragma once
 
-#include "engine/GraphicsEngine/Components/Camera.h"
+#include "engine/Systems/Graphics/Components/Camera.h"
 
 namespace gl3::engine::Graphics::Utils {
     class CameraUtils{

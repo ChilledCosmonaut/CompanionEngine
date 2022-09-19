@@ -2,7 +2,7 @@
 
 #include "engine/Events.h"
 #include "engine/Context.h"
-#include "engine/GraphicsEngine/Scene.h"
+#include "engine/Systems/Graphics/Scene.h"
 #include "engine/Systems/Physics/PhysicsSystem.h"
 
 namespace gl3::engine {
