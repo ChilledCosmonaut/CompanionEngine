@@ -1,6 +1,6 @@
 #pragma once
 
-#include "AudioListener.h"
+#include "AudioSource.h"
 
 namespace gl3::engine::soundSystem {
 

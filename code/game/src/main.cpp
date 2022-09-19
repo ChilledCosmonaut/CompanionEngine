@@ -3,8 +3,8 @@
 #include "Enemy Controller.h"
 #include "ProjectileSystem.h"
 #include "engine/Tools/Grid.h"
-#include "engine/SoundSystem/AudioListener.h"
-#include "engine/SoundSystem/AudioSource.h"
+#include "engine/Systems/Sound/AudioListener.h"
+#include "engine/Systems/Sound/AudioSource.h"
 #include "engine/Game.h"
 
 #include "SampleScene.h"

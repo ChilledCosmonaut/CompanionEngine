@@ -1,7 +1,7 @@
 #pragma once
 
 #include "engine/GraphicsEngine/Scene.h"
-#include "engine/SoundSystem/AudioSourceUtils.h"
+#include "engine/Systems/Sound/AudioSourceUtils.h"
 #include "engine/GraphicsEngine/Utils/TransformUtils.h"
 #include "engine/GraphicsEngine/Utils/ModelUtils.h"
 #include "EnemyBehavourSettings.h"
