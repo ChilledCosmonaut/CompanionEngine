@@ -1,27 +1,27 @@
-#include "engine/GraphicsEngine/shader.h"
+#include "engine/Systems/Graphics/shader.h"
 #include "ShipController.h"
 #include "Enemy Controller.h"
 #include "ProjectileSystem.h"
 #include "engine/Tools/Grid.h"
-#include "engine/SoundSystem/AudioListener.h"
-#include "engine/SoundSystem/AudioSource.h"
+#include "engine/Systems/Sound/AudioSystem.h"
+#include "engine/Systems/Sound/AudioSource.h"
 #include "engine/Game.h"
 
 #include "SampleScene.h"
-#include "../../engine/src/GraphicsEngine/GraphicsSystem.h"
+#include "../../engine/src/Systems/Graphics/GraphicsSystem.h"
 
 using namespace gl3::engine;
 using namespace gl3::game;
 
 int main() {
 
-    Game game = Game(3840, 2160, "A Journey through Space");
+    Game game = Game(1920, 1080, "A Journey through Space");
 
     Graphics::shader litShader = Graphics::shader("shaders/vertexShader.glsl", "shaders/fragmentShader.glsl");
 
-    Graphics::Systems::GraphicsSystem graphicsSystem {};
+    /*Graphics::Systems::GraphicsSystem graphicsSystem {};
 
-    graphicsSystem.SetUpSystem(game);
+    graphicsSystem.SetUpSystem(game);*/
 
     ShipController shipController {};
 
@@ -45,8 +45,6 @@ int main() {
             Graphics::Components::Transform(
                     glm::vec3(0,0,0),glm::vec3(0,0,0),glm::vec3(0.5f,0.5f,0.5f));
 
-    soundSystem::AudioListener::StartAudioListener(&standardTransform);
-
     ShipController controller1 = ShipController();
 
     game.onStartup.addListener([&] (Game &game){
@@ -58,8 +56,6 @@ int main() {
     });
 
     game.run();
-
-    soundSystem::AudioListener::StopAudioListener();
 
     return 0;
 }
