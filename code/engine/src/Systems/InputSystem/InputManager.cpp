@@ -1,4 +1,4 @@
-#include "engine/InputSystem/InputManager.h"
+#include "engine/Systems/Input/InputManager.h"
 
 namespace gl3::engine::inputSystem {
     /*template<typename inputFunction>
