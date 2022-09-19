@@ -1,13 +1,12 @@
-#include <stdexcept>
 #include "engine/Game.h"
-#include "engine/Time.h"
 
 namespace gl3::engine {
     using Context = engine::context::Context;
 
     Game::Game(int width, int height, const std::string &title, Graphics::Scene* startScene):
             context(width, height, title),
-            currentScene(startScene) {
+            currentScene(startScene),
+            physicsSystem(){
         glEnable(GL_DEPTH_TEST);
     }
 

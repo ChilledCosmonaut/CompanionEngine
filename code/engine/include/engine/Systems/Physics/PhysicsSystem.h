@@ -43,6 +43,14 @@ namespace gl3::engine::Physics {
 #endif
         };
 
+        void AddPhysicsObjects() {
+
+        }
+
+        void RemovePhysicsObjects() {
+
+        }
+
         void SimulatePhysics() {
             mScene->simulate(Time::GetDeltaTime());
             mScene->fetchResults(true);

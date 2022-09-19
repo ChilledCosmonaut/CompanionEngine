@@ -1,15 +1,9 @@
 #pragma once
 
 #include "engine/Events.h"
-#include <memory>
-#include <string>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <soloud.h>
-#include <soloud_wav.h>
 #include "engine/Context.h"
 #include "engine/GraphicsEngine/Scene.h"
+#include "engine/Systems/Physics/PhysicsSystem.h"
 
 namespace gl3::engine {
     class Game {
@@ -32,10 +26,10 @@ namespace gl3::engine {
         virtual ~Game();
 
         void run();
+
         GLFWwindow *getWindow() { return context.getWindow(); }
+
         void ChangeActiveSceneTo(Graphics::Scene* scene){
-            /*if (currentScene != nullptr)
-                currentScene->ReleasePhysicsScene();*/
             currentScene = scene;
             currentScene->onSetup();
             onSwitchingScenes.invoke(*currentScene);
@@ -46,12 +40,14 @@ namespace gl3::engine {
         }
 
     protected:
-        void start() {}
+        void start() {};
         virtual void update(GLFWwindow *window) {}
         void draw();
 
     private:
         context::Context context;
         Graphics::Scene* currentScene;
+        Physics::PhysicsSystem physicsSystem;
+
     };
 }
