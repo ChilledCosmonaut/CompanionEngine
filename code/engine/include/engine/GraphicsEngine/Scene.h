@@ -1,6 +1,6 @@
 #pragma once
 
-#include "PxConfig.h" //Needs to stay here else PhysX will not find some HeaderFiles
+#include "PxConfig.h" //Needs to stay here else PhysX won't find some HeaderFiles
 #include <memory>
 #include <utility>
 #include "../../../src/EntityComponentSystem/entt.hpp"
