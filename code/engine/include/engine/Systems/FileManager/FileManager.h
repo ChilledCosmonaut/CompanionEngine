@@ -9,7 +9,7 @@
 #include "assimp/scene.h"
 #include "assimp/postprocess.h"
 
-#include "../../../src/FileManager/stb_image.h"
+#include "../../../../src/Systems/FileManager/stb_image.h"
 
 namespace gl3::engine::filesystem {
     namespace fs = std::filesystem;
