@@ -74,7 +74,5 @@ namespace gl3::engine::Graphics{
 
         entt::registry registry;
         entt::entity mainCameraObject;
-        /*Physics::PhysicsScene physicsScene {};
-        Physics::PhysicsSystem physicsSystem {};*/
     };
 }

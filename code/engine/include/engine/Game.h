@@ -4,6 +4,7 @@
 #include "engine/Context.h"
 #include "engine/Systems/Graphics/Scene.h"
 #include "engine/Systems/Physics/PhysicsSystem.h"
+#include "../../src/Systems/Graphics/GraphicsSystem.h"
 
 namespace gl3::engine {
     class Game {
@@ -32,6 +33,7 @@ namespace gl3::engine {
         void ChangeActiveSceneTo(Graphics::Scene* scene){
             currentScene = scene;
             currentScene->onSetup();
+            graphicsSystem.SetUpScene(*currentScene);
             onSwitchingScenes.invoke(*currentScene);
         }
 
@@ -48,6 +50,6 @@ namespace gl3::engine {
         context::Context context;
         Graphics::Scene* currentScene;
         Physics::PhysicsSystem physicsSystem;
-
+        Graphics::Systems::GraphicsSystem graphicsSystem;
     };
 }

@@ -19,9 +19,9 @@ int main() {
 
     Graphics::shader litShader = Graphics::shader("shaders/vertexShader.glsl", "shaders/fragmentShader.glsl");
 
-    Graphics::Systems::GraphicsSystem graphicsSystem {};
+    /*Graphics::Systems::GraphicsSystem graphicsSystem {};
 
-    graphicsSystem.SetUpSystem(game);
+    graphicsSystem.SetUpSystem(game);*/
 
     ShipController shipController {};
 

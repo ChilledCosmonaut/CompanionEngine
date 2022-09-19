@@ -2,7 +2,6 @@
 
 #include <iostream>
 
-#include "engine/System.h"
 #include "engine/Systems/FileManager/FileManager.h"
 
 #include "engine/Systems/Graphics/Components/Model.h"
@@ -15,16 +14,16 @@
 
 namespace gl3::engine::Graphics::Systems{
 
-    class GraphicsSystem : public entityComponentSystem::System {
+    class GraphicsSystem {
     public:
         GraphicsSystem() = default;
 
-        void OnSwitchingScenes(Scene &scene) override {
+        void SetUpScene(Scene &scene) {
             Utils::SkyboxUtils::SetupSkybox(scene);
             Utils::ModelUtils::SetUpModel(scene);
         }
 
-        void OnDrawCall(Scene &scene) override;
+        void DrawScene(Scene &scene);
 
         void Start(Game &game) override {};
 

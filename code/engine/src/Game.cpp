@@ -6,7 +6,8 @@ namespace gl3::engine {
     Game::Game(int width, int height, const std::string &title, Graphics::Scene* startScene):
             context(width, height, title),
             currentScene(startScene),
-            physicsSystem(){
+            physicsSystem(),
+            graphicsSystem(){
         glEnable(GL_DEPTH_TEST);
     }
 
@@ -17,7 +18,8 @@ namespace gl3::engine {
         context.run([&](Context &ctx){
             onBeforeUpdate.invoke(*this);
             update(getWindow());
-            draw();
+            graphicsSystem.DrawScene(*currentScene);
+            onDrawCall.invoke(*currentScene);
             Time::updateDeltaTime();
             onAfterUpdate.invoke(*this);
         });
