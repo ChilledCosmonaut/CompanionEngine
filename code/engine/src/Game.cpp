@@ -36,7 +36,8 @@ namespace gl3::engine {
     }
 
     Game::~Game() {
-        context.~Context();
         audioSystem.~AudioSystem();
+        physicsSystem.~PhysicsSystem();
+        context.~Context();
     }
 }

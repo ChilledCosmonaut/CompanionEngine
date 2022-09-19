@@ -1,6 +1,7 @@
 #pragma once
 
 #include "PxPhysicsAPI.h"
+#include <stdexcept>
 
 #include "engine/Time.h"
 
@@ -8,6 +9,12 @@ namespace gl3::engine::Physics {
 
     class PhysicsSystem {
     public:
+        static PhysicsSystem &GetPhysicsSystem(){
+            if (physicsSystem != nullptr)
+                return *physicsSystem;
+            throw std::domain_error("PhysicsSystem is not yet created");
+        }
+
         PhysicsSystem(){
             // init physx
             mFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, mDefaultAllocatorCallback, mDefaultErrorCallback);
@@ -41,10 +48,25 @@ namespace gl3::engine::Physics {
                 pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
             }
 #endif
+            physicsSystem = this;
         };
 
-        void AddPhysicsObjects() {
+        ~PhysicsSystem(){
+            mPhysics->release();
+#if DEBUG
 
+            mPvd->release();
+            mPvdTransporter->release();
+#endif
+            mFoundation->release();
+        }
+
+        physx::PxPhysics* GetPhysics() {
+            return mPhysics;
+        }
+
+        void AddPhysicsObjects(physx::PxRigidDynamic* rigidBody) {
+            mScene->addActor(*rigidBody);
         }
 
         void RemovePhysicsObjects() {
@@ -56,17 +78,9 @@ namespace gl3::engine::Physics {
             mScene->fetchResults(true);
         };
 
-        void ShutdownPhysics(){
-            mPhysics->release();
-#if DEBUG
-
-            mPvd->release();
-            mPvdTransporter->release();
-#endif
-            mFoundation->release();
-        }
-
     private:
+        static PhysicsSystem *physicsSystem;
+
         physx::PxDefaultAllocator      mDefaultAllocatorCallback;
         physx::PxDefaultErrorCallback  mDefaultErrorCallback;
         physx::PxDefaultCpuDispatcher* mDispatcher = nullptr;
