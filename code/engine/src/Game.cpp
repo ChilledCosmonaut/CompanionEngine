@@ -19,6 +19,7 @@ namespace gl3::engine {
         context.run([&](Context &ctx){
             onBeforeUpdate.invoke(*this);
             update(getWindow());
+            physicsSystem.SimulatePhysics();
             graphicsSystem.DrawScene(*currentScene);
             onDrawCall.invoke(*currentScene);
             Time::updateDeltaTime();
