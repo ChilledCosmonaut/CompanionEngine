@@ -34,7 +34,7 @@ namespace gl3::engine::Graphics::Systems{
         void Update(Game &game) override {};
 
         void OnShutdown(Game &engine) override {
-            engine.getCurrentScene()->ReleasePhysicsScene();
+            //engine.getCurrentScene()->ReleasePhysicsScene();
         };
 
     private:

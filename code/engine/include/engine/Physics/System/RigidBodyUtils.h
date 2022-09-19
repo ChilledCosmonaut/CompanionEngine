@@ -12,7 +12,7 @@ namespace gl3::engine::Physics::Utils {
     class RigidBodyUtils {
     public:
         static void SetUpRigidBody(Graphics::Scene& scene){
-            physx::PxPhysics* mPhysics = scene.GetPhysicsBase();
+            /*physx::PxPhysics* mPhysics = scene.GetPhysicsBase();
             physx::PxScene* mScene = scene.GetPhysicsScene();
 
             auto registry = scene.getRegistry();
@@ -98,14 +98,14 @@ namespace gl3::engine::Physics::Utils {
                 rigidBody.rigidBody->attachShape(*shape);
                 mScene->addActor(*rigidBody.rigidBody);
                 shape->release();
-            }
+            }*/
         }
 
         static void UpdatePhysics(Graphics::Scene& scene){
-            physx::PxScene* mScene = scene.GetPhysicsScene();
+            /*physx::PxScene* mScene = scene.GetPhysicsScene();
 
             mScene->simulate(Time::GetDeltaTime());
-            mScene->fetchResults(true);
+            mScene->fetchResults(true);*/
         }
 
         static void SetSphereDimensions(Components::SphereCollider& sphereCollider, float radius){
