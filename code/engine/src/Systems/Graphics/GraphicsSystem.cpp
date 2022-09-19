@@ -2,7 +2,7 @@
 
 namespace gl3::engine::Graphics::Systems{
 
-    void GraphicsSystem::OnDrawCall(Scene &scene) {
+    void GraphicsSystem::DrawScene(Scene &scene) {
         currentProjection = glm::perspective(glm::radians(45.0f), 1920.0f / 1080.0f, 0.1f, 1000.0f);
 
         auto mainCamera = scene.getMainCamera();
