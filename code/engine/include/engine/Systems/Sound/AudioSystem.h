@@ -5,25 +5,23 @@
 
 namespace gl3::engine::soundSystem {
     /// Provides a static class to interact with @AudioSource to provide a more spatial sound and overall control.
-    class AudioListener {
+    class AudioSystem {
         friend class AudioSource;
         friend class AudioSourceUtils;
 
     public:
-        /// Starts the audio listener by initializing SoLoud and setting the location of the listener.
-        /// @param transform Global position of the AudioListener
-        static void StartAudioListener(Graphics::Components::Transform* transform){
-            audioTransform = transform;
+        /// Sets up the audio system by initializing SoLoud.
+        AudioSystem(){
             soLoud = SoLoud::Soloud();
             soLoud.init();
         }
 
-        /// Stops the AudioListener and deinitializes SoLoud.
-        static void StopAudioListener(){
+        /// Stops all sounds and deinitializes SoLoud.
+        ~AudioSystem(){
             soLoud.stopAll();
             soLoud.deinit();
         }
-
+/*
         /// Sets a maximum range for when audio sources can be heard. (Does currently nothing)
         /// @param distance Maximum hearing range.
         static void SetMaxHearingDistance(int distance){
@@ -34,12 +32,12 @@ namespace gl3::engine::soundSystem {
         /// @param volume New master volume value.
         static void SetMasterVolume(float volume){
             masterVolume = volume;
-        }
+        }*/
 
     private:
         static inline SoLoud::Soloud soLoud {};
-        static inline Graphics::Components::Transform* audioTransform = nullptr;
-        static inline int hearingDistance = 100;
+        /*static inline Graphics::Components::Transform* audioTransform = nullptr;
+        static inline int hearingDistance = 100;*/
         static inline float masterVolume = 1.0f;
     };
 }

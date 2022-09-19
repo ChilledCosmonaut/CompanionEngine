@@ -3,7 +3,7 @@
 #include "Enemy Controller.h"
 #include "ProjectileSystem.h"
 #include "engine/Tools/Grid.h"
-#include "engine/Systems/Sound/AudioListener.h"
+#include "engine/Systems/Sound/AudioSystem.h"
 #include "engine/Systems/Sound/AudioSource.h"
 #include "engine/Game.h"
 
@@ -45,8 +45,6 @@ int main() {
             Graphics::Components::Transform(
                     glm::vec3(0,0,0),glm::vec3(0,0,0),glm::vec3(0.5f,0.5f,0.5f));
 
-    soundSystem::AudioListener::StartAudioListener(&standardTransform);
-
     ShipController controller1 = ShipController();
 
     game.onStartup.addListener([&] (Game &game){
@@ -58,8 +56,6 @@ int main() {
     });
 
     game.run();
-
-    soundSystem::AudioListener::StopAudioListener();
 
     return 0;
 }
