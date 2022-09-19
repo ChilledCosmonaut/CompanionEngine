@@ -8,7 +8,6 @@
 #include "engine/GraphicsEngine/Components/Model.h"
 #include "engine/GraphicsEngine/Components/Camera.h"
 #include "engine/GraphicsEngine/Utils/TransformUtils.h"
-#include "engine/Physics/PhysicsScene.h"
 
 namespace gl3::engine::Graphics{
 

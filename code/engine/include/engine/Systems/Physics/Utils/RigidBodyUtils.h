@@ -2,7 +2,7 @@
 
 #include "PxPhysicsAPI.h"
 
-#include "engine/Physics/Components/RigidBody.h"
+#include "engine/Systems/Physics/Components/RigidBody.h"
 #include "engine/GraphicsEngine/Components/Transform.h"
 #include "engine/GraphicsEngine/Scene.h"
 #include "engine/Time.h"

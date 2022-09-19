@@ -2,11 +2,13 @@
 
 #include "PxPhysicsAPI.h"
 
+#include "engine/Time.h"
+
 namespace gl3::engine::Physics {
 
-    class PhysicsScene {
+    class PhysicsSystem {
     public:
-        PhysicsScene(){
+        PhysicsSystem(){
             // init physx
             mFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, mDefaultAllocatorCallback, mDefaultErrorCallback);
             if (!mFoundation) throw("PxCreateFoundation failed!");
@@ -39,17 +41,14 @@ namespace gl3::engine::Physics {
                 pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
             }
 #endif
-        }
+        };
 
-        physx::PxScene* GetScene(){
-            return mScene;
-        }
+        void SimulatePhysics() {
+            mScene->simulate(Time::GetDeltaTime());
+            mScene->fetchResults(true);
+        };
 
-        physx::PxPhysics* GetPhysicsBase(){
-            return mPhysics;
-        }
-
-        void ReleasePhysicsScene(){
+        void ShutdownPhysics(){
             mPhysics->release();
 #if DEBUG
 

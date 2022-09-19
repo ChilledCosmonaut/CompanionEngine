@@ -13,8 +13,6 @@
 #include "engine/GraphicsEngine/Utils/ModelUtils.h"
 #include "engine/GraphicsEngine/Utils/CameraUtils.h"
 
-#include "engine/Physics/System/RigidBodyUtils.h"
-
 namespace gl3::engine::Graphics::Systems{
 
     class GraphicsSystem : public entityComponentSystem::System {
@@ -24,7 +22,7 @@ namespace gl3::engine::Graphics::Systems{
         void OnSwitchingScenes(Scene &scene) override {
             Utils::SkyboxUtils::SetupSkybox(scene);
             Utils::ModelUtils::SetUpModel(scene);
-            Physics::Utils::RigidBodyUtils::SetUpRigidBody(scene);
+            //Physics::Utils::RigidBodyUtils::SetUpRigidBody(scene);
         }
 
         void OnDrawCall(Scene &scene) override;
