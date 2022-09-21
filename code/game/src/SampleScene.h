@@ -5,6 +5,7 @@
 #include "engine/Systems/Graphics/Utils/TransformUtils.h"
 #include "engine/Systems/Graphics/Utils/ModelUtils.h"
 #include "EnemyBehavourSettings.h"
+#include "engine/Systems/Physics/Utils/RigidBodyUtils.h"
 
 namespace gl3::game {
 
@@ -19,8 +20,8 @@ namespace gl3::game {
             auto test = CreateEntity();
             auto &model = registry.emplace<engine::Graphics::Components::Model>(test);
             engine::Graphics::Utils::ModelUtils::SetPath(model, "../../assets/SpaceShip/MainFrame.obj");
-            /*auto &rigidBody = registry.emplace<engine::Physics::Components::SphereCollider>(test);
-            engine::Physics::Utils::RigidBodyUtils::SetSphereDimensions(rigidBody, 1);*/
+            auto &rigidBody = engine::Physics::Utils::RigidBodyUtils::AddRigidBody(*this, test);
+            engine::Physics::Utils::RigidBodyUtils::SetSphereDimensions(rigidBody, 1);
             /*auto test1 = CreateEntity();
             auto &model1 = registry.emplace<engine::Graphics::Components::Model>(test1);
             engine::Graphics::Utils::ModelUtils::SetPath(model1, "../../assets/SpaceShip/Screen-Bottom-Middle.obj");
