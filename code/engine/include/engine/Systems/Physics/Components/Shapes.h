@@ -8,35 +8,45 @@ namespace gl3::engine::Physics::Utils {
 
 namespace gl3::engine::Physics::Components::Shapes {
 
-    struct Shape{
+     enum Shapes{
+         Sphere, Box, Capsule, Plane
+     };
+
+    struct Sphere {
         friend class Utils::RigidBodyUtils;
-
-    public:
-        virtual ~Shape() = default;
-    };
-
-    struct Sphere : Shape {
 
     private:
         float radius = 1;
     };
 
-    struct Box : Shape {
+    struct Box {
+        friend class Utils::RigidBodyUtils;
 
     private:
         physx::PxVec3 dimensions = physx::PxVec3(1,1,1);
     };
 
-    struct Capsule : Shape {
+    struct Capsule {
+        friend class Utils::RigidBodyUtils;
 
     private:
         float radius = 1;
         float halfHeight = 0.5f;
     };
 
-    struct Plane : Shape {
+    struct Plane {
+        friend class Utils::RigidBodyUtils;
 
     private:
         physx::PxVec2 dimensions = physx::PxVec2(1,1);
+    };
+
+    union Shape{
+
+    public:
+        struct Sphere sphere;
+        struct Box box;
+        struct Capsule capsule;
+        struct Plane plane;
     };
 }

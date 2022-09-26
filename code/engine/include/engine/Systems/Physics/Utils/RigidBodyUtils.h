@@ -14,9 +14,8 @@ namespace gl3::engine::Physics::Utils {
     class RigidBodyUtils {
     public:
         static void SetUpRigidBody(entt::registry &registry, entt::entity entity){
-            std::cout<<"On Connect worked"<<std::endl;
 
-            auto& rigidBody = registry.get<Components::SphereCollider>(entity);
+            auto& rigidBody = registry.get<Components::RigidBody>(entity);
             auto& transform = registry.get<Graphics::Components::Transform>(entity);
 
             auto& physicsSystem = PhysicsSystem::GetPhysicsSystem();
@@ -26,7 +25,35 @@ namespace gl3::engine::Physics::Utils {
                     physicsContext->createMaterial(
                             rigidBody.materialProperties.x, rigidBody.materialProperties.y,
                             rigidBody.materialProperties.z);
-            auto shape = physicsContext->createShape(physx::PxSphereGeometry(rigidBody.radius), *mMaterial);
+
+            physx::PxShape* shape;
+
+            struct Components::Shapes::Sphere sphere;
+            struct Components::Shapes::Box box;
+            struct Components::Shapes::Capsule capsule;
+
+            switch (rigidBody.shape) {
+                case Components::Shapes::Sphere:
+                    sphere = std::get<Components::Shapes::Sphere>(rigidBody.shapeInfo);
+                    shape = physicsContext->createShape(
+                            physx::PxSphereGeometry(sphere.radius)
+                            , *mMaterial);
+                    break;
+                case Components::Shapes::Box:
+                    box = std::get<Components::Shapes::Box>(rigidBody.shapeInfo);
+                    shape = physicsContext->createShape(
+                            physx::PxBoxGeometry(box.dimensions.x, box.dimensions.y, box.dimensions.z)
+                            , *mMaterial);
+                    break;
+                case Components::Shapes::Capsule:
+                    capsule = std::get<Components::Shapes::Capsule>(rigidBody.shapeInfo);
+                    shape = physicsContext->createShape(
+                            physx::PxCapsuleGeometry(capsule.radius, capsule.halfHeight), *mMaterial);
+                    break;
+                case Components::Shapes::Plane:
+                    shape = physicsContext->createShape(physx::PxPlaneGeometry(), *mMaterial);
+                    break;
+            }
 
             auto translation = Graphics::Utils::TransformUtils::GetTranslation(transform);
 
@@ -36,111 +63,23 @@ namespace gl3::engine::Physics::Utils {
             physx::PxRigidBodyExt::updateMassAndInertia(*rigidBody.rigidBody, 10.0f);
             physicsSystem.AddPhysicsObjects(rigidBody.rigidBody);
             shape->release();
-
-            /*physx::PxPhysics* mPhysics = scene.GetPhysicsBase();
-            physx::PxScene* mScene = scene.GetPhysicsScene();
-
-            auto registry = scene.getRegistry();
-            auto sphereView = registry->view<Components::SphereCollider, Graphics::Components::Transform>();
-
-            for(auto& entity : sphereView) {
-                auto& rigidBody = sphereView.get<Components::SphereCollider>(entity);
-                auto& transform = sphereView.get<Graphics::Components::Transform>(entity);
-
-                auto mMaterial =
-                        mPhysics->createMaterial(
-                                rigidBody.materialProperties.x, rigidBody.materialProperties.y,
-                                rigidBody.materialProperties.z);
-                auto shape = mPhysics->createShape(physx::PxSphereGeometry(rigidBody.radius), *mMaterial);
-
-                auto translation = Graphics::Utils::TransformUtils::GetTranslation(transform);
-
-                physx::PxTransform currentColliderTransform(physx::PxVec3(translation.x, translation.y, translation.z));
-                rigidBody.rigidBody = mPhysics->createRigidDynamic(currentColliderTransform);
-                rigidBody.rigidBody->attachShape(*shape);
-                mScene->addActor(*rigidBody.rigidBody);
-                shape->release();
-            }
-
-            auto boxView = registry->view<Components::BoxCollider, Graphics::Components::Transform>();
-
-            for(auto& entity : boxView) {
-                auto& rigidBody = boxView.get<Components::BoxCollider>(entity);
-                auto& transform = boxView.get<Graphics::Components::Transform>(entity);
-                auto mMaterial =
-                        mPhysics->createMaterial(
-                                rigidBody.materialProperties.x, rigidBody.materialProperties.y,
-                                rigidBody.materialProperties.z);
-                auto shape = mPhysics->createShape(
-                        physx::PxBoxGeometry(rigidBody.dimensions.x, rigidBody.dimensions.y, rigidBody.dimensions.z)
-                        , *mMaterial);
-
-                auto translation = Graphics::Utils::TransformUtils::GetTranslation(transform);
-
-                physx::PxTransform localTm(physx::PxVec3(translation.x, translation.y, translation.z));
-                rigidBody.rigidBody = mPhysics->createRigidDynamic(localTm);
-                rigidBody.rigidBody->attachShape(*shape);
-                mScene->addActor(*rigidBody.rigidBody);
-                shape->release();
-            }
-
-            auto capsuleView = registry->view<Components::CapsuleCollider, Graphics::Components::Transform>();
-
-            for(auto& entity : capsuleView) {
-                auto& rigidBody = capsuleView.get<Components::CapsuleCollider>(entity);
-                auto& transform = capsuleView.get<Graphics::Components::Transform>(entity);
-                auto mMaterial =
-                        mPhysics->createMaterial(
-                                rigidBody.materialProperties.x, rigidBody.materialProperties.y,
-                                rigidBody.materialProperties.z);
-                auto shape = mPhysics->createShape(
-                        physx::PxCapsuleGeometry(rigidBody.radius, rigidBody.halfHeight), *mMaterial);
-
-                auto translation = Graphics::Utils::TransformUtils::GetTranslation(transform);
-
-                physx::PxTransform localTm(physx::PxVec3(translation.x, translation.y, translation.z));
-                rigidBody.rigidBody = mPhysics->createRigidDynamic(localTm);
-                rigidBody.rigidBody->attachShape(*shape);
-                mScene->addActor(*rigidBody.rigidBody);
-                shape->release();
-            }
-
-            auto planeView = registry->view<Components::PlaneCollider, Graphics::Components::Transform>();
-
-            for(auto& entity : planeView) {
-                auto& rigidBody = planeView.get<Components::PlaneCollider>(entity);
-                auto& transform = planeView.get<Graphics::Components::Transform>(entity);
-                auto mMaterial =
-                        mPhysics->createMaterial(
-                                rigidBody.materialProperties.x, rigidBody.materialProperties.y,
-                                rigidBody.materialProperties.z);
-                auto shape = mPhysics->createShape(physx::PxPlaneGeometry(), *mMaterial);
-
-                auto translation = Graphics::Utils::TransformUtils::GetTranslation(transform);
-
-                physx::PxTransform localTm(physx::PxVec3(translation.x, translation.y, translation.z));
-                rigidBody.rigidBody = mPhysics->createRigidDynamic(localTm);
-                rigidBody.rigidBody->attachShape(*shape);
-                mScene->addActor(*rigidBody.rigidBody);
-                shape->release();
-            }*/
         }
 
-        static Components::SphereCollider& AddRigidBody(Graphics::Scene &scene, entt::entity entity){
+        static Components::RigidBody& AddRigidBody(Graphics::Scene &scene, entt::entity entity){
             if (!connected)
                 ConnectCallbacks(scene);
-            return scene.getRegistry()->emplace<Components::SphereCollider>(entity);
+            return scene.getRegistry()->emplace<Components::RigidBody>(entity);
         }
 
-        static void SetSphereDimensions(Components::SphereCollider& sphereCollider, float radius){
+        static void SetSphereDimensions(Components::RigidBody& sphereCollider, float radius){
             sphereCollider.radius = radius;
         }
 
-        static void SetBoxDimensions(Components::BoxCollider& boxCollider, glm::vec3 dimensions){
+        static void SetBoxDimensions(Components::RigidBody& boxCollider, glm::vec3 dimensions){
             boxCollider.dimensions = physx::PxVec3(dimensions.x, dimensions.y, dimensions.z);
         }
 
-        static void SetCapsuleDimensions(Components::CapsuleCollider& capsuleCollider, float radius, float halfHeight){
+        static void SetCapsuleDimensions(Components::RigidBody& capsuleCollider, float radius, float halfHeight){
             capsuleCollider.radius = radius;
             capsuleCollider.halfHeight = halfHeight;
         }
@@ -149,7 +88,7 @@ namespace gl3::engine::Physics::Utils {
         inline static bool connected = false;
 
         static void ConnectCallbacks(Graphics::Scene &scene){
-            scene.getRegistry()->on_construct<Components::SphereCollider>().connect<&SetUpRigidBody>();
+            scene.getRegistry()->on_construct<Components::RigidBody>().connect<&SetUpRigidBody>();
             connected = true;
         }
     };
