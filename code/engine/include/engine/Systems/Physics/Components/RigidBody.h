@@ -13,6 +13,11 @@ namespace gl3::engine::Physics::Components {
         friend class Utils::RigidBodyUtils;
 
     public:
+        void SetMaterialProperties(glm::vec3 matProperties){
+            materialProperties = physx::PxVec3(matProperties.x, matProperties.y, matProperties.z);
+        }
+
+        void Set
 
     private:
         physx::PxVec3 materialProperties = physx::PxVec3(.5f, .5f, .5f);
