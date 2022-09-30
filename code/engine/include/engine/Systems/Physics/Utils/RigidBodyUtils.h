@@ -71,17 +71,37 @@ namespace gl3::engine::Physics::Utils {
             return scene.getRegistry()->emplace<Components::RigidBody>(entity);
         }
 
-        static void SetSphereDimensions(Components::RigidBody& sphereCollider, float radius){
-            sphereCollider.radius = radius;
+        static void AddLinearVelocity(Components::RigidBody &rigidBody, glm::vec3 velocity){
+            rigidBody.rigidBody->setLinearVelocity()
         }
 
-        static void SetBoxDimensions(Components::RigidBody& boxCollider, glm::vec3 dimensions){
-            boxCollider.dimensions = physx::PxVec3(dimensions.x, dimensions.y, dimensions.z);
+        static void SetMaterialProperties(Components::RigidBody &rigidBody, glm::vec3 matProperties){
+            rigidBody.materialProperties = physx::PxVec3(matProperties.x, matProperties.y, matProperties.z);
+            UpdateShapeParameters(rigidBody);
         }
 
-        static void SetCapsuleDimensions(Components::RigidBody& capsuleCollider, float radius, float halfHeight){
-            capsuleCollider.radius = radius;
-            capsuleCollider.halfHeight = halfHeight;
+        static void SetShapeProperties(Components::RigidBody &rigidBody, struct Components::Shapes::Sphere sphere){
+            rigidBody.shape = Components::Shapes::Sphere;
+            rigidBody.shapeInfo = sphere;
+            UpdateShapeParameters(rigidBody);
+        }
+
+        static void SetShapeProperties(Components::RigidBody &rigidBody, struct Components::Shapes::Box box){
+            rigidBody.shape = Components::Shapes::Box;
+            rigidBody.shapeInfo = box;
+            UpdateShapeParameters(rigidBody);
+        }
+
+        static void SetShapeProperties(Components::RigidBody &rigidBody, struct Components::Shapes::Capsule capsule){
+            rigidBody.shape = Components::Shapes::Capsule;
+            rigidBody.shapeInfo = capsule;
+            UpdateShapeParameters(rigidBody);
+        }
+
+        static void SetShapeProperties(Components::RigidBody &rigidBody, struct Components::Shapes::Plane plane){
+            rigidBody.shape = Components::Shapes::Plane;
+            rigidBody.shapeInfo = plane;
+            UpdateShapeParameters(rigidBody);
         }
 
     private:
@@ -90,6 +110,51 @@ namespace gl3::engine::Physics::Utils {
         static void ConnectCallbacks(Graphics::Scene &scene){
             scene.getRegistry()->on_construct<Components::RigidBody>().connect<&SetUpRigidBody>();
             connected = true;
+        }
+
+        static void UpdateShapeParameters(Components::RigidBody &rigidBody){
+            auto& physicsSystem = PhysicsSystem::GetPhysicsSystem();
+            auto physicsContext = physicsSystem.GetPhysics();
+
+            UpdateShapeParameters(rigidBody,physicsContext);
+        }
+
+        static void UpdateShapeParameters(Components::RigidBody &rigidBody, physx::PxPhysics* physicsContext){
+            auto mMaterial =
+                    physicsContext->createMaterial(
+                            rigidBody.materialProperties.x, rigidBody.materialProperties.y,
+                            rigidBody.materialProperties.z);
+
+            physx::PxShape* newShape;
+
+            struct Components::Shapes::Sphere sphere;
+            struct Components::Shapes::Box box;
+            struct Components::Shapes::Capsule capsule;
+
+            switch (rigidBody.shape) {
+                case Components::Shapes::Sphere:
+                    sphere = std::get<Components::Shapes::Sphere>(rigidBody.shapeInfo);
+                    newShape = physicsContext->createShape(
+                            physx::PxSphereGeometry(sphere.radius)
+                            , *mMaterial);
+                    break;
+                case Components::Shapes::Box:
+                    box = std::get<Components::Shapes::Box>(rigidBody.shapeInfo);
+                    newShape = physicsContext->createShape(
+                            physx::PxBoxGeometry(box.dimensions.x, box.dimensions.y, box.dimensions.z)
+                            , *mMaterial);
+                    break;
+                case Components::Shapes::Capsule:
+                    capsule = std::get<Components::Shapes::Capsule>(rigidBody.shapeInfo);
+                    newShape = physicsContext->createShape(
+                            physx::PxCapsuleGeometry(capsule.radius, capsule.halfHeight), *mMaterial);
+                    break;
+                case Components::Shapes::Plane:
+                    newShape = physicsContext->createShape(physx::PxPlaneGeometry(), *mMaterial);
+                    break;
+            }
+
+            rigidBody.rigidBody->attachShape(*newShape);
         }
     };
 }
