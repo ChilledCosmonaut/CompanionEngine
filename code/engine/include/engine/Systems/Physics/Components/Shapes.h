@@ -9,7 +9,7 @@ namespace gl3::engine::Physics::Utils {
 namespace gl3::engine::Physics::Components::Shapes {
 
      enum Shapes{
-         Sphere, Box, Capsule, Plane
+         sphere, Box, Capsule, Plane
      };
 
     struct Sphere {

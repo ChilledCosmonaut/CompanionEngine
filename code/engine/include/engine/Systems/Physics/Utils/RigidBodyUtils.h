@@ -28,13 +28,13 @@ namespace gl3::engine::Physics::Utils {
 
             physx::PxShape* shape;
 
-            struct Components::Shapes::Sphere sphere;
+            struct Components::Shapes::sphere sphere;
             struct Components::Shapes::Box box;
             struct Components::Shapes::Capsule capsule;
 
             switch (rigidBody.shape) {
-                case Components::Shapes::Sphere:
-                    sphere = std::get<Components::Shapes::Sphere>(rigidBody.shapeInfo);
+                case Components::Shapes::sphere:
+                    sphere = std::get<Components::Shapes::sphere>(rigidBody.shapeInfo);
                     shape = physicsContext->createShape(
                             physx::PxSphereGeometry(sphere.radius)
                             , *mMaterial);
@@ -63,6 +63,7 @@ namespace gl3::engine::Physics::Utils {
             physx::PxRigidBodyExt::updateMassAndInertia(*rigidBody.rigidBody, 10.0f);
             physicsSystem.AddPhysicsObjects(rigidBody.rigidBody);
             shape->release();
+            rigidBody.rigidBody->setMass(rigidBody.mass);
         }
 
         static Components::RigidBody& AddRigidBody(Graphics::Scene &scene, entt::entity entity){
@@ -71,8 +72,17 @@ namespace gl3::engine::Physics::Utils {
             return scene.getRegistry()->emplace<Components::RigidBody>(entity);
         }
 
-        static void AddLinearVelocity(Components::RigidBody &rigidBody, glm::vec3 velocity){
-            rigidBody.rigidBody->setLinearVelocity()
+        static void AddForce(Components::RigidBody &rigidBody, glm::vec3 forceVector){
+            rigidBody.rigidBody->addForce(physx::PxVec3(forceVector.x, forceVector.y, forceVector.z));
+        }
+
+        static void AddTorque(Components::RigidBody &rigidBody, glm::vec3 torqueVector){
+            rigidBody.rigidBody->addTorque(physx::PxVec3(torqueVector.x, torqueVector.y, torqueVector.z));
+        }
+
+        static void SetMassProperty(Components::RigidBody &rigidBody, int mass){
+            rigidBody.mass = mass;
+            rigidBody.rigidBody->setMass(mass);
         }
 
         static void SetMaterialProperties(Components::RigidBody &rigidBody, glm::vec3 matProperties){
@@ -81,7 +91,7 @@ namespace gl3::engine::Physics::Utils {
         }
 
         static void SetShapeProperties(Components::RigidBody &rigidBody, struct Components::Shapes::Sphere sphere){
-            rigidBody.shape = Components::Shapes::Sphere;
+            rigidBody.shape = Components::Shapes::sphere;
             rigidBody.shapeInfo = sphere;
             UpdateShapeParameters(rigidBody);
         }
@@ -127,13 +137,13 @@ namespace gl3::engine::Physics::Utils {
 
             physx::PxShape* newShape;
 
-            struct Components::Shapes::Sphere sphere;
+            struct Components::Shapes::sphere sphere;
             struct Components::Shapes::Box box;
             struct Components::Shapes::Capsule capsule;
 
             switch (rigidBody.shape) {
-                case Components::Shapes::Sphere:
-                    sphere = std::get<Components::Shapes::Sphere>(rigidBody.shapeInfo);
+                case Components::Shapes::sphere:
+                    sphere = std::get<Components::Shapes::sphere>(rigidBody.shapeInfo);
                     newShape = physicsContext->createShape(
                             physx::PxSphereGeometry(sphere.radius)
                             , *mMaterial);
