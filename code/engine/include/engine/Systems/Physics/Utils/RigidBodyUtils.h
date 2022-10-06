@@ -2,7 +2,7 @@
 
 #include "PxPhysicsAPI.h"
 
-#include "engine/Systems/Physics/Components/RigidBody.h"
+#include "engine/Systems/Physics/Components/Rigidbody.h"
 #include "engine/Systems/Graphics/Components/Transform.h"
 #include "engine/Systems/Graphics/Utils/TransformUtils.h"
 #include "engine/Systems/Physics/PhysicsSystem.h"
@@ -28,7 +28,7 @@ namespace gl3::engine::Physics::Utils {
 
             physx::PxShape* shape;
 
-            struct Components::Shapes::sphere sphere;
+            struct Components::Shapes::Sphere sphere;
             struct Components::Shapes::Box box;
             struct Components::Shapes::Capsule capsule;
 
@@ -55,7 +55,7 @@ namespace gl3::engine::Physics::Utils {
                     break;
             }
 
-            auto translation = Graphics::Utils::TransformUtils::GetTranslation(transform);
+            auto translation = Graphics::Utils::TransformUtils::GetGlobalTranslation(transform);
 
             physx::PxTransform currentColliderTransform(physx::PxVec3(translation.x, translation.y, translation.z));
             rigidBody.rigidBody = physicsContext->createRigidDynamic(currentColliderTransform);
@@ -137,7 +137,7 @@ namespace gl3::engine::Physics::Utils {
 
             physx::PxShape* newShape;
 
-            struct Components::Shapes::sphere sphere;
+            struct Components::Shapes::Sphere sphere;
             struct Components::Shapes::Box box;
             struct Components::Shapes::Capsule capsule;
 

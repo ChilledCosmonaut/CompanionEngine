@@ -16,14 +16,14 @@ namespace gl3::game {
         void onSetup(){
             AddMainCamera();
             registry.emplace<ShipMovementSettings>(mainCameraObject);
+            auto &rigidBody = engine::Physics::Utils::RigidBodyUtils::AddRigidBody(*this, mainCameraObject);
+            engine::Physics::Utils::RigidBodyUtils::SetShapeProperties(rigidBody, Components::Shapes::Sphere());
 
             AddSkybox();
 
             auto test = CreateEntity();
             auto &model = registry.emplace<engine::Graphics::Components::Model>(test);
             engine::Graphics::Utils::ModelUtils::SetPath(model, "../../assets/SpaceShip/MainFrame.obj");
-            auto &rigidBody = engine::Physics::Utils::RigidBodyUtils::AddRigidBody(*this, test);
-            engine::Physics::Utils::RigidBodyUtils::SetShapeProperties(rigidBody, Components::Shapes::Sphere());
             /*auto test1 = CreateEntity();
             auto &model1 = registry.emplace<engine::Graphics::Components::Model>(test1);
             engine::Graphics::Utils::ModelUtils::SetPath(model1, "../../assets/SpaceShip/Screen-Bottom-Middle.obj");

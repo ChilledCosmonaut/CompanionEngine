@@ -4,6 +4,8 @@
 #include <stdexcept>
 
 #include "engine/Time.h"
+#include "engine/Systems/Physics/Components/Rigidbody.h"
+#include "engine/Systems/Graphics/Scene.h"
 
 namespace gl3::engine::Physics {
 
@@ -73,9 +75,22 @@ namespace gl3::engine::Physics {
 
         }
 
-        void SimulatePhysics() {
+        void SimulatePhysics(Graphics::Scene &scene) {
             mScene->simulate(Time::GetDeltaTime());
             mScene->fetchResults(true);
+
+            auto registry = scene.getRegistry();
+            auto componentView = registry->view<Components::RigidBody, Graphics::Components::Transform>();
+
+            for (auto& entity : componentView) {
+                auto& rigidBody = componentView.get<Components::RigidBody>(entity);
+                auto& transform = componentView.get<Graphics::Components::Transform>(entity);
+
+                auto globalPosition = rigidBody.rigidBody->getGlobalPose();
+
+                Graphics::Utils::TransformUtils::SetTranslationFromGlobal
+                (transform, glm::vec3(globalPosition.p.x, globalPosition.p.y, globalPosition.p.z));
+            }
         };
 
     private:
