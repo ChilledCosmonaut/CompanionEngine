@@ -12,6 +12,7 @@ namespace gl3::engine::Graphics::Utils {
         childTransform.parent = currentEntity;
         childTransform.parentModelMatrix = transform.modelMatrix;
         childTransform.parentInverseModelMatrix = transform.inverseModelMatrix;
+        recalculateModel(childTransform);
     }
 
     void TransformUtils::RemoveChildEntity(Components::Transform &transform, entt::entity currentEntity, entt::entity childEntity) {
@@ -120,8 +121,11 @@ namespace gl3::engine::Graphics::Utils {
         transform.inverseModelMatrix = inverseScaleModel * glm::inverse(rotateModel) * inverseTranslateModel;
 
         if (transform.parent != entt::null){
-            transform.modelMatrix = transform.parentModelMatrix * transform.modelMatrix;
-            transform.inverseModelMatrix = transform.inverseModelMatrix * transform.parentInverseModelMatrix;
+            /*transform.modelMatrix = transform.parentModelMatrix * transform.modelMatrix;
+            transform.inverseModelMatrix = transform.inverseModelMatrix * transform.parentInverseModelMatrix;*/
+            auto &parentTransform = transform.currentRegistry->get<Components::Transform>(transform.parent);
+            transform.modelMatrix = parentTransform.modelMatrix * transform.modelMatrix;
+            transform.inverseModelMatrix = transform.inverseModelMatrix * parentTransform.inverseModelMatrix;
         }
 
         auto transformView = transform.currentRegistry->view<Components::Transform>();

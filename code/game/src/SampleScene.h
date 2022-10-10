@@ -17,11 +17,20 @@ namespace gl3::game {
             AddMainCamera();
             registry.emplace<ShipMovementSettings>(mainCameraObject);
 
+            auto &cameraTransform = registry.get<engine::Graphics::Components::Transform>(mainCameraObject);
+            engine::Graphics::Utils::TransformUtils::AddRotation(cameraTransform, glm::vec3(0,180,0));
+            auto &rigidBody = engine::Physics::Utils::RigidBodyUtils::AddRigidBody(*this, mainCameraObject);
+            engine::Physics::Utils::RigidBodyUtils::SetShapeProperties(rigidBody, Components::Shapes::Sphere());
+
             AddSkybox();
 
             auto test = CreateEntity();
             auto &model = registry.emplace<engine::Graphics::Components::Model>(test);
             engine::Graphics::Utils::ModelUtils::SetPath(model, "../../assets/SpaceShip/MainFrame.obj");
+
+            auto &testTransform = registry.get<engine::Graphics::Components::Transform>(test);
+
+            engine::Graphics::Utils::TransformUtils::AddChildEntity(cameraTransform, mainCameraObject, test);
             /*auto test1 = CreateEntity();
             auto &model1 = registry.emplace<engine::Graphics::Components::Model>(test1);
             engine::Graphics::Utils::ModelUtils::SetPath(model1, "../../assets/SpaceShip/Screen-Bottom-Middle.obj");
@@ -43,12 +52,6 @@ namespace gl3::game {
             engine::Graphics::Utils::TransformUtils::AddChildEntity(transform, test, test1);
             engine::Graphics::Utils::TransformUtils::AddChildEntity(transform, test, test2);
             engine::Graphics::Utils::TransformUtils::AddChildEntity(transform, test, test3);*/
-
-            auto &cameraTransform = registry.get<engine::Graphics::Components::Transform>(mainCameraObject);
-            engine::Graphics::Utils::TransformUtils::AddChildEntity(cameraTransform, mainCameraObject, test);
-            engine::Graphics::Utils::TransformUtils::AddRotation(cameraTransform, glm::vec3(0,180,0));
-            auto &rigidBody = engine::Physics::Utils::RigidBodyUtils::AddRigidBody(*this, mainCameraObject);
-            engine::Physics::Utils::RigidBodyUtils::SetShapeProperties(rigidBody, Components::Shapes::Sphere());
 
             auto &audioSource = registry.emplace<engine::soundSystem::AudioSource>(test);
             engine::soundSystem::AudioSourceUtils::SetupAudioSource(audioSource, "../../assets/audio/ambient-space-4.wav");
