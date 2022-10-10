@@ -94,7 +94,7 @@ namespace gl3::engine::Physics {
         };
 
     private:
-        static PhysicsSystem *physicsSystem;
+        inline static PhysicsSystem *physicsSystem = nullptr;
 
         physx::PxDefaultAllocator      mDefaultAllocatorCallback;
         physx::PxDefaultErrorCallback  mDefaultErrorCallback;
