@@ -16,8 +16,6 @@ namespace gl3::game {
         void onSetup(){
             AddMainCamera();
             registry.emplace<ShipMovementSettings>(mainCameraObject);
-            auto &rigidBody = engine::Physics::Utils::RigidBodyUtils::AddRigidBody(*this, mainCameraObject);
-            engine::Physics::Utils::RigidBodyUtils::SetShapeProperties(rigidBody, Components::Shapes::Sphere());
 
             AddSkybox();
 
@@ -49,6 +47,8 @@ namespace gl3::game {
             auto &cameraTransform = registry.get<engine::Graphics::Components::Transform>(mainCameraObject);
             engine::Graphics::Utils::TransformUtils::AddChildEntity(cameraTransform, mainCameraObject, test);
             engine::Graphics::Utils::TransformUtils::AddRotation(cameraTransform, glm::vec3(0,180,0));
+            auto &rigidBody = engine::Physics::Utils::RigidBodyUtils::AddRigidBody(*this, mainCameraObject);
+            engine::Physics::Utils::RigidBodyUtils::SetShapeProperties(rigidBody, Components::Shapes::Sphere());
 
             auto &audioSource = registry.emplace<engine::soundSystem::AudioSource>(test);
             engine::soundSystem::AudioSourceUtils::SetupAudioSource(audioSource, "../../assets/audio/ambient-space-4.wav");

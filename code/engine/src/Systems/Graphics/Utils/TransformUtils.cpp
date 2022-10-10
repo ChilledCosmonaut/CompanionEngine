@@ -53,7 +53,7 @@ namespace gl3::engine::Graphics::Utils {
     }
 
     glm::vec3 TransformUtils::GetGlobalRotation(Components::Transform &transform) {
-        return transform.parentModelMatrix * glm::vec4(glm::degrees(glm::eulerAngles(transform.rotation)),0);
+        return glm::vec4(glm::degrees(glm::eulerAngles(transform.rotation)),0);
     }
 
     glm::quat TransformUtils::GetQuatRotation(Components::Transform &transform) {
@@ -76,7 +76,7 @@ namespace gl3::engine::Graphics::Utils {
     }
 
     void TransformUtils::SetTranslationFromGlobal(Components::Transform &transform, glm::vec3 globalTranslation) {
-        glm::vec3 newTranslation = glm::vec4(transform.translation, 0) * transform.parentInverseModelMatrix;
+        glm::vec3 newTranslation = glm::vec4(transform.translation, 1.) * transform.parentInverseModelMatrix;
         SetTranslation(transform, newTranslation);
     }
 
@@ -85,7 +85,7 @@ namespace gl3::engine::Graphics::Utils {
     }
 
     glm::vec3 TransformUtils::GetGlobalTranslation(Components::Transform &transform) {
-        return transform.parentModelMatrix * glm::vec4(transform.translation, 0);
+        return transform.modelMatrix * glm::vec4(1.,1.,1.,1.);
     }
 
     void TransformUtils::SetScale(Components::Transform &transform, glm::vec3 targetScale) {

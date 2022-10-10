@@ -9,6 +9,8 @@
 #include "engine/Time.h"
 #include "engine/Systems/Graphics/Scene.h"
 
+#include <glm/gtc/matrix_access.hpp>
+
 namespace gl3::engine::Physics::Utils {
 
     class RigidBodyUtils {
@@ -55,9 +57,16 @@ namespace gl3::engine::Physics::Utils {
                     break;
             }
 
-            auto translation = Graphics::Utils::TransformUtils::GetGlobalTranslation(transform);
+            auto translation = Graphics::Utils::TransformUtils::GetModelMatrix(transform);
 
-            physx::PxTransform currentColliderTransform(physx::PxVec3(translation.x, translation.y, translation.z));
+            physx::PxTransform currentColliderTransform(physx::PxMat44(
+                    physx::PxVec4(translation[0].x, translation[0].y, translation[0].z, translation[0].w),
+                    physx::PxVec4(translation[1].x, translation[1].y, translation[1].z, translation[1].w),
+                    physx::PxVec4(translation[2].x, translation[2].y, translation[2].z, translation[2].w),
+                    physx::PxVec4(translation[3].x, translation[3].y, translation[3].z, translation[3].w)));
+
+            currentColliderTransform.rotate(physx::PxVec3(0,180,0));
+
             rigidBody.rigidBody = physicsContext->createRigidDynamic(currentColliderTransform);
             rigidBody.rigidBody->attachShape(*shape);
             physx::PxRigidBodyExt::updateMassAndInertia(*rigidBody.rigidBody, 10.0f);
