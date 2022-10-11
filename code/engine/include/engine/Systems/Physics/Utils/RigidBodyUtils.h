@@ -65,8 +65,6 @@ namespace gl3::engine::Physics::Utils {
                     physx::PxVec4(translation[2].x, translation[2].y, translation[2].z, translation[2].w),
                     physx::PxVec4(translation[3].x, translation[3].y, translation[3].z, translation[3].w)));
 
-            currentColliderTransform.rotate(physx::PxVec3(0,180,0));
-
             rigidBody.rigidBody = physicsContext->createRigidDynamic(currentColliderTransform);
             rigidBody.rigidBody->attachShape(*shape);
             physx::PxRigidBodyExt::updateMassAndInertia(*rigidBody.rigidBody, 10.0f);
