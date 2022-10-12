@@ -6,7 +6,7 @@ namespace gl3::engine::Ecs {
 
     class Registry {
     public:
-        static entt::registry* getRegistry(){
+        static entt::registry* getCurrent(){
             return &registry;
         }
 
