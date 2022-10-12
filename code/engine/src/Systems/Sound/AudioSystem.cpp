@@ -71,6 +71,12 @@ namespace gl3::engine::soundSystem {
 
             soLoud.set3dSourcePosition(audioSource.handle,
                                        audioPosition.x, audioPosition.y, audioPosition.z);
+
+            if (registry->all_of<Physics::Components::RigidBody>(entity)){
+                auto& rigidBody = registry->get<Physics::Components::RigidBody>(entity);
+                auto velocity = rigidBody.rigidBody->getLinearVelocity();
+                soLoud.set3dListenerVelocity(velocity.x, velocity.y, velocity.z);
+            }
         }
 
         soLoud.update3dAudio();
