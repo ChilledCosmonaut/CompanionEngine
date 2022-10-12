@@ -35,6 +35,29 @@ namespace gl3::engine::soundSystem {
                                                            audioPosition.x, audioPosition.y, audioPosition.z);
         }
 
+        auto listenerView = registry->view<Graphics::Components::Transform, AudioListener>();
+
+        for (auto& entity : listenerView) {
+            auto& transform = listenerView.get<Graphics::Components::Transform>(entity);
+
+            auto listenerPosition = Graphics::Utils::TransformUtils::GetTranslation(transform);
+            auto modelMatrix = Graphics::Utils::TransformUtils::GetModelMatrix(transform);
+
+            glm::vec4 atVector = modelMatrix * glm::vec4(0., 0., -1., 0.);
+            glm::vec4 upVector = modelMatrix * glm::vec4(0., 1., 0., 0.);
+
+            soLoud.set3dListenerParameters(listenerPosition.x, listenerPosition.y, listenerPosition.z,
+                                           atVector.x, atVector.y, atVector.z,
+                                           upVector.x, upVector.y, upVector.z);
+
+            if (registry->all_of<Physics::Components::RigidBody>(entity)){
+                auto& rigidBody = registry->get<Physics::Components::RigidBody>(entity);
+                auto velocity = rigidBody.rigidBody->getLinearVelocity();
+                soLoud.set3dListenerVelocity(velocity.x, velocity.y, velocity.z);
+            }
+            break;
+        }
+
         auto componentView = registry->view<Graphics::Components::Transform, AudioSource>();
 
         for(auto& entity : componentView){
