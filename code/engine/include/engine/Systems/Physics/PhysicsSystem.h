@@ -35,7 +35,7 @@ namespace gl3::engine::Physics {
 #endif
 
             physx::PxSceneDesc sceneDesc(mPhysics->getTolerancesScale());
-            sceneDesc.gravity = physx::PxVec3(0.0f, 0.0f, 0.0f);
+            sceneDesc.gravity = physx::PxVec3(0.0f, -9.81f, 0.0f);
             mDispatcher = physx::PxDefaultCpuDispatcherCreate(2);
             sceneDesc.cpuDispatcher	= mDispatcher;
             sceneDesc.filterShader	= physx::PxDefaultSimulationFilterShader;
@@ -86,10 +86,12 @@ namespace gl3::engine::Physics {
                 auto& rigidBody = componentView.get<Components::RigidBody>(entity);
                 auto& transform = componentView.get<Graphics::Components::Transform>(entity);
 
-                auto globalPosition = rigidBody.rigidBody->getGlobalPose();
+                auto physicsTransform = rigidBody.rigidBody->getGlobalPose();
 
-                /*Graphics::Utils::TransformUtils::SetTranslationFromGlobal
-                (transform, glm::vec3(globalPosition.p.x, globalPosition.p.y, globalPosition.p.z));*/
+               Graphics::Utils::TransformUtils::SetRotation(transform,glm::quat(
+                       physicsTransform.q.w, physicsTransform.q.x, physicsTransform.q.y, physicsTransform.q.z));
+               Graphics::Utils::TransformUtils::SetTranslation(transform, glm::vec3(
+                       physicsTransform.p.x, physicsTransform.p.y, physicsTransform.p.z));
             }
         };
 
