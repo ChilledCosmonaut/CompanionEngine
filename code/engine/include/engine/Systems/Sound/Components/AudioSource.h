@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include "soloud_wav.h"
 
 namespace gl3::engine::soundSystem {
