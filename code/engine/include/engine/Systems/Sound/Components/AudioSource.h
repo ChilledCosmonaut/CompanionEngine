@@ -12,7 +12,6 @@ namespace gl3::engine::soundSystem {
         int handle = -1;
         float volume = 1.0f;
         bool isBackground = false;
-        bool play = false;
     };
 
     template <typename Component>
