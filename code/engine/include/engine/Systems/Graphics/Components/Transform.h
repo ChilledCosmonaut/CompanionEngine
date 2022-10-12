@@ -39,6 +39,9 @@ namespace gl3::engine::Graphics::Components {
         glm::mat4 modelMatrix{};
         glm::mat4 inverseModelMatrix{};
 
+        glm::mat4 parentModelMatrix{};
+        glm::mat4 parentInverseModelMatrix{};
+
         entt::registry *currentRegistry;
         entt::entity parent = entt::null;
         std::vector<entt::entity> children{};

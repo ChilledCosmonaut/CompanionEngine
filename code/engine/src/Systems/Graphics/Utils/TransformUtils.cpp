@@ -10,6 +10,9 @@ namespace gl3::engine::Graphics::Utils {
             RemoveChildEntity(childParentTransform, childTransform.parent, childEntity);
         }
         childTransform.parent = currentEntity;
+        childTransform.parentModelMatrix = transform.modelMatrix;
+        childTransform.parentInverseModelMatrix = transform.inverseModelMatrix;
+        recalculateModel(childTransform);
     }
 
     void TransformUtils::RemoveChildEntity(Components::Transform &transform, entt::entity currentEntity, entt::entity childEntity) {
@@ -41,8 +44,17 @@ namespace gl3::engine::Graphics::Utils {
         recalculateModel(transform);
     }
 
+    void TransformUtils::SetRotationFromGlobal(Components::Transform &transform, glm::vec3 targetRotation) {
+        transform.rotation = glm::quat(glm::vec4(glm::radians(targetRotation), 0) * transform.parentInverseModelMatrix);
+        recalculateModel(transform);
+    }
+
     glm::vec3 TransformUtils::GetRotation(Components::Transform &transform) {
         return glm::degrees(glm::eulerAngles(transform.rotation));
+    }
+
+    glm::vec3 TransformUtils::GetGlobalRotation(Components::Transform &transform) {
+        return glm::vec4(glm::degrees(glm::eulerAngles(transform.rotation)),0);
     }
 
     glm::quat TransformUtils::GetQuatRotation(Components::Transform &transform) {
@@ -64,8 +76,17 @@ namespace gl3::engine::Graphics::Utils {
         SetTranslation(transform, newTranslation);
     }
 
+    void TransformUtils::SetTranslationFromGlobal(Components::Transform &transform, glm::vec3 globalTranslation) {
+        glm::vec3 newTranslation = glm::vec4(transform.translation, 1.) * transform.parentInverseModelMatrix;
+        SetTranslation(transform, newTranslation);
+    }
+
     glm::vec3 TransformUtils::GetTranslation(Components::Transform &transform) {
         return transform.translation;
+    }
+
+    glm::vec3 TransformUtils::GetGlobalTranslation(Components::Transform &transform) {
+        return transform.modelMatrix * glm::vec4(1.,1.,1.,1.);
     }
 
     void TransformUtils::SetScale(Components::Transform &transform, glm::vec3 targetScale) {
@@ -100,6 +121,8 @@ namespace gl3::engine::Graphics::Utils {
         transform.inverseModelMatrix = inverseScaleModel * glm::inverse(rotateModel) * inverseTranslateModel;
 
         if (transform.parent != entt::null){
+            /*transform.modelMatrix = transform.parentModelMatrix * transform.modelMatrix;
+            transform.inverseModelMatrix = transform.inverseModelMatrix * transform.parentInverseModelMatrix;*/
             auto &parentTransform = transform.currentRegistry->get<Components::Transform>(transform.parent);
             transform.modelMatrix = parentTransform.modelMatrix * transform.modelMatrix;
             transform.inverseModelMatrix = transform.inverseModelMatrix * parentTransform.inverseModelMatrix;

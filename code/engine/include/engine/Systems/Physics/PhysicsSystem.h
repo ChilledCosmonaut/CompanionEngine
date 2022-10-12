@@ -1,13 +1,22 @@
 #pragma once
 
 #include "PxPhysicsAPI.h"
+#include <stdexcept>
 
 #include "engine/Time.h"
+#include "engine/Systems/Physics/Components/Rigidbody.h"
+#include "engine/Systems/Graphics/Scene.h"
 
 namespace gl3::engine::Physics {
 
     class PhysicsSystem {
     public:
+        static PhysicsSystem &GetPhysicsSystem(){
+            if (physicsSystem != nullptr)
+                return *physicsSystem;
+            throw std::domain_error("PhysicsSystem is not yet created");
+        }
+
         PhysicsSystem(){
             // init physx
             mFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, mDefaultAllocatorCallback, mDefaultErrorCallback);
@@ -26,7 +35,7 @@ namespace gl3::engine::Physics {
 #endif
 
             physx::PxSceneDesc sceneDesc(mPhysics->getTolerancesScale());
-            sceneDesc.gravity = physx::PxVec3(0.0f, -9.81f, 0.0f);
+            sceneDesc.gravity = physx::PxVec3(0.0f, 0.0f, 0.0f);
             mDispatcher = physx::PxDefaultCpuDispatcherCreate(2);
             sceneDesc.cpuDispatcher	= mDispatcher;
             sceneDesc.filterShader	= physx::PxDefaultSimulationFilterShader;
@@ -41,22 +50,10 @@ namespace gl3::engine::Physics {
                 pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
             }
 #endif
+            physicsSystem = this;
         };
 
-        void AddPhysicsObjects() {
-
-        }
-
-        void RemovePhysicsObjects() {
-
-        }
-
-        void SimulatePhysics() {
-            mScene->simulate(Time::GetDeltaTime());
-            mScene->fetchResults(true);
-        };
-
-        void ShutdownPhysics(){
+        ~PhysicsSystem(){
             mPhysics->release();
 #if DEBUG
 
@@ -66,7 +63,45 @@ namespace gl3::engine::Physics {
             mFoundation->release();
         }
 
+        physx::PxPhysics* GetPhysics() {
+            return mPhysics;
+        }
+
+        void AddPhysicsObjects(physx::PxRigidDynamic* rigidBody) {
+            mScene->addActor(*rigidBody);
+        }
+
+        void AddPhysicsObjects(physx::PxRigidStatic* rigidStatic) {
+            mScene->addActor(*rigidStatic);
+        }
+
+        void RemovePhysicsObjects() {
+
+        }
+
+        void SimulatePhysics(Graphics::Scene &scene) {
+            mScene->simulate(Time::GetDeltaTime());
+            mScene->fetchResults(true);
+
+            auto registry = scene.getRegistry();
+            auto componentView = registry->view<Components::RigidBody, Graphics::Components::Transform>();
+
+            for (auto& entity : componentView) {
+                auto& rigidBody = componentView.get<Components::RigidBody>(entity);
+                auto& transform = componentView.get<Graphics::Components::Transform>(entity);
+
+                auto physicsTransform = rigidBody.rigidBody->getGlobalPose();
+
+               Graphics::Utils::TransformUtils::SetRotation(transform,glm::quat(
+                       physicsTransform.q.w, physicsTransform.q.x, physicsTransform.q.y, physicsTransform.q.z));
+               Graphics::Utils::TransformUtils::SetTranslation(transform, glm::vec3(
+                       physicsTransform.p.x, physicsTransform.p.y, physicsTransform.p.z));
+            }
+        };
+
     private:
+        inline static PhysicsSystem *physicsSystem = nullptr;
+
         physx::PxDefaultAllocator      mDefaultAllocatorCallback;
         physx::PxDefaultErrorCallback  mDefaultErrorCallback;
         physx::PxDefaultCpuDispatcher* mDispatcher = nullptr;

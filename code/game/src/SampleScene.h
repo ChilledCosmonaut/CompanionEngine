@@ -5,8 +5,11 @@
 #include "engine/Systems/Graphics/Utils/TransformUtils.h"
 #include "engine/Systems/Graphics/Utils/ModelUtils.h"
 #include "EnemyBehavourSettings.h"
+#include "engine/Systems/Physics/Utils/RigidBodyUtils.h"
 
 namespace gl3::game {
+
+    using namespace engine::Physics;
 
     class SampleScene : public engine::Graphics::Scene {
     public:
@@ -14,13 +17,28 @@ namespace gl3::game {
             AddMainCamera();
             registry.emplace<ShipMovementSettings>(mainCameraObject);
 
+            auto &cameraTransform = registry.get<engine::Graphics::Components::Transform>(mainCameraObject);
+            engine::Graphics::Utils::TransformUtils::AddRotation(cameraTransform, glm::vec3(0,180,0));
+            auto &rigidBody = engine::Physics::Utils::RigidBodyUtils::AddRigidBody(*this, mainCameraObject);
+            engine::Physics::Utils::RigidBodyUtils::SetShapeProperties(rigidBody, Components::Shapes::Sphere());
+
             AddSkybox();
 
             auto test = CreateEntity();
             auto &model = registry.emplace<engine::Graphics::Components::Model>(test);
             engine::Graphics::Utils::ModelUtils::SetPath(model, "../../assets/SpaceShip/MainFrame.obj");
-            /*auto &rigidBody = registry.emplace<engine::Physics::Components::SphereCollider>(test);
-            engine::Physics::Utils::RigidBodyUtils::SetSphereDimensions(rigidBody, 1);*/
+
+            auto &testTransform = registry.get<engine::Graphics::Components::Transform>(test);
+
+            engine::Graphics::Utils::TransformUtils::AddChildEntity(cameraTransform, mainCameraObject, test);
+
+            /*auto plane = CreateEntity();
+            auto &planeTransform = registry.get<engine::Graphics::Components::Transform>(plane);
+            engine::Graphics::Utils::TransformUtils::AddTranslation(planeTransform, glm::vec3(0., -5.0f, 0.));
+            engine::Graphics::Utils::TransformUtils::AddRotation(planeTransform, glm::vec3(0., 0., 90.));
+            auto &planeRigidBody = engine::Physics::Utils::RigidBodyUtils::AddRigidStatic(*this, plane);*/
+
+
             /*auto test1 = CreateEntity();
             auto &model1 = registry.emplace<engine::Graphics::Components::Model>(test1);
             engine::Graphics::Utils::ModelUtils::SetPath(model1, "../../assets/SpaceShip/Screen-Bottom-Middle.obj");
@@ -42,10 +60,6 @@ namespace gl3::game {
             engine::Graphics::Utils::TransformUtils::AddChildEntity(transform, test, test1);
             engine::Graphics::Utils::TransformUtils::AddChildEntity(transform, test, test2);
             engine::Graphics::Utils::TransformUtils::AddChildEntity(transform, test, test3);*/
-
-            auto &cameraTransform = registry.get<engine::Graphics::Components::Transform>(mainCameraObject);
-            engine::Graphics::Utils::TransformUtils::AddChildEntity(cameraTransform, mainCameraObject, test);
-            engine::Graphics::Utils::TransformUtils::AddRotation(cameraTransform, glm::vec3(0,180,0));
 
             auto &audioSource = registry.emplace<engine::soundSystem::AudioSource>(test);
             engine::soundSystem::AudioSourceUtils::SetupAudioSource(audioSource, "../../assets/audio/ambient-space-4.wav");

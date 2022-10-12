@@ -32,17 +32,17 @@ namespace gl3::game {
     void ShipController::Update(engine::Game &game) {
         auto window = game.getWindow();
         auto registry = game.getCurrentScene()->getRegistry();
-        auto componentView = registry->view<ShipMovementSettings, Components::Transform>();
+        auto componentView = registry->view<ShipMovementSettings, Physics::Components::RigidBody>();
         int screenWidth = 3840, screenHeight = 2160;
 
         for(auto& entity : componentView){
             auto& movementSettings = componentView.get<ShipMovementSettings>(entity);
-            auto& currentTransform = componentView.get<Components::Transform>(entity);
+            auto& rigidBody = componentView.get<Physics::Components::RigidBody>(entity);
 
-            if (movementSettings.life <= 0){
+            /*if (movementSettings.life <= 0){
                 TransformUtils::SetActive(currentTransform, false);
                 return;
-            }
+            }*/
 
             HandleKeyboard(window, movementSettings, Time::GetDeltaTime());
             CheckMousePosition(window, &screenWidth, &screenHeight, movementSettings, Time::GetDeltaTime());
@@ -53,14 +53,19 @@ namespace gl3::game {
             int inputy = glfwGetKey(window, GLFW_KEY_SPACE);
             inputy -= glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL);
 
-            int fire = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
-            Fire(fire, registry, currentTransform);
+            /*int fire = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
+            Fire(fire, registry, currentTransform);*/
 
-            auto translation = glm::vec3(-inputx * movementSettings.speedX, -inputy * movementSettings.speedY, movementSettings.forwardAcceleration) * engine::Time::GetDeltaTime();
-            glm::vec3 rotation = glm::vec3(movementSettings.rotationAccelerationX, movementSettings.rotationAccelerationY, movementSettings.rotationAccelerationZ);
+            Physics::Utils::RigidBodyUtils::AddForce
+            (rigidBody,
+             glm::vec3(-inputx * movementSettings.speedX, -inputy * movementSettings.speedY, movementSettings.forwardAcceleration)
+             * engine::Time::GetDeltaTime());
 
-            TransformUtils::AddRotation(currentTransform, rotation * Time::GetDeltaTime());
-            TransformUtils::AddRelativeTranslation(currentTransform, translation * Time::GetDeltaTime());
+            /*auto translation = glm::vec3(-inputx * movementSettings.speedX, -inputy * movementSettings.speedY, movementSettings.forwardAcceleration) * engine::Time::GetDeltaTime();
+            glm::vec3 rotation = glm::vec3(movementSettings.rotationAccelerationX, movementSettings.rotationAccelerationY, movementSettings.rotationAccelerationZ);*/
+
+            /*TransformUtils::AddRotation(currentTransform, rotation * Time::GetDeltaTime());
+            TransformUtils::AddRelativeTranslation(currentTransform, translation * Time::GetDeltaTime());*/
         }
     }
 

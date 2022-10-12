@@ -12,13 +12,17 @@ namespace gl3::engine::Graphics::Utils {
         static void SetRotation(Components::Transform &transform, glm::vec3 targetRotation);
         static void SetRotation(Components::Transform &transform, glm::quat targetRotation);
         static void AddRotation(Components::Transform &transform, glm::vec3 additiveRotation);
+        static void SetRotationFromGlobal(Components::Transform &transform, glm::vec3 targetRotation);
         static glm::vec3 GetRotation(Components::Transform &transform);
+        static glm::vec3 GetGlobalRotation(Components::Transform &transform);
         static glm::quat GetQuatRotation(Components::Transform &transform);
 
         static void SetTranslation(Components::Transform &transform, glm::vec3 targetTranslation);
         static void AddTranslation(Components::Transform &transform, glm::vec3 additiveTranslation);
         static void AddRelativeTranslation(Components::Transform &transform, glm::vec3 additiveTranslation);
+        static void SetTranslationFromGlobal(Components::Transform &transform, glm::vec3 globalTranslation);
         static glm::vec3 GetTranslation(Components::Transform &transform);
+        static glm::vec3 GetGlobalTranslation(Components::Transform &transform);
 
         static void SetScale(Components::Transform &transform, glm::vec3 targetScale);
         static void AddScale(Components::Transform &transform, glm::vec3 additiveScale);

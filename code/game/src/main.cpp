@@ -3,12 +3,10 @@
 #include "Enemy Controller.h"
 #include "ProjectileSystem.h"
 #include "engine/Tools/Grid.h"
-#include "engine/Systems/Sound/AudioSystem.h"
 #include "engine/Systems/Sound/AudioSource.h"
 #include "engine/Game.h"
 
 #include "SampleScene.h"
-#include "../../engine/src/Systems/Graphics/GraphicsSystem.h"
 
 using namespace gl3::engine;
 using namespace gl3::game;
