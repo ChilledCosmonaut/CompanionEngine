@@ -11,6 +11,7 @@ namespace gl3::engine::soundSystem {
         friend class AudioSourceUtils;
 
     public:
+        /// Need to adhere to the singleton pattern
         static AudioSystem &GetAudioSystem();
 
         /// Sets up the audio system by initializing SoLoud.
