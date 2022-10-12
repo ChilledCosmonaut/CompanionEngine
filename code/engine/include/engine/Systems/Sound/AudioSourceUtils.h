@@ -18,20 +18,21 @@ namespace gl3::engine::soundSystem {
         /// @param looping Toggles the loop option for the sound.
         static void Play(AudioSource &audioSource, bool looping){
             audioSource.sound.setLooping(looping);
-            audioSource.soundHandle = AudioSystem::soLoud.play(audioSource.sound, AudioSystem::masterVolume * audioSource.volume);
+            audioSource.play = true;
+           /* audioSource.handle = AudioSystem::soLoud.play3d(audioSource.sound, *//*AudioSystem::masterVolume * audioSource.volume*//*);*/
         }
 
         /// Starts to play the sound in the background as e.g. Music etc.
         /// @param looping Toggles the loop option for the sound.
         static void PlayBackground(AudioSource &audioSource, bool looping){
             audioSource.sound.setLooping(looping);
-            audioSource.soundHandle = AudioSystem::soLoud.playBackground(audioSource.sound/*, AudioListener::masterVolume * audioSource.volume*/);
+            audioSource.handle = AudioSystem::soLoud.playBackground(audioSource.sound/*, AudioListener::masterVolume * audioSource.volume*/);
         }
 
         /// Stops the sound if currently played.
         static void Stop(AudioSource &audioSource) {
-            if(audioSource.soundHandle == -1) return;
-            AudioSystem::soLoud.stop(audioSource.soundHandle);
+            if(audioSource.handle == -1) return;
+            AudioSystem::soLoud.stop(audioSource.handle);
         }
     };
 }

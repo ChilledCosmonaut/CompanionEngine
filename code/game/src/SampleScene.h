@@ -61,9 +61,6 @@ namespace gl3::game {
             engine::Graphics::Utils::TransformUtils::AddChildEntity(transform, test, test2);
             engine::Graphics::Utils::TransformUtils::AddChildEntity(transform, test, test3);*/
 
-            auto &audioSource = registry.emplace<engine::soundSystem::AudioSource>(test);
-            engine::soundSystem::AudioSourceUtils::SetupAudioSource(audioSource, "../../assets/audio/ambient-space-4.wav");
-
             auto asteroid = CreateEntity();
             auto &asteroidModel = registry.emplace<engine::Graphics::Components::Model>(asteroid);
             engine::Graphics::Utils::ModelUtils::SetPath(asteroidModel, "../../assets/asteriod1.obj");
@@ -87,6 +84,8 @@ namespace gl3::game {
             auto &asteroid2Transform = registry.get<engine::Graphics::Components::Transform>(asteroid2);
             engine::Graphics::Utils::TransformUtils::SetTranslation(asteroid2Transform, glm::vec3(20,-10,0));
             engine::Graphics::Utils::TransformUtils::SetScale(asteroid2Transform, glm::vec3(0.5f,0.5f,0.5f));
+            auto &audioSource = registry.emplace<engine::soundSystem::AudioSource>(asteroid2);
+            engine::soundSystem::AudioSourceUtils::SetupAudioSource(audioSource, "../../assets/audio/ambient-space-4.wav");
 
 
             auto asteroid3 = CreateEntity();
