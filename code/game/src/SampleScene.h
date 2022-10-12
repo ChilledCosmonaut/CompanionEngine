@@ -32,11 +32,11 @@ namespace gl3::game {
 
             engine::Graphics::Utils::TransformUtils::AddChildEntity(cameraTransform, mainCameraObject, test);
 
-            auto plane = CreateEntity();
+            /*auto plane = CreateEntity();
             auto &planeTransform = registry.get<engine::Graphics::Components::Transform>(plane);
             engine::Graphics::Utils::TransformUtils::AddTranslation(planeTransform, glm::vec3(0., -5.0f, 0.));
             engine::Graphics::Utils::TransformUtils::AddRotation(planeTransform, glm::vec3(0., 0., 90.));
-            auto &planeRigidBody = engine::Physics::Utils::RigidBodyUtils::AddRigidStatic(*this, plane);
+            auto &planeRigidBody = engine::Physics::Utils::RigidBodyUtils::AddRigidStatic(*this, plane);*/
 
 
             /*auto test1 = CreateEntity();
