@@ -12,6 +12,8 @@ namespace gl3::engine::soundSystem {
         int handle = -1;
         float volume = 1.0f;
         bool isBackground = false;
+        float minDistance = 0.1f;       //Defaults should be set to far clipping plane parameters
+        float maxDistance = 1000.0f;    // found in the projection matrix
     };
 
     template <typename Component>

@@ -77,6 +77,8 @@ namespace gl3::engine::soundSystem {
                 auto velocity = rigidBody.rigidBody->getLinearVelocity();
                 soLoud.set3dListenerVelocity(velocity.x, velocity.y, velocity.z);
             }
+
+            soLoud.set3dSourceMinMaxDistance(audioSource.handle, audioSource.minDistance, audioSource.maxDistance);
         }
 
         soLoud.update3dAudio();
