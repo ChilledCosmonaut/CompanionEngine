@@ -35,7 +35,7 @@ namespace gl3::engine::Physics {
 #endif
 
             physx::PxSceneDesc sceneDesc(mPhysics->getTolerancesScale());
-            sceneDesc.gravity = physx::PxVec3(0.0f, -9.81f, 0.0f);
+            sceneDesc.gravity = physx::PxVec3(0.0f, 0.0f, 0.0f);
             mDispatcher = physx::PxDefaultCpuDispatcherCreate(2);
             sceneDesc.cpuDispatcher	= mDispatcher;
             sceneDesc.filterShader	= physx::PxDefaultSimulationFilterShader;
