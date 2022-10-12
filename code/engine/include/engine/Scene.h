@@ -1,7 +1,7 @@
 #pragma once
 
 #include "PxConfig.h" //Needs to stay here else PhysX won't find some HeaderFiles
-#include "../../../../src/EntityComponentSystem/entt.hpp"
+#include "../../src/EntityComponentSystem/entt.hpp"
 #include "engine/Systems/ECS/Registry.h"
 #include "engine/Systems/Graphics/Utils/TransformUtils.h"
 

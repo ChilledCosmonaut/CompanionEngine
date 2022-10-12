@@ -1,6 +1,6 @@
 #pragma once
 
-#include "engine/Systems/Graphics/Scene.h"
+#include "engine/Scene.h"
 #include "engine/Systems/Graphics/Components/Model.h"
 #include "TransformUtils.h"
 

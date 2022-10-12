@@ -1,6 +1,6 @@
 #pragma once
 
-#include "engine/Systems/Graphics/Scene.h"
+#include "engine/Scene.h"
 #include "engine/Systems/Graphics/Components/Skybox.h"
 
 namespace gl3::engine::Graphics::Utils {

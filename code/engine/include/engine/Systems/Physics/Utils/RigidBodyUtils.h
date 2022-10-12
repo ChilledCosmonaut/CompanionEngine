@@ -7,7 +7,7 @@
 #include "engine/Systems/Graphics/Utils/TransformUtils.h"
 #include "engine/Systems/Physics/PhysicsSystem.h"
 #include "engine/Time.h"
-#include "engine/Systems/Graphics/Scene.h"
+#include "engine/Scene.h"
 
 #include <glm/gtc/matrix_access.hpp>
 

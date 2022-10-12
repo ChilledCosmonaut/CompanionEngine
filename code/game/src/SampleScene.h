@@ -1,6 +1,6 @@
 #pragma once
 
-#include "engine/Systems/Graphics/Scene.h"
+#include "engine/Scene.h"
 #include "engine/Systems/Sound/AudioSourceUtils.h"
 #include "engine/Systems/Graphics/Utils/TransformUtils.h"
 #include "engine/Systems/Graphics/Utils/ModelUtils.h"

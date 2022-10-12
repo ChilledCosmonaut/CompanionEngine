@@ -3,7 +3,7 @@
 #include "engine/Systems/Graphics/Components/Transform.h"
 #include "soloud.h"
 #include <stdexcept>
-#include "engine/Systems/Graphics/Scene.h"
+#include "engine/Scene.h"
 #include "engine/Systems/Sound/Components/AudioSource.h"
 #include "engine/Systems/Sound/Components/AudioListener.h"
 #include "engine/Systems/Physics/Components/Rigidbody.h"

@@ -2,7 +2,7 @@
 
 #include "engine/Events.h"
 #include "engine/Context.h"
-#include "engine/Systems/Graphics/Scene.h"
+#include "Scene.h"
 #include "engine/Systems/Physics/PhysicsSystem.h"
 #include "../../src/Systems/Graphics/GraphicsSystem.h"
 #include "engine/Systems/Sound/AudioSystem.h"
