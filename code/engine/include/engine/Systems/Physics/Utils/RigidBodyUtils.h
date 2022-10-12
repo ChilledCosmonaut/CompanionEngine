@@ -54,13 +54,11 @@ namespace gl3::engine::Physics::Utils {
                     break;
             }
 
-            auto translation = Graphics::Utils::TransformUtils::GetModelMatrix(transform);
+            auto translation = Graphics::Utils::TransformUtils::GetTranslation(transform);
+            auto rotation = Graphics::Utils::TransformUtils::GetQuatRotation(transform);
 
-            physx::PxTransform currentColliderTransform(physx::PxMat44(
-                    physx::PxVec4(translation[0].x, translation[0].y, translation[0].z, translation[0].w),
-                    physx::PxVec4(translation[1].x, translation[1].y, translation[1].z, translation[1].w),
-                    physx::PxVec4(translation[2].x, translation[2].y, translation[2].z, translation[2].w),
-                    physx::PxVec4(translation[3].x, translation[3].y, translation[3].z, translation[3].w)));
+            physx::PxTransform currentColliderTransform(translation.x, translation.y, translation.z,
+                                                        physx::PxQuat(rotation.x, rotation.y, rotation.z, rotation.w));
 
             rigidBody.rigidBody = physicsContext->createRigidDynamic(currentColliderTransform);
             rigidBody.rigidBody->attachShape(*shape);
@@ -85,13 +83,11 @@ namespace gl3::engine::Physics::Utils {
 
             physx::PxShape* shape = physicsContext->createShape(physx::PxPlaneGeometry(), *mMaterial);
 
-            auto translation = Graphics::Utils::TransformUtils::GetModelMatrix(transform);
+            auto translation = Graphics::Utils::TransformUtils::GetTranslation(transform);
+            auto rotation = Graphics::Utils::TransformUtils::GetQuatRotation(transform);
 
-            physx::PxTransform currentColliderTransform(physx::PxMat44(
-                    physx::PxVec4(translation[0].x, translation[0].y, translation[0].z, translation[0].w),
-                    physx::PxVec4(translation[1].x, translation[1].y, translation[1].z, translation[1].w),
-                    physx::PxVec4(translation[2].x, translation[2].y, translation[2].z, translation[2].w),
-                    physx::PxVec4(translation[3].x, translation[3].y, translation[3].z, translation[3].w)));
+            physx::PxTransform currentColliderTransform(translation.x, translation.y, translation.z,
+                                                        physx::PxQuat(rotation.x, rotation.y, rotation.z, rotation.w));
 
             rigidBody.rigidStatic = physicsContext->createRigidStatic(currentColliderTransform);
             rigidBody.rigidStatic->attachShape(*shape);
