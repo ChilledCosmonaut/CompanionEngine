@@ -45,7 +45,7 @@ int main() {
         auto registry = game.getCurrentScene()->getRegistry();
         auto audioSources = registry->view<soundSystem::AudioSource>();
         for (auto &audioEntity:audioSources) {
-            soundSystem::AudioSourceUtils::Play(registry->get<soundSystem::AudioSource>(audioEntity), false);
+            soundSystem::AudioSourceUtils::Play(audioEntity, scene, registry->get<soundSystem::AudioSource>(audioEntity), false);
         }
     });
 

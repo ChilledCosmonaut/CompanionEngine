@@ -21,6 +21,20 @@ namespace gl3::engine::soundSystem {
     void AudioSystem::UpdateAudio(Graphics::Scene &scene) {
 
         auto registry = scene.getRegistry();
+
+        auto startView = registry->view<Graphics::Components::Transform, AudioSource, Update<AudioSource>>();
+
+        for(auto& entity : startView){
+            auto& transform = startView.get<Graphics::Components::Transform>(entity);
+            auto& audioSource = startView.get<AudioSource>(entity);
+            registry->remove<Update<AudioSource>>(entity);
+
+            auto audioPosition = Graphics::Utils::TransformUtils::GetTranslation(transform);
+
+            audioSource.handle = AudioSystem::soLoud.play3d(audioSource.sound,
+                                                           audioPosition.x, audioPosition.y, audioPosition.z);
+        }
+
         auto componentView = registry->view<Graphics::Components::Transform, AudioSource>();
 
         for(auto& entity : componentView){
@@ -28,12 +42,6 @@ namespace gl3::engine::soundSystem {
             auto& audioSource = componentView.get<AudioSource>(entity);
 
             auto audioPosition = Graphics::Utils::TransformUtils::GetTranslation(transform);
-
-            if (audioSource.play){
-                audioSource.handle = AudioSystem::soLoud.play3d(audioSource.sound,
-                                                                audioPosition.x, audioPosition.y, audioPosition.z);
-                audioSource.play = false;
-            }
 
             if (!audioSource.isBackground)
                 break;

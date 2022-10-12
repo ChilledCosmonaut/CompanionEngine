@@ -15,4 +15,13 @@ namespace gl3::engine::soundSystem {
         bool isBackground = false;
         bool play = false;
     };
+
+    template <typename Component>
+    struct Update{};
+
+    template <typename Component>
+    struct Start{};
+
+    template <typename Component>
+    struct Destroy{};
 }

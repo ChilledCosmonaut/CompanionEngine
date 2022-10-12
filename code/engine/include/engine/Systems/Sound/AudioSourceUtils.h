@@ -16,9 +16,11 @@ namespace gl3::engine::soundSystem {
 
         /// Starts to play the sound the is loaded via the constructor.
         /// @param looping Toggles the loop option for the sound.
-        static void Play(AudioSource &audioSource, bool looping){
+        static void Play(entt::entity entity, Graphics::Scene& scene, AudioSource &audioSource, bool looping){
             audioSource.sound.setLooping(looping);
-            audioSource.play = true;
+            auto registry = scene.getRegistry();
+            if (!registry->all_of<Update<AudioSource>>(entity))
+                registry->emplace<Update<AudioSource>>(entity);
            /* audioSource.handle = AudioSystem::soLoud.play3d(audioSource.sound, *//*AudioSystem::masterVolume * audioSource.volume*//*);*/
         }
 
