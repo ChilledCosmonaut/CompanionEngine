@@ -9,7 +9,7 @@ namespace gl3::engine::Physics::Utils {
 namespace gl3::engine::Physics::Components::Shapes {
 
      enum Shapes{
-         sphere, Box, Capsule, Plane
+         sphere, box, capsule, plane
      };
 
     struct Sphere {
@@ -38,15 +38,15 @@ namespace gl3::engine::Physics::Components::Shapes {
         friend class Utils::RigidBodyUtils;
 
     private:
-        physx::PxVec2 dimensions = physx::PxVec2(1,1);
+        physx::PxVec2 dimensions = physx::PxVec2(100,100);
     };
 
     union Shape{
 
     public:
-        struct Sphere sphere;
-        struct Box box;
-        struct Capsule capsule;
-        struct Plane plane;
+        Sphere sphere;
+        Box box;
+        Capsule capsule;
+        Plane plane;
     };
 }

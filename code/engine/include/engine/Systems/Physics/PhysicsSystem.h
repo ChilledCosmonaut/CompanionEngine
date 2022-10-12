@@ -71,6 +71,10 @@ namespace gl3::engine::Physics {
             mScene->addActor(*rigidBody);
         }
 
+        void AddPhysicsObjects(physx::PxRigidStatic* rigidStatic) {
+            mScene->addActor(*rigidStatic);
+        }
+
         void RemovePhysicsObjects() {
 
         }
