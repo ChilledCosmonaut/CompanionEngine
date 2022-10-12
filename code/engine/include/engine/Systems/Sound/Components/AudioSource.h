@@ -8,12 +8,12 @@ namespace gl3::engine::soundSystem {
         friend class AudioSourceUtils;
         friend class AudioSystem;
     private:
-        SoLoud::Wav sound {};
-        int handle = -1;
-        float volume = 1.0f;
-        bool isBackground = false;
-        float minDistance = 0.1f;       //Defaults should be set to far clipping plane parameters
-        float maxDistance = 1000.0f;    // found in the projection matrix
+        SoLoud::Wav sound {}; ///< Wav data of sound file
+        int handle = -1; ///< Handle for sound library
+        float volume = 1.0f; ///< Volume of the sound
+        bool isBackground = false; ///< Ignores position when playing the audio
+        float minDistance = 0.1f; ///< Minimum distance required to hear the sound (Default is equal to clipping plane)
+        float maxDistance = 1000.0f; ///< Maximum distance possible to hear the sound (Default is equal to clipping plane)
     };
 
     template <typename Component>
