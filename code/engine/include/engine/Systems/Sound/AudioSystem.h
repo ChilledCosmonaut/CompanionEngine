@@ -2,6 +2,11 @@
 
 #include "engine/Systems/Graphics/Components/Transform.h"
 #include "soloud.h"
+#include <stdexcept>
+#include "engine/Systems/Graphics/Scene.h"
+#include "engine/Systems/Sound/Components/AudioSource.h"
+#include "engine/Systems/Sound/Components/AudioListener.h"
+#include "engine/Systems/Physics/Components/Rigidbody.h"
 
 namespace gl3::engine::soundSystem {
     /// Provides a static class to interact with @AudioSource to provide a more spatial sound and overall control.
@@ -10,17 +15,16 @@ namespace gl3::engine::soundSystem {
         friend class AudioSourceUtils;
 
     public:
+        /// Need to adhere to the singleton pattern
+        static AudioSystem &GetAudioSystem();
+
         /// Sets up the audio system by initializing SoLoud.
-        AudioSystem(){
-            soLoud = SoLoud::Soloud();
-            soLoud.init();
-        }
+        AudioSystem();
 
         /// Stops all sounds and deinitializes SoLoud.
-        ~AudioSystem(){
-            soLoud.stopAll();
-            soLoud.deinit();
-        }
+        ~AudioSystem();
+
+        void UpdateAudio(Graphics::Scene &scene);
 /*
         /// Sets a maximum range for when audio sources can be heard. (Does currently nothing)
         /// @param distance Maximum hearing range.
@@ -35,9 +39,8 @@ namespace gl3::engine::soundSystem {
         }*/
 
     private:
+        inline static AudioSystem *audioSystem = nullptr;
         static inline SoLoud::Soloud soLoud {};
-        /*static inline Graphics::Components::Transform* audioTransform = nullptr;
-        static inline int hearingDistance = 100;*/
         static inline float masterVolume = 1.0f;
     };
 }
