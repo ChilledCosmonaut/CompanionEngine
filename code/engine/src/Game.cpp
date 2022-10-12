@@ -20,6 +20,7 @@ namespace gl3::engine {
             onBeforeUpdate.invoke(*this);
             update(getWindow());
             physicsSystem.SimulatePhysics(*currentScene);
+            audioSystem.UpdateAudio(*currentScene);
             graphicsSystem.DrawScene(*currentScene);
             onDrawCall.invoke(*currentScene);
             Time::updateDeltaTime();
