@@ -15,13 +15,4 @@ namespace gl3::engine::soundSystem {
         float minDistance = 0.1f; ///< Minimum distance required to hear the sound (Default is equal to clipping plane)
         float maxDistance = 1000.0f; ///< Maximum distance possible to hear the sound (Default is equal to clipping plane)
     };
-
-    template <typename Component>
-    struct Update{};
-
-    template <typename Component>
-    struct Start{};
-
-    template <typename Component>
-    struct Destroy{};
 }
