@@ -4,8 +4,9 @@
 #include "../../src/EntityComponentSystem/entt.hpp"
 #include "engine/Systems/ECS/Registry.h"
 #include "engine/Systems/Graphics/Utils/TransformUtils.h"
+#include "engine/Systems/ECS/Flags.h"
 
-namespace gl3::engine::Graphics{
+namespace gl3::engine{
 
     class Scene {
 
@@ -14,6 +15,11 @@ namespace gl3::engine::Graphics{
 
         void Destroy(){
             // Flag all entities in the list for destruction
+            auto& registry = Ecs::Registry::getCurrent();
+
+            for (auto entity:entityList) {
+                registry.emplace<Ecs::Flags::Destroy<Graphics::Components::Transform>>(entity);
+            }
         }
 
     protected:
