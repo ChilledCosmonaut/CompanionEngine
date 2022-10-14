@@ -13,8 +13,9 @@ namespace gl3::engine{
     public:
         virtual void onSetup() = 0;
 
-        void Destroy(){
-            // Flag all entities in the list for destruction
+        /// Flags all entities in the entity list of the scene for destruction
+        void Quit(){
+
             auto& registry = Ecs::Registry::getCurrent();
 
             for (auto entity:entityList) {
