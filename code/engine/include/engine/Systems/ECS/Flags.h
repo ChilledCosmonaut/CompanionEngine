@@ -3,7 +3,7 @@
 namespace gl3::engine::Ecs::Flags {
 
     template <typename  Component>
-    struct Start {};
+    struct Setup {};
 
     template <typename  Component>
     struct Update {};
