@@ -3,6 +3,8 @@
 #include "soloud.h"
 #include <stdexcept>
 
+#include "../../../../src/ECS/CoreSystem.h"
+
 #include "engine/Systems/Graphics/Components/Transform.h"
 #include "engine/Systems/Graphics/Utils/TransformUtils.h"
 
@@ -14,18 +16,12 @@
 
 namespace gl3::engine::soundSystem {
     /// Provides a static class to interact with @AudioSource to provide a more spatial sound and overall control.
-    class AudioSystem {
+    class AudioSystem : Ecs::CoreSystem {
         friend class AudioSourceUtils;
 
     public:
         /// Need to adhere to the singleton pattern
         static AudioSystem &GetAudioSystem();
-
-        /// Sets up the audio system by initializing SoLoud.
-        AudioSystem();
-
-        /// Stops all sounds and deinitializes SoLoud.
-        ~AudioSystem();
 
         void SetupAudio();
 
@@ -34,6 +30,13 @@ namespace gl3::engine::soundSystem {
         void DestroyAudio();
 
     private:
+        /// Sets up the audio system by initializing SoLoud.
+        AudioSystem();
+
+        /// Stops all sounds and deinitializes SoLoud.
+        ~AudioSystem() override;
+
+
         inline static AudioSystem *audioSystem = nullptr;
         SoLoud::Soloud soLoud {};
         float masterVolume = 1.0f;
