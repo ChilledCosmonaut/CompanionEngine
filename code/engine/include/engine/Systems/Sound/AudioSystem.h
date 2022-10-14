@@ -4,6 +4,7 @@
 #include <stdexcept>
 
 #include "../../../../src/ECS/CoreSystem.h"
+#include "engine/ECS/Registry.h"
 
 #include "engine/Systems/Graphics/Components/Transform.h"
 #include "engine/Systems/Graphics/Utils/TransformUtils.h"
@@ -31,7 +32,7 @@ namespace gl3::engine::soundSystem {
 
     private:
         /// Sets up the audio system by initializing SoLoud.
-        AudioSystem();
+        AudioSystem() override;
 
         /// Stops all sounds and deinitializes SoLoud.
         ~AudioSystem() override;

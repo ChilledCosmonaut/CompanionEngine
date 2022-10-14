@@ -1,5 +1,4 @@
 #include "engine/Systems/Sound/AudioSystem.h"
-#include "engine/Systems/ECS/Registry.h"
 
 namespace gl3::engine::soundSystem {
 
