@@ -30,7 +30,7 @@ namespace gl3::engine{
             entt::entity entity = registry.create();
             entityList.emplace_back(entity);
 
-            auto &transform = registry.emplace<Components::Transform>(entity);
+            auto &transform = registry.emplace<Graphics::Components::Transform>(entity);
             engine::Graphics::Utils::TransformUtils::SetCurrentRegistry(transform, registry);
 
             return entity;
