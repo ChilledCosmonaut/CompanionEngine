@@ -32,7 +32,7 @@ namespace gl3::engine::soundSystem {
 
     private:
         /// Sets up the audio system by initializing SoLoud.
-        AudioSystem() override;
+        AudioSystem();
 
         /// Stops all sounds and deinitializes SoLoud.
         ~AudioSystem() override;
