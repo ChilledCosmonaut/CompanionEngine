@@ -7,9 +7,9 @@ namespace gl3::engine {
             context(width, height, title),
             currentScene(startScene),
             physicsSystem(),
-            graphicsSystem(),
-            audioSystem() {
+            graphicsSystem() {
         glEnable(GL_DEPTH_TEST);
+        audioSystem = soundSystem::AudioSystem::GetAudioSystem();
     }
 
     void Game::run() {
