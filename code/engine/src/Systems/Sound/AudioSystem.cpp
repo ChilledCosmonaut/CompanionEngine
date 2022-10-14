@@ -22,16 +22,28 @@ namespace gl3::engine::soundSystem {
 
         auto& registry = Ecs::Registry::getCurrent();
 
-        auto setupSourceView = registry.view<AudioSource, Ecs::Flags::Update<AudioSource>>();
+        auto backgroundSourcesForSetup = registry.view<BackgroundAudioSource, Ecs::Flags::Update<BackgroundAudioSource>>();
 
-        for(auto& entity : setupSourceView){
-            auto& audioSource = setupSourceView.get<AudioSource>(entity);
+        for(auto& entity : backgroundSourcesForSetup){
+            auto& audioSource = backgroundSourcesForSetup.get<BackgroundAudioSource>(entity);
 
             audioSource.sound = SoLoud::Wav();
             audioSource.sound.load(audioSource.soundFilePath.c_str());
 
-            Ecs::Registry::RemoveSetupFlag<AudioSource>(entity);
-            Ecs::Registry::AddUpdateFlag<AudioSource>(entity);
+            Ecs::Registry::RemoveSetupFlag<BackgroundAudioSource>(entity);
+            Ecs::Registry::AddUpdateFlag<BackgroundAudioSource>(entity);
+        }
+
+        auto spatialSourcesForSetup = registry.view<SpatialAudioSource, Ecs::Flags::Update<SpatialAudioSource>>();
+
+        for(auto& entity : spatialSourcesForSetup){
+            auto& audioSource = spatialSourcesForSetup.get<SpatialAudioSource>(entity);
+
+            audioSource.sound = SoLoud::Wav();
+            audioSource.sound.load(audioSource.soundFilePath.c_str());
+
+            Ecs::Registry::RemoveSetupFlag<SpatialAudioSource>(entity);
+            Ecs::Registry::AddUpdateFlag<SpatialAudioSource>(entity);
         }
     }
 
@@ -39,41 +51,52 @@ namespace gl3::engine::soundSystem {
 
         auto& registry = Ecs::Registry::getCurrent();
 
-        auto audioSourcesChanged = registry.view<Graphics::Components::Transform, AudioSource, Ecs::Flags::Update<AudioSource>>();
+        auto spatialSourcesChanged = registry.view<Graphics::Components::Transform, SpatialAudioSource, Ecs::Flags::Update<SpatialAudioSource>>();
 
-        for(auto& entity : audioSourcesChanged){
-            auto& transform = audioSourcesChanged.get<Graphics::Components::Transform>(entity);
-            auto& audioSource = audioSourcesChanged.get<AudioSource>(entity);
+        for(auto& entity : spatialSourcesChanged){
+            auto& transform = spatialSourcesChanged.get<Graphics::Components::Transform>(entity);
+            auto& audioSource = spatialSourcesChanged.get<SpatialAudioSource>(entity);
 
             /*audioSource.sound.setLooping(looping);*/
             soLoud.setVolume(audioSource.handle, audioSource.volume);
+            soLoud.set3dSourceMinMaxDistance(audioSource.handle, audioSource.minDistance, audioSource.maxDistance);
 
-            if(audioSource.play && !audioSource.isBackground){
+            if(audioSource.play){
                 auto audioPosition = Graphics::Utils::TransformUtils::GetTranslation(transform);
 
                 audioSource.handle = AudioSystem::soLoud.play3d(audioSource.sound,
                                                                 audioPosition.x, audioPosition.y, audioPosition.z);
                 audioSource.play = false;
             }
-            else if(audioSource.play){
+
+            Ecs::Registry::RemoveUpdateFlag<SpatialAudioSource>(entity);
+        }
+
+        auto backgroundSourcesChanged = registry.view<Graphics::Components::Transform, BackgroundAudioSource, Ecs::Flags::Update<BackgroundAudioSource>>();
+
+        for(auto& entity : backgroundSourcesChanged){
+            auto& transform = backgroundSourcesChanged.get<Graphics::Components::Transform>(entity);
+            auto& audioSource = backgroundSourcesChanged.get<BackgroundAudioSource>(entity);
+
+            /*audioSource.sound.setLooping(looping);*/
+            soLoud.setVolume(audioSource.handle, audioSource.volume);
+
+            if(audioSource.play){
                 audioSource.handle = AudioSystem::soLoud.playBackground(audioSource.sound/*, AudioListener::masterVolume * audioSource.volume*/);
                 audioSource.play = false;
             }
 
-            Ecs::Registry::RemoveUpdateFlag<AudioSource>(entity);
+            Ecs::Registry::RemoveUpdateFlag<BackgroundAudioSource>(entity);
         }
 
-        auto updatedTransform = registry.view<
-                Graphics::Components::Transform, AudioSource, Ecs::Flags::Update<Graphics::Components::Transform>>();
+        auto spatialTransformChanged = registry.view<
+                Graphics::Components::Transform, SpatialAudioSource, Ecs::Flags::Update<Graphics::Components::Transform>>();
 
-        for(auto& entity : updatedTransform){
-            auto& transform = updatedTransform.get<Graphics::Components::Transform>(entity);
-            auto& audioSource = updatedTransform.get<AudioSource>(entity);
+        for(auto& entity : spatialTransformChanged){
+            auto& transform = spatialTransformChanged.get<Graphics::Components::Transform>(entity);
+            auto& audioSource = spatialTransformChanged.get<SpatialAudioSource>(entity);
 
             auto audioPosition = Graphics::Utils::TransformUtils::GetTranslation(transform);
-
-            if (!audioSource.isBackground)
-                break;
 
             soLoud.set3dSourcePosition(audioSource.handle,
                                        audioPosition.x, audioPosition.y, audioPosition.z);
