@@ -5,9 +5,7 @@
 namespace gl3::engine::soundSystem{
     /// Provides a wrapper for some simplified spatial audio.
     struct BackgroundAudioSource{
-        friend class AudioSourceUtils;
-        friend class AudioSystem;
-    private:
+    public:
         SoLoud::Wav sound {}; ///< Wav data of sound file
         std::string soundFilePath; ///< Path to sound file ToDo: Let this be manageable via FileManager
         int handle = -1; ///< Handle for sound library
