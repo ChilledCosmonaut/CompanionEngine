@@ -2,9 +2,9 @@
 
 #include "soloud_wav.h"
 
-namespace gl3::engine::soundSystem {
+namespace gl3::engine::soundSystem{
     /// Provides a wrapper for some simplified spatial audio.
-    struct AudioSource{
+    struct BackgroundAudioSource{
         friend class AudioSourceUtils;
         friend class AudioSystem;
     private:
@@ -13,8 +13,5 @@ namespace gl3::engine::soundSystem {
         int handle = -1; ///< Handle for sound library
         bool play = false; ///< Notifier if sound should be played or not
         float volume = 1.0f; ///< Volume of the sound
-        bool isBackground = false; ///< Ignores position when playing the audio
-        float minDistance = 0.1f; ///< Minimum distance required to hear the sound (Default is equal to clipping plane)
-        float maxDistance = 1000.0f; ///< Maximum distance possible to hear the sound (Default is equal to clipping plane)
     };
 }
