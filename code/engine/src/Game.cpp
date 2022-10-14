@@ -3,7 +3,7 @@
 namespace gl3::engine {
     using Context = engine::context::Context;
 
-    Game::Game(int width, int height, const std::string &title, Graphics::Scene* startScene):
+    Game::Game(int width, int height, const std::string &title, Scene* startScene):
             context(width, height, title),
             currentScene(startScene),
             physicsSystem(),
@@ -13,32 +13,36 @@ namespace gl3::engine {
     }
 
     void Game::run() {
-        onStartup.invoke(*this);
-        start();
-        onAfterStartup.invoke(*this);
+        SetUpEngineSystems();
+        onSetup.invoke(*this);
         context.run([&](Context &ctx){
-            onBeforeUpdate.invoke(*this);
-            update(getWindow());
-            physicsSystem.SimulatePhysics(*currentScene);
-            audioSystem.UpdateAudio(*currentScene);
-            graphicsSystem.DrawScene(*currentScene);
-            onDrawCall.invoke(*currentScene);
+            onDestroy.invoke(*this);
+            onSetup.invoke(*this);
+            onUpdate.invoke(*this);
+            UpdateEngineSystems();
             Time::updateDeltaTime();
-            onAfterUpdate.invoke(*this);
         });
-        onBeforeShutdown.invoke(*this);
-        onShutdown.invoke(*this);
-    }
-
-    void Game::draw() {
-        if (currentScene != nullptr) {
-            onDrawCall.invoke(*currentScene);
-        }
+        onDestroy.invoke(*this);
+        DestroyEngineSystems();
     }
 
     Game::~Game() {
         audioSystem.~AudioSystem();
         physicsSystem.~PhysicsSystem();
         context.~Context();
+    }
+
+    void Game::SetUpEngineSystems() {
+        audioSystem.SetupAudio();
+    }
+
+    void Game::UpdateEngineSystems() {
+        physicsSystem.SimulatePhysics(*currentScene);
+        audioSystem.UpdateAudio();
+        graphicsSystem.DrawScene(*currentScene);
+    }
+
+    void Game::DestroyEngineSystems() {
+        audioSystem.DestroyAudio();
     }
 }

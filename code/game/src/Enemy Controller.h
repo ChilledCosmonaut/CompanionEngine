@@ -13,7 +13,7 @@ namespace gl3::game {
 
         void OnDrawCall(engine::Graphics::Scene &scene) override {};
 
-        void Start(engine::Game &game) override {};
+        void OnSetUp(engine::Game &game) override {};
 
         void Update(engine::Game &game) override {
             auto registry = game.getCurrentScene()->getRegistry();

@@ -41,7 +41,7 @@ int main() {
 
     ShipController controller1 = ShipController();
 
-    game.onStartup.addListener([&] (Game &game){
+    game.onSetup.addListener([&] (Game &game){
         auto registry = game.getCurrentScene()->getRegistry();
         auto audioSources = registry->view<soundSystem::AudioSource>();
         for (auto &audioEntity:audioSources) {
