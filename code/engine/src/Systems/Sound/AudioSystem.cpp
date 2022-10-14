@@ -1,4 +1,5 @@
 #include "engine/Systems/Sound/AudioSystem.h"
+#include "engine/Systems/ECS/Registry.h"
 
 namespace gl3::engine::soundSystem {
 
@@ -64,7 +65,7 @@ namespace gl3::engine::soundSystem {
             if(audioSource.play){
                 auto audioPosition = Graphics::Utils::TransformUtils::GetTranslation(transform);
 
-                audioSource.handle = AudioSystem::soLoud.play3d(audioSource.sound,
+                audioSource.handle = soLoud.play3d(audioSource.sound,
                                                                 audioPosition.x, audioPosition.y, audioPosition.z);
                 audioSource.play = false;
             }
@@ -82,7 +83,7 @@ namespace gl3::engine::soundSystem {
             soLoud.setVolume(audioSource.handle, audioSource.volume);
 
             if(audioSource.play){
-                audioSource.handle = AudioSystem::soLoud.playBackground(audioSource.sound/*, AudioListener::masterVolume * audioSource.volume*/);
+                audioSource.handle = soLoud.playBackground(audioSource.sound/*, AudioListener::masterVolume * audioSource.volume*/);
                 audioSource.play = false;
             }
 
