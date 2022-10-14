@@ -22,7 +22,10 @@ namespace gl3::engine::soundSystem {
 
     public:
         /// Need to adhere to the singleton pattern
-        static AudioSystem &GetAudioSystem();
+        static AudioSystem *GetAudioSystem();
+
+        /// Need to adhere to the singleton pattern
+        static void DestroyAudioSystem();
 
         void SetupAudio();
 
@@ -38,7 +41,7 @@ namespace gl3::engine::soundSystem {
         ~AudioSystem() override;
 
 
-        inline static AudioSystem *audioSystem = nullptr;
+        static inline AudioSystem* audioSystem;
         SoLoud::Soloud soLoud {};
         float masterVolume = 1.0f;
     };

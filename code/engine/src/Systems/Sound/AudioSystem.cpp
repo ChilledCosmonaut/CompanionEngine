@@ -2,10 +2,14 @@
 
 namespace gl3::engine::soundSystem {
 
-    AudioSystem &AudioSystem::GetAudioSystem() {
-        if (audioSystem != nullptr)
-            return *audioSystem;
-        throw std::domain_error("AudioSystem is not yet created");
+    AudioSystem *AudioSystem::GetAudioSystem() {
+        if (audioSystem == nullptr)
+            audioSystem = new AudioSystem();
+        return audioSystem;
+    }
+
+    void AudioSystem::DestroyAudioSystem() {
+        audioSystem->~AudioSystem();
     }
 
     AudioSystem::AudioSystem() {
