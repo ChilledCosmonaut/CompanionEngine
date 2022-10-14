@@ -24,7 +24,7 @@ namespace gl3::engine::soundSystem {
         /// Stops all sounds and deinitializes SoLoud.
         ~AudioSystem();
 
-        void UpdateAudio(Graphics::Scene &scene);
+        void UpdateAudio(Scene &scene);
 /*
         /// Sets a maximum range for when audio sources can be heard. (Does currently nothing)
         /// @param distance Maximum hearing range.

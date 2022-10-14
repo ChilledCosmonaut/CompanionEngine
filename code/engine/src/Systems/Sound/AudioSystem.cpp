@@ -18,16 +18,16 @@ namespace gl3::engine::soundSystem {
         soLoud.deinit();
     }
 
-    void AudioSystem::UpdateAudio(Graphics::Scene &scene) {
+    void AudioSystem::UpdateAudio(Scene &scene) {
 
-        auto registry = scene.getRegistry();
+        auto& registry = Ecs::Registry::getCurrent();
 
-        auto startView = registry->view<Graphics::Components::Transform, AudioSource, Update<AudioSource>>();
+        auto startView = registry.view<Graphics::Components::Transform, AudioSource, Ecs::Flags::Update<AudioSource>>();
 
         for(auto& entity : startView){
             auto& transform = startView.get<Graphics::Components::Transform>(entity);
             auto& audioSource = startView.get<AudioSource>(entity);
-            registry->remove<Update<AudioSource>>(entity);
+            registry.remove<Ecs::Flags::Update<AudioSource>>(entity);
 
             auto audioPosition = Graphics::Utils::TransformUtils::GetTranslation(transform);
 
@@ -35,7 +35,7 @@ namespace gl3::engine::soundSystem {
                                                            audioPosition.x, audioPosition.y, audioPosition.z);
         }
 
-        auto listenerView = registry->view<Graphics::Components::Transform, AudioListener>();
+        auto listenerView = registry.view<Graphics::Components::Transform, AudioListener>();
 
         for (auto& entity : listenerView) {
             auto& transform = listenerView.get<Graphics::Components::Transform>(entity);
@@ -50,15 +50,15 @@ namespace gl3::engine::soundSystem {
                                            atVector.x, atVector.y, atVector.z,
                                            upVector.x, upVector.y, upVector.z);
 
-            if (registry->all_of<Physics::Components::RigidBody>(entity)){
-                auto& rigidBody = registry->get<Physics::Components::RigidBody>(entity);
+            if (registry.all_of<Physics::Components::RigidBody>(entity)){
+                auto& rigidBody = registry.get<Physics::Components::RigidBody>(entity);
                 auto velocity = rigidBody.rigidBody->getLinearVelocity();
                 soLoud.set3dListenerVelocity(velocity.x, velocity.y, velocity.z);
             }
             break;
         }
 
-        auto componentView = registry->view<Graphics::Components::Transform, AudioSource>();
+        auto componentView = registry.view<Graphics::Components::Transform, AudioSource>();
 
         for(auto& entity : componentView){
             auto& transform = componentView.get<Graphics::Components::Transform>(entity);
@@ -72,8 +72,8 @@ namespace gl3::engine::soundSystem {
             soLoud.set3dSourcePosition(audioSource.handle,
                                        audioPosition.x, audioPosition.y, audioPosition.z);
 
-            if (registry->all_of<Physics::Components::RigidBody>(entity)){
-                auto& rigidBody = registry->get<Physics::Components::RigidBody>(entity);
+            if (registry.all_of<Physics::Components::RigidBody>(entity)){
+                auto& rigidBody = registry.get<Physics::Components::RigidBody>(entity);
                 auto velocity = rigidBody.rigidBody->getLinearVelocity();
                 soLoud.set3dListenerVelocity(velocity.x, velocity.y, velocity.z);
             }
