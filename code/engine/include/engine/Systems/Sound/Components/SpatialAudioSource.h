@@ -3,7 +3,7 @@
 #include "soloud_wav.h"
 
 namespace gl3::engine::soundSystem {
-    /// Provides a wrapper for some simplified spatial audio.
+    /// Provides component info for spatial audio.
     struct SpatialAudioSource{
     public:
         SoLoud::Wav sound {}; ///< Wav data of sound file
