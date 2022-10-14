@@ -22,17 +22,16 @@ namespace gl3::engine::soundSystem {
 
         auto& registry = Ecs::Registry::getCurrent();
 
-        auto initView = registry.view<AudioSource, Ecs::Flags::Update<AudioSource>>();
+        auto setupSourceView = registry.view<AudioSource, Ecs::Flags::Update<AudioSource>>();
 
-        for(auto& entity : initView){
-            auto& audioSource = initView.get<AudioSource>(entity);
+        for(auto& entity : setupSourceView){
+            auto& audioSource = setupSourceView.get<AudioSource>(entity);
 
             audioSource.sound = SoLoud::Wav();
             audioSource.sound.load(audioSource.soundFilePath.c_str());
 
-            registry.remove<Ecs::Flags::Setup<AudioSource>>(entity);
-            if(registry.any_of<Ecs::Flags::Update<AudioSource>>(entity))
-                registry.emplace<Ecs::Flags::Update<AudioSource>>(entity);
+            Ecs::Registry::RemoveSetupFlag<AudioSource>(entity);
+            Ecs::Registry::AddUpdateFlag<AudioSource>(entity);
         }
     }
 
