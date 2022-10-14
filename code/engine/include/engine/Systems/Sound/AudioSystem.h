@@ -32,7 +32,7 @@ namespace gl3::engine::soundSystem {
 
     private:
         inline static AudioSystem *audioSystem = nullptr;
-        static inline SoLoud::Soloud soLoud {};
-        static inline float masterVolume = 1.0f;
+        SoLoud::Soloud soLoud {};
+        float masterVolume = 1.0f;
     };
 }
