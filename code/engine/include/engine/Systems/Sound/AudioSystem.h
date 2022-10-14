@@ -27,18 +27,6 @@ namespace gl3::engine::soundSystem {
         void SetupAudio();
 
         void UpdateAudio();
-/*
-        /// Sets a maximum range for when audio sources can be heard. (Does currently nothing)
-        /// @param distance Maximum hearing range.
-        static void SetMaxHearingDistance(int distance){
-            hearingDistance = distance;
-        }
-
-        /// Sets the master volume for all audio sources in the program. (Does currently nothing)
-        /// @param volume New master volume value.
-        static void SetMasterVolume(float volume){
-            masterVolume = volume;
-        }*/
 
     private:
         inline static AudioSystem *audioSystem = nullptr;
