@@ -2,7 +2,7 @@
 
 #include "glm/vec3.hpp"
 #include "glm/gtx/quaternion.hpp"
-#include "../../../../../src/EntityComponentSystem/entt.hpp"
+#include "../../../../src/ECS/entt.hpp"
 
 namespace gl3::engine::Graphics::Utils {
     class TransformUtils;

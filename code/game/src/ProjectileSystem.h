@@ -2,7 +2,7 @@
 
 #include "EnemyBehavourSettings.h"
 #include "ShipMovementSettings.h"
-#include "engine/System.h"
+#include "engine/ECS/System.h"
 #include "ProjectileInfo.h"
 #include "engine/Time.h"
 

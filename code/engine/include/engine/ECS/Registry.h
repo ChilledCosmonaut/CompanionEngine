@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../../../src/EntityComponentSystem/entt.hpp"
+#include "../../../src/ECS/entt.hpp"
 #include "Flags.h"
 
 namespace gl3::engine::Ecs {

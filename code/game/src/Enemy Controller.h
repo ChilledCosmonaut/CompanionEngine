@@ -1,6 +1,6 @@
 #pragma once
 
-#include "engine/System.h"
+#include "engine/ECS/System.h"
 #include "ShipController.h"
 #include "EnemyBehavourSettings.h"
 
