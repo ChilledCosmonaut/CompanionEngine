@@ -65,9 +65,12 @@ namespace gl3::engine::soundSystem {
             if(audioSource.play){
                 auto audioPosition = Graphics::Utils::TransformUtils::GetTranslation(transform);
 
-                audioSource.handle = soLoud.play3d(audioSource.sound,
-                                                                audioPosition.x, audioPosition.y, audioPosition.z);
+                audioSource.handle = soLoud.play3d(audioSource.sound,audioPosition.x, audioPosition.y, audioPosition.z);
                 audioSource.play = false;
+            }
+            if (audioSource.interrupt){
+                soLoud.stop(audioSource.handle);
+                audioSource.interrupt = false;
             }
 
             Ecs::Registry::RemoveUpdateFlag<SpatialAudioSource>(entity);
@@ -85,6 +88,10 @@ namespace gl3::engine::soundSystem {
             if(audioSource.play){
                 audioSource.handle = soLoud.playBackground(audioSource.sound/*, AudioListener::masterVolume * audioSource.volume*/);
                 audioSource.play = false;
+            }
+            if (audioSource.interrupt){
+                soLoud.stop(audioSource.handle);
+                audioSource.interrupt = false;
             }
 
             Ecs::Registry::RemoveUpdateFlag<BackgroundAudioSource>(entity);
