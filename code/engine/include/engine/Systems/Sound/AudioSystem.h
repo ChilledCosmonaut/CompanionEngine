@@ -28,6 +28,8 @@ namespace gl3::engine::soundSystem {
 
         void UpdateAudio();
 
+        void DestroyAudio();
+
     private:
         inline static AudioSystem *audioSystem = nullptr;
         static inline SoLoud::Soloud soLoud {};

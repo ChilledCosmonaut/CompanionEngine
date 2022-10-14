@@ -110,7 +110,7 @@ namespace gl3::engine::soundSystem {
             soLoud.set3dSourceMinMaxDistance(audioSource.handle, audioSource.minDistance, audioSource.maxDistance);
         }
 
-        auto listenerView = registry.view<Graphics::Components::Transform, AudioListener>();
+        auto listenerView = registry.view<Graphics::Components::Transform, AudioListener,  Ecs::Flags::Update<Graphics::Components::Transform>>();
 
         for (auto& entity : listenerView) {
             auto& transform = listenerView.get<Graphics::Components::Transform>(entity);
@@ -134,5 +134,39 @@ namespace gl3::engine::soundSystem {
         }
 
         soLoud.update3dAudio();
+    }
+
+    void AudioSystem::DestroyAudio() {
+
+        auto& registry = Ecs::Registry::getCurrent();
+
+        auto spatialSourcesForDestruction = registry.view<SpatialAudioSource, Ecs::Flags::Destroy<SpatialAudioSource>>();
+
+        for (auto entity:spatialSourcesForDestruction) {
+            auto& audioSource = spatialSourcesForDestruction.get<SpatialAudioSource>(entity);
+
+            soLoud.stop(audioSource.handle);
+
+            registry.remove<SpatialAudioSource>(entity);
+            Ecs::Registry::RemoveDestroyFlag<SpatialAudioSource>(entity);
+        }
+
+        auto backgroundSourcesForDestruction = registry.view<BackgroundAudioSource, Ecs::Flags::Destroy<BackgroundAudioSource>>();
+
+        for (auto entity:backgroundSourcesForDestruction) {
+            auto& audioSource = backgroundSourcesForDestruction.get<BackgroundAudioSource>(entity);
+
+            soLoud.stop(audioSource.handle);
+
+            registry.remove<BackgroundAudioSource>(entity);
+            Ecs::Registry::RemoveDestroyFlag<BackgroundAudioSource>(entity);
+        }
+
+        auto listenersForDestruction = registry.view<AudioListener, Ecs::Flags::Destroy<AudioListener>>();
+
+        for (auto entity:listenersForDestruction) {
+            registry.remove<AudioListener>(entity);
+            Ecs::Registry::RemoveDestroyFlag<AudioListener>(entity);
+        }
     }
 }
