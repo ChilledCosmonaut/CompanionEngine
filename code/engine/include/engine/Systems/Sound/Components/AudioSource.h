@@ -9,7 +9,9 @@ namespace gl3::engine::soundSystem {
         friend class AudioSystem;
     private:
         SoLoud::Wav sound {}; ///< Wav data of sound file
+        std::string soundFilePath; ///< Path to sound file ToDo: Let this be manageable via FileManager
         int handle = -1; ///< Handle for sound library
+        bool play = false; ///< Notifier if sound should be played or not
         float volume = 1.0f; ///< Volume of the sound
         bool isBackground = false; ///< Ignores position when playing the audio
         float minDistance = 0.1f; ///< Minimum distance required to hear the sound (Default is equal to clipping plane)

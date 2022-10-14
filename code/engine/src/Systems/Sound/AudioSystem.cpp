@@ -18,7 +18,25 @@ namespace gl3::engine::soundSystem {
         soLoud.deinit();
     }
 
-    void AudioSystem::UpdateAudio(Scene &scene) {
+    void AudioSystem::SetupAudio() {
+
+        auto& registry = Ecs::Registry::getCurrent();
+
+        auto initView = registry.view<AudioSource, Ecs::Flags::Update<AudioSource>>();
+
+        for(auto& entity : initView){
+            auto& audioSource = initView.get<AudioSource>(entity);
+
+            audioSource.sound = SoLoud::Wav();
+            audioSource.sound.load(audioSource.soundFilePath.c_str());
+
+            registry.remove<Ecs::Flags::Setup<AudioSource>>(entity);
+            if(registry.any_of<Ecs::Flags::Update<AudioSource>>(entity))
+                registry.emplace<Ecs::Flags::Update<AudioSource>>(entity);
+        }
+    }
+
+    void AudioSystem::UpdateAudio() {
 
         auto& registry = Ecs::Registry::getCurrent();
 
@@ -32,7 +50,7 @@ namespace gl3::engine::soundSystem {
             auto audioPosition = Graphics::Utils::TransformUtils::GetTranslation(transform);
 
             audioSource.handle = AudioSystem::soLoud.play3d(audioSource.sound,
-                                                           audioPosition.x, audioPosition.y, audioPosition.z);
+                                                            audioPosition.x, audioPosition.y, audioPosition.z);
         }
 
         auto listenerView = registry.view<Graphics::Components::Transform, AudioListener>();
