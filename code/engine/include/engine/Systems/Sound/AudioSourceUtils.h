@@ -1,6 +1,6 @@
 #pragma once
 
-#include "engine/Systems/Sound/Components/AudioSource.h"
+#include "engine/Systems/Sound/Components/SpatialAudioSource.h"
 
 namespace gl3::engine::soundSystem {
 

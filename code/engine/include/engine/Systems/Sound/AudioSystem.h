@@ -4,14 +4,14 @@
 #include "soloud.h"
 #include <stdexcept>
 #include "engine/Scene.h"
-#include "engine/Systems/Sound/Components/AudioSource.h"
+#include "engine/Systems/Sound/Components/SpatialAudioSource.h"
+#include "engine/Systems/Sound/Components/BackgroundAudioSource.h"
 #include "engine/Systems/Sound/Components/AudioListener.h"
 #include "engine/Systems/Physics/Components/Rigidbody.h"
 
 namespace gl3::engine::soundSystem {
     /// Provides a static class to interact with @AudioSource to provide a more spatial sound and overall control.
     class AudioSystem {
-        friend class AudioSource;
         friend class AudioSourceUtils;
 
     public:

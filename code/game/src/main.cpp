@@ -3,7 +3,7 @@
 #include "Enemy Controller.h"
 #include "ProjectileSystem.h"
 #include "engine/Tools/Grid.h"
-#include "engine/Systems/Sound/Components/AudioSource.h"
+#include "engine/Systems/Sound/Components/SpatialAudioSource.h"
 #include "engine/Game.h"
 
 #include "SampleScene.h"
