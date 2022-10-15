@@ -91,6 +91,40 @@ namespace gl3::engine::Physics {
                 auto& rigidBody = updatedRigidBodies.get<Components::RigidBody>(entity);
 
                 //ToDo: Update rigid bodies here when values have been changed
+                auto mMaterial =
+                        mPhysics->createMaterial(
+                                rigidBody.materialProperties.x, rigidBody.materialProperties.y,
+                                rigidBody.materialProperties.z);
+
+                physx::PxShape* newShape;
+
+                Components::Shapes::Sphere sphere;
+                Components::Shapes::Box box;
+                Components::Shapes::Capsule capsule;
+
+                switch (rigidBody.shape) {
+                    case Components::Shapes::sphere:
+                        sphere = std::get<Components::Shapes::sphere>(rigidBody.shapeInfo);
+                        newShape = mPhysics->createShape(
+                                physx::PxSphereGeometry(sphere.radius)
+                                , *mMaterial);
+                        break;
+                    case Components::Shapes::box:
+                        box = std::get<Components::Shapes::box>(rigidBody.shapeInfo);
+                        newShape = mPhysics->createShape(
+                                physx::PxBoxGeometry(box.dimensions.x, box.dimensions.y, box.dimensions.z)
+                                , *mMaterial);
+                        break;
+                    case Components::Shapes::capsule:
+                        capsule = std::get<Components::Shapes::capsule>(rigidBody.shapeInfo);
+                        newShape = mPhysics->createShape(
+                                physx::PxCapsuleGeometry(capsule.radius, capsule.halfHeight), *mMaterial);
+                        break;
+                }
+
+                rigidBody.rigidBody->attachShape(*newShape);
+
+                rigidBody.rigidBody->setMass(rigidBody.mass);
             }
 
             auto updatedTransforms = registry.view<Components::RigidBody, Graphics::Components::Transform, Ecs::Flags::Update<Graphics::Components::Transform>>();
