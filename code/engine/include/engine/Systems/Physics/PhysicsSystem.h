@@ -123,6 +123,8 @@ namespace gl3::engine::Physics {
                         physicsTransform.q.w, physicsTransform.q.x, physicsTransform.q.y, physicsTransform.q.z));
                 Graphics::Utils::TransformUtils::SetTranslation(transform, glm::vec3(
                         physicsTransform.p.x, physicsTransform.p.y, physicsTransform.p.z));
+
+                Ecs::Registry::AddUpdateFlag<Graphics::Components::Transform>(entity);
             }
         };
 
