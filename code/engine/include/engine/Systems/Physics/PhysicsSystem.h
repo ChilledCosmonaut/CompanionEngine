@@ -94,7 +94,7 @@ namespace gl3::engine::Physics {
             }
 
             auto updatedTransforms = registry.view<Components::RigidBody, Graphics::Components::Transform, Ecs::Flags::Update<Graphics::Components::Transform>>();
-
+            //For this to work use two Transform update cycles
             for (auto& entity : updatedTransforms) {
                 auto& rigidBody = updatedTransforms.get<Components::RigidBody>(entity);
                 auto& transform = registry.get<Graphics::Components::Transform>(entity);
