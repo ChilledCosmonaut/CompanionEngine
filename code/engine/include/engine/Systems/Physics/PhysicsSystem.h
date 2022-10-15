@@ -93,6 +93,21 @@ namespace gl3::engine::Physics {
                 //ToDo: Update rigid bodies here when values have been changed
             }
 
+            auto updatedTransforms = registry.view<Components::RigidBody, Graphics::Components::Transform, Ecs::Flags::Update<Graphics::Components::Transform>>();
+
+            for (auto& entity : updatedTransforms) {
+                auto& rigidBody = updatedTransforms.get<Components::RigidBody>(entity);
+                auto& transform = registry.get<Graphics::Components::Transform>(entity);
+
+                auto translation = Graphics::Utils::TransformUtils::GetTranslation(transform);
+                auto rotation = Graphics::Utils::TransformUtils::GetQuatRotation(transform);
+
+                physx::PxTransform updatedTransform(translation.x, translation.y, translation.z,
+                                                    physx::PxQuat(rotation.x, rotation.y, rotation.z, rotation.w));
+
+                rigidBody.rigidBody->setGlobalPose(updatedTransform);
+            }
+
             mScene->simulate(Time::GetDeltaTime());
             mScene->fetchResults(true);
 
