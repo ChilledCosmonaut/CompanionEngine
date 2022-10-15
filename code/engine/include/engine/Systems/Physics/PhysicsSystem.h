@@ -81,11 +81,21 @@ namespace gl3::engine::Physics {
             mFoundation->release();
         }
 
-        void SimulatePhysics(Scene &scene) {
+        void Update() {
+
+            auto& registry = Ecs::Registry::getCurrent();
+
+            auto updatedRigidBodies = registry.view<Components::RigidBody, Ecs::Flags::Update<Components::RigidBody>>();
+
+            for (auto& entity : updatedRigidBodies) {
+                auto& rigidBody = updatedRigidBodies.get<Components::RigidBody>(entity);
+
+                //ToDo: Update rigid bodies here when values have been changed
+            }
+
             mScene->simulate(Time::GetDeltaTime());
             mScene->fetchResults(true);
 
-            auto& registry = Ecs::Registry::getCurrent();
             auto componentView = registry.view<Components::RigidBody, Graphics::Components::Transform>();
 
             for (auto& entity : componentView) {
