@@ -56,7 +56,6 @@ namespace gl3::engine::Physics {
         ~PhysicsSystem(){
             mPhysics->release();
 #if DEBUG
-
             mPvd->release();
             mPvdTransporter->release();
 #endif
@@ -79,12 +78,12 @@ namespace gl3::engine::Physics {
 
         }
 
-        void SimulatePhysics(Graphics::Scene &scene) {
+        void SimulatePhysics(Scene &scene) {
             mScene->simulate(Time::GetDeltaTime());
             mScene->fetchResults(true);
 
-            auto registry = scene.getRegistry();
-            auto componentView = registry->view<Components::RigidBody, Graphics::Components::Transform>();
+            auto& registry = Ecs::Registry::getCurrent();
+            auto componentView = registry.view<Components::RigidBody, Graphics::Components::Transform>();
 
             for (auto& entity : componentView) {
                 auto& rigidBody = componentView.get<Components::RigidBody>(entity);
