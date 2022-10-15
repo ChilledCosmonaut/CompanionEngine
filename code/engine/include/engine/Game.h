@@ -44,6 +44,6 @@ namespace gl3::engine {
         Scene* currentScene;
         Physics::PhysicsSystem physicsSystem;
         Graphics::Systems::GraphicsSystem graphicsSystem;
-        soundSystem::AudioSystem& audioSystem;
+        soundSystem::AudioSystem* audioSystem;
     };
 }

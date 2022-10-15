@@ -27,22 +27,24 @@ namespace gl3::engine {
     }
 
     Game::~Game() {
-        audioSystem.~AudioSystem();
+        audioSystem->DestroyAudio();
         physicsSystem.~PhysicsSystem();
         context.~Context();
     }
 
     void Game::SetUpEngineSystems() {
-        audioSystem.SetupAudio();
+        audioSystem->SetupAudio();
     }
 
     void Game::UpdateEngineSystems() {
         physicsSystem.SimulatePhysics(*currentScene);
-        audioSystem.UpdateAudio();
+        audioSystem->UpdateAudio();
         graphicsSystem.DrawScene(*currentScene);
     }
 
     void Game::DestroyEngineSystems() {
-        audioSystem.DestroyAudio();
+        audioSystem->DestroyAudio();
+        physicsSystem.~PhysicsSystem();
+        context.~Context();
     }
 }
