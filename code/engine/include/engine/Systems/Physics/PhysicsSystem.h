@@ -22,7 +22,7 @@ namespace gl3::engine::Physics {
 
             auto& registry = Ecs::Registry::getCurrent();
 
-            auto initRigidBodies = registry.view<Components::RigidBody, Graphics::Components::Transform>();
+            auto initRigidBodies = registry.view<Components::RigidBody, Graphics::Components::Transform, Ecs::Flags::Setup<Components::RigidBody>>();
 
             for (auto entity : initRigidBodies) {
                 auto& rigidBody = registry.get<Components::RigidBody>(entity);
@@ -71,9 +71,11 @@ namespace gl3::engine::Physics {
                 mScene->addActor(*rigidBody.rigidBody);
                 shape->release();
                 rigidBody.rigidBody->setMass(rigidBody.mass);
+
+                Ecs::Registry::RemoveSetupFlag<Components::RigidBody>(entity);
             }
 
-            auto initRigidStatics = registry.view<Components::RigidStatic, Graphics::Components::Transform>();
+            auto initRigidStatics = registry.view<Components::RigidStatic, Graphics::Components::Transform, Ecs::Flags::Setup<Components::RigidStatic>>();
 
             for (auto entity : initRigidStatics) {
                 auto& rigidStatic = registry.get<Components::RigidStatic>(entity);
@@ -96,6 +98,8 @@ namespace gl3::engine::Physics {
                 rigidStatic.rigidStatic->attachShape(*shape);
                 mScene->addActor(*rigidStatic.rigidStatic);
                 shape->release();
+
+                Ecs::Registry::RemoveSetupFlag<Components::RigidStatic>(entity);
             }
 
         }
