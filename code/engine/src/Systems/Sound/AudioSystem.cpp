@@ -10,6 +10,7 @@ namespace gl3::engine::soundSystem {
 
     void AudioSystem::DestroyAudioSystem() {
         audioSystem->~AudioSystem();
+        audioSystem = nullptr;
     }
 
     AudioSystem::AudioSystem() {

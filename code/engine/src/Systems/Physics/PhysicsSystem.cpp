@@ -10,6 +10,7 @@ namespace gl3::engine::Physics {
 
     void PhysicsSystem::DestroyPhysicsSystem() {
         physicsSystem->~PhysicsSystem();
+        physicsSystem = nullptr;
     }
 
     void PhysicsSystem::SetUp() {
