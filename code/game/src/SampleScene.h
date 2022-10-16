@@ -4,7 +4,6 @@
 #include "engine/Systems/Graphics/Utils/TransformUtils.h"
 #include "engine/Systems/Graphics/Utils/ModelUtils.h"
 #include "EnemyBehavourSettings.h"
-#include "engine/Systems/Physics/Utils/RigidBodyUtils.h"
 
 namespace gl3::game {
 
