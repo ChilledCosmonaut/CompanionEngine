@@ -181,6 +181,31 @@ namespace gl3::engine::Physics {
             }
         };
 
+        void Shutdown() {
+
+            auto& registry = Ecs::Registry::getCurrent();
+
+            auto shutdownRigidBodies = registry.view<Components::RigidBody, Ecs::Flags::Destroy<Components::RigidBody>>();
+
+            for (auto entity : shutdownRigidBodies) {
+                auto& rigidStatic = registry.get<Components::RigidBody>(entity);
+
+                rigidStatic.rigidBody->release();
+
+                Ecs::Registry::RemoveDestroyFlag<Components::RigidBody>(entity);
+            }
+
+            auto shutdownRigidStatics = registry.view<Components::RigidStatic, Ecs::Flags::Destroy<Components::RigidStatic>>();
+
+            for (auto entity : shutdownRigidStatics) {
+                auto& rigidStatic = registry.get<Components::RigidStatic>(entity);
+
+                rigidStatic.rigidStatic->release();
+
+                Ecs::Registry::RemoveDestroyFlag<Components::RigidStatic>(entity);
+            }
+        }
+
     private:
 
         PhysicsSystem(){
