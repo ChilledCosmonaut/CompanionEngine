@@ -152,10 +152,12 @@ namespace gl3::engine::Physics {
                 Ecs::Registry::RemoveUpdateFlag<Components::RigidBody>(entity);
             }
 
-            auto updatedTransforms = registry.view<Components::RigidBody, Graphics::Components::Transform, Ecs::Flags::Update<Graphics::Components::Transform>>();
             //For this to work use two Transform update cycles
-            for (auto& entity : updatedTransforms) {
-                auto& rigidBody = updatedTransforms.get<Components::RigidBody>(entity);
+
+            auto updatedBodyTransforms = registry.view<Components::RigidBody, Graphics::Components::Transform, Ecs::Flags::Update<Graphics::Components::Transform>>();
+
+            for (auto& entity : updatedBodyTransforms) {
+                auto& rigidBody = updatedBodyTransforms.get<Components::RigidBody>(entity);
                 auto& transform = registry.get<Graphics::Components::Transform>(entity);
 
                 auto translation = Graphics::Utils::TransformUtils::GetTranslation(transform);
@@ -165,6 +167,21 @@ namespace gl3::engine::Physics {
                                                     physx::PxQuat(rotation.x, rotation.y, rotation.z, rotation.w));
 
                 rigidBody.rigidBody->setGlobalPose(updatedTransform);
+            }
+
+            auto updatedStaticTransforms = registry.view<Components::RigidStatic, Graphics::Components::Transform, Ecs::Flags::Update<Graphics::Components::Transform>>();
+
+            for (auto& entity : updatedStaticTransforms) {
+                auto& rigidBody = updatedStaticTransforms.get<Components::RigidStatic>(entity);
+                auto& transform = registry.get<Graphics::Components::Transform>(entity);
+
+                auto translation = Graphics::Utils::TransformUtils::GetTranslation(transform);
+                auto rotation = Graphics::Utils::TransformUtils::GetQuatRotation(transform);
+
+                physx::PxTransform updatedTransform(translation.x, translation.y, translation.z,
+                                                    physx::PxQuat(rotation.x, rotation.y, rotation.z, rotation.w));
+
+                rigidBody.rigidStatic->setGlobalPose(updatedTransform);
             }
 
             mScene->simulate(Time::GetDeltaTime());
