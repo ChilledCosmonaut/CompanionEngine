@@ -148,6 +148,8 @@ namespace gl3::engine::Physics {
                 rigidBody.rigidBody->attachShape(*newShape);
 
                 rigidBody.rigidBody->setMass(rigidBody.mass);
+
+                Ecs::Registry::RemoveUpdateFlag<Components::RigidBody>(entity);
             }
 
             auto updatedTransforms = registry.view<Components::RigidBody, Graphics::Components::Transform, Ecs::Flags::Update<Graphics::Components::Transform>>();
