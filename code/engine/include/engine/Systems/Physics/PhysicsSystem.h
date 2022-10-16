@@ -12,10 +12,10 @@ namespace gl3::engine::Physics {
 
     class PhysicsSystem : Ecs::CoreSystem {
     public:
-        static PhysicsSystem &GetPhysicsSystem(){
-            if (physicsSystem != nullptr)
-                return *physicsSystem;
-            throw std::domain_error("PhysicsSystem is not yet created");
+        static PhysicsSystem *GetPhysicsSystem(){
+            if (physicsSystem == nullptr)
+                physicsSystem = new PhysicsSystem();
+            return physicsSystem;
         }
 
         void SetUp();
