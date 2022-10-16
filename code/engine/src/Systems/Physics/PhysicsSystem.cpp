@@ -2,22 +2,32 @@
 
 namespace gl3::engine::Physics {
 
+    PhysicsSystem *PhysicsSystem::GetPhysicsSystem() {
+        if (physicsSystem == nullptr)
+            physicsSystem = new PhysicsSystem();
+        return physicsSystem;
+    }
+
+    void PhysicsSystem::DestroyPhysicsSystem() {
+        physicsSystem->~PhysicsSystem();
+    }
+
     void PhysicsSystem::SetUp() {
 
-        auto& registry = Ecs::Registry::getCurrent();
+        auto &registry = Ecs::Registry::getCurrent();
 
         auto initRigidBodies = registry.view<Components::RigidBody, Graphics::Components::Transform, Ecs::Flags::Setup<Components::RigidBody>>();
 
-        for (auto entity : initRigidBodies) {
-            auto& rigidBody = registry.get<Components::RigidBody>(entity);
-            auto& transform = registry.get<Graphics::Components::Transform>(entity);
+        for (auto entity: initRigidBodies) {
+            auto &rigidBody = registry.get<Components::RigidBody>(entity);
+            auto &transform = registry.get<Graphics::Components::Transform>(entity);
 
             auto mMaterial =
                     mPhysics->createMaterial(
                             rigidBody.materialProperties.x, rigidBody.materialProperties.y,
                             rigidBody.materialProperties.z);
 
-            physx::PxShape* shape;
+            physx::PxShape *shape;
 
             Components::Shapes::Sphere sphere;
             Components::Shapes::Box box;
@@ -27,14 +37,12 @@ namespace gl3::engine::Physics {
                 case Components::Shapes::sphere:
                     sphere = std::get<Components::Shapes::sphere>(rigidBody.shapeInfo);
                     shape = mPhysics->createShape(
-                            physx::PxSphereGeometry(sphere.radius)
-                            , *mMaterial);
+                            physx::PxSphereGeometry(sphere.radius), *mMaterial);
                     break;
                 case Components::Shapes::box:
                     box = std::get<Components::Shapes::box>(rigidBody.shapeInfo);
                     shape = mPhysics->createShape(
-                            physx::PxBoxGeometry(box.dimensions.x, box.dimensions.y, box.dimensions.z)
-                            , *mMaterial);
+                            physx::PxBoxGeometry(box.dimensions.x, box.dimensions.y, box.dimensions.z), *mMaterial);
                     break;
                 case Components::Shapes::capsule:
                     capsule = std::get<Components::Shapes::capsule>(rigidBody.shapeInfo);
@@ -61,16 +69,16 @@ namespace gl3::engine::Physics {
 
         auto initRigidStatics = registry.view<Components::RigidStatic, Graphics::Components::Transform, Ecs::Flags::Setup<Components::RigidStatic>>();
 
-        for (auto entity : initRigidStatics) {
-            auto& rigidStatic = registry.get<Components::RigidStatic>(entity);
-            auto& transform = registry.get<Graphics::Components::Transform>(entity);
+        for (auto entity: initRigidStatics) {
+            auto &rigidStatic = registry.get<Components::RigidStatic>(entity);
+            auto &transform = registry.get<Graphics::Components::Transform>(entity);
 
             auto mMaterial =
                     mPhysics->createMaterial(
                             rigidStatic.materialProperties.x, rigidStatic.materialProperties.y,
                             rigidStatic.materialProperties.z);
 
-            physx::PxShape* shape = mPhysics->createShape(physx::PxPlaneGeometry(), *mMaterial);
+            physx::PxShape *shape = mPhysics->createShape(physx::PxPlaneGeometry(), *mMaterial);
 
             auto translation = Graphics::Utils::TransformUtils::GetTranslation(transform);
             auto rotation = Graphics::Utils::TransformUtils::GetQuatRotation(transform);
@@ -90,12 +98,12 @@ namespace gl3::engine::Physics {
 
     void PhysicsSystem::Update() {
 
-        auto& registry = Ecs::Registry::getCurrent();
+        auto &registry = Ecs::Registry::getCurrent();
 
         auto updatedRigidBodies = registry.view<Components::RigidBody, Ecs::Flags::Update<Components::RigidBody>>();
 
-        for (auto& entity : updatedRigidBodies) {
-            auto& rigidBody = updatedRigidBodies.get<Components::RigidBody>(entity);
+        for (auto &entity: updatedRigidBodies) {
+            auto &rigidBody = updatedRigidBodies.get<Components::RigidBody>(entity);
 
             //ToDo: Update rigid bodies here when values have been changed
             auto mMaterial =
@@ -103,7 +111,7 @@ namespace gl3::engine::Physics {
                             rigidBody.materialProperties.x, rigidBody.materialProperties.y,
                             rigidBody.materialProperties.z);
 
-            physx::PxShape* newShape;
+            physx::PxShape *newShape;
 
             Components::Shapes::Sphere sphere;
             Components::Shapes::Box box;
@@ -113,14 +121,12 @@ namespace gl3::engine::Physics {
                 case Components::Shapes::sphere:
                     sphere = std::get<Components::Shapes::sphere>(rigidBody.shapeInfo);
                     newShape = mPhysics->createShape(
-                            physx::PxSphereGeometry(sphere.radius)
-                            , *mMaterial);
+                            physx::PxSphereGeometry(sphere.radius), *mMaterial);
                     break;
                 case Components::Shapes::box:
                     box = std::get<Components::Shapes::box>(rigidBody.shapeInfo);
                     newShape = mPhysics->createShape(
-                            physx::PxBoxGeometry(box.dimensions.x, box.dimensions.y, box.dimensions.z)
-                            , *mMaterial);
+                            physx::PxBoxGeometry(box.dimensions.x, box.dimensions.y, box.dimensions.z), *mMaterial);
                     break;
                 case Components::Shapes::capsule:
                     capsule = std::get<Components::Shapes::capsule>(rigidBody.shapeInfo);
@@ -140,9 +146,9 @@ namespace gl3::engine::Physics {
 
         auto updatedBodyTransforms = registry.view<Components::RigidBody, Graphics::Components::Transform, Ecs::Flags::Update<Graphics::Components::Transform>>();
 
-        for (auto& entity : updatedBodyTransforms) {
-            auto& rigidBody = updatedBodyTransforms.get<Components::RigidBody>(entity);
-            auto& transform = registry.get<Graphics::Components::Transform>(entity);
+        for (auto &entity: updatedBodyTransforms) {
+            auto &rigidBody = updatedBodyTransforms.get<Components::RigidBody>(entity);
+            auto &transform = registry.get<Graphics::Components::Transform>(entity);
 
             auto translation = Graphics::Utils::TransformUtils::GetTranslation(transform);
             auto rotation = Graphics::Utils::TransformUtils::GetQuatRotation(transform);
@@ -155,9 +161,9 @@ namespace gl3::engine::Physics {
 
         auto updatedStaticTransforms = registry.view<Components::RigidStatic, Graphics::Components::Transform, Ecs::Flags::Update<Graphics::Components::Transform>>();
 
-        for (auto& entity : updatedStaticTransforms) {
-            auto& rigidBody = updatedStaticTransforms.get<Components::RigidStatic>(entity);
-            auto& transform = registry.get<Graphics::Components::Transform>(entity);
+        for (auto &entity: updatedStaticTransforms) {
+            auto &rigidBody = updatedStaticTransforms.get<Components::RigidStatic>(entity);
+            auto &transform = registry.get<Graphics::Components::Transform>(entity);
 
             auto translation = Graphics::Utils::TransformUtils::GetTranslation(transform);
             auto rotation = Graphics::Utils::TransformUtils::GetQuatRotation(transform);
@@ -173,13 +179,13 @@ namespace gl3::engine::Physics {
 
         auto componentView = registry.view<Components::RigidBody, Graphics::Components::Transform>();
 
-        for (auto& entity : componentView) {
-            auto& rigidBody = componentView.get<Components::RigidBody>(entity);
-            auto& transform = componentView.get<Graphics::Components::Transform>(entity);
+        for (auto &entity: componentView) {
+            auto &rigidBody = componentView.get<Components::RigidBody>(entity);
+            auto &transform = componentView.get<Graphics::Components::Transform>(entity);
 
             auto physicsTransform = rigidBody.rigidBody->getGlobalPose();
 
-            Graphics::Utils::TransformUtils::SetRotation(transform,glm::quat(
+            Graphics::Utils::TransformUtils::SetRotation(transform, glm::quat(
                     physicsTransform.q.w, physicsTransform.q.x, physicsTransform.q.y, physicsTransform.q.z));
             Graphics::Utils::TransformUtils::SetTranslation(transform, glm::vec3(
                     physicsTransform.p.x, physicsTransform.p.y, physicsTransform.p.z));
@@ -190,12 +196,12 @@ namespace gl3::engine::Physics {
 
     void PhysicsSystem::Shutdown() {
 
-        auto& registry = Ecs::Registry::getCurrent();
+        auto &registry = Ecs::Registry::getCurrent();
 
         auto shutdownRigidBodies = registry.view<Components::RigidBody, Ecs::Flags::Destroy<Components::RigidBody>>();
 
-        for (auto entity : shutdownRigidBodies) {
-            auto& rigidStatic = registry.get<Components::RigidBody>(entity);
+        for (auto entity: shutdownRigidBodies) {
+            auto &rigidStatic = registry.get<Components::RigidBody>(entity);
 
             rigidStatic.rigidBody->release();
 
@@ -204,8 +210,8 @@ namespace gl3::engine::Physics {
 
         auto shutdownRigidStatics = registry.view<Components::RigidStatic, Ecs::Flags::Destroy<Components::RigidStatic>>();
 
-        for (auto entity : shutdownRigidStatics) {
-            auto& rigidStatic = registry.get<Components::RigidStatic>(entity);
+        for (auto entity: shutdownRigidStatics) {
+            auto &rigidStatic = registry.get<Components::RigidStatic>(entity);
 
             rigidStatic.rigidStatic->release();
 
@@ -216,14 +222,14 @@ namespace gl3::engine::Physics {
     PhysicsSystem::PhysicsSystem() {
         // init physx
         mFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, mDefaultAllocatorCallback, mDefaultErrorCallback);
-        if (!mFoundation) throw("PxCreateFoundation failed!");
+        if (!mFoundation) throw ("PxCreateFoundation failed!");
 
         mToleranceScale.length = 100;        // typical length of an object
         mToleranceScale.speed = 981;         // typical speed of an object, gravity*1s is a reasonable choice
 
 #if DEBUG
         mPvd = PxCreatePvd(*mFoundation);
-        physx::PxPvdTransport* transport = physx::PxDefaultPvdSocketTransportCreate("127.0.0.1", 5425, 10);
+        physx::PxPvdTransport *transport = physx::PxDefaultPvdSocketTransportCreate("127.0.0.1", 5425, 10);
         mPvd->connect(*transport, physx::PxPvdInstrumentationFlag::eALL);
         mPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *mFoundation, mToleranceScale, true, mPvd);
 #else
@@ -233,14 +239,13 @@ namespace gl3::engine::Physics {
         physx::PxSceneDesc sceneDesc(mPhysics->getTolerancesScale());
         sceneDesc.gravity = physx::PxVec3(0.0f, 0.0f, 0.0f);
         mDispatcher = physx::PxDefaultCpuDispatcherCreate(2);
-        sceneDesc.cpuDispatcher	= mDispatcher;
-        sceneDesc.filterShader	= physx::PxDefaultSimulationFilterShader;
+        sceneDesc.cpuDispatcher = mDispatcher;
+        sceneDesc.filterShader = physx::PxDefaultSimulationFilterShader;
         mScene = mPhysics->createScene(sceneDesc);
 
 #if DEBUG
-        physx::PxPvdSceneClient* pvdClient = mScene->getScenePvdClient();
-        if(pvdClient)
-        {
+        physx::PxPvdSceneClient *pvdClient = mScene->getScenePvdClient();
+        if (pvdClient) {
             pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_CONSTRAINTS, true);
             pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_CONTACTS, true);
             pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
@@ -251,11 +256,11 @@ namespace gl3::engine::Physics {
 
     PhysicsSystem::~PhysicsSystem() {
 
-    mPhysics->release();
+        mPhysics->release();
 #if DEBUG
-    mPvd->release();
-    mPvdTransporter->release();
+        mPvd->release();
+        mPvdTransporter->release();
 #endif
-    mFoundation->release();
-}
+        mFoundation->release();
+    }
 }

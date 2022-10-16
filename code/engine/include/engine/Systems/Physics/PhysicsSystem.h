@@ -12,11 +12,12 @@ namespace gl3::engine::Physics {
 
     class PhysicsSystem : Ecs::CoreSystem {
     public:
-        static PhysicsSystem *GetPhysicsSystem(){
-            if (physicsSystem == nullptr)
-                physicsSystem = new PhysicsSystem();
-            return physicsSystem;
-        }
+        /// Need to adhere to the singleton pattern
+        static PhysicsSystem *GetPhysicsSystem();
+
+
+        /// Need to adhere to the singleton pattern
+        static void DestroyPhysicsSystem();
 
         void SetUp();
 
