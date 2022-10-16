@@ -18,6 +18,88 @@ namespace gl3::engine::Physics {
             throw std::domain_error("PhysicsSystem is not yet created");
         }
 
+        void SetUp() {
+
+            auto& registry = Ecs::Registry::getCurrent();
+
+            auto initRigidBodies = registry.view<Components::RigidBody, Graphics::Components::Transform>();
+
+            for (auto entity : initRigidBodies) {
+                auto& rigidBody = registry.get<Components::RigidBody>(entity);
+                auto& transform = registry.get<Graphics::Components::Transform>(entity);
+
+                auto mMaterial =
+                        mPhysics->createMaterial(
+                                rigidBody.materialProperties.x, rigidBody.materialProperties.y,
+                                rigidBody.materialProperties.z);
+
+                physx::PxShape* shape;
+
+                Components::Shapes::Sphere sphere;
+                Components::Shapes::Box box;
+                Components::Shapes::Capsule capsule;
+
+                switch (rigidBody.shape) {
+                    case Components::Shapes::sphere:
+                        sphere = std::get<Components::Shapes::sphere>(rigidBody.shapeInfo);
+                        shape = mPhysics->createShape(
+                                physx::PxSphereGeometry(sphere.radius)
+                                , *mMaterial);
+                        break;
+                    case Components::Shapes::box:
+                        box = std::get<Components::Shapes::box>(rigidBody.shapeInfo);
+                        shape = mPhysics->createShape(
+                                physx::PxBoxGeometry(box.dimensions.x, box.dimensions.y, box.dimensions.z)
+                                , *mMaterial);
+                        break;
+                    case Components::Shapes::capsule:
+                        capsule = std::get<Components::Shapes::capsule>(rigidBody.shapeInfo);
+                        shape = mPhysics->createShape(
+                                physx::PxCapsuleGeometry(capsule.radius, capsule.halfHeight), *mMaterial);
+                        break;
+                }
+
+                auto translation = Graphics::Utils::TransformUtils::GetTranslation(transform);
+                auto rotation = Graphics::Utils::TransformUtils::GetQuatRotation(transform);
+
+                physx::PxTransform currentColliderTransform(translation.x, translation.y, translation.z,
+                                                            physx::PxQuat(rotation.x, rotation.y, rotation.z, rotation.w));
+
+                rigidBody.rigidBody = mPhysics->createRigidDynamic(currentColliderTransform);
+                rigidBody.rigidBody->attachShape(*shape);
+                physx::PxRigidBodyExt::updateMassAndInertia(*rigidBody.rigidBody, 10.0f);
+                mScene->addActor(*rigidBody.rigidBody);
+                shape->release();
+                rigidBody.rigidBody->setMass(rigidBody.mass);
+            }
+
+            auto initRigidStatics = registry.view<Components::RigidStatic, Graphics::Components::Transform>();
+
+            for (auto entity : initRigidStatics) {
+                auto& rigidStatic = registry.get<Components::RigidStatic>(entity);
+                auto& transform = registry.get<Graphics::Components::Transform>(entity);
+
+                auto mMaterial =
+                        mPhysics->createMaterial(
+                                rigidStatic.materialProperties.x, rigidStatic.materialProperties.y,
+                                rigidStatic.materialProperties.z);
+
+                physx::PxShape* shape = mPhysics->createShape(physx::PxPlaneGeometry(), *mMaterial);
+
+                auto translation = Graphics::Utils::TransformUtils::GetTranslation(transform);
+                auto rotation = Graphics::Utils::TransformUtils::GetQuatRotation(transform);
+
+                physx::PxTransform currentColliderTransform(translation.x, translation.y, translation.z,
+                                                            physx::PxQuat(rotation.x, rotation.y, rotation.z, rotation.w));
+
+                rigidStatic.rigidStatic = mPhysics->createRigidStatic(currentColliderTransform);
+                rigidStatic.rigidStatic->attachShape(*shape);
+                mScene->addActor(*rigidStatic.rigidStatic);
+                shape->release();
+            }
+
+        }
+
         void Update() {
 
             auto& registry = Ecs::Registry::getCurrent();
@@ -145,8 +227,6 @@ namespace gl3::engine::Physics {
 #endif
             mFoundation->release();
         }
-
-
 
         inline static PhysicsSystem *physicsSystem = nullptr;
 
