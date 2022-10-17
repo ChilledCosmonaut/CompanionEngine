@@ -21,7 +21,6 @@ namespace gl3::engine::Graphics::Components {
                     ("shaders/SkyBoxVertexShader.glsl", "shaders/SkyBoxFragmentShader.glsl");
         }
 
-    private:
         float vertices[108]= {
                 // positions
                 -1.0f, 1.0f, -1.0f,

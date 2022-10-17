@@ -20,33 +20,6 @@ namespace gl3::engine::Graphics::Utils {
             }
         }
 
-        static void Render(Graphics::Scene& scene, const glm::mat4 &view, const glm::mat4 &projection, const glm::vec3 &cameraPosition){
-            auto registry = scene.getRegistry();
-            auto componentView = registry->view<Components::Model, Components::Transform>();
-
-            for(auto& entity : componentView){
-                auto& model = componentView.get<Components::Model>(entity);
-                auto& transform = componentView.get<Components::Transform>(entity);
-                if(!TransformUtils::IsActive(transform)) continue;
-                model.shader->use();
-
-                model.shader->setMatrix("projection", projection);
-                model.shader->setMatrix("view", view);
-
-                model.shader->setMatrix("model", TransformUtils::GetModelMatrix(transform));
-
-                model.shader->setVector("viewPos",glm::vec4(cameraPosition, 1.0f));
-
-                model.shader->setVector3("dirLight.direction", -lightPos);
-
-                model.shader->setVector3("dirLight.ambient", glm::vec3(0.05f, 0.05f, 0.05f));
-                model.shader->setVector3("dirLight.diffuse", glm::vec3(0.4f, 0.4f, 0.4f));
-                model.shader->setVector3("dirLight.specular", glm::vec3(0.7f, 0.7f, 0.7f));
-
-                Draw(model);
-            }
-        }
-
         static void SetPath(Components::Model &model, std::string path){
             model.path = path;
         }
@@ -57,11 +30,6 @@ namespace gl3::engine::Graphics::Utils {
 
     private:
         static inline glm::vec3 lightPos = glm::vec3(0.0f, -0.5f, 1.0f);
-
-        static void Draw(Components::Model &modelData) {
-            for (auto &mesh: modelData.meshes)
-                mesh.Draw(*modelData.shader);
-        }
 
         static void loadModel(Components::Model &modelData, const string &path) {
             /*const aiScene *scene = files::FileManager::loadModelFromFile(path);

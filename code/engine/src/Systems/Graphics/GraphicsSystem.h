@@ -40,7 +40,8 @@ namespace gl3::engine::Graphics::Systems{
 
         ~GraphicsSystem();
 
-        glm::mat4 currentProjection;
-        glm::mat4 currentView;
+        static void Draw(Components::Model &modelData);
+
+        glm::vec3 lightPos = glm::vec3(0.0f, -0.5f, 1.0f);
     };
 }

@@ -31,7 +31,6 @@ namespace gl3::engine::Graphics::Components {
             inverseModelMatrix = inverseScaleModel * glm::inverse(rotateModel) * inverseTranslateModel;
         }
 
-    private:
         glm::vec3 translation{};
         glm::quat rotation{};
         glm::vec3 scale = glm::vec3(1,1,1);

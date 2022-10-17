@@ -59,24 +59,6 @@ namespace gl3::engine::Graphics::Utils {
             }
         }
 
-        static void Render(Graphics::Scene& scene, const glm::mat4 &view, const glm::mat4 &projection) {
-            auto registry = scene.getRegistry();
-            auto componentView = registry->view<Components::SkyboxComponent>();
-
-            for (auto &entity: componentView) {
-                auto &skybox = componentView.get<Components::SkyboxComponent>(entity);
-
-                glDepthMask(GL_FALSE);
-                skybox.shader->use();
-                skybox.shader->setMatrix("projection", projection);
-                skybox.shader->setMatrix("view", glm::mat3(view));
-                glBindVertexArray(skybox.VAO);
-                glBindTexture(GL_TEXTURE_CUBE_MAP, skybox.texture);
-                glDrawArrays(GL_TRIANGLES, 0, 36);
-                glDepthMask(GL_TRUE);
-            }
-        };
-
         void SetVAO(Components::SkyboxComponent &skybox, GLuint vao) {
             skybox.VAO = vao;
         }
