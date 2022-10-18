@@ -15,7 +15,6 @@ namespace gl3::engine::Physics {
         /// Need to adhere to the singleton pattern
         static PhysicsSystem *GetPhysicsSystem();
 
-
         /// Need to adhere to the singleton pattern
         static void DestroyPhysicsSystem();
 
