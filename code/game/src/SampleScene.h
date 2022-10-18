@@ -9,18 +9,23 @@ namespace gl3::game {
 
     using namespace engine::Physics;
 
-    class SampleScene : public engine::Graphics::Scene {
+    class SampleScene : public engine::Scene {
     public:
         void onSetup(){
-            AddMainCamera();
+            auto& registry = engine::Ecs::Registry::getCurrent();
+
+            auto mainCameraObject = CreateEntity();
+            registry.emplace<engine::Graphics::Components::CameraComponent>(mainCameraObject);
             registry.emplace<ShipMovementSettings>(mainCameraObject);
 
             auto &cameraTransform = registry.get<engine::Graphics::Components::Transform>(mainCameraObject);
             engine::Graphics::Utils::TransformUtils::AddRotation(cameraTransform, glm::vec3(0,180,0));
-            auto &rigidBody = engine::Physics::Utils::RigidBodyUtils::AddRigidBody(*this, mainCameraObject);
-            engine::Physics::Utils::RigidBodyUtils::SetShapeProperties(rigidBody, Components::Shapes::Sphere());
+            auto &rigidBody = registry.emplace<engine::Physics::Components::RigidBody>(mainCameraObject);
+            rigidBody.shapeInfo = Components::Shapes::sphere;
+            rigidBody.shape = Components::Shapes::Sphere();
 
-            AddSkybox();
+            auto skybox = CreateEntity();
+            registry.emplace<engine::Graphics::Components::SkyboxComponent>(skybox);
 
             auto test = CreateEntity();
             auto &model = registry.emplace<engine::Graphics::Components::Model>(test);
@@ -82,9 +87,8 @@ namespace gl3::game {
             auto &asteroid2Transform = registry.get<engine::Graphics::Components::Transform>(asteroid2);
             engine::Graphics::Utils::TransformUtils::SetTranslation(asteroid2Transform, glm::vec3(20,-10,0));
             engine::Graphics::Utils::TransformUtils::SetScale(asteroid2Transform, glm::vec3(0.5f,0.5f,0.5f));
-            auto &audioSource = registry.emplace<engine::soundSystem::AudioSource>(asteroid2);
-            engine::soundSystem::AudioSourceUtils::SetupAudioSource(audioSource, "../../assets/audio/ambient-space-4.wav");
-
+            auto &audioSource = registry.emplace<engine::soundSystem::SpatialAudioSource>(asteroid2);
+            audioSource.soundFilePath = "../../assets/audio/ambient-space-4.wav";
 
             auto asteroid3 = CreateEntity();
             auto &asteroid3Model = registry.emplace<engine::Graphics::Components::Model>(asteroid3);
