@@ -29,10 +29,6 @@ namespace gl3::engine::Graphics::Systems{
 
         void Shutdown();
 
-        void SetUpScene(Scene &scene) {
-            Utils::ModelUtils::SetUpModel(scene);
-        }
-
     private:
 
         GraphicsSystem();
