@@ -2,6 +2,17 @@
 
 namespace gl3::engine::Graphics::Systems{
 
+    GraphicsSystem *GraphicsSystem::GetGraphicsSystem() {
+        if (graphicsSystem == nullptr)
+            graphicsSystem = new GraphicsSystem();
+        return graphicsSystem;
+    }
+
+    void GraphicsSystem::DestroyGraphicsSystem() {
+        graphicsSystem->~GraphicsSystem();
+        graphicsSystem = nullptr;
+    }
+
     static unsigned int TextureFromFile(const char *path, const string &directory, bool gamma = false) {
         string filename = string(path);
         filename = directory + '/' + filename;
