@@ -9,19 +9,15 @@ namespace gl3::game {
     public:
         EnemyController() = default;
 
-        void OnSwitchingScenes(engine::Graphics::Scene &scene) override {}
-
-        void OnDrawCall(engine::Graphics::Scene &scene) override {};
-
         void OnSetUp(engine::Game &game) override {};
 
         void Update(engine::Game &game) override {
-            auto registry = game.getCurrentScene()->getRegistry();
-            auto enemyView = registry->view<EnemyBehaviour, engine::Graphics::Components::Transform>();
+            auto& registry = engine::Ecs::Registry::getCurrent();
+            auto enemyView = registry.view<EnemyBehaviour, engine::Graphics::Components::Transform>();
             for (auto &enemy: enemyView) {
                 auto &enemyStats = enemyView.get<EnemyBehaviour>(enemy);
                 auto &transform = enemyView.get<engine::Graphics::Components::Transform>(enemy);
-                auto componentView = registry->view<ShipMovementSettings, engine::Graphics::Components::Transform>();
+                auto componentView = registry.view<ShipMovementSettings, engine::Graphics::Components::Transform>();
 
                 if (enemyStats.lifePoints <= 0){
                     engine::Graphics::Utils::TransformUtils::SetActive(transform, false);
@@ -36,7 +32,7 @@ namespace gl3::game {
                         bool shoot = rand() % 300;
 
                         if (shoot < 1){
-                            auto projectileView = registry->view<EnemyProjectile, engine::Graphics::Components::Transform>();
+                            auto projectileView = registry.view<EnemyProjectile, engine::Graphics::Components::Transform>();
 
                             for (auto& projectileEntity : projectileView) {
                                 auto& projectile = projectileView.get<EnemyProjectile>(projectileEntity);
