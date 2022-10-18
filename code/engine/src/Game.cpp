@@ -5,9 +5,9 @@ namespace gl3::engine {
 
     Game::Game(int width, int height, const std::string &title, Scene* startScene):
             context(width, height, title),
-            currentScene(startScene),
-            graphicsSystem() {
+            currentScene(startScene) {
         glEnable(GL_DEPTH_TEST);
+        graphicsSystem = Graphics::Systems::GraphicsSystem::GetGraphicsSystem();
         physicsSystem = Physics::PhysicsSystem::GetPhysicsSystem();
         audioSystem = soundSystem::AudioSystem::GetAudioSystem();
     }
@@ -27,24 +27,25 @@ namespace gl3::engine {
     }
 
     Game::~Game() {
-        audioSystem->DestroyAudio();
-        physicsSystem->DestroyPhysicsSystem();
-        context.~Context();
+        DestroyEngineSystems();
     }
 
     void Game::SetUpEngineSystems() {
         audioSystem->SetupAudio();
+        graphicsSystem->SetUp();
+        physicsSystem->SetUp();
     }
 
     void Game::UpdateEngineSystems() {
         physicsSystem->Update();
         audioSystem->UpdateAudio();
-        graphicsSystem.DrawScene(*currentScene);
+        graphicsSystem->Update();
     }
 
     void Game::DestroyEngineSystems() {
         audioSystem->DestroyAudio();
         physicsSystem->DestroyPhysicsSystem();
+        graphicsSystem->Shutdown();
         context.~Context();
     }
 }

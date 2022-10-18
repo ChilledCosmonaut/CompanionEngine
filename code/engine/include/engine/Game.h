@@ -27,7 +27,6 @@ namespace gl3::engine {
         void ChangeActiveSceneTo(Scene* scene){
             currentScene = scene;
             currentScene->onSetup();
-            graphicsSystem.SetUpScene(*currentScene);
         }
 
         Scene *getCurrentScene() {
@@ -43,7 +42,7 @@ namespace gl3::engine {
         context::Context context;
         Scene* currentScene;
         Physics::PhysicsSystem* physicsSystem;
-        Graphics::Systems::GraphicsSystem graphicsSystem;
+        Graphics::Systems::GraphicsSystem* graphicsSystem;
         soundSystem::AudioSystem* audioSystem;
     };
 }
