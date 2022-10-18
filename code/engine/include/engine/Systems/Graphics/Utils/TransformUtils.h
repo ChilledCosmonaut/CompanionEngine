@@ -7,7 +7,6 @@ namespace gl3::engine::Graphics::Utils {
     public:
         static void AddChildEntity(Components::Transform &transform, entt::entity currentEntity, entt::entity childEntity);
         static void RemoveChildEntity(Components::Transform &transform, entt::entity currentEntity, entt::entity childEntity);
-        static void SetCurrentRegistry(Components::Transform &transform, entt::registry &registry);
 
         static void SetRotation(Components::Transform &transform, glm::vec3 targetRotation);
         static void SetRotation(Components::Transform &transform, glm::quat targetRotation);

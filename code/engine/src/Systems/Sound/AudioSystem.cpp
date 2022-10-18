@@ -36,7 +36,7 @@ namespace gl3::engine::soundSystem {
             audioSource.sound.load(audioSource.soundFilePath.c_str());
 
             Ecs::Registry::RemoveSetupFlag<BackgroundAudioSource>(entity);
-            Ecs::Registry::AddUpdateFlag<BackgroundAudioSource>(entity);
+            Ecs::Registry::UpdateComponent<BackgroundAudioSource>(entity);
         }
 
         auto spatialSourcesForSetup = registry.view<SpatialAudioSource, Ecs::Flags::Update<SpatialAudioSource>>();
@@ -48,7 +48,7 @@ namespace gl3::engine::soundSystem {
             audioSource.sound.load(audioSource.soundFilePath.c_str());
 
             Ecs::Registry::RemoveSetupFlag<SpatialAudioSource>(entity);
-            Ecs::Registry::AddUpdateFlag<SpatialAudioSource>(entity);
+            Ecs::Registry::UpdateComponent<SpatialAudioSource>(entity);
         }
     }
 

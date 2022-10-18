@@ -12,9 +12,16 @@ namespace gl3::engine::Ecs {
         }
 
         template<typename Component>
-        static void AddSetupFlag(entt::entity entity) {
-            if (!registry.any_of<Flags::Setup<Component>>(entity))
-                registry.emplace<Flags::Setup<Component>>(entity);
+        static Component &AddComponent(entt::entity entity) {
+            if (!registry.any_of<Component>(entity)){
+
+                if (!registry.any_of<Flags::Setup<Component>>(entity))
+                    registry.emplace<Flags::Setup<Component>>(entity);
+
+                return registry.emplace<Component>(entity);
+            } else {
+                return registry.get<Component>(entity);
+            }
         }
 
         template<typename Component>
@@ -24,7 +31,7 @@ namespace gl3::engine::Ecs {
         }
 
         template<typename Component>
-        static void AddUpdateFlag(entt::entity entity) {
+        static void UpdateComponent(entt::entity entity) {
             if (!registry.any_of<Flags::Update<Component>>(entity))
                 registry.emplace<Flags::Update<Component>>(entity);
         }
@@ -36,7 +43,7 @@ namespace gl3::engine::Ecs {
         }
 
         template<typename Component>
-        static void AddDestroyFlag(entt::entity entity) {
+        static void DestroyComponent(entt::entity entity) {
             if (!registry.any_of<Flags::Destroy<Component>>(entity))
                 registry.emplace<Flags::Destroy<Component>>(entity);
         }

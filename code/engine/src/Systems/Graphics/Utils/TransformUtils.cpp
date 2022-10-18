@@ -25,10 +25,6 @@ namespace gl3::engine::Graphics::Utils {
         }
     }
 
-    void TransformUtils::SetCurrentRegistry(Components::Transform &transform, entt::registry &registry) {
-        transform.currentRegistry = &registry;
-    }
-
     void TransformUtils::SetRotation(Components::Transform &transform, glm::vec3 targetRotation) {
         transform.rotation = glm::quat(glm::radians(targetRotation));
         recalculateModel(transform);

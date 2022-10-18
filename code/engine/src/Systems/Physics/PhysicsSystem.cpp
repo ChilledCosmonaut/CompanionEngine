@@ -191,7 +191,7 @@ namespace gl3::engine::Physics {
             Graphics::Utils::TransformUtils::SetTranslation(transform, glm::vec3(
                     physicsTransform.p.x, physicsTransform.p.y, physicsTransform.p.z));
 
-            Ecs::Registry::AddUpdateFlag<Graphics::Components::Transform>(entity);
+            Ecs::Registry::UpdateComponent<Graphics::Components::Transform>(entity);
         }
     }
 

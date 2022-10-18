@@ -2,7 +2,7 @@
 
 #include "glm/vec3.hpp"
 #include "glm/gtx/quaternion.hpp"
-#include "../../../../src/ECS/entt.hpp"
+#include "../../../../../src/ECS/entt.hpp"
 
 namespace gl3::engine::Graphics::Utils {
     class TransformUtils;
@@ -41,7 +41,6 @@ namespace gl3::engine::Graphics::Components {
         glm::mat4 parentModelMatrix{};
         glm::mat4 parentInverseModelMatrix{};
 
-        entt::registry *currentRegistry;
         entt::entity parent = entt::null;
         std::vector<entt::entity> children{};
 
