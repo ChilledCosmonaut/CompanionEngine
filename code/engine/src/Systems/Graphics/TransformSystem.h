@@ -17,8 +17,10 @@ namespace gl3::engine::Graphics {
         void DestroyTransform();
 
     private:
-        TransformSystem();
+        TransformSystem() = default;
 
-        ~TransformSystem() override;
+        ~TransformSystem() override = default;
+
+        static inline TransformSystem *transformSystem = nullptr;
     };
 }
