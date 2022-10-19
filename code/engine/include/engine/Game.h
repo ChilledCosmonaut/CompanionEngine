@@ -6,6 +6,7 @@
 #include "engine/Systems/Physics/PhysicsSystem.h"
 #include "../../src/Systems/Graphics/GraphicsSystem.h"
 #include "engine/Systems/Sound/AudioSystem.h"
+#include "../../src/Systems/Graphics/TransformSystem.h"
 
 namespace gl3::engine {
     class Game {
@@ -44,5 +45,6 @@ namespace gl3::engine {
         Physics::PhysicsSystem* physicsSystem;
         Graphics::Systems::GraphicsSystem* graphicsSystem;
         soundSystem::AudioSystem* audioSystem;
+        Graphics::TransformSystem* transformSystem;
     };
 }

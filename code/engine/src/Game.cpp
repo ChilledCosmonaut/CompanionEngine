@@ -10,16 +10,19 @@ namespace gl3::engine {
         graphicsSystem = Graphics::Systems::GraphicsSystem::GetGraphicsSystem();
         physicsSystem = Physics::PhysicsSystem::GetPhysicsSystem();
         audioSystem = soundSystem::AudioSystem::GetAudioSystem();
+        transformSystem = Graphics::TransformSystem::GetTransformSystem();
     }
 
     void Game::run() {
         SetUpEngineSystems();
         onSetup.invoke(*this);
         context.run([&](Context &ctx){
-            onDestroy.invoke(*this);
+            SetUpEngineSystems();
             onSetup.invoke(*this);
             onUpdate.invoke(*this);
             UpdateEngineSystems();
+            onDestroy.invoke(*this);
+            DestroyEngineSystems();
             Time::updateDeltaTime();
         });
         onDestroy.invoke(*this);
@@ -31,13 +34,16 @@ namespace gl3::engine {
     }
 
     void Game::SetUpEngineSystems() {
+        transformSystem->SetupTransform();
         audioSystem->SetupAudio();
         graphicsSystem->SetUp();
         physicsSystem->SetUp();
     }
 
     void Game::UpdateEngineSystems() {
+        transformSystem->UpdateTransform();
         physicsSystem->Update();
+        transformSystem->UpdateTransform();
         audioSystem->UpdateAudio();
         graphicsSystem->Update();
     }
@@ -47,5 +53,6 @@ namespace gl3::engine {
         physicsSystem->DestroyPhysicsSystem();
         graphicsSystem->Shutdown();
         context.~Context();
+        transformSystem->DestroyTransformSystem();
     }
 }
