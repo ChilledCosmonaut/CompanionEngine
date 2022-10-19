@@ -1,6 +1,9 @@
 #pragma once
 
 #include "../../ECS/CoreSystem.h"
+#include "glm/mat4x4.hpp"
+#include "engine/Systems/Graphics/Components/Transform.h"
+#include "engine/ECS/Registry.h"
 
 namespace gl3::engine::Graphics {
 
@@ -20,6 +23,8 @@ namespace gl3::engine::Graphics {
         TransformSystem() = default;
 
         ~TransformSystem() override = default;
+
+        void RecalculateMatrices(Components::Transform &transform);
 
         static inline TransformSystem *transformSystem = nullptr;
     };

@@ -108,29 +108,6 @@ namespace gl3::engine::Graphics::Utils {
     }
 
     void TransformUtils::recalculateModel(Components::Transform &transform) {
-        glm::mat4 translateModel = glm::translate(glm::mat4(1.0f), transform.translation);
-        glm::mat4 inverseTranslateModel = glm::translate(glm::mat4(1.0f), -transform.translation);
-        glm::mat4 rotateModel = glm::mat4_cast(transform.rotation);
-        glm::mat4 scaleModel = glm::scale(glm::mat4(1.0f), transform.scale);
-        glm::mat4 inverseScaleModel = glm::scale(glm::mat4(1.0f), glm::vec3(1/transform.scale.x, 1/transform.scale.y, 1/transform.scale.z));
-        transform.modelMatrix = translateModel * rotateModel * scaleModel;
-        transform.inverseModelMatrix = inverseScaleModel * glm::inverse(rotateModel) * inverseTranslateModel;
-
-        if (transform.parent != entt::null){
-            /*transform.modelMatrix = transform.parentModelMatrix * transform.modelMatrix;
-            transform.inverseModelMatrix = transform.inverseModelMatrix * transform.parentInverseModelMatrix;*/
-            auto &parentTransform = transform.currentRegistry->get<Components::Transform>(transform.parent);
-            transform.modelMatrix = parentTransform.modelMatrix * transform.modelMatrix;
-            transform.inverseModelMatrix = transform.inverseModelMatrix * parentTransform.inverseModelMatrix;
-        }
-
-        auto transformView = transform.currentRegistry->view<Components::Transform>();
-        for (auto child:transform.children) {
-            if(transformView.contains(child)){
-                auto &childTransform = transformView.get<Components::Transform>(child);
-                recalculateModel(childTransform);
-            }
-        }
     }
 
     bool TransformUtils::IsActive(Components::Transform &transform) {
