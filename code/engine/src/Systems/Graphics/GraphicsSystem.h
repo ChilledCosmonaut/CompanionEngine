@@ -8,7 +8,6 @@
 #include "engine/Systems/Graphics/Components/Camera.h"
 #include "engine/Systems/Graphics/Components/Transform.h"
 
-#include "engine/Systems/Graphics/Utils/SkyboxUtils.h"
 #include "engine/Systems/Graphics/Utils/ModelUtils.h"
 #include "engine/Systems/Graphics/Utils/CameraUtils.h"
 

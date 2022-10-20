@@ -1,4 +1,5 @@
 #include "GraphicsSystem.h"
+#include "engine/Systems/Graphics/Components/Skybox.h"
 
 namespace gl3::engine::Graphics::Systems{
 
