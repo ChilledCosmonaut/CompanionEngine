@@ -19,7 +19,7 @@ namespace gl3::engine::Graphics {
         auto setUpTransforms = registry.view<Components::Transform, Ecs::Flags::Setup<Components::Transform>>();
 
         for (auto entity : setUpTransforms) {
-            auto transform = setUpTransforms.get<Components::Transform>(entity);
+            auto& transform = setUpTransforms.get<Components::Transform>(entity);
             RecalculateMatrices(transform);
             Ecs::Registry::RemoveSetupFlag<Components::Transform>(entity);
         }
@@ -31,7 +31,7 @@ namespace gl3::engine::Graphics {
         auto updateTransforms = registry.view<Components::Transform, Ecs::Flags::Update<Components::Transform>>();
 
         for (auto entity : updateTransforms) {
-            auto transform = updateTransforms.get<Components::Transform>(entity);
+            auto& transform = updateTransforms.get<Components::Transform>(entity);
             RecalculateMatrices(transform);
             Ecs::Registry::RemoveUpdateFlag<Components::Transform>(entity);
         }
@@ -43,13 +43,13 @@ namespace gl3::engine::Graphics {
         auto transformsForDestruction = registry.view<Components::Transform, Ecs::Flags::Destroy<Components::Transform>>();
 
         for (auto entity : transformsForDestruction) {
-            auto transform = transformsForDestruction.get<Components::Transform>(entity);
+            auto& transform = transformsForDestruction.get<Components::Transform>(entity);
             RecalculateMatrices(transform);
             Ecs::Registry::RemoveDestroyFlag<Components::Transform>(entity);
         }
     }
 
-    void TransformSystem::RecalculateMatrices(Components::Transform &transform) {
+    void TransformSystem::RecalculateMatrices(Components::Transform& transform) {
 
         auto& registry = Ecs::Registry::getCurrent();
 
