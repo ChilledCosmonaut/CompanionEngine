@@ -4,7 +4,7 @@
 #include "engine/Systems/Graphics/Components/Model.h"
 #include "TransformationUtils.h"
 
-namespace gl3::engine::Graphics::Utils {
+namespace gl3::engine::Graphics {
 
     using namespace std;
 
