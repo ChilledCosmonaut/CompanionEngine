@@ -3,7 +3,7 @@
 #include "engine/Systems/Graphics/shader.h"
 #include "engine/Systems/Graphics/mesh.h"
 
-namespace gl3::engine::Graphics::Components {
+namespace gl3::engine::Graphics {
 
     struct Model {
 

@@ -34,7 +34,7 @@ namespace gl3::engine::Graphics::Systems{
 
         ~GraphicsSystem();
 
-        static void Draw(Components::Model &modelData);
+        static void Draw(Model &modelData);
 
         glm::vec3 lightPos = glm::vec3(0.0f, -0.5f, 1.0f);
 

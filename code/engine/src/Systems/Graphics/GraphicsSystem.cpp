@@ -50,7 +50,7 @@ namespace gl3::engine::Graphics::Systems{
         return textureID;
     }
 
-    static vector<Texture> loadMaterialTextures(Components::Model &modelData, aiMaterial *mat, aiTextureType type, string typeName) {
+    static vector<Texture> loadMaterialTextures(Model &modelData, aiMaterial *mat, aiTextureType type, string typeName) {
         vector<Texture> textures;
         for (unsigned int i = 0; i < mat->GetTextureCount(type); i++) {
             aiString str;
@@ -75,7 +75,7 @@ namespace gl3::engine::Graphics::Systems{
         return textures;
     }
 
-    static Mesh processMesh(Components::Model &modelData, aiMesh *mesh, const aiScene *scene) {
+    static Mesh processMesh(Model &modelData, aiMesh *mesh, const aiScene *scene) {
         vector<Vertex> vertices;
         vector<unsigned int> indices;
         vector<Texture> textures;
@@ -122,7 +122,7 @@ namespace gl3::engine::Graphics::Systems{
         return Mesh(vertices, indices, textures);
     }
 
-    static void processNode(Components::Model &modelData, aiNode *node, const aiScene *scene) {
+    static void processNode(Model &modelData, aiNode *node, const aiScene *scene) {
         // process all the node's meshes (if any)
         for (unsigned int i = 0; i < node->mNumMeshes; i++) {
             aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
@@ -134,7 +134,7 @@ namespace gl3::engine::Graphics::Systems{
         }
     }
 
-    static void loadModel(Components::Model &modelData, const string &path) {
+    static void loadModel(Model &modelData, const string &path) {
         /*const aiScene *scene = files::FileManager::loadModelFromFile(path);
         directory = path.substr(0, path.find_last_of('/'));*/
         // read file via ASSIMP
@@ -204,12 +204,12 @@ namespace gl3::engine::Graphics::Systems{
             Ecs::Registry::RemoveSetupFlag<Components::SkyboxComponent>(entity);
         }
 
-        auto modelView = registry.view<Components::Model, Ecs::Flags::Setup<Components::Model>>();
+        auto modelView = registry.view<Model, Ecs::Flags::Setup<Model>>();
 
         for(auto& entity : modelView){
-            auto& model = modelView.get<Components::Model>(entity);
+            auto& model = modelView.get<Model>(entity);
             loadModel(model,model.path);
-            Ecs::Registry::RemoveSetupFlag<Components::Model>(entity);
+            Ecs::Registry::RemoveSetupFlag<Model>(entity);
         }
     }
 
@@ -245,7 +245,7 @@ namespace gl3::engine::Graphics::Systems{
 
         //DisplayLights();
 
-        auto modelView = registry.view<Components::Model, Components::Transform>();
+        auto modelView = registry.view<Model, Components::Transform>();
 
         for(auto &&[entity, model, transform] : modelView.each()){
             if(!transform.active) continue;
@@ -268,7 +268,7 @@ namespace gl3::engine::Graphics::Systems{
         }
     }
 
-    void GraphicsSystem::Draw(Components::Model &modelData) {
+    void GraphicsSystem::Draw(Model &modelData) {
         for (auto &mesh: modelData.meshes)
             mesh.Draw(*modelData.shader);
 
