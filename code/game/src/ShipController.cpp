@@ -10,13 +10,13 @@ namespace gl3::game {
         return (T(0) < val) - (val < T(0));
     }
 
-    void Fire(int fire, entt::registry* registry, Components::Transform& playerTransform) {
+    void Fire(int fire, entt::registry* registry, Transform& playerTransform) {
         if (fire == GLFW_PRESS){
-            auto projectileView = registry->view<PlayerProjectile, Components::Transform>();
+            auto projectileView = registry->view<PlayerProjectile, Transform>();
 
             for (auto& entity : projectileView) {
                 auto& projectile = projectileView.get<PlayerProjectile>(entity);
-                auto& transform = projectileView.get<Components::Transform>(entity);
+                auto& transform = projectileView.get<Transform>(entity);
 
                 if (projectile.lifetime <= 0){
                     transform.active = true;

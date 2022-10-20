@@ -35,9 +35,8 @@ int main() {
 
     Graphics::shader shader = Graphics::shader("shaders/vertexShader.glsl", "shaders/fragmentShader.glsl");
 
-    Graphics::Components::Transform standardTransform =
-            Graphics::Components::Transform(
-                    glm::vec3(0,0,0),glm::vec3(0,0,0),glm::vec3(0.5f,0.5f,0.5f));
+    Graphics::Transform standardTransform =
+            Graphics::Transform(glm::vec3(0,0,0),glm::vec3(0,0,0),glm::vec3(0.5f,0.5f,0.5f));
 
     ShipController controller1 = ShipController();
 

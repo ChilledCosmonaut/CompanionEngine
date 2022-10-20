@@ -221,7 +221,7 @@ namespace gl3::engine::Graphics::Systems{
         glm::mat4 viewMatrix;
         glm::vec3 cameraTranslation;
 
-        auto cameraView = registry.view<Graphics::Camera, Graphics::Components::Transform>();
+        auto cameraView = registry.view<Graphics::Camera, Graphics::Transform>();
 
         for (auto &&[entity, camera, transform] : cameraView.each()) {
             viewMatrix = TransformationUtils::GetViewMatrix(camera,transform);
@@ -245,7 +245,7 @@ namespace gl3::engine::Graphics::Systems{
 
         //DisplayLights();
 
-        auto modelView = registry.view<Model, Components::Transform>();
+        auto modelView = registry.view<Model, Transform>();
 
         for(auto &&[entity, model, transform] : modelView.each()){
             if(!transform.active) continue;

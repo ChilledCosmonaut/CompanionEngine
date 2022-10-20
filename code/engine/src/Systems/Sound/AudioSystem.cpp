@@ -56,10 +56,10 @@ namespace gl3::engine::soundSystem {
 
         auto& registry = Ecs::Registry::getCurrent();
 
-        auto spatialSourcesChanged = registry.view<Graphics::Components::Transform, SpatialAudioSource, Ecs::Flags::Update<SpatialAudioSource>>();
+        auto spatialSourcesChanged = registry.view<Graphics::Transform, SpatialAudioSource, Ecs::Flags::Update<SpatialAudioSource>>();
 
         for(auto& entity : spatialSourcesChanged){
-            auto& transform = spatialSourcesChanged.get<Graphics::Components::Transform>(entity);
+            auto& transform = spatialSourcesChanged.get<Graphics::Transform>(entity);
             auto& audioSource = spatialSourcesChanged.get<SpatialAudioSource>(entity);
 
             /*audioSource.sound.setLooping(looping);*/
@@ -78,10 +78,10 @@ namespace gl3::engine::soundSystem {
             Ecs::Registry::RemoveUpdateFlag<SpatialAudioSource>(entity);
         }
 
-        auto backgroundSourcesChanged = registry.view<Graphics::Components::Transform, BackgroundAudioSource, Ecs::Flags::Update<BackgroundAudioSource>>();
+        auto backgroundSourcesChanged = registry.view<Graphics::Transform, BackgroundAudioSource, Ecs::Flags::Update<BackgroundAudioSource>>();
 
         for(auto& entity : backgroundSourcesChanged){
-            auto& transform = backgroundSourcesChanged.get<Graphics::Components::Transform>(entity);
+            auto& transform = backgroundSourcesChanged.get<Graphics::Transform>(entity);
             auto& audioSource = backgroundSourcesChanged.get<BackgroundAudioSource>(entity);
 
             /*audioSource.sound.setLooping(looping);*/
@@ -100,10 +100,10 @@ namespace gl3::engine::soundSystem {
         }
 
         auto spatialTransformChanged = registry.view<
-                Graphics::Components::Transform, SpatialAudioSource, Ecs::Flags::Update<Graphics::Components::Transform>>();
+                Graphics::Transform, SpatialAudioSource, Ecs::Flags::Update<Graphics::Transform>>();
 
         for(auto& entity : spatialTransformChanged){
-            auto& transform = spatialTransformChanged.get<Graphics::Components::Transform>(entity);
+            auto& transform = spatialTransformChanged.get<Graphics::Transform>(entity);
             auto& audioSource = spatialTransformChanged.get<SpatialAudioSource>(entity);
 
             soLoud.set3dSourcePosition(audioSource.handle,
@@ -118,10 +118,10 @@ namespace gl3::engine::soundSystem {
             soLoud.set3dSourceMinMaxDistance(audioSource.handle, audioSource.minDistance, audioSource.maxDistance);
         }
 
-        auto listenerView = registry.view<Graphics::Components::Transform, AudioListener,  Ecs::Flags::Update<Graphics::Components::Transform>>();
+        auto listenerView = registry.view<Graphics::Transform, AudioListener,  Ecs::Flags::Update<Graphics::Transform>>();
 
         for (auto& entity : listenerView) {
-            auto& transform = listenerView.get<Graphics::Components::Transform>(entity);
+            auto& transform = listenerView.get<Graphics::Transform>(entity);
 
             glm::vec4 atVector = transform.modelMatrix * glm::vec4(0., 0., -1., 0.);
             glm::vec4 upVector = transform.modelMatrix * glm::vec4(0., 1., 0., 0.);

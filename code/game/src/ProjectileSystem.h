@@ -16,14 +16,14 @@ namespace gl3::game {
 
         void Update(engine::Game &game) override{
             auto& registry = engine::Ecs::Registry::getCurrent();
-            auto enemyProjectileView = registry.view<EnemyProjectile, engine::Graphics::Components::Transform>();
+            auto enemyProjectileView = registry.view<EnemyProjectile, engine::Graphics::Transform>();
             for (auto &enemy: enemyProjectileView) {
                 auto &enemyStats = enemyProjectileView.get<EnemyProjectile>(enemy);
-                auto &transform = enemyProjectileView.get<engine::Graphics::Components::Transform>(enemy);
-                auto componentView = registry.view<ShipMovementSettings, engine::Graphics::Components::Transform>();
+                auto &transform = enemyProjectileView.get<engine::Graphics::Transform>(enemy);
+                auto componentView = registry.view<ShipMovementSettings, engine::Graphics::Transform>();
                 for (auto &player: componentView) {
                     auto& shipSettings = componentView.get<ShipMovementSettings>(player);
-                    auto& playerTransform = componentView.get<engine::Graphics::Components::Transform>(player);
+                    auto& playerTransform = componentView.get<engine::Graphics::Transform>(player);
 
                     if (glm::length(playerTransform.translation - transform.translation) <= 2 &&
                         transform.active){
@@ -42,14 +42,14 @@ namespace gl3::game {
                 }
             }
 
-            auto playerProjectileView = registry.view<PlayerProjectile, engine::Graphics::Components::Transform>();
+            auto playerProjectileView = registry.view<PlayerProjectile, engine::Graphics::Transform>();
             for (auto &player: playerProjectileView) {
                 auto &projectileStats = playerProjectileView.get<PlayerProjectile>(player);
-                auto &playerTransform = playerProjectileView.get<engine::Graphics::Components::Transform>(player);
-                auto componentView = registry.view<EnemyBehaviour, engine::Graphics::Components::Transform>();
+                auto &playerTransform = playerProjectileView.get<engine::Graphics::Transform>(player);
+                auto componentView = registry.view<EnemyBehaviour, engine::Graphics::Transform>();
                 for (auto &enemy: componentView) {
                     auto& shipSettings = componentView.get<EnemyBehaviour>(enemy);
-                    auto& enemyTransform = componentView.get<engine::Graphics::Components::Transform>(enemy);
+                    auto& enemyTransform = componentView.get<engine::Graphics::Transform>(enemy);
 
                     if (glm::length(enemyTransform.translation - playerTransform.translation) <= 2 && playerTransform.active){
                         shipSettings.lifePoints -= projectileStats.damage;

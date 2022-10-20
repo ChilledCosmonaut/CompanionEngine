@@ -17,11 +17,11 @@ namespace gl3::engine::Physics {
 
         auto &registry = Ecs::Registry::getCurrent();
 
-        auto initRigidBodies = registry.view<Components::RigidBody, Graphics::Components::Transform, Ecs::Flags::Setup<Components::RigidBody>>();
+        auto initRigidBodies = registry.view<Components::RigidBody, Graphics::Transform, Ecs::Flags::Setup<Components::RigidBody>>();
 
         for (auto entity: initRigidBodies) {
             auto &rigidBody = registry.get<Components::RigidBody>(entity);
-            auto &transform = registry.get<Graphics::Components::Transform>(entity);
+            auto &transform = registry.get<Graphics::Transform>(entity);
 
             auto mMaterial =
                     mPhysics->createMaterial(
@@ -65,11 +65,11 @@ namespace gl3::engine::Physics {
             Ecs::Registry::RemoveSetupFlag<Components::RigidBody>(entity);
         }
 
-        auto initRigidStatics = registry.view<Components::RigidStatic, Graphics::Components::Transform, Ecs::Flags::Setup<Components::RigidStatic>>();
+        auto initRigidStatics = registry.view<Components::RigidStatic, Graphics::Transform, Ecs::Flags::Setup<Components::RigidStatic>>();
 
         for (auto entity: initRigidStatics) {
             auto &rigidStatic = registry.get<Components::RigidStatic>(entity);
-            auto &transform = registry.get<Graphics::Components::Transform>(entity);
+            auto &transform = registry.get<Graphics::Transform>(entity);
 
             auto mMaterial =
                     mPhysics->createMaterial(
@@ -139,11 +139,11 @@ namespace gl3::engine::Physics {
 
         //For this to work use two Transform update cycles
 
-        auto updatedBodyTransforms = registry.view<Components::RigidBody, Graphics::Components::Transform, Ecs::Flags::Update<Graphics::Components::Transform>>();
+        auto updatedBodyTransforms = registry.view<Components::RigidBody, Graphics::Transform, Ecs::Flags::Update<Graphics::Transform>>();
 
         for (auto &entity: updatedBodyTransforms) {
             auto &rigidBody = updatedBodyTransforms.get<Components::RigidBody>(entity);
-            auto &transform = registry.get<Graphics::Components::Transform>(entity);
+            auto &transform = registry.get<Graphics::Transform>(entity);
 
             physx::PxTransform updatedTransform(transform.translation.x, transform.translation.y, transform.translation.z,
                                                 physx::PxQuat(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w));
@@ -151,11 +151,11 @@ namespace gl3::engine::Physics {
             rigidBody.rigidBody->setGlobalPose(updatedTransform);
         }
 
-        auto updatedStaticTransforms = registry.view<Components::RigidStatic, Graphics::Components::Transform, Ecs::Flags::Update<Graphics::Components::Transform>>();
+        auto updatedStaticTransforms = registry.view<Components::RigidStatic, Graphics::Transform, Ecs::Flags::Update<Graphics::Transform>>();
 
         for (auto &entity: updatedStaticTransforms) {
             auto &rigidBody = updatedStaticTransforms.get<Components::RigidStatic>(entity);
-            auto &transform = registry.get<Graphics::Components::Transform>(entity);
+            auto &transform = registry.get<Graphics::Transform>(entity);
 
             physx::PxTransform updatedTransform(transform.translation.x, transform.translation.y, transform.translation.z,
                                                 physx::PxQuat(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w));
@@ -166,11 +166,11 @@ namespace gl3::engine::Physics {
         mScene->simulate(Time::GetDeltaTime());
         mScene->fetchResults(true);
 
-        auto componentView = registry.view<Components::RigidBody, Graphics::Components::Transform>();
+        auto componentView = registry.view<Components::RigidBody, Graphics::Transform>();
 
         for (auto &entity: componentView) {
             auto &rigidBody = componentView.get<Components::RigidBody>(entity);
-            auto &transform = componentView.get<Graphics::Components::Transform>(entity);
+            auto &transform = componentView.get<Graphics::Transform>(entity);
 
             auto physicsTransform = rigidBody.rigidBody->getGlobalPose();
 
@@ -179,7 +179,7 @@ namespace gl3::engine::Physics {
             Graphics::TransformationUtils::SetTranslation(entity, transform, glm::vec3(
                     physicsTransform.p.x, physicsTransform.p.y, physicsTransform.p.z));
 
-            Ecs::Registry::UpdateComponent<Graphics::Components::Transform>(entity);
+            Ecs::Registry::UpdateComponent<Graphics::Transform>(entity);
         }
     }
 

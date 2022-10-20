@@ -13,11 +13,11 @@ namespace gl3::game {
 
         void Update(engine::Game &game) override {
             auto& registry = engine::Ecs::Registry::getCurrent();
-            auto enemyView = registry.view<EnemyBehaviour, engine::Graphics::Components::Transform>();
+            auto enemyView = registry.view<EnemyBehaviour, engine::Graphics::Transform>();
             for (auto &enemy: enemyView) {
                 auto &enemyStats = enemyView.get<EnemyBehaviour>(enemy);
-                auto &transform = enemyView.get<engine::Graphics::Components::Transform>(enemy);
-                auto componentView = registry.view<ShipMovementSettings, engine::Graphics::Components::Transform>();
+                auto &transform = enemyView.get<engine::Graphics::Transform>(enemy);
+                auto componentView = registry.view<ShipMovementSettings, engine::Graphics::Transform>();
 
                 if (enemyStats.lifePoints <= 0){
                     transform.active = false;
@@ -25,17 +25,17 @@ namespace gl3::game {
                 }
 
                 for (auto &entity: componentView) {
-                    auto &targetTransform = componentView.get<engine::Graphics::Components::Transform>(entity);
+                    auto &targetTransform = componentView.get<engine::Graphics::Transform>(entity);
                     if (glm::length(transform.translation - targetTransform.translation) <= 100) {
 
                         bool shoot = rand() % 300;
 
                         if (shoot < 1){
-                            auto projectileView = registry.view<EnemyProjectile, engine::Graphics::Components::Transform>();
+                            auto projectileView = registry.view<EnemyProjectile, engine::Graphics::Transform>();
 
                             for (auto& projectileEntity : projectileView) {
                                 auto& projectile = projectileView.get<EnemyProjectile>(projectileEntity);
-                                auto& projectileTransform = projectileView.get<engine::Graphics::Components::Transform>(projectileEntity);
+                                auto& projectileTransform = projectileView.get<engine::Graphics::Transform>(projectileEntity);
 
                                 if (projectile.lifetime <= 0){
                                     projectileTransform.active = true;

@@ -24,7 +24,7 @@ namespace gl3::engine::Graphics {
 
         ~TransformSystem() override = default;
 
-        void RecalculateMatrices(Components::Transform &transform);
+        void RecalculateMatrices(Transform &transform);
 
         static inline TransformSystem *transformSystem = nullptr;
     };
