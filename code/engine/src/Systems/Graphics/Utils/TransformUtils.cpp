@@ -1,6 +1,6 @@
 #include "engine/Systems/Graphics/Utils/TransformationUtils.h"
 
-namespace gl3::engine::Graphics::Utils {
+namespace gl3::engine::Graphics{
     void TransformationUtils::AddChildEntity(Components::Transform &transform, entt::entity currentEntity, entt::entity childEntity) {
 
         auto& registry = Ecs::Registry::getCurrent();

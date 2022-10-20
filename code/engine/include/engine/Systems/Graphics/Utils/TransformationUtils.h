@@ -3,7 +3,7 @@
 #include "engine/Systems/Graphics/Components/Transform.h"
 #include "engine/ECS/Registry.h"
 
-namespace gl3::engine::Graphics::Utils {
+namespace gl3::engine::Graphics {
     class TransformationUtils{
     public:
         static void AddChildEntity(Components::Transform &transform, entt::entity currentEntity, entt::entity childEntity);

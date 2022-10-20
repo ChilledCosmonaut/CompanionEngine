@@ -4,7 +4,6 @@ namespace gl3::game {
 
     using namespace engine;
     using namespace engine::Graphics;
-    using namespace engine::Graphics::Utils;
 
     template<typename T>
     int sgn(T val) {

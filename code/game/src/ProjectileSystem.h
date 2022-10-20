@@ -32,7 +32,7 @@ namespace gl3::game {
                         transform.active = false;
                     } else {
                         enemyStats.lifetime -= engine::Time::GetDeltaTime();
-                        engine::Graphics::Utils::TransformationUtils::AddRelativeTranslation(enemy, transform, glm::vec3(0, 0, -40) * engine::Time::GetDeltaTime());
+                        engine::Graphics::TransformationUtils::AddRelativeTranslation(enemy, transform, glm::vec3(0, 0, -40) * engine::Time::GetDeltaTime());
                     }
 
                     if (enemyStats.lifetime <= 0){
@@ -58,7 +58,7 @@ namespace gl3::game {
                         playerTransform.active = false;
                     } else {
                         projectileStats.lifetime -= engine::Time::GetDeltaTime();
-                        engine::Graphics::Utils::TransformationUtils::AddRelativeTranslation(player, playerTransform, glm::vec3(0, 0, -50) * engine::Time::GetDeltaTime());
+                        engine::Graphics::TransformationUtils::AddRelativeTranslation(player, playerTransform, glm::vec3(0, 0, -50) * engine::Time::GetDeltaTime());
                     }
 
                     if (projectileStats.lifetime <= 0){

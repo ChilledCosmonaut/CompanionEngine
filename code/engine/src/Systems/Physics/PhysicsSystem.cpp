@@ -174,9 +174,9 @@ namespace gl3::engine::Physics {
 
             auto physicsTransform = rigidBody.rigidBody->getGlobalPose();
 
-            Graphics::Utils::TransformationUtils::SetRotation(entity, transform, glm::quat(
+            Graphics::TransformationUtils::SetRotation(entity, transform, glm::quat(
                     physicsTransform.q.w, physicsTransform.q.x, physicsTransform.q.y, physicsTransform.q.z));
-            Graphics::Utils::TransformationUtils::SetTranslation(entity, transform, glm::vec3(
+            Graphics::TransformationUtils::SetTranslation(entity, transform, glm::vec3(
                     physicsTransform.p.x, physicsTransform.p.y, physicsTransform.p.z));
 
             Ecs::Registry::UpdateComponent<Graphics::Components::Transform>(entity);
