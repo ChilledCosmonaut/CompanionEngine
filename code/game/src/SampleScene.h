@@ -20,9 +20,9 @@ namespace gl3::game {
 
             auto &cameraTransform = registry.get<engine::Graphics::Transform>(mainCameraObject);
             engine::Graphics::TransformationUtils::AddRotation(mainCameraObject, cameraTransform, glm::vec3(0, 180, 0));
-            auto &rigidBody = engine::Ecs::Registry::AddComponent<engine::Physics::Components::RigidBody>(mainCameraObject);
-            rigidBody.shapeInfo = Components::Shapes::Sphere();
-            rigidBody.shape = Components::Shapes::sphere;
+            auto &rigidBody = engine::Ecs::Registry::AddComponent<engine::Physics::RigidBody>(mainCameraObject);
+            rigidBody.shapeInfo = Shapes::Sphere();
+            rigidBody.shape = Shapes::sphere;
 
             auto skybox = CreateEntity();
             engine::Ecs::Registry::AddComponent<engine::Graphics::Skybox>(skybox);

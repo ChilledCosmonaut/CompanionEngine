@@ -17,10 +17,10 @@ namespace gl3::engine::Physics {
 
         auto &registry = Ecs::Registry::getCurrent();
 
-        auto initRigidBodies = registry.view<Components::RigidBody, Graphics::Transform, Ecs::Flags::Setup<Components::RigidBody>>();
+        auto initRigidBodies = registry.view<RigidBody, Graphics::Transform, Ecs::Flags::Setup<RigidBody>>();
 
         for (auto entity: initRigidBodies) {
-            auto &rigidBody = registry.get<Components::RigidBody>(entity);
+            auto &rigidBody = registry.get<RigidBody>(entity);
             auto &transform = registry.get<Graphics::Transform>(entity);
 
             auto mMaterial =
@@ -30,23 +30,23 @@ namespace gl3::engine::Physics {
 
             physx::PxShape *shape;
 
-            Components::Shapes::Sphere sphere;
-            Components::Shapes::Box box;
-            Components::Shapes::Capsule capsule;
+            Shapes::Sphere sphere;
+            Shapes::Box box;
+            Shapes::Capsule capsule;
 
             switch (rigidBody.shape) {
-                case Components::Shapes::sphere:
-                    sphere = std::get<Components::Shapes::sphere>(rigidBody.shapeInfo);
+                case Shapes::sphere:
+                    sphere = std::get<Shapes::sphere>(rigidBody.shapeInfo);
                     shape = mPhysics->createShape(
                             physx::PxSphereGeometry(sphere.radius), *mMaterial);
                     break;
-                case Components::Shapes::box:
-                    box = std::get<Components::Shapes::box>(rigidBody.shapeInfo);
+                case Shapes::box:
+                    box = std::get<Shapes::box>(rigidBody.shapeInfo);
                     shape = mPhysics->createShape(
                             physx::PxBoxGeometry(box.dimensions.x, box.dimensions.y, box.dimensions.z), *mMaterial);
                     break;
-                case Components::Shapes::capsule:
-                    capsule = std::get<Components::Shapes::capsule>(rigidBody.shapeInfo);
+                case Shapes::capsule:
+                    capsule = std::get<Shapes::capsule>(rigidBody.shapeInfo);
                     shape = mPhysics->createShape(
                             physx::PxCapsuleGeometry(capsule.radius, capsule.halfHeight), *mMaterial);
                     break;
@@ -62,13 +62,13 @@ namespace gl3::engine::Physics {
             shape->release();
             rigidBody.rigidBody->setMass(rigidBody.mass);
 
-            Ecs::Registry::RemoveSetupFlag<Components::RigidBody>(entity);
+            Ecs::Registry::RemoveSetupFlag<RigidBody>(entity);
         }
 
-        auto initRigidStatics = registry.view<Components::RigidStatic, Graphics::Transform, Ecs::Flags::Setup<Components::RigidStatic>>();
+        auto initRigidStatics = registry.view<RigidStatic, Graphics::Transform, Ecs::Flags::Setup<RigidStatic>>();
 
         for (auto entity: initRigidStatics) {
-            auto &rigidStatic = registry.get<Components::RigidStatic>(entity);
+            auto &rigidStatic = registry.get<RigidStatic>(entity);
             auto &transform = registry.get<Graphics::Transform>(entity);
 
             auto mMaterial =
@@ -86,7 +86,7 @@ namespace gl3::engine::Physics {
             mScene->addActor(*rigidStatic.rigidStatic);
             shape->release();
 
-            Ecs::Registry::RemoveSetupFlag<Components::RigidStatic>(entity);
+            Ecs::Registry::RemoveSetupFlag<RigidStatic>(entity);
         }
 
     }
@@ -95,10 +95,10 @@ namespace gl3::engine::Physics {
 
         auto &registry = Ecs::Registry::getCurrent();
 
-        auto updatedRigidBodies = registry.view<Components::RigidBody, Ecs::Flags::Update<Components::RigidBody>>();
+        auto updatedRigidBodies = registry.view<RigidBody, Ecs::Flags::Update<RigidBody>>();
 
         for (auto &entity: updatedRigidBodies) {
-            auto &rigidBody = updatedRigidBodies.get<Components::RigidBody>(entity);
+            auto &rigidBody = updatedRigidBodies.get<RigidBody>(entity);
 
             //ToDo: Update rigid bodies here when values have been changed
             auto mMaterial =
@@ -108,23 +108,23 @@ namespace gl3::engine::Physics {
 
             physx::PxShape *newShape;
 
-            Components::Shapes::Sphere sphere;
-            Components::Shapes::Box box;
-            Components::Shapes::Capsule capsule;
+            Shapes::Sphere sphere;
+            Shapes::Box box;
+            Shapes::Capsule capsule;
 
             switch (rigidBody.shape) {
-                case Components::Shapes::sphere:
-                    sphere = std::get<Components::Shapes::sphere>(rigidBody.shapeInfo);
+                case Shapes::sphere:
+                    sphere = std::get<Shapes::sphere>(rigidBody.shapeInfo);
                     newShape = mPhysics->createShape(
                             physx::PxSphereGeometry(sphere.radius), *mMaterial);
                     break;
-                case Components::Shapes::box:
-                    box = std::get<Components::Shapes::box>(rigidBody.shapeInfo);
+                case Shapes::box:
+                    box = std::get<Shapes::box>(rigidBody.shapeInfo);
                     newShape = mPhysics->createShape(
                             physx::PxBoxGeometry(box.dimensions.x, box.dimensions.y, box.dimensions.z), *mMaterial);
                     break;
-                case Components::Shapes::capsule:
-                    capsule = std::get<Components::Shapes::capsule>(rigidBody.shapeInfo);
+                case Shapes::capsule:
+                    capsule = std::get<Shapes::capsule>(rigidBody.shapeInfo);
                     newShape = mPhysics->createShape(
                             physx::PxCapsuleGeometry(capsule.radius, capsule.halfHeight), *mMaterial);
                     break;
@@ -134,15 +134,15 @@ namespace gl3::engine::Physics {
 
             rigidBody.rigidBody->setMass(rigidBody.mass);
 
-            Ecs::Registry::RemoveUpdateFlag<Components::RigidBody>(entity);
+            Ecs::Registry::RemoveUpdateFlag<RigidBody>(entity);
         }
 
         //For this to work use two Transform update cycles
 
-        auto updatedBodyTransforms = registry.view<Components::RigidBody, Graphics::Transform, Ecs::Flags::Update<Graphics::Transform>>();
+        auto updatedBodyTransforms = registry.view<RigidBody, Graphics::Transform, Ecs::Flags::Update<Graphics::Transform>>();
 
         for (auto &entity: updatedBodyTransforms) {
-            auto &rigidBody = updatedBodyTransforms.get<Components::RigidBody>(entity);
+            auto &rigidBody = updatedBodyTransforms.get<RigidBody>(entity);
             auto &transform = registry.get<Graphics::Transform>(entity);
 
             physx::PxTransform updatedTransform(transform.translation.x, transform.translation.y, transform.translation.z,
@@ -151,10 +151,10 @@ namespace gl3::engine::Physics {
             rigidBody.rigidBody->setGlobalPose(updatedTransform);
         }
 
-        auto updatedStaticTransforms = registry.view<Components::RigidStatic, Graphics::Transform, Ecs::Flags::Update<Graphics::Transform>>();
+        auto updatedStaticTransforms = registry.view<RigidStatic, Graphics::Transform, Ecs::Flags::Update<Graphics::Transform>>();
 
         for (auto &entity: updatedStaticTransforms) {
-            auto &rigidBody = updatedStaticTransforms.get<Components::RigidStatic>(entity);
+            auto &rigidBody = updatedStaticTransforms.get<RigidStatic>(entity);
             auto &transform = registry.get<Graphics::Transform>(entity);
 
             physx::PxTransform updatedTransform(transform.translation.x, transform.translation.y, transform.translation.z,
@@ -166,10 +166,10 @@ namespace gl3::engine::Physics {
         mScene->simulate(Time::GetDeltaTime());
         mScene->fetchResults(true);
 
-        auto componentView = registry.view<Components::RigidBody, Graphics::Transform>();
+        auto componentView = registry.view<RigidBody, Graphics::Transform>();
 
         for (auto &entity: componentView) {
-            auto &rigidBody = componentView.get<Components::RigidBody>(entity);
+            auto &rigidBody = componentView.get<RigidBody>(entity);
             auto &transform = componentView.get<Graphics::Transform>(entity);
 
             auto physicsTransform = rigidBody.rigidBody->getGlobalPose();
@@ -187,24 +187,24 @@ namespace gl3::engine::Physics {
 
         auto &registry = Ecs::Registry::getCurrent();
 
-        auto shutdownRigidBodies = registry.view<Components::RigidBody, Ecs::Flags::Destroy<Components::RigidBody>>();
+        auto shutdownRigidBodies = registry.view<RigidBody, Ecs::Flags::Destroy<RigidBody>>();
 
         for (auto entity: shutdownRigidBodies) {
-            auto &rigidStatic = registry.get<Components::RigidBody>(entity);
+            auto &rigidStatic = registry.get<RigidBody>(entity);
 
             rigidStatic.rigidBody->release();
 
-            Ecs::Registry::RemoveDestroyFlag<Components::RigidBody>(entity);
+            Ecs::Registry::RemoveDestroyFlag<RigidBody>(entity);
         }
 
-        auto shutdownRigidStatics = registry.view<Components::RigidStatic, Ecs::Flags::Destroy<Components::RigidStatic>>();
+        auto shutdownRigidStatics = registry.view<RigidStatic, Ecs::Flags::Destroy<RigidStatic>>();
 
         for (auto entity: shutdownRigidStatics) {
-            auto &rigidStatic = registry.get<Components::RigidStatic>(entity);
+            auto &rigidStatic = registry.get<RigidStatic>(entity);
 
             rigidStatic.rigidStatic->release();
 
-            Ecs::Registry::RemoveDestroyFlag<Components::RigidStatic>(entity);
+            Ecs::Registry::RemoveDestroyFlag<RigidStatic>(entity);
         }
     }
 

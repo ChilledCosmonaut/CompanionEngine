@@ -2,11 +2,7 @@
 
 #include "PxPhysicsAPI.h"
 
-namespace gl3::engine::Physics::Utils {
-    class RigidBodyUtils;
-}
-
-namespace gl3::engine::Physics::Components::Shapes {
+namespace gl3::engine::Physics::Shapes {
 
      enum Shapes{
          sphere, box, capsule, plane
