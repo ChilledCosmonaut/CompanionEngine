@@ -22,13 +22,13 @@ namespace gl3::engine::Graphics::Components {
             rotation = startRotation;
 
             //Initial calculate matrices.... Sadly is a duplicate from the Util class
-            glm::mat4 translateModel = glm::translate(glm::mat4(1.0f), translation);
+            /*glm::mat4 translateModel = glm::translate(glm::mat4(1.0f), translation);
             glm::mat4 inverseTranslateModel = glm::translate(glm::mat4(1.0f), -translation);
             glm::mat4 rotateModel = glm::mat4_cast(rotation);
             glm::mat4 scaleModel = glm::scale(glm::mat4(1.0f), scale);
             glm::mat4 inverseScaleModel = glm::scale(glm::mat4(1.0f), glm::vec3(1/scale.x, 1/scale.y, 1/scale.z));
             modelMatrix = translateModel * rotateModel * scaleModel;
-            inverseModelMatrix = inverseScaleModel * glm::inverse(rotateModel) * inverseTranslateModel;
+            inverseModelMatrix = inverseScaleModel * glm::inverse(rotateModel) * inverseTranslateModel;*/
         }
 
         glm::vec3 translation{};
