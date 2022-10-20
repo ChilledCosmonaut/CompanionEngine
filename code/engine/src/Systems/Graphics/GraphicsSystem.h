@@ -16,25 +16,29 @@ namespace gl3::engine::Graphics::Systems{
 
     class GraphicsSystem {
     public:
-        GraphicsSystem() = default;
+        /// Need to adhere to the singleton pattern
+        static GraphicsSystem *GetGraphicsSystem();
 
-        void SetUpScene(Scene &scene) {
-            Utils::SkyboxUtils::SetupSkybox(scene);
-            Utils::ModelUtils::SetUpModel(scene);
-        }
 
-        void DrawScene(Scene &scene);
+        /// Need to adhere to the singleton pattern
+        static void DestroyGraphicsSystem();
 
-        /*void Start(Game &game) override {};
+        void SetUp();
 
-        void Update(Game &game) override {};
+        void Update();
 
-        void OnShutdown(Game &engine) override {
-            //engine.getCurrentScene()->ReleasePhysicsScene();
-        };*/
+        void Shutdown();
 
     private:
-        glm::mat4 currentProjection;
-        glm::mat4 currentView;
+
+        GraphicsSystem();
+
+        ~GraphicsSystem();
+
+        static void Draw(Components::Model &modelData);
+
+        glm::vec3 lightPos = glm::vec3(0.0f, -0.5f, 1.0f);
+
+        inline static GraphicsSystem *graphicsSystem = nullptr;
     };
 }

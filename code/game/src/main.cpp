@@ -3,7 +3,7 @@
 #include "Enemy Controller.h"
 #include "ProjectileSystem.h"
 #include "engine/Tools/Grid.h"
-#include "engine/Systems/Sound/Components/AudioSource.h"
+#include "engine/Systems/Sound/Components/SpatialAudioSource.h"
 #include "engine/Game.h"
 
 #include "SampleScene.h"
@@ -40,14 +40,6 @@ int main() {
                     glm::vec3(0,0,0),glm::vec3(0,0,0),glm::vec3(0.5f,0.5f,0.5f));
 
     ShipController controller1 = ShipController();
-
-    game.onStartup.addListener([&] (Game &game){
-        auto registry = game.getCurrentScene()->getRegistry();
-        auto audioSources = registry->view<soundSystem::AudioSource>();
-        for (auto &audioEntity:audioSources) {
-            soundSystem::AudioSourceUtils::Play(audioEntity, scene, registry->get<soundSystem::AudioSource>(audioEntity), false);
-        }
-    });
 
     game.run();
 
