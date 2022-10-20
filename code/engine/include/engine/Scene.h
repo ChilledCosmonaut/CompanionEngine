@@ -1,6 +1,5 @@
 #pragma once
 
-#include "PxConfig.h" //Needs to stay here else PhysX won't find some HeaderFiles
 #include "../../src/ECS/entt.hpp"
 #include "engine/ECS/Registry.h"
 #include "engine/Systems/Graphics/Utils/TransformUtils.h"

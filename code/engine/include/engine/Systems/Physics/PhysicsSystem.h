@@ -1,5 +1,6 @@
 #pragma once
 
+#include "PxConfig.h" //Needs to stay here else PhysX won't find some HeaderFiles
 #include "PxPhysicsAPI.h"
 #include <stdexcept>
 

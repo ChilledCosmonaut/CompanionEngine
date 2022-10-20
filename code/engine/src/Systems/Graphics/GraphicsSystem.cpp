@@ -270,5 +270,17 @@ namespace gl3::engine::Graphics::Systems{
             mesh.Draw(*modelData.shader);
 
     }
+
+    void GraphicsSystem::Shutdown() {
+
+    }
+
+    GraphicsSystem::GraphicsSystem() {
+
+    }
+
+    GraphicsSystem::~GraphicsSystem() {
+
+    }
 }
 
