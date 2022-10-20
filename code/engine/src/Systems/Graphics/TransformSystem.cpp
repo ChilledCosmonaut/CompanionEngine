@@ -21,6 +21,7 @@ namespace gl3::engine::Graphics {
         for (auto entity : setUpTransforms) {
             auto transform = setUpTransforms.get<Components::Transform>(entity);
             RecalculateMatrices(transform);
+            Ecs::Registry::RemoveSetupFlag<Components::Transform>(entity);
         }
     }
 
@@ -32,6 +33,7 @@ namespace gl3::engine::Graphics {
         for (auto entity : updateTransforms) {
             auto transform = updateTransforms.get<Components::Transform>(entity);
             RecalculateMatrices(transform);
+            Ecs::Registry::RemoveUpdateFlag<Components::Transform>(entity);
         }
     }
 
@@ -43,6 +45,7 @@ namespace gl3::engine::Graphics {
         for (auto entity : transformsForDestruction) {
             auto transform = transformsForDestruction.get<Components::Transform>(entity);
             RecalculateMatrices(transform);
+            Ecs::Registry::RemoveDestroyFlag<Components::Transform>(entity);
         }
     }
 
