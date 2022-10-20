@@ -2,7 +2,7 @@
 
 #include "engine/Systems/Graphics/Components/Camera.h"
 
-namespace gl3::engine::Graphics::Utils {
+namespace gl3::engine::Graphics {
     class CameraUtils{
     public:
         static glm::mat4 GetViewMatrix(Components::CameraComponent &camera, Components::Transform &transform){
