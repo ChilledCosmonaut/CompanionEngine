@@ -2,10 +2,13 @@
 
 #include "engine/Systems/Graphics/Components/Transform.h"
 #include "engine/ECS/Registry.h"
+#include "engine/Systems/Graphics/Components/Camera.h"
 
 namespace gl3::engine::Graphics {
     class TransformationUtils{
     public:
+        static glm::mat4 GetViewMatrix(Camera &camera, Components::Transform &transform);
+
         static void AddChildEntity(Components::Transform &transform, entt::entity currentEntity, entt::entity childEntity);
         static void RemoveChildEntity(Components::Transform &transform, entt::entity currentEntity, entt::entity childEntity);
 

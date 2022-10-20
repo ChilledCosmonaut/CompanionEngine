@@ -1,6 +1,11 @@
 #include "engine/Systems/Graphics/Utils/TransformationUtils.h"
 
 namespace gl3::engine::Graphics{
+
+    glm::mat4 TransformationUtils::GetViewMatrix(Camera &camera, Components::Transform &transform) {
+        return camera.lookAtMatrix * transform.inverseModelMatrix;
+    }
+
     void TransformationUtils::AddChildEntity(Components::Transform &transform, entt::entity currentEntity, entt::entity childEntity) {
 
         auto& registry = Ecs::Registry::getCurrent();

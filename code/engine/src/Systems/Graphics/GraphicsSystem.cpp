@@ -1,5 +1,4 @@
 #include "GraphicsSystem.h"
-#include "engine/Systems/Graphics/Components/Skybox.h"
 
 namespace gl3::engine::Graphics::Systems{
 
@@ -225,7 +224,7 @@ namespace gl3::engine::Graphics::Systems{
         auto cameraView = registry.view<Graphics::Camera, Graphics::Components::Transform>();
 
         for (auto &&[entity, camera, transform] : cameraView.each()) {
-            viewMatrix = CameraUtils::GetViewMatrix(camera,transform);
+            viewMatrix = TransformationUtils::GetViewMatrix(camera,transform);
             cameraTranslation = transform.translation;
             break;
         }
