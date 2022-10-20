@@ -31,8 +31,8 @@ namespace gl3::game {
 
     void ShipController::Update(engine::Game &game) {
         auto window = game.getWindow();
-        auto registry = game.getCurrentScene()->getRegistry();
-        auto componentView = registry->view<ShipMovementSettings, Physics::Components::RigidBody>();
+        auto& registry = Ecs::Registry::getCurrent();
+        auto componentView = registry.view<ShipMovementSettings, Physics::Components::RigidBody>();
         int screenWidth = 3840, screenHeight = 2160;
 
         for(auto& entity : componentView){
@@ -56,10 +56,8 @@ namespace gl3::game {
             /*int fire = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
             Fire(fire, registry, currentTransform);*/
 
-            Physics::Utils::RigidBodyUtils::AddForce
-            (rigidBody,
-             glm::vec3(-inputx * movementSettings.speedX, -inputy * movementSettings.speedY, movementSettings.forwardAcceleration)
-             * engine::Time::GetDeltaTime());
+             rigidBody.rigidBody->addForce(physx::PxVec3(-inputx * movementSettings.speedX, -inputy * movementSettings.speedY, movementSettings.forwardAcceleration)
+                                           * engine::Time::GetDeltaTime());
 
             /*auto translation = glm::vec3(-inputx * movementSettings.speedX, -inputy * movementSettings.speedY, movementSettings.forwardAcceleration) * engine::Time::GetDeltaTime();
             glm::vec3 rotation = glm::vec3(movementSettings.rotationAccelerationX, movementSettings.rotationAccelerationY, movementSettings.rotationAccelerationZ);*/

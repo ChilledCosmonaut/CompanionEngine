@@ -1,6 +1,7 @@
 #pragma once
 
 #include "engine/Systems/Graphics/Components/Transform.h"
+#include "engine/ECS/Registry.h"
 
 namespace gl3::engine::Graphics::Utils {
     class TransformUtils{

@@ -2,25 +2,30 @@
 
 namespace gl3::engine::Graphics::Utils {
     void TransformUtils::AddChildEntity(Components::Transform &transform, entt::entity currentEntity, entt::entity childEntity) {
+
+        auto& registry = Ecs::Registry::getCurrent();
+
         transform.children.emplace_back(childEntity);
-        auto &childTransform = transform.currentRegistry->get<Components::Transform>(childEntity);
+        auto &childTransform = registry.get<Components::Transform>(childEntity);
 
         if (childTransform.parent != entt::null){
-            auto &childParentTransform = transform.currentRegistry->get<Components::Transform>(childTransform.parent);
+            auto &childParentTransform = registry.get<Components::Transform>(childTransform.parent);
             RemoveChildEntity(childParentTransform, childTransform.parent, childEntity);
         }
         childTransform.parent = currentEntity;
         childTransform.parentModelMatrix = transform.modelMatrix;
         childTransform.parentInverseModelMatrix = transform.inverseModelMatrix;
-        recalculateModel(childTransform);
+
+        Ecs::Registry::UpdateComponent<Components::Transform>(childEntity);
     }
 
     void TransformUtils::RemoveChildEntity(Components::Transform &transform, entt::entity currentEntity, entt::entity childEntity) {
+        auto& registry = Ecs::Registry::getCurrent();
         auto targetEntity = find(transform.children.begin(), transform.children.end(), childEntity);
         if (targetEntity != transform.children.end()){
             transform.children.erase(targetEntity);
 
-            auto &targetTransform = transform.currentRegistry->get<Components::Transform>(childEntity);
+            auto &targetTransform = registry.get<Components::Transform>(childEntity);
             targetTransform.parent = entt::null;
         }
     }

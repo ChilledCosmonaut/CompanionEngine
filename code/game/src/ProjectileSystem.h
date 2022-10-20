@@ -5,25 +5,22 @@
 #include "engine/ECS/System.h"
 #include "ProjectileInfo.h"
 #include "engine/Time.h"
+#include "engine/ECS/Registry.h"
 
 namespace gl3::game {
     class ProjectileSystem : public engine::entityComponentSystem::System {
     public:
         ProjectileSystem() = default;
 
-        void OnSwitchingScenes(engine::Graphics::Scene &scene) override {}
-
-        void OnDrawCall(engine::Graphics::Scene &scene) override {};
-
         void OnSetUp(engine::Game &game) override {};
 
         void Update(engine::Game &game) override{
-            auto registry = game.getCurrentScene()->getRegistry();
-            auto enemyProjectileView = registry->view<EnemyProjectile, engine::Graphics::Components::Transform>();
+            auto& registry = engine::Ecs::Registry::getCurrent();
+            auto enemyProjectileView = registry.view<EnemyProjectile, engine::Graphics::Components::Transform>();
             for (auto &enemy: enemyProjectileView) {
                 auto &enemyStats = enemyProjectileView.get<EnemyProjectile>(enemy);
                 auto &transform = enemyProjectileView.get<engine::Graphics::Components::Transform>(enemy);
-                auto componentView = registry->view<ShipMovementSettings, engine::Graphics::Components::Transform>();
+                auto componentView = registry.view<ShipMovementSettings, engine::Graphics::Components::Transform>();
                 for (auto &player: componentView) {
                     auto& shipSettings = componentView.get<ShipMovementSettings>(player);
                     auto& playerTransform = componentView.get<engine::Graphics::Components::Transform>(player);
@@ -46,11 +43,11 @@ namespace gl3::game {
                 }
             }
 
-            auto playerProjectileView = registry->view<PlayerProjectile, engine::Graphics::Components::Transform>();
+            auto playerProjectileView = registry.view<PlayerProjectile, engine::Graphics::Components::Transform>();
             for (auto &player: playerProjectileView) {
                 auto &projectileStats = playerProjectileView.get<PlayerProjectile>(player);
                 auto &playerTransform = playerProjectileView.get<engine::Graphics::Components::Transform>(player);
-                auto componentView = registry->view<EnemyBehaviour, engine::Graphics::Components::Transform>();
+                auto componentView = registry.view<EnemyBehaviour, engine::Graphics::Components::Transform>();
                 for (auto &enemy: componentView) {
                     auto& shipSettings = componentView.get<EnemyBehaviour>(enemy);
                     auto& enemyTransform = componentView.get<engine::Graphics::Components::Transform>(enemy);

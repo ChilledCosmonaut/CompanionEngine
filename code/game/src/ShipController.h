@@ -13,10 +13,6 @@ class ShipController : public engine::entityComponentSystem::System {
     public:
     ShipController() = default;
 
-    void OnSwitchingScenes(engine::Graphics::Scene &scene) override {}
-
-    void OnDrawCall(engine::Graphics::Scene &scene) override {};
-
     void OnSetUp(engine::Game &game) override {};
 
     void Update(engine::Game &game) override;
