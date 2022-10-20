@@ -7,7 +7,7 @@
 #include "engine/ECS/Registry.h"
 
 #include "engine/Systems/Graphics/Components/Transform.h"
-#include "engine/Systems/Graphics/Utils/TransformUtils.h"
+#include "engine/Systems/Graphics/Utils/TransformationUtils.h"
 
 #include "engine/Systems/Physics/Components/Rigidbody.h"
 

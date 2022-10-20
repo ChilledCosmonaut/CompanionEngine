@@ -52,11 +52,8 @@ namespace gl3::engine::Physics {
                     break;
             }
 
-            auto translation = Graphics::Utils::TransformUtils::GetTranslation(transform);
-            auto rotation = Graphics::Utils::TransformUtils::GetQuatRotation(transform);
-
-            physx::PxTransform currentColliderTransform(translation.x, translation.y, translation.z,
-                                                        physx::PxQuat(rotation.x, rotation.y, rotation.z, rotation.w));
+            physx::PxTransform currentColliderTransform(transform.translation.x, transform.translation.y, transform.translation.z,
+                                                        physx::PxQuat(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w));
 
             rigidBody.rigidBody = mPhysics->createRigidDynamic(currentColliderTransform);
             rigidBody.rigidBody->attachShape(*shape);
@@ -81,11 +78,8 @@ namespace gl3::engine::Physics {
 
             physx::PxShape *shape = mPhysics->createShape(physx::PxPlaneGeometry(), *mMaterial);
 
-            auto translation = Graphics::Utils::TransformUtils::GetTranslation(transform);
-            auto rotation = Graphics::Utils::TransformUtils::GetQuatRotation(transform);
-
-            physx::PxTransform currentColliderTransform(translation.x, translation.y, translation.z,
-                                                        physx::PxQuat(rotation.x, rotation.y, rotation.z, rotation.w));
+            physx::PxTransform currentColliderTransform(transform.translation.x, transform.translation.y, transform.translation.z,
+                                                        physx::PxQuat(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w));
 
             rigidStatic.rigidStatic = mPhysics->createRigidStatic(currentColliderTransform);
             rigidStatic.rigidStatic->attachShape(*shape);
@@ -151,11 +145,8 @@ namespace gl3::engine::Physics {
             auto &rigidBody = updatedBodyTransforms.get<Components::RigidBody>(entity);
             auto &transform = registry.get<Graphics::Components::Transform>(entity);
 
-            auto translation = Graphics::Utils::TransformUtils::GetTranslation(transform);
-            auto rotation = Graphics::Utils::TransformUtils::GetQuatRotation(transform);
-
-            physx::PxTransform updatedTransform(translation.x, translation.y, translation.z,
-                                                physx::PxQuat(rotation.x, rotation.y, rotation.z, rotation.w));
+            physx::PxTransform updatedTransform(transform.translation.x, transform.translation.y, transform.translation.z,
+                                                physx::PxQuat(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w));
 
             rigidBody.rigidBody->setGlobalPose(updatedTransform);
         }
@@ -166,11 +157,8 @@ namespace gl3::engine::Physics {
             auto &rigidBody = updatedStaticTransforms.get<Components::RigidStatic>(entity);
             auto &transform = registry.get<Graphics::Components::Transform>(entity);
 
-            auto translation = Graphics::Utils::TransformUtils::GetTranslation(transform);
-            auto rotation = Graphics::Utils::TransformUtils::GetQuatRotation(transform);
-
-            physx::PxTransform updatedTransform(translation.x, translation.y, translation.z,
-                                                physx::PxQuat(rotation.x, rotation.y, rotation.z, rotation.w));
+            physx::PxTransform updatedTransform(transform.translation.x, transform.translation.y, transform.translation.z,
+                                                physx::PxQuat(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w));
 
             rigidBody.rigidStatic->setGlobalPose(updatedTransform);
         }
@@ -186,9 +174,9 @@ namespace gl3::engine::Physics {
 
             auto physicsTransform = rigidBody.rigidBody->getGlobalPose();
 
-            Graphics::Utils::TransformUtils::SetRotation(transform, glm::quat(
+            Graphics::Utils::TransformationUtils::SetRotation(entity, transform, glm::quat(
                     physicsTransform.q.w, physicsTransform.q.x, physicsTransform.q.y, physicsTransform.q.z));
-            Graphics::Utils::TransformUtils::SetTranslation(transform, glm::vec3(
+            Graphics::Utils::TransformationUtils::SetTranslation(entity, transform, glm::vec3(
                     physicsTransform.p.x, physicsTransform.p.y, physicsTransform.p.z));
 
             Ecs::Registry::UpdateComponent<Graphics::Components::Transform>(entity);

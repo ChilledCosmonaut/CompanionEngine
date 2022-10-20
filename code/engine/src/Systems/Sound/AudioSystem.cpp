@@ -67,9 +67,7 @@ namespace gl3::engine::soundSystem {
             soLoud.set3dSourceMinMaxDistance(audioSource.handle, audioSource.minDistance, audioSource.maxDistance);
 
             if(audioSource.play){
-                auto audioPosition = Graphics::Utils::TransformUtils::GetTranslation(transform);
-
-                audioSource.handle = soLoud.play3d(audioSource.sound,audioPosition.x, audioPosition.y, audioPosition.z);
+                audioSource.handle = soLoud.play3d(audioSource.sound,transform.translation.x, transform.translation.y, transform.translation.z);
                 audioSource.play = false;
             }
             if (audioSource.interrupt){
@@ -108,10 +106,8 @@ namespace gl3::engine::soundSystem {
             auto& transform = spatialTransformChanged.get<Graphics::Components::Transform>(entity);
             auto& audioSource = spatialTransformChanged.get<SpatialAudioSource>(entity);
 
-            auto audioPosition = Graphics::Utils::TransformUtils::GetTranslation(transform);
-
             soLoud.set3dSourcePosition(audioSource.handle,
-                                       audioPosition.x, audioPosition.y, audioPosition.z);
+                                       transform.translation.x, transform.translation.y, transform.translation.z);
 
             if (registry.all_of<Physics::Components::RigidBody>(entity)){
                 auto& rigidBody = registry.get<Physics::Components::RigidBody>(entity);
@@ -127,13 +123,10 @@ namespace gl3::engine::soundSystem {
         for (auto& entity : listenerView) {
             auto& transform = listenerView.get<Graphics::Components::Transform>(entity);
 
-            auto listenerPosition = Graphics::Utils::TransformUtils::GetTranslation(transform);
-            auto modelMatrix = Graphics::Utils::TransformUtils::GetModelMatrix(transform);
+            glm::vec4 atVector = transform.modelMatrix * glm::vec4(0., 0., -1., 0.);
+            glm::vec4 upVector = transform.modelMatrix * glm::vec4(0., 1., 0., 0.);
 
-            glm::vec4 atVector = modelMatrix * glm::vec4(0., 0., -1., 0.);
-            glm::vec4 upVector = modelMatrix * glm::vec4(0., 1., 0., 0.);
-
-            soLoud.set3dListenerParameters(listenerPosition.x, listenerPosition.y, listenerPosition.z,
+            soLoud.set3dListenerParameters(transform.translation.x, transform.translation.y, transform.translation.z,
                                            atVector.x, atVector.y, atVector.z,
                                            upVector.x, upVector.y, upVector.z);
 

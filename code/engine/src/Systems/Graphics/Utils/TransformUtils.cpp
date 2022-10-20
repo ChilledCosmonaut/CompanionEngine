@@ -1,7 +1,7 @@
-#include "engine/Systems/Graphics/Utils/TransformUtils.h"
+#include "engine/Systems/Graphics/Utils/TransformationUtils.h"
 
 namespace gl3::engine::Graphics::Utils {
-    void TransformUtils::AddChildEntity(Components::Transform &transform, entt::entity currentEntity, entt::entity childEntity) {
+    void TransformationUtils::AddChildEntity(Components::Transform &transform, entt::entity currentEntity, entt::entity childEntity) {
 
         auto& registry = Ecs::Registry::getCurrent();
 
@@ -19,7 +19,7 @@ namespace gl3::engine::Graphics::Utils {
         Ecs::Registry::UpdateComponent<Components::Transform>(childEntity);
     }
 
-    void TransformUtils::RemoveChildEntity(Components::Transform &transform, entt::entity currentEntity, entt::entity childEntity) {
+    void TransformationUtils::RemoveChildEntity(Components::Transform &transform, entt::entity currentEntity, entt::entity childEntity) {
         auto& registry = Ecs::Registry::getCurrent();
         auto targetEntity = find(transform.children.begin(), transform.children.end(), childEntity);
         if (targetEntity != transform.children.end()){
@@ -30,100 +30,57 @@ namespace gl3::engine::Graphics::Utils {
         }
     }
 
-    void TransformUtils::SetRotation(Components::Transform &transform, glm::vec3 targetRotation) {
+    void TransformationUtils::SetRotation(entt::entity entity, Components::Transform &transform, glm::vec3 targetRotation) {
         transform.rotation = glm::quat(glm::radians(targetRotation));
-        recalculateModel(transform);
+        Ecs::Registry::UpdateComponent<Components::Transform>(entity);
     }
 
-    void TransformUtils::SetRotation(Components::Transform &transform, glm::quat targetRotation) {
+    void TransformationUtils::SetRotation(entt::entity entity, Components::Transform &transform, glm::quat targetRotation) {
         transform.rotation = targetRotation;
-        recalculateModel(transform);
+        Ecs::Registry::UpdateComponent<Components::Transform>(entity);
     }
 
-    void TransformUtils::AddRotation(Components::Transform &transform, glm::vec3 additiveRotation) {
+    void TransformationUtils::AddRotation(entt::entity entity, Components::Transform &transform, glm::vec3 additiveRotation) {
         transform.rotation *= glm::quat(glm::radians(additiveRotation));
-        recalculateModel(transform);
+        Ecs::Registry::UpdateComponent<Components::Transform>(entity);
     }
 
-    void TransformUtils::SetRotationFromGlobal(Components::Transform &transform, glm::vec3 targetRotation) {
+    void TransformationUtils::SetRotationFromGlobal(entt::entity entity, Components::Transform &transform, glm::vec3 targetRotation) {
         transform.rotation = glm::quat(glm::vec4(glm::radians(targetRotation), 0) * transform.parentInverseModelMatrix);
-        recalculateModel(transform);
+        Ecs::Registry::UpdateComponent<Components::Transform>(entity);
     }
 
-    glm::vec3 TransformUtils::GetRotation(Components::Transform &transform) {
-        return glm::degrees(glm::eulerAngles(transform.rotation));
-    }
-
-    glm::vec3 TransformUtils::GetGlobalRotation(Components::Transform &transform) {
-        return glm::vec4(glm::degrees(glm::eulerAngles(transform.rotation)),0);
-    }
-
-    glm::quat TransformUtils::GetQuatRotation(Components::Transform &transform) {
-        return transform.rotation;
-    }
-
-    void TransformUtils::SetTranslation(Components::Transform &transform, glm::vec3 targetTranslation) {
+    void TransformationUtils::SetTranslation(entt::entity entity, Components::Transform &transform, glm::vec3 targetTranslation) {
         transform.translation = targetTranslation;
-        recalculateModel(transform);
+        Ecs::Registry::UpdateComponent<Components::Transform>(entity);
     }
 
-    void TransformUtils::AddTranslation(Components::Transform &transform, glm::vec3 additiveTranslation) {
-        glm::vec3 newTranslation = GetTranslation(transform) + additiveTranslation;
-        SetTranslation(transform, newTranslation);
+    void TransformationUtils::AddTranslation(entt::entity entity, Components::Transform &transform, glm::vec3 additiveTranslation) {
+        glm::vec3 newTranslation = transform.translation + additiveTranslation;
+        SetTranslation(entity, transform, newTranslation);
     }
 
-    void TransformUtils::AddRelativeTranslation(Components::Transform &transform, glm::vec3 additiveTranslation) {
-        glm::vec3 newTranslation = GetTranslation(transform) + (transform.rotation * additiveTranslation);
-        SetTranslation(transform, newTranslation);
+    void TransformationUtils::AddRelativeTranslation(entt::entity entity, Components::Transform &transform, glm::vec3 additiveTranslation) {
+        glm::vec3 newTranslation = transform.translation + (transform.rotation * additiveTranslation);
+        SetTranslation(entity, transform, newTranslation);
     }
 
-    void TransformUtils::SetTranslationFromGlobal(Components::Transform &transform, glm::vec3 globalTranslation) {
+    void TransformationUtils::SetTranslationFromGlobal(entt::entity entity, Components::Transform &transform, glm::vec3 globalTranslation) {
         glm::vec3 newTranslation = glm::vec4(transform.translation, 1.) * transform.parentInverseModelMatrix;
-        SetTranslation(transform, newTranslation);
+        SetTranslation(entity, transform, newTranslation);
     }
 
-    glm::vec3 TransformUtils::GetTranslation(Components::Transform &transform) {
-        return transform.translation;
-    }
-
-    glm::vec3 TransformUtils::GetGlobalTranslation(Components::Transform &transform) {
-        return transform.modelMatrix * glm::vec4(1.,1.,1.,1.);
-    }
-
-    void TransformUtils::SetScale(Components::Transform &transform, glm::vec3 targetScale) {
+    void TransformationUtils::SetScale(entt::entity entity, Components::Transform &transform, glm::vec3 targetScale) {
         transform.scale = targetScale;
-        recalculateModel(transform);
+        Ecs::Registry::UpdateComponent<Components::Transform>(entity);
     }
 
-    void TransformUtils::AddScale(Components::Transform &transform, glm::vec3 additiveScale) {
-        glm::vec3 newScale = GetScale(transform) + additiveScale;
-        SetScale(transform, newScale);
+    void TransformationUtils::AddScale(entt::entity entity, Components::Transform &transform, glm::vec3 additiveScale) {
+        glm::vec3 newScale = transform.scale + additiveScale;
+        SetScale(entity, transform, newScale);
     }
 
-    glm::vec3 TransformUtils::GetScale(Components::Transform &transform) {
-        return transform.scale;
-    }
-
-    glm::mat4 TransformUtils::GetModelMatrix(Components::Transform &transform) {
-        return transform.modelMatrix;
-    }
-
-    glm::mat4 TransformUtils::GetInverseModelMatrix(Components::Transform &transform) {
-        return transform.inverseModelMatrix;
-    }
-
-    void TransformUtils::recalculateModel(Components::Transform &transform) {
-    }
-
-    bool TransformUtils::IsActive(Components::Transform &transform) {
-        return transform.active;
-    }
-
-    void TransformUtils::SetActive(Components::Transform &transform, bool active) {
-        transform.active = active;
-    }
-
-    void TransformUtils::RotateTowardsPosition(Components::Transform &transform, glm::vec3 position) {
+    void TransformationUtils::RotateTowardsPosition(Components::Transform &transform, glm::vec3 position) {
 
         transform.rotation = glm::toQuat(
                 glm::inverse(
@@ -131,10 +88,9 @@ namespace gl3::engine::Graphics::Utils {
                                 position,
                                 transform.translation,
                                 glm::vec3(0, 1, 0))))/* * glm::quat(glm::radians(glm::vec3(0, 90, 0)))*/;
-        recalculateModel(transform);
     }
 
-    glm::vec3 TransformUtils::ProjectOntoPlane(Components::Transform &transform, glm::vec3 vector, glm::vec3 planeNormal) {
+    glm::vec3 TransformationUtils::ProjectOntoPlane(Components::Transform &transform, glm::vec3 vector, glm::vec3 planeNormal) {
         glm::vec3 projectedOntoNormal = ((vector * planeNormal)/(float)pow(glm::length(planeNormal),2));
         return vector - planeNormal;
     }

@@ -25,20 +25,19 @@ namespace gl3::game {
                     auto& shipSettings = componentView.get<ShipMovementSettings>(player);
                     auto& playerTransform = componentView.get<engine::Graphics::Components::Transform>(player);
 
-                    if (glm::length(engine::Graphics::Utils::TransformUtils::GetTranslation(playerTransform) -
-                                    engine::Graphics::Utils::TransformUtils::GetTranslation(transform)) <= 2 &&
-                                    engine::Graphics::Utils::TransformUtils::IsActive(transform)){
+                    if (glm::length(playerTransform.translation - transform.translation) <= 2 &&
+                        transform.active){
                         shipSettings.life -= enemyStats.damage;
                         enemyStats.lifetime = 0;
-                        engine::Graphics::Utils::TransformUtils::SetActive(transform, false);
+                        transform.active = false;
                     } else {
                         enemyStats.lifetime -= engine::Time::GetDeltaTime();
-                        engine::Graphics::Utils::TransformUtils::AddRelativeTranslation(transform, glm::vec3(0,0,-40) * engine::Time::GetDeltaTime());
+                        engine::Graphics::Utils::TransformationUtils::AddRelativeTranslation(enemy, transform, glm::vec3(0, 0, -40) * engine::Time::GetDeltaTime());
                     }
 
                     if (enemyStats.lifetime <= 0){
                         enemyStats.lifetime = 0;
-                        engine::Graphics::Utils::TransformUtils::SetActive(transform, false);
+                        transform.active = false;
                     }
                 }
             }
@@ -52,21 +51,19 @@ namespace gl3::game {
                     auto& shipSettings = componentView.get<EnemyBehaviour>(enemy);
                     auto& enemyTransform = componentView.get<engine::Graphics::Components::Transform>(enemy);
 
-                    if (glm::length(engine::Graphics::Utils::TransformUtils::GetTranslation(enemyTransform) -
-                                    engine::Graphics::Utils::TransformUtils::GetTranslation(playerTransform)) <= 2 &&
-                                    engine::Graphics::Utils::TransformUtils::IsActive(playerTransform)){
+                    if (glm::length(enemyTransform.translation - playerTransform.translation) <= 2 && playerTransform.active){
                         shipSettings.lifePoints -= projectileStats.damage;
                         std::cout<<shipSettings.lifePoints<<std::endl;
                         projectileStats.lifetime = 0;
-                        engine::Graphics::Utils::TransformUtils::SetActive(playerTransform, false);
+                        playerTransform.active = false;
                     } else {
                         projectileStats.lifetime -= engine::Time::GetDeltaTime();
-                        engine::Graphics::Utils::TransformUtils::AddRelativeTranslation(playerTransform, glm::vec3(0,0,-50) * engine::Time::GetDeltaTime());
+                        engine::Graphics::Utils::TransformationUtils::AddRelativeTranslation(player, playerTransform, glm::vec3(0, 0, -50) * engine::Time::GetDeltaTime());
                     }
 
                     if (projectileStats.lifetime <= 0){
                         projectileStats.lifetime = 0;
-                        engine::Graphics::Utils::TransformUtils::SetActive(playerTransform, false);
+                        playerTransform.active = false;
                     }
                 }
             }

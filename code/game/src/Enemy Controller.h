@@ -20,14 +20,13 @@ namespace gl3::game {
                 auto componentView = registry.view<ShipMovementSettings, engine::Graphics::Components::Transform>();
 
                 if (enemyStats.lifePoints <= 0){
-                    engine::Graphics::Utils::TransformUtils::SetActive(transform, false);
+                    transform.active = false;
                     return;
                 }
 
                 for (auto &entity: componentView) {
                     auto &targetTransform = componentView.get<engine::Graphics::Components::Transform>(entity);
-                    if (glm::length(engine::Graphics::Utils::TransformUtils::GetTranslation(transform) -
-                                    engine::Graphics::Utils::TransformUtils::GetTranslation(targetTransform)) <= 100) {
+                    if (glm::length(transform.translation - targetTransform.translation) <= 100) {
 
                         bool shoot = rand() % 300;
 
@@ -39,9 +38,9 @@ namespace gl3::game {
                                 auto& projectileTransform = projectileView.get<engine::Graphics::Components::Transform>(projectileEntity);
 
                                 if (projectile.lifetime <= 0){
-                                    engine::Graphics::Utils::TransformUtils::SetActive(projectileTransform, true);
-                                    engine::Graphics::Utils::TransformUtils::SetTranslation(projectileTransform, engine::Graphics::Utils::TransformUtils::GetTranslation(transform));
-                                    engine::Graphics::Utils::TransformUtils::SetRotation(projectileTransform, engine::Graphics::Utils::TransformUtils::GetQuatRotation(transform));
+                                    projectileTransform.active = true;
+                                    engine::Graphics::Utils::TransformationUtils::SetTranslation(entity, projectileTransform, transform.translation);
+                                    engine::Graphics::Utils::TransformationUtils::SetRotation(entity, projectileTransform, transform.rotation);
                                     projectile.lifetime = 3;
                                 }
                             }
@@ -50,16 +49,14 @@ namespace gl3::game {
                         auto targetRotation = glm::toQuat(
                                 glm::inverse(
                                         glm::lookAt(
-                                                engine::Graphics::Utils::TransformUtils::GetTranslation(targetTransform),
-                                                engine::Graphics::Utils::TransformUtils::GetTranslation(transform),
+                                                targetTransform.translation,
+                                                transform.translation,
                                                 glm::vec3(0, 1, 0)))) * glm::quat(glm::radians(glm::vec3(0, 180, 0)));
-                        glm::quat newRotation = glm::mix(
-                                engine::Graphics::Utils::TransformUtils::GetQuatRotation(transform), targetRotation,
-                                0.5f * gl3::engine::Time::GetDeltaTime());
+                        glm::quat newRotation = glm::mix(transform.rotation, targetRotation,0.5f * gl3::engine::Time::GetDeltaTime());
 
-                        engine::Graphics::Utils::TransformUtils::SetRotation(transform, newRotation);
-                        if(std::fabs(glm::angle(newRotation)-glm::angle(engine::Graphics::Utils::TransformUtils::GetQuatRotation(transform))) <= 0.7f)
-                            engine::Graphics::Utils::TransformUtils::AddRelativeTranslation(transform, glm::vec3(0,0,-2) * gl3::engine::Time::GetDeltaTime());
+                        engine::Graphics::Utils::TransformationUtils::SetRotation(entity, transform, newRotation);
+                        if(std::fabs(glm::angle(newRotation)-glm::angle(transform.rotation)) <= 0.7f)
+                            engine::Graphics::Utils::TransformationUtils::AddRelativeTranslation(entity, transform, glm::vec3(0, 0, -2) * gl3::engine::Time::GetDeltaTime());
                         break;
                     }
                 }

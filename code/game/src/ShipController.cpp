@@ -20,9 +20,9 @@ namespace gl3::game {
                 auto& transform = projectileView.get<Components::Transform>(entity);
 
                 if (projectile.lifetime <= 0){
-                    TransformUtils::SetActive(transform, true);
-                    TransformUtils::SetTranslation(transform, TransformUtils::GetTranslation(playerTransform));
-                    TransformUtils::SetRotation(transform, TransformUtils::GetQuatRotation(playerTransform));
+                    transform.active = true;
+                    TransformationUtils::SetTranslation(entity, transform, playerTransform.translation);
+                    TransformationUtils::SetRotation(entity, transform, playerTransform.rotation);
                     projectile.lifetime = 5;
                 }
             }
