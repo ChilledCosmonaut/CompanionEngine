@@ -188,7 +188,7 @@ namespace gl3::engine::Graphics::Systems{
 
     void GraphicsSystem::SetUp() {
         auto& registry = Ecs::Registry::getCurrent();
-        auto skyboxView = registry.view<Components::SkyboxComponent>();
+        auto skyboxView = registry.view<Components::SkyboxComponent, Ecs::Flags::Setup<Components::SkyboxComponent>>();
 
         for(auto& entity : skyboxView){
             auto& skybox = skyboxView.get<Components::SkyboxComponent>(entity);
@@ -201,13 +201,15 @@ namespace gl3::engine::Graphics::Systems{
             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*) nullptr);
 
             skybox.texture = loadCubemap(skybox.faces);
+            Ecs::Registry::RemoveSetupFlag<Components::SkyboxComponent>(entity);
         }
 
-        auto modelView = registry.view<Components::Model>();
+        auto modelView = registry.view<Components::Model, Ecs::Flags::Setup<Components::Model>>();
 
         for(auto& entity : modelView){
             auto& model = modelView.get<Components::Model>(entity);
             loadModel(model,model.path);
+            Ecs::Registry::RemoveSetupFlag<Components::Model>(entity);
         }
     }
 
