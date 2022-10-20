@@ -36,9 +36,9 @@ namespace gl3::engine {
 
     private:
 
-        void SetUpEngineSystems();
-        void UpdateEngineSystems();
-        void DestroyEngineSystems();
+        void SetUpCallEngineSystems();
+        void UpdateCallEngineSystems();
+        void DestroyCallEngineSystems();
 
         context::Context context;
         Scene* currentScene;
