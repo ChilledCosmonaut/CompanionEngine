@@ -6,18 +6,15 @@
 
 #include "Transform.h"
 
-namespace gl3::engine::Graphics::Utils {
-    class CameraUtils;
-}
+namespace gl3::engine::Graphics {
 
-namespace gl3::engine::Graphics::Components {
-    struct CameraComponent {
+    struct Camera {
     public:
-        CameraComponent() {
+        Camera() {
             lookAtMatrix = glm::lookAt(
                     glm::vec3(0, 0, 0), glm::vec3(0, 0, -1), glm::vec3(0, 1, 0));
         }
 
-        glm::mat4 lookAtMatrix;
+        glm::mat4 lookAtMatrix {};
     };
 }

@@ -221,7 +221,7 @@ namespace gl3::engine::Graphics::Systems{
         glm::mat4 viewMatrix;
         glm::vec3 cameraTranslation;
 
-        auto cameraView = registry.view<Graphics::Components::CameraComponent, Graphics::Components::Transform>();
+        auto cameraView = registry.view<Graphics::Camera, Graphics::Components::Transform>();
 
         for (auto &&[entity, camera, transform] : cameraView.each()) {
             viewMatrix = CameraUtils::GetViewMatrix(camera,transform);

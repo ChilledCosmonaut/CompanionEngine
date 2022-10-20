@@ -5,7 +5,7 @@
 namespace gl3::engine::Graphics {
     class CameraUtils{
     public:
-        static glm::mat4 GetViewMatrix(Components::CameraComponent &camera, Components::Transform &transform){
+        static glm::mat4 GetViewMatrix(Camera &camera, Components::Transform &transform){
             return camera.lookAtMatrix * transform.inverseModelMatrix;
         }
     };

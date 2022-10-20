@@ -15,7 +15,7 @@ namespace gl3::game {
             auto& registry = engine::Ecs::Registry::getCurrent();
 
             auto mainCameraObject = CreateEntity();
-            engine::Ecs::Registry::AddComponent<engine::Graphics::Components::CameraComponent>(mainCameraObject);
+            engine::Ecs::Registry::AddComponent<engine::Graphics::Camera>(mainCameraObject);
             engine::Ecs::Registry::AddComponent<ShipMovementSettings>(mainCameraObject);
 
             auto &cameraTransform = registry.get<engine::Graphics::Components::Transform>(mainCameraObject);
