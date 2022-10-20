@@ -188,10 +188,10 @@ namespace gl3::engine::Graphics::Systems{
 
     void GraphicsSystem::SetUp() {
         auto& registry = Ecs::Registry::getCurrent();
-        auto skyboxView = registry.view<Components::SkyboxComponent, Ecs::Flags::Setup<Components::SkyboxComponent>>();
+        auto skyboxView = registry.view<Skybox, Ecs::Flags::Setup<Skybox>>();
 
         for(auto& entity : skyboxView){
-            auto& skybox = skyboxView.get<Components::SkyboxComponent>(entity);
+            auto& skybox = skyboxView.get<Skybox>(entity);
             glGenVertexArrays(1, &skybox.VAO);
             glGenBuffers(1, &skybox.VBO);
             glBindVertexArray(skybox.VAO);
@@ -201,7 +201,7 @@ namespace gl3::engine::Graphics::Systems{
             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*) nullptr);
 
             skybox.texture = loadCubemap(skybox.faces);
-            Ecs::Registry::RemoveSetupFlag<Components::SkyboxComponent>(entity);
+            Ecs::Registry::RemoveSetupFlag<Skybox>(entity);
         }
 
         auto modelView = registry.view<Model, Ecs::Flags::Setup<Model>>();
@@ -229,7 +229,7 @@ namespace gl3::engine::Graphics::Systems{
             break;
         }
 
-        auto skyboxView = registry.view<Components::SkyboxComponent>();
+        auto skyboxView = registry.view<Skybox>();
 
         for (auto &&[entity, skybox]: skyboxView.each()) {
 
