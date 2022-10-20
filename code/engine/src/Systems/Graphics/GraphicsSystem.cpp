@@ -226,6 +226,7 @@ namespace gl3::engine::Graphics::Systems{
         for (auto &&[entity, camera, transform] : cameraView.each()) {
             viewMatrix = Utils::CameraUtils::GetViewMatrix(camera,transform);
             cameraTranslation = transform.translation;
+            break;
         }
 
         auto skyboxView = registry.view<Components::SkyboxComponent>();
@@ -235,7 +236,7 @@ namespace gl3::engine::Graphics::Systems{
             glDepthMask(GL_FALSE);
             skybox.shader->use();
             skybox.shader->setMatrix("projection", projectionMatrix);
-            skybox.shader->setMatrix("view", glm::mat3(viewMatrix));
+            skybox.shader->setMatrix("view", viewMatrix);
             glBindVertexArray(skybox.VAO);
             glBindTexture(GL_TEXTURE_CUBE_MAP, skybox.texture);
             glDrawArrays(GL_TRIANGLES, 0, 36);
