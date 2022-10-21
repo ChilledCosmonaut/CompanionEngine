@@ -11,7 +11,7 @@
 
 #include "engine/Systems/Graphics/Utils/ModelUtils.h"
 
-namespace gl3::engine::Graphics::Systems{
+namespace gl3::engine::Graphics {
 
     class GraphicsSystem {
     public:

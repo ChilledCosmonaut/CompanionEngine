@@ -1,6 +1,6 @@
 #include "GraphicsSystem.h"
 
-namespace gl3::engine::Graphics::Systems{
+namespace gl3::engine::Graphics {
 
     GraphicsSystem *GraphicsSystem::GetGraphicsSystem() {
         if (graphicsSystem == nullptr)

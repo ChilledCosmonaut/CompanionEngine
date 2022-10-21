@@ -43,7 +43,7 @@ namespace gl3::engine {
         context::Context context;
         Scene* currentScene;
         Physics::PhysicsSystem* physicsSystem;
-        Graphics::Systems::GraphicsSystem* graphicsSystem;
+        Graphics::GraphicsSystem* graphicsSystem;
         soundSystem::AudioSystem* audioSystem;
         Graphics::TransformSystem* transformSystem;
     };
