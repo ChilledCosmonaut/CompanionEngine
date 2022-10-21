@@ -3,9 +3,9 @@
 #include "engine/Events.h"
 #include "engine/Context.h"
 #include "Scene.h"
-#include "engine/Systems/Physics/PhysicsSystem.h"
+#include "../../src/Systems/Physics/PhysicsSystem.h"
 #include "../../src/Systems/Graphics/GraphicsSystem.h"
-#include "engine/Systems/Sound/AudioSystem.h"
+#include "../../src/Systems/Sound/AudioSystem.h"
 #include "../../src/Systems/Graphics/TransformSystem.h"
 
 namespace gl3::engine {

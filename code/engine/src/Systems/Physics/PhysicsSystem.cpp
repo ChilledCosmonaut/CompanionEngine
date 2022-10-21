@@ -1,4 +1,4 @@
-#include "engine/Systems/Physics/PhysicsSystem.h"
+#include "PhysicsSystem.h"
 
 namespace gl3::engine::Physics {
 

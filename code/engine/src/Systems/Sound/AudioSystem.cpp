@@ -1,4 +1,4 @@
-#include "engine/Systems/Sound/AudioSystem.h"
+#include "AudioSystem.h"
 
 namespace gl3::engine::soundSystem {
 

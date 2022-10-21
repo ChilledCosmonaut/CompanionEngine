@@ -3,13 +3,13 @@
 #include "soloud.h"
 #include <stdexcept>
 
-#include "../../../../src/ECS/CoreSystem.h"
+#include "../../ECS/CoreSystem.h"
 #include "engine/ECS/Registry.h"
 
 #include "engine/Systems/Graphics/Components/Transform.h"
 #include "engine/Systems/Graphics/Utils/TransformationUtils.h"
 
-#include "engine/Systems/Physics/Components/Rigidbody.h"
+#include "engine/Systems/Physics/Components/RigidBody.h"
 
 #include "engine/Systems/Sound/Components/SpatialAudioSource.h"
 #include "engine/Systems/Sound/Components/BackgroundAudioSource.h"
