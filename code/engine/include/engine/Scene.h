@@ -18,7 +18,7 @@ namespace gl3::engine{
             auto& registry = Ecs::Registry::getCurrent();
 
             for (auto entity:entityList) {
-                registry.emplace<Ecs::Flags::Destroy<Graphics::Components::Transform>>(entity);
+                registry.emplace<Ecs::Flags::Destroy<Graphics::Transform>>(entity);
             }
         }
 
@@ -30,7 +30,7 @@ namespace gl3::engine{
             entt::entity entity = registry.create();
             entityList.emplace_back(entity);
 
-            auto &transform = engine::Ecs::Registry::AddComponent<Graphics::Components::Transform>(entity);
+            auto &transform = engine::Ecs::Registry::AddComponent<Graphics::Transform>(entity);
 
             return entity;
         }

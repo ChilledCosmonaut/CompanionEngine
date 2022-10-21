@@ -7,12 +7,11 @@
 #include "engine/Systems/Graphics/Components/Model.h"
 #include "engine/Systems/Graphics/Components/Camera.h"
 #include "engine/Systems/Graphics/Components/Transform.h"
+#include "engine/Systems/Graphics/Components/Skybox.h"
 
-#include "engine/Systems/Graphics/Utils/SkyboxUtils.h"
 #include "engine/Systems/Graphics/Utils/ModelUtils.h"
-#include "engine/Systems/Graphics/Utils/CameraUtils.h"
 
-namespace gl3::engine::Graphics::Systems{
+namespace gl3::engine::Graphics {
 
     class GraphicsSystem {
     public:
@@ -35,7 +34,7 @@ namespace gl3::engine::Graphics::Systems{
 
         ~GraphicsSystem();
 
-        static void Draw(Components::Model &modelData);
+        static void Draw(Model &modelData);
 
         glm::vec3 lightPos = glm::vec3(0.0f, -0.5f, 1.0f);
 

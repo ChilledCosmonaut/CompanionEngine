@@ -3,14 +3,9 @@
 #include "engine/Systems/Graphics/shader.h"
 #include "engine/Systems/Graphics/mesh.h"
 
-namespace gl3::engine::Graphics::Utils {
-    class ModelUtils;
-}
-
-namespace gl3::engine::Graphics::Components {
+namespace gl3::engine::Graphics {
 
     struct Model {
-        friend class Utils::ModelUtils;
 
     public:
         // model data

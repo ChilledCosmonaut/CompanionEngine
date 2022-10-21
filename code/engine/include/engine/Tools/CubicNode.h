@@ -40,7 +40,7 @@ namespace gl3::engine::tools {
         };
 
         void SetNeighbourAtDirection(glm::vec3 directionVector, CubicNode* node);
-        Graphics::Components::Transform globalTransform;
+        Graphics::Transform globalTransform;
 
     private:
         glm::vec3 positionInGlobalSpace{};

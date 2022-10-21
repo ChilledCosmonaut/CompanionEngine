@@ -16,40 +16,40 @@ namespace gl3::engine::Graphics {
     void TransformSystem::SetupTransform() {
         auto& registry = Ecs::Registry::getCurrent();
 
-        auto setUpTransforms = registry.view<Components::Transform, Ecs::Flags::Setup<Components::Transform>>();
+        auto setUpTransforms = registry.view<Transform, Ecs::Flags::Setup<Transform>>();
 
         for (auto entity : setUpTransforms) {
-            auto& transform = setUpTransforms.get<Components::Transform>(entity);
+            auto& transform = setUpTransforms.get<Transform>(entity);
             RecalculateMatrices(transform);
-            Ecs::Registry::RemoveSetupFlag<Components::Transform>(entity);
+            Ecs::Registry::RemoveSetupFlag<Transform>(entity);
         }
     }
 
     void TransformSystem::UpdateTransform() {
         auto& registry = Ecs::Registry::getCurrent();
 
-        auto updateTransforms = registry.view<Components::Transform, Ecs::Flags::Update<Components::Transform>>();
+        auto updateTransforms = registry.view<Transform, Ecs::Flags::Update<Transform>>();
 
         for (auto entity : updateTransforms) {
-            auto& transform = updateTransforms.get<Components::Transform>(entity);
+            auto& transform = updateTransforms.get<Transform>(entity);
             RecalculateMatrices(transform);
-            Ecs::Registry::RemoveUpdateFlag<Components::Transform>(entity);
+            Ecs::Registry::RemoveUpdateFlag<Transform>(entity);
         }
     }
 
     void TransformSystem::DestroyTransform() {
         auto& registry = Ecs::Registry::getCurrent();
 
-        auto transformsForDestruction = registry.view<Components::Transform, Ecs::Flags::Destroy<Components::Transform>>();
+        auto transformsForDestruction = registry.view<Transform, Ecs::Flags::Destroy<Transform>>();
 
         for (auto entity : transformsForDestruction) {
-            auto& transform = transformsForDestruction.get<Components::Transform>(entity);
+            auto& transform = transformsForDestruction.get<Transform>(entity);
             RecalculateMatrices(transform);
-            Ecs::Registry::RemoveDestroyFlag<Components::Transform>(entity);
+            Ecs::Registry::RemoveDestroyFlag<Transform>(entity);
         }
     }
 
-    void TransformSystem::RecalculateMatrices(Components::Transform& transform) {
+    void TransformSystem::RecalculateMatrices(Transform& transform) {
 
         auto& registry = Ecs::Registry::getCurrent();
 
@@ -64,15 +64,15 @@ namespace gl3::engine::Graphics {
         if (transform.parent != entt::null){
             /*transform.modelMatrix = transform.parentModelMatrix * transform.modelMatrix;
             transform.inverseModelMatrix = transform.inverseModelMatrix * transform.parentInverseModelMatrix;*/
-            auto &parentTransform = registry.get<Components::Transform>(transform.parent);
+            auto &parentTransform = registry.get<Transform>(transform.parent);
             transform.modelMatrix = parentTransform.modelMatrix * transform.modelMatrix;
             transform.inverseModelMatrix = transform.inverseModelMatrix * parentTransform.inverseModelMatrix;
         }
 
-        auto transformView = registry.view<Components::Transform>();
+        auto transformView = registry.view<Transform>();
         for (auto child:transform.children) {
             if(transformView.contains(child)){
-                auto &childTransform = transformView.get<Components::Transform>(child);
+                auto &childTransform = transformView.get<Transform>(child);
                 RecalculateMatrices(childTransform);
             }
         }

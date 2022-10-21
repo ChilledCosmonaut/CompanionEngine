@@ -4,18 +4,18 @@
 #include "engine/Systems/Graphics/Components/Model.h"
 #include "TransformationUtils.h"
 
-namespace gl3::engine::Graphics::Utils {
+namespace gl3::engine::Graphics {
 
     using namespace std;
 
     class ModelUtils {
     public:
 
-        static void SetPath(Components::Model &model, std::string path){
+        static void SetPath(Model &model, std::string path){
             model.path = path;
         }
 
-        static void SetShader(Components::Model &model, std::shared_ptr<engine::Graphics::shader> shader){
+        static void SetShader(Model &model, std::shared_ptr<engine::Graphics::shader> shader){
             model.shader = shader;
         }
 

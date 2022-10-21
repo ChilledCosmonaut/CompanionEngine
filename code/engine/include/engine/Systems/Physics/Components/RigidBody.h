@@ -3,7 +3,7 @@
 #include <variant>
 #include "Shapes.h"
 
-namespace gl3::engine::Physics::Components {
+namespace gl3::engine::Physics {
 
     struct RigidBody{
     public:

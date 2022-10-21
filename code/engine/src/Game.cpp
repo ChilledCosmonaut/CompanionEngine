@@ -7,7 +7,7 @@ namespace gl3::engine {
             context(width, height, title),
             currentScene(startScene) {
         glEnable(GL_DEPTH_TEST);
-        graphicsSystem = Graphics::Systems::GraphicsSystem::GetGraphicsSystem();
+        graphicsSystem = Graphics::GraphicsSystem::GetGraphicsSystem();
         physicsSystem = Physics::PhysicsSystem::GetPhysicsSystem();
         audioSystem = soundSystem::AudioSystem::GetAudioSystem();
         transformSystem = Graphics::TransformSystem::GetTransformSystem();

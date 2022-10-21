@@ -4,14 +4,9 @@
 #include "glm/gtx/quaternion.hpp"
 #include "../../../../../src/ECS/entt.hpp"
 
-namespace gl3::engine::Graphics::Utils {
-    class TransformationUtils;
-}
-
-namespace gl3::engine::Graphics::Components {
+namespace gl3::engine::Graphics {
 
     class Transform {
-        friend class Utils::TransformationUtils;
     public:
         explicit Transform(glm::vec3 startRotation = glm::vec3(0.0f,0.0f,0.0f),
                            glm::vec3 startTranslation = glm::vec3(0.0f,0.0f,0.0f),

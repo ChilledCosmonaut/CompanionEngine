@@ -2,21 +2,16 @@
 
 #include "engine/Systems/Graphics/shader.h"
 
-namespace gl3::engine::Graphics::Utils {
-    class SkyboxUtils;
-}
-
-namespace gl3::engine::Graphics::Components {
-    struct SkyboxComponent {
-        friend class Utils::SkyboxUtils;
+namespace gl3::engine::Graphics {
+    struct Skybox {
 
     public:
-        SkyboxComponent() {
+        Skybox() {
             shader = std::make_shared<Graphics::shader>
                     ("shaders/SkyBoxVertexShader.glsl", "shaders/SkyBoxFragmentShader.glsl");
         };
-        SkyboxComponent(const SkyboxComponent&) = default;
-        SkyboxComponent(int VAO, int VBO, int texture) : VAO(VAO), VBO(VBO), texture(texture) {
+        Skybox(const Skybox&) = default;
+        Skybox(int VAO, int VBO, int texture) : VAO(VAO), VBO(VBO), texture(texture) {
             shader = std::make_shared<Graphics::shader>
                     ("shaders/SkyBoxVertexShader.glsl", "shaders/SkyBoxFragmentShader.glsl");
         }

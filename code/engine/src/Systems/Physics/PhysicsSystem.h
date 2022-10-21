@@ -5,9 +5,9 @@
 #include <stdexcept>
 
 #include "engine/Time.h"
-#include "engine/Systems/Physics/Components/Rigidbody.h"
+#include "engine/Systems/Physics/Components/RigidBody.h"
 #include "engine/Scene.h"
-#include "../../../../src/ECS/CoreSystem.h"
+#include "../../ECS/CoreSystem.h"
 
 namespace gl3::engine::Physics {
 

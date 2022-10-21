@@ -1,6 +1,6 @@
 #include "GraphicsSystem.h"
 
-namespace gl3::engine::Graphics::Systems{
+namespace gl3::engine::Graphics {
 
     GraphicsSystem *GraphicsSystem::GetGraphicsSystem() {
         if (graphicsSystem == nullptr)
@@ -50,7 +50,7 @@ namespace gl3::engine::Graphics::Systems{
         return textureID;
     }
 
-    static vector<Texture> loadMaterialTextures(Components::Model &modelData, aiMaterial *mat, aiTextureType type, string typeName) {
+    static vector<Texture> loadMaterialTextures(Model &modelData, aiMaterial *mat, aiTextureType type, string typeName) {
         vector<Texture> textures;
         for (unsigned int i = 0; i < mat->GetTextureCount(type); i++) {
             aiString str;
@@ -75,7 +75,7 @@ namespace gl3::engine::Graphics::Systems{
         return textures;
     }
 
-    static Mesh processMesh(Components::Model &modelData, aiMesh *mesh, const aiScene *scene) {
+    static Mesh processMesh(Model &modelData, aiMesh *mesh, const aiScene *scene) {
         vector<Vertex> vertices;
         vector<unsigned int> indices;
         vector<Texture> textures;
@@ -122,7 +122,7 @@ namespace gl3::engine::Graphics::Systems{
         return Mesh(vertices, indices, textures);
     }
 
-    static void processNode(Components::Model &modelData, aiNode *node, const aiScene *scene) {
+    static void processNode(Model &modelData, aiNode *node, const aiScene *scene) {
         // process all the node's meshes (if any)
         for (unsigned int i = 0; i < node->mNumMeshes; i++) {
             aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
@@ -134,7 +134,7 @@ namespace gl3::engine::Graphics::Systems{
         }
     }
 
-    static void loadModel(Components::Model &modelData, const string &path) {
+    static void loadModel(Model &modelData, const string &path) {
         /*const aiScene *scene = files::FileManager::loadModelFromFile(path);
         directory = path.substr(0, path.find_last_of('/'));*/
         // read file via ASSIMP
@@ -188,10 +188,10 @@ namespace gl3::engine::Graphics::Systems{
 
     void GraphicsSystem::SetUp() {
         auto& registry = Ecs::Registry::getCurrent();
-        auto skyboxView = registry.view<Components::SkyboxComponent, Ecs::Flags::Setup<Components::SkyboxComponent>>();
+        auto skyboxView = registry.view<Skybox, Ecs::Flags::Setup<Skybox>>();
 
         for(auto& entity : skyboxView){
-            auto& skybox = skyboxView.get<Components::SkyboxComponent>(entity);
+            auto& skybox = skyboxView.get<Skybox>(entity);
             glGenVertexArrays(1, &skybox.VAO);
             glGenBuffers(1, &skybox.VBO);
             glBindVertexArray(skybox.VAO);
@@ -201,15 +201,15 @@ namespace gl3::engine::Graphics::Systems{
             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*) nullptr);
 
             skybox.texture = loadCubemap(skybox.faces);
-            Ecs::Registry::RemoveSetupFlag<Components::SkyboxComponent>(entity);
+            Ecs::Registry::RemoveSetupFlag<Skybox>(entity);
         }
 
-        auto modelView = registry.view<Components::Model, Ecs::Flags::Setup<Components::Model>>();
+        auto modelView = registry.view<Model, Ecs::Flags::Setup<Model>>();
 
         for(auto& entity : modelView){
-            auto& model = modelView.get<Components::Model>(entity);
+            auto& model = modelView.get<Model>(entity);
             loadModel(model,model.path);
-            Ecs::Registry::RemoveSetupFlag<Components::Model>(entity);
+            Ecs::Registry::RemoveSetupFlag<Model>(entity);
         }
     }
 
@@ -221,15 +221,15 @@ namespace gl3::engine::Graphics::Systems{
         glm::mat4 viewMatrix;
         glm::vec3 cameraTranslation;
 
-        auto cameraView = registry.view<Graphics::Components::CameraComponent, Graphics::Components::Transform>();
+        auto cameraView = registry.view<Graphics::Camera, Graphics::Transform>();
 
         for (auto &&[entity, camera, transform] : cameraView.each()) {
-            viewMatrix = Utils::CameraUtils::GetViewMatrix(camera,transform);
+            viewMatrix = TransformationUtils::GetViewMatrix(camera,transform);
             cameraTranslation = transform.translation;
             break;
         }
 
-        auto skyboxView = registry.view<Components::SkyboxComponent>();
+        auto skyboxView = registry.view<Skybox>();
 
         for (auto &&[entity, skybox]: skyboxView.each()) {
 
@@ -245,7 +245,7 @@ namespace gl3::engine::Graphics::Systems{
 
         //DisplayLights();
 
-        auto modelView = registry.view<Components::Model, Components::Transform>();
+        auto modelView = registry.view<Model, Transform>();
 
         for(auto &&[entity, model, transform] : modelView.each()){
             if(!transform.active) continue;
@@ -268,7 +268,7 @@ namespace gl3::engine::Graphics::Systems{
         }
     }
 
-    void GraphicsSystem::Draw(Components::Model &modelData) {
+    void GraphicsSystem::Draw(Model &modelData) {
         for (auto &mesh: modelData.meshes)
             mesh.Draw(*modelData.shader);
 
