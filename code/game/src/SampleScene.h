@@ -44,13 +44,13 @@ namespace gl3::game {
 
             /*auto test1 = CreateEntity();
             auto &model1 = registry.emplace<engine::Graphics::Components::Model>(test1);
-            engine::Graphics::Utils::ModelUtils::SetPath(model1, "../../assets/SpaceShip/Screen-Bottom-Middle.obj");
+            engine::Graphics::Utils::ModelUtils::SetPath(model1, "../../assets/SpaceShip/ScreenBottomMiddle.obj");
             auto test2 = CreateEntity();
             auto &model2 = registry.emplace<engine::Graphics::Components::Model>(test2);
-            engine::Graphics::Utils::ModelUtils::SetPath(model2, "../../assets/SpaceShip/Screen-Middle-Left.obj");
+            engine::Graphics::Utils::ModelUtils::SetPath(model2, "../../assets/SpaceShip/ScreenMiddleLeft.obj");
             auto test3 = CreateEntity();
             auto &model3 = registry.emplace<engine::Graphics::Components::Model>(test3);
-            engine::Graphics::Utils::ModelUtils::SetPath(model3, "../../assets/SpaceShip/Screen-Top-Right.obj");*/
+            engine::Graphics::Utils::ModelUtils::SetPath(model3, "../../assets/SpaceShip/ScreenTopRight.obj");*/
             auto shader = std::make_shared<engine::Graphics::shader>("shaders/vertexShader.glsl", "shaders/fragmentShader.glsl");
             auto untexturedShader = std::make_shared<engine::Graphics::shader>("shaders/vertexShader.glsl", "shaders/untexturedFragmentShader.glsl");
             auto unlitShader = std::make_shared<engine::Graphics::shader>("shaders/vertexShader.glsl", "shaders/lightFragmentShader.glsl");
@@ -88,7 +88,7 @@ namespace gl3::game {
             engine::Graphics::TransformationUtils::SetTranslation(asteroid2, asteroid2Transform, glm::vec3(20, -10, 0));
             engine::Graphics::TransformationUtils::SetScale(asteroid2, asteroid2Transform, glm::vec3(0.5f, 0.5f, 0.5f));
             auto &audioSource = engine::Ecs::Registry::AddComponent<engine::soundSystem::SpatialAudioSource>(asteroid2);
-            audioSource.soundFilePath = "../../assets/audio/ambient-space-4.wav";
+            audioSource.soundFilePath = "../../assets/audio/ambientSpace4.wav";
 
             auto asteroid3 = CreateEntity();
             auto &asteroid3Model = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(asteroid3);
@@ -151,7 +151,7 @@ namespace gl3::game {
 
             auto laserPlayer = CreateEntity();
             auto &laserPlayerModel = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(laserPlayer);
-            engine::Graphics::ModelUtils::SetPath(laserPlayerModel, "../../assets/Laser(Player).obj");
+            engine::Graphics::ModelUtils::SetPath(laserPlayerModel, "../../assets/LaserPlayer.obj");
             engine::Graphics::ModelUtils::SetShader(laserPlayerModel, unlitShader);
             auto &laserPlayerTransform = registry.get<engine::Graphics::Transform>(laserPlayer);
             laserPlayerTransform.active = false;
@@ -159,7 +159,7 @@ namespace gl3::game {
 
             auto laserEnemy = CreateEntity();
             auto &laserEnemyModel = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(laserEnemy);
-            engine::Graphics::ModelUtils::SetPath(laserEnemyModel, "../../assets/Laser(Player).obj");
+            engine::Graphics::ModelUtils::SetPath(laserEnemyModel, "../../assets/LaserPlayer.obj");
             engine::Graphics::ModelUtils::SetShader(laserEnemyModel, unlitShader);
             auto &laserEnemyTransform = registry.get<engine::Graphics::Transform>(laserEnemy);
             laserEnemyTransform.active = false;
@@ -167,7 +167,7 @@ namespace gl3::game {
 
             auto laserEnemy1 = CreateEntity();
             auto &laserEnemyModel1 = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(laserEnemy1);
-            engine::Graphics::ModelUtils::SetPath(laserEnemyModel1, "../../assets/Laser(Player).obj");
+            engine::Graphics::ModelUtils::SetPath(laserEnemyModel1, "../../assets/LaserPlayer.obj");
             engine::Graphics::ModelUtils::SetShader(laserEnemyModel1, unlitShader);
             auto &laserEnemyTransform1 = registry.get<engine::Graphics::Transform>(laserEnemy1);
             laserEnemyTransform1.active = false;
@@ -175,7 +175,7 @@ namespace gl3::game {
 
             auto laserEnemy2 = CreateEntity();
             auto &laserEnemyModel2 = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(laserEnemy2);
-            engine::Graphics::ModelUtils::SetPath(laserEnemyModel2, "../../assets/Laser(Player).obj");
+            engine::Graphics::ModelUtils::SetPath(laserEnemyModel2, "../../assets/LaserPlayer.obj");
             engine::Graphics::ModelUtils::SetShader(laserEnemyModel2, unlitShader);
             auto &laserEnemyTransform2 = registry.get<engine::Graphics::Transform>(laserEnemy2);
             laserEnemyTransform2.active = false;
