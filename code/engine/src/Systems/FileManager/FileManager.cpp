@@ -2,7 +2,27 @@
 
 namespace  gl3::engine::filesystem{
 
-    std::string FileManager::getAssetFileFrom(const std::filesystem::path &relativeFilePath) {
+    std::string FileManager::getAsset(assets::Shaders shader) {
+        return {};
+    }
+
+    std::string FileManager::getAsset(assets::Models model) {
+        return {};
+    }
+
+    std::string FileManager::getAsset(assets::Sounds sound) {
+        return {};
+    }
+
+    std::string FileManager::getAsset(assets::Materials material) {
+        return {};
+    }
+
+    std::string FileManager::getAsset(assets::Images image) {
+        return {};
+    }
+
+    std::string FileManager::getAsset(const std::filesystem::path &relativeFilePath) {
         fs::path fullAssetPath = resolveForSubdirectory(relativeFilePath, "../../assets");
         return readText(fullAssetPath);
     }

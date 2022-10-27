@@ -14,7 +14,7 @@ namespace gl3::engine::Graphics {
 
     unsigned int loadAndCompileShader(GLuint shaderType, const std::filesystem::path &shaderAssetPath){
 
-        auto shaderAsset = filesystem::FileManager::getAssetFileFrom(shaderAssetPath);
+        auto shaderAsset = filesystem::FileManager::getAsset(shaderAssetPath);
         const char* shaderSource = shaderAsset.c_str();
         unsigned int shader = glCreateShader(shaderType);
 

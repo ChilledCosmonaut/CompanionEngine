@@ -9,6 +9,7 @@
 #include "assimp/postprocess.h"
 
 #include "../../../../src/Systems/FileManager/stb_image.h"
+#include "engine/Systems/FileManager/Test.h"
 
 namespace gl3::engine::filesystem {
     namespace fs = std::filesystem;
@@ -22,7 +23,11 @@ namespace gl3::engine::filesystem {
 
     class FileManager {
     public:
-        static std::string getAssetFileFrom(const fs::path &relativeFilePath);
+        static std::string getAsset(assets::Shaders shader);
+        static std::string getAsset(assets::Models model);
+        static std::string getAsset(assets::Sounds sound);
+        static std::string getAsset(assets::Materials material);
+        static std::string getAsset(assets::Images image);
         static void writeFileToTemp(const char* stringToSave, const fs::path &fileName);
         static void saveFileAt(const char* stringToSave, const fs::path &relativeFilePath);
         static const aiScene* loadModelFromFile(const fs::path &relativeFilePath);
