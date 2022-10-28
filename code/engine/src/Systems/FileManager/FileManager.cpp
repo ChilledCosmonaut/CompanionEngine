@@ -9,6 +9,8 @@ namespace  gl3::engine::filesystem{
     }
 
     void FileManager::DestroyFileManager() {
+        if(fileManager == nullptr)
+            return;
         fileManager->~FileManager();
         fileManager = nullptr;
     }
