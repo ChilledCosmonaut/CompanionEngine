@@ -10,6 +10,7 @@
 
 #include "../../../../src/Systems/FileManager/stb_image.h"
 #include "engine/Systems/FileManager/Test.h"
+#include "../../../../src/Systems/FileManager/Cache.h"
 
 namespace gl3::engine::filesystem {
     namespace fs = std::filesystem;
