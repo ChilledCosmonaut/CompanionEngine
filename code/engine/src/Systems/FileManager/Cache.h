@@ -24,7 +24,7 @@ namespace gl3::engine::filesystem {
                 cacheList.erase(cachedObject->second);
             }
 
-            if(cacheList.size() >= max_size){
+            if(cacheList.size() >= maxSize){
                 listPointer elementToBeDeleted = std::prev(cacheList.end());
                 cachePointer.erase(elementToBeDeleted->first);
                 cacheList.pop_back();
