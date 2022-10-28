@@ -23,22 +23,34 @@ namespace gl3::engine::filesystem {
 
     class FileManager {
     public:
-        static std::string getAsset(assets::Shaders shader);
-        static std::string getAsset(assets::Models model);
-        static std::string getAsset(assets::Sounds sound);
-        static std::string getAsset(assets::Materials material);
-        static std::string getAsset(assets::Images image);
-        static void writeFileToTemp(const char* stringToSave, const fs::path &fileName);
-        static void saveFileAt(const char* stringToSave, const fs::path &relativeFilePath);
+        /// Need to adhere to the singleton pattern
+        static FileManager *GetFileManager();
+
+        /// Need to adhere to the singleton pattern
+        static void DestroyFileManager();
+
+        std::string getAsset(assets::Shaders shader);
+        std::string getAsset(assets::Models model);
+        std::string getAsset(assets::Sounds sound);
+        std::string getAsset(assets::Materials material);
+        std::string getAsset(assets::Images image);
+        void writeFileToTemp(const char* stringToSave, const fs::path &fileName);
+        void saveFileAt(const char* stringToSave, const fs::path &relativeFilePath);
         static const aiScene* loadModelFromFile(const fs::path &relativeFilePath);
         static texture loadTextureFromFile(const fs::path &relativeFilePath);
 
     private:
+
+        FileManager();
+
+        ~FileManager();
 
        [[nodiscard]] fs::path static resolveForSubdirectory(const fs::path &relativeAssetPath, const fs::path &subdirectory) {
            return fs::weakly_canonical((subdirectory / relativeAssetPath).make_preferred());
        }
        static std::string readText(const std::filesystem::path &fileName);
        static void saveTextAt(const char* stringToSave, const std::filesystem::path &fileName);
+
+       static inline FileManager* fileManager = nullptr;
     };
 }

@@ -2,6 +2,17 @@
 
 namespace  gl3::engine::filesystem{
 
+    FileManager *FileManager::GetFileManager() {
+        if (fileManager == nullptr)
+            fileManager = new FileManager();
+        return fileManager;
+    }
+
+    void FileManager::DestroyFileManager() {
+        fileManager->~FileManager();
+        fileManager = nullptr;
+    }
+
     std::string FileManager::getAsset(assets::Shaders shader) {
         return {};
     }
@@ -67,6 +78,14 @@ namespace  gl3::engine::filesystem{
         const char* filePath = stringFilePath.c_str();
         textureFile.content = stbi_load(filePath, &textureFile.width, &textureFile.height, &textureFile.colChannel, 0);
         return textureFile;
+    }
+
+    FileManager::FileManager() {
+
+    }
+
+    FileManager::~FileManager() {
+
     }
 }
 
