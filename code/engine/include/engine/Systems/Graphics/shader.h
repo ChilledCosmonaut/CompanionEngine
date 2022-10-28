@@ -10,12 +10,13 @@
 #include <string>
 
 #include "engine/Systems/FileManager/FileManager.h"
+#include "engine/Systems/FileManager/Test.h"
 
 
 namespace gl3::engine::Graphics {
     class shader {
     public:
-        shader(const std::filesystem::path &vertexShaderAsset, const std::filesystem::path &fragmentShaderAsset);
+        shader(assets::Shaders vertexShaderAsset, assets::Shaders fragmentShaderAsset);
 
         // explicit move constructor
         shader(shader &&other) noexcept {

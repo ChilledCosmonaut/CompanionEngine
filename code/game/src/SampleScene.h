@@ -4,6 +4,7 @@
 #include "engine/Systems/Graphics/Utils/TransformationUtils.h"
 #include "engine/Systems/Graphics/Utils/ModelUtils.h"
 #include "EnemyBehavourSettings.h"
+#include "engine/Systems/FileManager/Test.h"
 
 namespace gl3::game {
 
@@ -51,9 +52,9 @@ namespace gl3::game {
             auto test3 = CreateEntity();
             auto &model3 = registry.emplace<engine::Graphics::Components::Model>(test3);
             engine::Graphics::Utils::ModelUtils::SetPath(model3, "../../assets/SpaceShip/ScreenTopRight.obj");*/
-            auto shader = std::make_shared<engine::Graphics::shader>("shaders/vertexShader.glsl", "shaders/fragmentShader.glsl");
-            auto untexturedShader = std::make_shared<engine::Graphics::shader>("shaders/vertexShader.glsl", "shaders/untexturedFragmentShader.glsl");
-            auto unlitShader = std::make_shared<engine::Graphics::shader>("shaders/vertexShader.glsl", "shaders/lightFragmentShader.glsl");
+            auto shader = std::make_shared<engine::Graphics::shader>(assets::shaders$vertexShader$glsl, assets::shaders$fragmentShader$glsl);
+            auto untexturedShader = std::make_shared<engine::Graphics::shader>(assets::shaders$vertexShader$glsl, assets::shaders$untexturedFragmentShader$glsl);
+            auto unlitShader = std::make_shared<engine::Graphics::shader>(assets::shaders$vertexShader$glsl, assets::shaders$lightFragmentShader$glsl);
             engine::Graphics::ModelUtils::SetShader(model, untexturedShader);
             /*engine::Graphics::Utils::ModelUtils::SetShader(model1, untexturedShader);
             engine::Graphics::Utils::ModelUtils::SetShader(model2, untexturedShader);

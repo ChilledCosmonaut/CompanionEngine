@@ -15,8 +15,6 @@ int main() {
 
     Game game = Game(1920, 1080, "A Journey through Space");
 
-    Graphics::shader litShader = Graphics::shader("shaders/vertexShader.glsl", "shaders/fragmentShader.glsl");
-
     ShipController shipController {};
 
     shipController.SetUpSystem(game);
@@ -32,8 +30,6 @@ int main() {
     auto scene = SampleScene();
 
     game.ChangeActiveSceneTo(&scene);
-
-    Graphics::shader shader = Graphics::shader("shaders/vertexShader.glsl", "shaders/fragmentShader.glsl");
 
     Graphics::Transform standardTransform =
             Graphics::Transform(glm::vec3(0,0,0),glm::vec3(0,0,0),glm::vec3(0.5f,0.5f,0.5f));

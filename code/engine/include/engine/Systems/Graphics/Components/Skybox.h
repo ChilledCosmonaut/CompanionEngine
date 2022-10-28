@@ -1,6 +1,7 @@
 #pragma once
 
 #include "engine/Systems/Graphics/shader.h"
+#include "engine/Systems/FileManager/Test.h"
 
 namespace gl3::engine::Graphics {
     struct Skybox {
@@ -8,12 +9,12 @@ namespace gl3::engine::Graphics {
     public:
         Skybox() {
             shader = std::make_shared<Graphics::shader>
-                    ("shaders/SkyBoxVertexShader.glsl", "shaders/SkyBoxFragmentShader.glsl");
+                    (assets::shaders$SkyBoxVertexShader$glsl, assets::shaders$SkyBoxFragmentShader$glsl);
         };
         Skybox(const Skybox&) = default;
         Skybox(int VAO, int VBO, int texture) : VAO(VAO), VBO(VBO), texture(texture) {
             shader = std::make_shared<Graphics::shader>
-                    ("shaders/SkyBoxVertexShader.glsl", "shaders/SkyBoxFragmentShader.glsl");
+                    (assets::shaders$SkyBoxVertexShader$glsl, assets::shaders$SkyBoxFragmentShader$glsl);
         }
 
         float vertices[108]= {

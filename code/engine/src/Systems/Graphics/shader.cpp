@@ -12,9 +12,9 @@ namespace gl3::engine::Graphics {
         char infoLog[GL_INFO_LOG_LENGTH];
     };
 
-    unsigned int loadAndCompileShader(GLuint shaderType, const std::filesystem::path &shaderAssetPath){
+    unsigned int loadAndCompileShader(GLuint shaderType, assets::Shaders shaderPath){
 
-        auto shaderAsset = filesystem::FileManager::getAsset(shaderAssetPath);
+        auto shaderAsset = filesystem::FileManager::GetFileManager()->getAsset(shaderPath);
         const char* shaderSource = shaderAsset.c_str();
         unsigned int shader = glCreateShader(shaderType);
 
@@ -39,7 +39,7 @@ namespace gl3::engine::Graphics {
         return shader;
     }
 
-    shader::shader(const std::filesystem::path &vertexShaderAsset, const std::filesystem::path &fragmentShaderAsset) {
+    shader::shader(assets::Shaders vertexShaderAsset, assets::Shaders fragmentShaderAsset) {
 
         // Load and compile shader
         vertexShader = loadAndCompileShader(GL_VERTEX_SHADER, vertexShaderAsset);
