@@ -18,10 +18,10 @@ namespace gl3::engine::filesystem {
         }
 
         void AddItem(Key key, CacheObject item) {
-            auto cachedObject = cachePointer->find(key);
+            auto cachedObject = cachePointer.find(key);
 
-            if(cachedObject != cachePointer->end()){
-                cacheList->erase(cachedObject->second);
+            if(cachedObject != cachePointer.end()){
+                cacheList.erase(cachedObject->second);
             }
 
             if(cacheList.size() >= maxSize){
@@ -35,23 +35,23 @@ namespace gl3::engine::filesystem {
         }
 
         bool Contains(Key key) {
-            if (cachePointer->find(key) == cachePointer->end())
+            if (cachePointer.find(key) == cachePointer.end())
                 return false;
             return true;
         }
 
         const CacheObject& Get(Key key) {
-            auto cachedObject = cachePointer->find(key);
-            if (cachedObject == cachePointer->end())
+            auto cachedObject = cachePointer.find(key);
+            if (cachedObject == cachePointer.end())
                 throw std::range_error("There is no such key in cache");
 
-            cacheList.splice(cacheList->begin(), cacheList, cachedObject->second);
+            cacheList.splice(cacheList.begin(), cacheList, cachedObject->second);
             return cachedObject->second->second;
         }
 
     private:
-        std::unique_ptr<std::unordered_map<Key, listPointer>> cachePointer;
-        std::list<cachedData> cacheList {};
+        std::unordered_map<Key, listPointer> cachePointer;
+        cachedData cacheList {};
         size_t maxSize;
     };
 }
