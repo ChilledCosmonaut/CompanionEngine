@@ -25,13 +25,13 @@ namespace gl3::engine::filesystem {
             }
 
             if(cacheList.size() >= maxSize){
-                listPointer elementToBeDeleted = std::prev(cacheList->end());
-                cachePointer->erase(elementToBeDeleted->first);
-                cacheList->pop_back();
+                listPointer elementToBeDeleted = std::prev(cacheList.end());
+                cachePointer.erase(elementToBeDeleted->first);
+                cacheList.pop_back();
             }
 
-            cacheList.push_front(item);
-            cachePointer[key] = cacheList->begin();
+            cacheList.push_front(cachedData(key, item));
+            cachePointer[key] = cacheList.begin();
         }
 
         bool Contains(Key key) {
@@ -40,7 +40,7 @@ namespace gl3::engine::filesystem {
             return true;
         }
 
-        const CacheObject& Get(Key key) {
+        const CacheObject Get(Key key) {
             auto cachedObject = cachePointer.find(key);
             if (cachedObject == cachePointer.end())
                 throw std::range_error("There is no such key in cache");
@@ -51,7 +51,7 @@ namespace gl3::engine::filesystem {
 
     private:
         std::unordered_map<Key, listPointer> cachePointer;
-        cachedData cacheList {};
+        std::list<cachedData> cacheList {};
         size_t maxSize;
     };
 }
