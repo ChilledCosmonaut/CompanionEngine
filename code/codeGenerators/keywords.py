@@ -3,7 +3,7 @@ import os
 
 from codeGenerators.cppbuilder import CppBuilder
 
-path = "D:\\UniStuff(Secondary)\\GameLab3\\code\\assets"
+path = "D:\\UniStuffSecondary\\GameLab3\\code\\assets"
 
 
 # KEYWORDS = {
@@ -114,9 +114,11 @@ def generate_enums(header_file: str):
     header.write_line('#pragma once')
     header.write_line("")
     header.write_line("#include <string>")
+    header.write_line("#include <filesystem>")
     header.write_line("")
     header.write_line("namespace assets {")
     header.indent()
+    header.write_line("namespace fs = std::filesystem;");
 
     shaders = list()
     models = list()
@@ -156,22 +158,25 @@ def generate_enums(header_file: str):
     header.write_code(
         "class AssetTranslator {\n" +
         "public:\n" +
-        "static std::string TranslateShader(Shaders shader) {\n" +
-        "return shaderDict[shader];\n" +
+        "static fs::path TranslateShader(Shaders shader) {\n" +
+        "return ResolveForSubdirectory(\"../../assets\", shaderDict[shader]);\n" +
         "}\n\n" +
-        "static std::string TranslateModel(Models model) {\n" +
-        "return modelDict[model];\n" +
+        "static fs::path TranslateModel(Models model) {\n" +
+        "return ResolveForSubdirectory(\"../../assets\", modelDict[model]);\n" +
         "}\n\n" +
-        "static std::string TranslateSound(Sounds sound) {\n" +
-        "return soundDict[sound];\n" +
+        "static fs::path TranslateSound(Sounds sound) {\n" +
+        "return ResolveForSubdirectory(\"../../assets\", soundDict[sound]);\n" +
         "}\n\n" +
-        "static std::string TranslateMaterial(Materials material) {\n" +
-        "return materialDict[material];\n" +
+        "static fs::path TranslateMaterial(Materials material) {\n" +
+        "return ResolveForSubdirectory(\"../../assets\", materialDict[material]);\n" +
         "}\n\n" +
-        "static std::string TranslateImage(Images image) {\n" +
-        "return imageDict[image];\n" +
+        "static fs::path TranslateImage(Images image) {\n" +
+        "return ResolveForSubdirectory(\"../../assets\", imageDict[image]);\n" +
         "}\n\n" +
-        "private:\n" +
+        "private:\n\n" +
+        "static fs::path ResolveForSubdirectory(const fs::path &subdirectory, const fs::path &relativeAssetPath) {\n" +
+        "return fs::weakly_canonical((subdirectory / relativeAssetPath).make_preferred());\n" +
+        "}\n" +
         "static inline std::string shaderDict[] = {\n" +
         "\"" + "\",\n\"".join(shaders).replace(".\\", "").replace("\\", "\\\\") + "\"" +
         "};\n\n" +
