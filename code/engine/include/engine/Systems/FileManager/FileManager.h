@@ -65,7 +65,7 @@ namespace gl3::engine::filesystem {
 
         static inline FileManager *fileManager = nullptr;
 
-        std::unique_ptr<Cache<assets::Shaders, int>> shaderCache;
+        std::unique_ptr<Cache<assets::Shaders, std::string>> shaderCache;
         std::unique_ptr<Cache<assets::Models, int>> modelCache;
         std::unique_ptr<Cache<assets::Sounds, int>> soundCache;
         std::unique_ptr<Cache<assets::Materials, int>> materialCache;

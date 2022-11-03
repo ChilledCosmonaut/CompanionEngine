@@ -18,9 +18,11 @@ namespace  gl3::engine::filesystem{
     std::string FileManager::getAsset(assets::Shaders shader) {
         if(!shaderCache->Contains(shader)) {
             //Construct item here
+            auto shaderText = readText(assets::AssetTranslator::TranslateShader(shader));
+            shaderCache->AddItem(shader, shaderText);
         }
 
-        return "";//shaderCache.Get(shader);
+        return shaderCache->Get(shader);
     }
 
     std::string FileManager::getAsset(assets::Models model) {
@@ -38,11 +40,6 @@ namespace  gl3::engine::filesystem{
     std::string FileManager::getAsset(assets::Images image) {
         return {};
     }
-
-    /*std::string FileManager::getAsset(const std::filesystem::path &relativeFilePath) {
-        fs::path fullAssetPath = resolveForSubdirectory(relativeFilePath, "../../assets");
-        return readText(fullAssetPath);
-    }*/
 
     void FileManager::writeFileToTemp(const char *stringToSave, const std::filesystem::path &fileName) {
         fs::path tempFilePath = resolveForSubdirectory(fileName, std::filesystem::temp_directory_path());
@@ -87,11 +84,11 @@ namespace  gl3::engine::filesystem{
     }
 
     FileManager::FileManager() {
-        auto cache = Cache<int, int>(3);
+        shaderCache = std::make_unique<Cache<assets::Shaders, std::string>>(30);
     }
 
     FileManager::~FileManager() {
-
+        shaderCache.release();
     }
 }
 
