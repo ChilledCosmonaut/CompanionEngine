@@ -15,5 +15,8 @@ namespace gl3::engine::filesystem {
         static void ProcessNode(Graphics::Model &modelData, aiNode *node, const aiScene *scene);
 
         static Graphics::Mesh ProcessMesh(Graphics::Model &modelData, aiMesh *mesh, const aiScene *scene);
+
+        static std::vector<Graphics::Texture> LoadMaterialTextures
+        (Graphics::Model &modelData, aiMaterial *mat, aiTextureType type, std::string typeName);
     };
 }

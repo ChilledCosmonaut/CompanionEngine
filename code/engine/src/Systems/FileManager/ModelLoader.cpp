@@ -69,14 +69,41 @@ namespace gl3::engine::filesystem {
         // process material
         if (mesh->mMaterialIndex >= 0) {
             aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
-            std::vector<Graphics::Texture> diffuseMaps = loadMaterialTextures(modelData, material,
+            std::vector<Graphics::Texture> diffuseMaps = LoadMaterialTextures(modelData, material,
                                                                aiTextureType_DIFFUSE, "texture_diffuse");
             textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-            std::vector<Graphics::Texture> specularMaps = loadMaterialTextures(modelData, material,
+            std::vector<Graphics::Texture> specularMaps = LoadMaterialTextures(modelData, material,
                                                                 aiTextureType_SPECULAR, "texture_specular");
             textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
         }
 
         return Graphics::Mesh(vertices, indices, textures);
+    }
+
+    std::vector<Graphics::Texture>
+    ModelLoader::LoadMaterialTextures(Graphics::Model &modelData, aiMaterial *mat, aiTextureType type,
+                                      std::string typeName) {
+        std::vector<Graphics::Texture> textures;
+        for (unsigned int i = 0; i < mat->GetTextureCount(type); i++) {
+            aiString str;
+            mat->GetTexture(type, i, &str);
+            bool skip = false;
+            for (unsigned int j = 0; j < modelData.textures_loaded.size(); j++) {
+                if (std::strcmp(modelData.textures_loaded[j].path.data, str.C_Str()) == 0) {
+                    textures.push_back(modelData.textures_loaded[j]);
+                    skip = true;
+                    break;
+                }
+            }
+            if (!skip) {   // if texture hasn't been loaded already, load it
+                Graphics::Texture texture;
+                texture.id = TextureFromFile(str.C_Str(), modelData.directory);
+                texture.type = typeName;
+                texture.path = str.C_Str();
+                textures.push_back(texture);
+                modelData.textures_loaded.push_back(texture); // add to loaded textures
+            }
+        }
+        return textures;
     }
 }
