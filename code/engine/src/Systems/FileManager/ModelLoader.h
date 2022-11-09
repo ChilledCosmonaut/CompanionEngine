@@ -4,19 +4,20 @@
 #include <iostream>
 
 #include "engine/Systems/Graphics/Components/Model.h"
+#include "TextureLoader.h"
 
 namespace gl3::engine::filesystem {
 
     class ModelLoader {
     public:
-        static void LoadModel(const std::filesystem::path &path);
+        static void LoadModel(Graphics::ModelData &modelData, const std::filesystem::path &path);
 
     private:
-        static void ProcessNode(Graphics::Model &modelData, aiNode *node, const aiScene *scene);
+        static void ProcessNode(Graphics::ModelData &modelData, aiNode *node, const aiScene *scene);
 
-        static Graphics::Mesh ProcessMesh(Graphics::Model &modelData, aiMesh *mesh, const aiScene *scene);
+        static Graphics::Mesh ProcessMesh(Graphics::ModelData &modelData, aiMesh *mesh, const aiScene *scene);
 
         static std::vector<Graphics::Texture> LoadMaterialTextures
-        (Graphics::Model &modelData, aiMaterial *mat, aiTextureType type, std::string typeName);
+        (Graphics::ModelData &modelData, aiMaterial *mat, aiTextureType type, std::string typeName);
     };
 }

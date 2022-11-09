@@ -16,7 +16,7 @@ namespace  gl3::engine::filesystem{
     }
 
     std::string FileManager::getAsset(assets::Shaders shader) {
-        if(!shaderCache->Contains(shader)) {
+        if (!shaderCache->Contains(shader)) {
             //Construct item here
             auto shaderText = readText(assets::AssetTranslator::TranslateShader(shader));
             shaderCache->AddItem(shader, shaderText);
@@ -26,6 +26,10 @@ namespace  gl3::engine::filesystem{
     }
 
     std::string FileManager::getAsset(assets::Models model) {
+        if (!modelCache->Contains(model)) {
+            //Construct item here
+            auto
+        }
         return {};
     }
 

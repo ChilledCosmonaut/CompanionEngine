@@ -2,8 +2,8 @@
 
 namespace gl3::engine::filesystem {
 
-    void ModelLoader::LoadModel(const std::filesystem::path &path) {
-        auto model = Graphics::Model();
+    void ModelLoader::LoadModel(Graphics::ModelData &modelData, const std::filesystem::path &path) {
+        auto model = Graphics::ModelData();
 
         // read file via ASSIMP
         Assimp::Importer importer;
@@ -16,12 +16,14 @@ namespace gl3::engine::filesystem {
             std::cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << std::endl;
             return;
         }
+        // retrieve the directory path of the filepath
+        modelData.directory = path.parent_path().string();
 
         // process ASSIMP's root node recursively
-        ProcessNode(model, scene->mRootNode, scene);
+        ProcessNode(modelData, scene->mRootNode, scene);
     }
 
-    void ModelLoader::ProcessNode(Graphics::Model &modelData, aiNode *node, const aiScene *scene) {
+    void ModelLoader::ProcessNode(Graphics::ModelData &modelData, aiNode *node, const aiScene *scene) {
         // process all the node's meshes (if any)
         for (unsigned int i = 0; i < node->mNumMeshes; i++) {
             aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
@@ -33,7 +35,7 @@ namespace gl3::engine::filesystem {
         }
     }
 
-    Graphics::Mesh ModelLoader::ProcessMesh(Graphics::Model &modelData, aiMesh *mesh, const aiScene *scene) {
+    Graphics::Mesh ModelLoader::ProcessMesh(Graphics::ModelData &modelData, aiMesh *mesh, const aiScene *scene) {
         std::vector<Graphics::Vertex> vertices;
         std::vector<unsigned int> indices;
         std::vector<Graphics::Texture> textures;
@@ -81,15 +83,15 @@ namespace gl3::engine::filesystem {
     }
 
     std::vector<Graphics::Texture>
-    ModelLoader::LoadMaterialTextures(Graphics::Model &modelData, aiMaterial *mat, aiTextureType type,
+    ModelLoader::LoadMaterialTextures(Graphics::ModelData &modelData, aiMaterial *mat, aiTextureType type,
                                       std::string typeName) {
         std::vector<Graphics::Texture> textures;
         for (unsigned int i = 0; i < mat->GetTextureCount(type); i++) {
-            aiString str;
-            mat->GetTexture(type, i, &str);
+            aiString textureName;
+            mat->GetTexture(type, i, &textureName);
             bool skip = false;
             for (unsigned int j = 0; j < modelData.textures_loaded.size(); j++) {
-                if (std::strcmp(modelData.textures_loaded[j].path.data, str.C_Str()) == 0) {
+                if (std::strcmp(modelData.textures_loaded[j].path.data, textureName.C_Str()) == 0) {
                     textures.push_back(modelData.textures_loaded[j]);
                     skip = true;
                     break;
@@ -97,9 +99,9 @@ namespace gl3::engine::filesystem {
             }
             if (!skip) {   // if texture hasn't been loaded already, load it
                 Graphics::Texture texture;
-                texture.id = TextureFromFile(str.C_Str(), modelData.directory);
+                texture.id = TextureLoader::TextureFromFile(modelData.directory.append(textureName.C_Str()));
                 texture.type = typeName;
-                texture.path = str.C_Str();
+                texture.path = textureName.C_Str();
                 textures.push_back(texture);
                 modelData.textures_loaded.push_back(texture); // add to loaded textures
             }
