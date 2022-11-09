@@ -11,6 +11,7 @@
 #include "../../../../src/Systems/FileManager/stb_image.h"
 #include "engine/Systems/FileManager/Test.h"
 #include "../../../../src/Systems/FileManager/Cache.h"
+#include "../../../../src/Systems/FileManager/ModelLoader.h"
 
 namespace gl3::engine::filesystem {
     namespace fs = std::filesystem;
@@ -32,7 +33,7 @@ namespace gl3::engine::filesystem {
 
         std::shared_ptr<std::string> getAsset(assets::Shaders shader);
 
-        std::string getAsset(assets::Models model);
+        std::shared_ptr<Graphics::ModelData> getAsset(assets::Models model);
 
         std::string getAsset(assets::Sounds sound);
 
@@ -66,7 +67,7 @@ namespace gl3::engine::filesystem {
         static inline FileManager *fileManager = nullptr;
 
         std::unique_ptr<Cache<assets::Shaders, std::string>> shaderCache;
-        std::unique_ptr<Cache<assets::Models, int>> modelCache;
+        std::unique_ptr<Cache<assets::Models, Graphics::ModelData>> modelCache;
         std::unique_ptr<Cache<assets::Sounds, int>> soundCache;
         std::unique_ptr<Cache<assets::Materials, int>> materialCache;
         std::unique_ptr<Cache<assets::Images, int>> imageCache;

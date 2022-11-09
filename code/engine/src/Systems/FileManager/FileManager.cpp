@@ -24,12 +24,13 @@ namespace  gl3::engine::filesystem{
         return shaderCache->Get(shader);
     }
 
-    std::string FileManager::getAsset(assets::Models model) {
+    std::shared_ptr<Graphics::ModelData> FileManager::getAsset(assets::Models model) {
         if (!modelCache->Contains(model)) {
             //Construct item here
-            auto
+            auto modelData = modelCache->AddItem(model);
+            ModelLoader::LoadModel(*modelData, assets::AssetTranslator::TranslateModel(model));
         }
-        return {};
+        return modelCache->Get(model);
     }
 
     std::string FileManager::getAsset(assets::Sounds sound) {
