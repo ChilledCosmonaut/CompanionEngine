@@ -15,13 +15,12 @@ namespace  gl3::engine::filesystem{
         fileManager = nullptr;
     }
 
-    std::string FileManager::getAsset(assets::Shaders shader) {
+    std::shared_ptr<std::string> FileManager::getAsset(assets::Shaders shader) {
         if (!shaderCache->Contains(shader)) {
             //Construct item here
-            auto shaderText = readText(assets::AssetTranslator::TranslateShader(shader));
-            shaderCache->AddItem(shader, shaderText);
+            auto shaderText = shaderCache->AddItem(shader);
+            *shaderText = readText(assets::AssetTranslator::TranslateShader(shader));
         }
-
         return shaderCache->Get(shader);
     }
 

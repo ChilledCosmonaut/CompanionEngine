@@ -6,7 +6,7 @@ namespace gl3::engine::filesystem {
     template<typename Key, typename CacheObject>
     class Cache {
     public:
-        typedef typename std::pair<Key, CacheObject> cachedData;
+        typedef typename std::pair<Key, std::shared_ptr<CacheObject>> cachedData;
         typedef typename std::list<cachedData>::iterator listPointer;
 
         Cache(int maxSize){
@@ -17,7 +17,7 @@ namespace gl3::engine::filesystem {
 
         }
 
-        void AddItem(Key key, CacheObject item) {
+        std::shared_ptr<CacheObject> AddItem(Key key) {
             auto cachedObject = cachePointer.find(key);
 
             if(cachedObject != cachePointer.end()){
@@ -30,8 +30,9 @@ namespace gl3::engine::filesystem {
                 cacheList.pop_back();
             }
 
-            cacheList.push_front(cachedData(key, item));
+            cacheList.push_front(cachedData(key, std::make_shared<CacheObject>()));
             cachePointer[key] = cacheList.begin();
+            return cacheList.front().second;
         }
 
         bool Contains(Key key) {
@@ -40,7 +41,7 @@ namespace gl3::engine::filesystem {
             return true;
         }
 
-        const CacheObject Get(Key key) {
+        std::shared_ptr<CacheObject> Get(Key key) {
             auto cachedObject = cachePointer.find(key);
             if (cachedObject == cachePointer.end())
                 throw std::range_error("There is no such key in cache");

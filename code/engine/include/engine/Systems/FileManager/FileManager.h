@@ -30,7 +30,7 @@ namespace gl3::engine::filesystem {
         /// Need to adhere to the singleton pattern
         static void DestroyFileManager();
 
-        std::string getAsset(assets::Shaders shader);
+        std::shared_ptr<std::string> getAsset(assets::Shaders shader);
 
         std::string getAsset(assets::Models model);
 
