@@ -67,7 +67,7 @@ namespace gl3::engine::Graphics {
 
         for(auto& entity : modelView){
             auto& model = modelView.get<Model>(entity);
-            gl3::engine::filesystem::ModelLoader::LoadModel(model.path);
+            model.modelData = *fileManager->getAsset(model.modelName);
             Ecs::Registry::RemoveSetupFlag<Model>(entity);
         }
     }
@@ -127,9 +127,9 @@ namespace gl3::engine::Graphics {
         }
     }
 
-    void GraphicsSystem::Draw(Model &modelData) {
-        for (auto &mesh: modelData.meshes)
-            mesh.Draw(*modelData.shader);
+    void GraphicsSystem::Draw(Model &model) {
+        for (auto &mesh: model.modelData.meshes)
+            mesh.Draw(*model.shader);
 
     }
 
@@ -138,7 +138,7 @@ namespace gl3::engine::Graphics {
     }
 
     GraphicsSystem::GraphicsSystem() {
-
+        fileManager = filesystem::FileManager::GetFileManager();
     }
 
     GraphicsSystem::~GraphicsSystem() {

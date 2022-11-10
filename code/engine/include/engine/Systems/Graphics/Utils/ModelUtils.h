@@ -11,10 +11,6 @@ namespace gl3::engine::Graphics {
     class ModelUtils {
     public:
 
-        static void SetPath(Model &model, std::string path){
-            model.modelData.path = path;
-        }
-
         static void SetShader(Model &model, std::shared_ptr<engine::Graphics::shader> shader){
             model.shader = shader;
         }

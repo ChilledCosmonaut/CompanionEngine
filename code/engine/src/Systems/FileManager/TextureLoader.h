@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "engine/Systems/Graphics/Components/Model.h"
+#include <stb_image.h>
 
 namespace gl3::engine::filesystem {
     class TextureLoader {

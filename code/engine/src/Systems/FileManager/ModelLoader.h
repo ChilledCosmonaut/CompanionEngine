@@ -3,8 +3,12 @@
 #include <filesystem>
 #include <iostream>
 
-#include "engine/Systems/Graphics/Components/Model.h"
+#include "assimp/Importer.hpp"
+#include "assimp/scene.h"
+#include "assimp/postprocess.h"
+
 #include "TextureLoader.h"
+#include "../Graphics/ModelData.h"
 
 namespace gl3::engine::filesystem {
 

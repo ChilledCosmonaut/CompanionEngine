@@ -6,14 +6,14 @@
 #include "glad/glad.h"
 #include "glm/gtc/type_ptr.hpp"
 
-#include <filesystem>
-#include <string>
-
-#include "engine/Systems/FileManager/FileManager.h"
 #include "engine/Systems/FileManager/Test.h"
 
+namespace gl3::engine::filesystem {
+    class FileManager;
+}
 
 namespace gl3::engine::Graphics {
+
     class shader {
     public:
         shader(assets::Shaders vertexShaderAsset, assets::Shaders fragmentShaderAsset);

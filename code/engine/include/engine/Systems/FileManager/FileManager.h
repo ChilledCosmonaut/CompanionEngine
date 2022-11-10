@@ -4,10 +4,6 @@
 #include <fstream>
 #include <sstream>
 
-#include "assimp/Importer.hpp"
-#include "assimp/scene.h"
-#include "assimp/postprocess.h"
-
 #include "../../../../src/Systems/FileManager/stb_image.h"
 #include "engine/Systems/FileManager/Test.h"
 #include "../../../../src/Systems/FileManager/Cache.h"

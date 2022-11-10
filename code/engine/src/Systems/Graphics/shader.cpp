@@ -1,8 +1,6 @@
-
 #pragma once
 
 #include "engine/Systems/Graphics/shader.h"
-
 
 namespace gl3::engine::Graphics {
 
@@ -15,7 +13,7 @@ namespace gl3::engine::Graphics {
     unsigned int loadAndCompileShader(GLuint shaderType, assets::Shaders shaderPath){
 
         auto shaderAsset = filesystem::FileManager::GetFileManager()->getAsset(shaderPath);
-        const char* shaderSource = shaderAsset.c_str();
+        const char* shaderSource = shaderAsset->c_str();
         unsigned int shader = glCreateShader(shaderType);
 
         glShaderSource(shader, 1, &shaderSource, nullptr);
