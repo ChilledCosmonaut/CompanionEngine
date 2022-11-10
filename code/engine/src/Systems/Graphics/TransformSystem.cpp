@@ -55,11 +55,11 @@ namespace gl3::engine::Graphics {
 
         glm::mat4 translateModel = glm::translate(glm::mat4(1.0f), transform.translation);
         glm::mat4 inverseTranslateModel = glm::translate(glm::mat4(1.0f), -transform.translation);
-        glm::mat4 rotateModel = transform.rotation;
+        glm::mat4 rotateModel = glm::mat4_cast(transform.rotation);
         glm::mat4 scaleModel = glm::scale(glm::mat4(1.0f), transform.scale);
         glm::mat4 inverseScaleModel = glm::scale(glm::mat4(1.0f), glm::vec3(1/transform.scale.x, 1/transform.scale.y, 1/transform.scale.z));
         transform.modelMatrix = translateModel * rotateModel * scaleModel;
-        transform.inverseModelMatrix = inverseScaleModel * glm::inverse(transform.rotation) * inverseTranslateModel;
+        transform.inverseModelMatrix = inverseScaleModel * glm::inverse(rotateModel) * inverseTranslateModel;
 
         if (transform.parent != entt::null){
             /*transform.modelMatrix = transform.parentModelMatrix * transform.modelMatrix;
