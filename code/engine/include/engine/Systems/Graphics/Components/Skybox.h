@@ -2,19 +2,22 @@
 
 #include "engine/Systems/Graphics/shader.h"
 #include "engine/Systems/FileManager/Test.h"
+#include "engine/Systems/FileManager/FileManager.h"
 
 namespace gl3::engine::Graphics {
     struct Skybox {
 
     public:
-        Skybox() {
+        Skybox() {/*
             shader = std::make_shared<Graphics::shader>
-                    (assets::shaders$SkyBoxVertexShader$glsl, assets::shaders$SkyBoxFragmentShader$glsl);
+                    (assets::shaders$SkyBoxVertexShader$glsl, assets::shaders$SkyBoxFragmentShader$glsl);*/
+            shader = filesystem::FileManager::GetFileManager()->getAsset(assets::shaders$SkyBoxVertexShader$glsl, assets::shaders$SkyBoxFragmentShader$glsl);
         };
         Skybox(const Skybox&) = default;
         Skybox(int VAO, int VBO, int texture) : VAO(VAO), VBO(VBO), texture(texture) {
-            shader = std::make_shared<Graphics::shader>
-                    (assets::shaders$SkyBoxVertexShader$glsl, assets::shaders$SkyBoxFragmentShader$glsl);
+            /*shader = std::make_shared<Graphics::shader>
+                    (assets::shaders$SkyBoxVertexShader$glsl, assets::shaders$SkyBoxFragmentShader$glsl);*/
+            shader = filesystem::FileManager::GetFileManager()->getAsset(assets::shaders$SkyBoxVertexShader$glsl, assets::shaders$SkyBoxFragmentShader$glsl);
         }
 
         float vertices[108]= {

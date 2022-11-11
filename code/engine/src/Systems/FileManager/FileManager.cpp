@@ -15,13 +15,15 @@ namespace  gl3::engine::filesystem{
         fileManager = nullptr;
     }
 
-    std::shared_ptr<std::string> FileManager::getAsset(assets::Shaders shader) {
-        if (!shaderCache->Contains(shader)) {
+    std::shared_ptr<Graphics::shader> FileManager::getAsset(assets::Shaders vertexShader, assets::Shaders fragmentShader) {
+        if (!shaderCache->Contains(shaderId(vertexShader, fragmentShader))) {
             //Construct item here
-            auto shaderText = shaderCache->AddItem(shader);
-            *shaderText = readText(assets::AssetTranslator::TranslateShader(shader));
+            auto shader = shaderCache->AddItem(shaderId(vertexShader, fragmentShader));
+            std::string vertexText = readText(assets::AssetTranslator::TranslateShader(vertexShader));
+            std::string fragmentText = readText(assets::AssetTranslator::TranslateShader(fragmentShader));
+            shader->SetUp(vertexText, fragmentText);
         }
-        return shaderCache->Get(shader);
+        return shaderCache->Get(shaderId(vertexShader, fragmentShader));
     }
 
     std::shared_ptr<Graphics::ModelData> FileManager::getAsset(assets::Models model) {
@@ -88,11 +90,13 @@ namespace  gl3::engine::filesystem{
     }
 
     FileManager::FileManager() {
-        shaderCache = std::make_unique<Cache<assets::Shaders, std::string>>(30);
+        shaderCache = std::make_unique<Cache<shaderId,  Graphics::shader>>(30);
+        modelCache = std::make_unique<Cache<assets::Models, Graphics::ModelData>>(30);
     }
 
     FileManager::~FileManager() {
         shaderCache.release();
+        modelCache.release();
     }
 }
 

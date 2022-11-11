@@ -8,6 +8,22 @@
 #include "engine/Systems/FileManager/Test.h"
 #include "../../../../src/Systems/FileManager/Cache.h"
 #include "../../../../src/Systems/FileManager/ModelLoader.h"
+#include "engine/Scene.h"
+
+typedef typename std::pair<assets::Shaders, assets::Shaders> shaderId;
+
+namespace std{
+    template<>
+    struct std::hash<shaderId>
+    {
+        size_t operator()(const shaderId& shaders) const
+        {
+            return static_cast<std::size_t>(shaders.first)
+                   * static_cast<std::size_t>(assets::Shaders::LAST)
+                   + static_cast<std::size_t>(shaders.second);
+        };
+    };
+}
 
 namespace gl3::engine::filesystem {
     namespace fs = std::filesystem;
@@ -21,13 +37,14 @@ namespace gl3::engine::filesystem {
 
     class FileManager {
     public:
+
         /// Need to adhere to the singleton pattern
         static FileManager *GetFileManager();
 
         /// Need to adhere to the singleton pattern
         static void DestroyFileManager();
 
-        std::shared_ptr<std::string> getAsset(assets::Shaders shader);
+        std::shared_ptr<Graphics::shader> getAsset(assets::Shaders vertexShader, assets::Shaders fragmentShader);
 
         std::shared_ptr<Graphics::ModelData> getAsset(assets::Models model);
 
@@ -62,7 +79,7 @@ namespace gl3::engine::filesystem {
 
         static inline FileManager *fileManager = nullptr;
 
-        std::unique_ptr<Cache<assets::Shaders, std::string>> shaderCache;
+        std::unique_ptr<Cache<shaderId, Graphics::shader>> shaderCache;
         std::unique_ptr<Cache<assets::Models, Graphics::ModelData>> modelCache;
         std::unique_ptr<Cache<assets::Sounds, int>> soundCache;
         std::unique_ptr<Cache<assets::Materials, int>> materialCache;

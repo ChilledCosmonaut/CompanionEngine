@@ -16,7 +16,7 @@ namespace gl3::engine::Graphics {
 
     class shader {
     public:
-        shader(assets::Shaders vertexShaderAsset, assets::Shaders fragmentShaderAsset);
+        shader() = default;
 
         // explicit move constructor
         shader(shader &&other) noexcept {
@@ -24,6 +24,8 @@ namespace gl3::engine::Graphics {
             std::swap(this->vertexShader, other.vertexShader);
             std::swap(this->fragmentShader, other.fragmentShader);
         }
+
+        void SetUp(std::string &vertexShaderText, std::string &fragmentShaderText);
 
         void use() const;
 
@@ -37,6 +39,7 @@ namespace gl3::engine::Graphics {
         ~shader();
 
     private:
+        bool setUp = false;
         unsigned int shaderProgram = 0;
         unsigned int vertexShader = 0;
         unsigned int fragmentShader = 0;
