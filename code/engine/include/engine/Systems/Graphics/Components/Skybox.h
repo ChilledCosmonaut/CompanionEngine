@@ -1,7 +1,7 @@
 #pragma once
 
 #include "engine/Systems/Graphics/shader.h"
-#include "engine/Systems/FileManager/Test.h"
+#include "generated/Assets.h"
 #include "engine/Systems/FileManager/FileManager.h"
 
 namespace gl3::engine::Graphics {

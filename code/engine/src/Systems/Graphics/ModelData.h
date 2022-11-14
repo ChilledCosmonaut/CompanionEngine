@@ -1,7 +1,7 @@
 #pragma once
 
 #include "engine/Systems/Graphics/mesh.h"
-#include "engine/Systems/FileManager/Test.h"
+#include "generated/Assets.h"
 
 
 namespace gl3::engine::Graphics {

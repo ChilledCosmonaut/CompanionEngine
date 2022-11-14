@@ -6,7 +6,7 @@
 #include "glad/glad.h"
 #include "glm/gtc/type_ptr.hpp"
 
-#include "engine/Systems/FileManager/Test.h"
+#include "generated/Assets.h"
 
 namespace gl3::engine::filesystem {
     class FileManager;

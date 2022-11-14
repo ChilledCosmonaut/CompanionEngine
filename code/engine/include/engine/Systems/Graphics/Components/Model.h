@@ -5,7 +5,7 @@
 #include "assimp/postprocess.h"
 
 #include "engine/Systems/Graphics/shader.h"
-#include "engine/Systems/FileManager/Test.h"
+#include "generated/Assets.h"
 #include "../../../../../src/Systems/Graphics/ModelData.h"
 
 namespace gl3::engine::Graphics {

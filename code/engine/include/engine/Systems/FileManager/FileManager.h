@@ -5,7 +5,7 @@
 #include <sstream>
 
 #include "../../../../src/Systems/FileManager/stb_image.h"
-#include "engine/Systems/FileManager/Test.h"
+#include "generated/Assets.h"
 #include "../../../../src/Systems/FileManager/Cache.h"
 #include "../../../../src/Systems/FileManager/ModelLoader.h"
 #include "engine/Scene.h"
