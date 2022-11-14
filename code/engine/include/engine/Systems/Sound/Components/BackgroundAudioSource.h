@@ -1,13 +1,14 @@
 #pragma once
 
 #include "soloud_wav.h"
+#include "generated/Assets.h"
 
 namespace gl3::engine::soundSystem{
     /// Provides component info for background audio.
     struct BackgroundAudioSource{
     public:
         SoLoud::Wav sound {}; ///< Wav data of sound file
-        std::string soundFilePath; ///< Path to sound file ToDo: Let this be manageable via FileManager
+        assets::Sounds fileName; ///< Path to sound file
         int handle = -1; ///< Handle for sound library
         bool play = false; ///< Notifier for if sound should be played or not
         bool interrupt = false; ///< Notifier for if sound should be interrupted or not

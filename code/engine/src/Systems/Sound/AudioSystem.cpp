@@ -16,6 +16,7 @@ namespace gl3::engine::soundSystem {
     AudioSystem::AudioSystem() {
         soLoud = SoLoud::Soloud();
         soLoud.init();
+        fileManager = filesystem::FileManager::GetFileManager();
     }
 
     AudioSystem::~AudioSystem() {
@@ -32,8 +33,7 @@ namespace gl3::engine::soundSystem {
         for(auto& entity : backgroundSourcesForSetup){
             auto& audioSource = backgroundSourcesForSetup.get<BackgroundAudioSource>(entity);
 
-            audioSource.sound = SoLoud::Wav();
-            audioSource.sound.load(audioSource.soundFilePath.c_str());
+            audioSource.sound = *fileManager->getAsset(audioSource.fileName);
 
             Ecs::Registry::RemoveSetupFlag<BackgroundAudioSource>(entity);
             Ecs::Registry::UpdateComponent<BackgroundAudioSource>(entity);
@@ -44,8 +44,7 @@ namespace gl3::engine::soundSystem {
         for(auto& entity : spatialSourcesForSetup){
             auto& audioSource = spatialSourcesForSetup.get<SpatialAudioSource>(entity);
 
-            audioSource.sound = SoLoud::Wav();
-            audioSource.sound.load(audioSource.soundFilePath.c_str());
+            audioSource.sound = *fileManager->getAsset(audioSource.fileName);
 
             Ecs::Registry::RemoveSetupFlag<SpatialAudioSource>(entity);
             Ecs::Registry::UpdateComponent<SpatialAudioSource>(entity);

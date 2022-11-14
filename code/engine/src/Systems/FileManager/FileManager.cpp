@@ -35,8 +35,13 @@ namespace  gl3::engine::filesystem{
         return modelCache->Get(model);
     }
 
-    std::string FileManager::getAsset(assets::Sounds sound) {
-        return {};
+    std::shared_ptr<SoLoud::Wav> FileManager::getAsset(assets::Sounds sound) {
+        if (!soundCache->Contains(sound)) {
+            //Construct item here
+            auto soundData = soundCache->AddItem(sound);
+            soundData->load(assets::AssetTranslator::TranslateSound(sound).string().c_str());
+        }
+        return soundCache->Get(sound);
     }
 
     std::string FileManager::getAsset(assets::Materials material) {
@@ -82,11 +87,13 @@ namespace  gl3::engine::filesystem{
     FileManager::FileManager() {
         shaderCache = std::make_unique<Cache<shaderId,  Graphics::shader>>(30);
         modelCache = std::make_unique<Cache<assets::Models, Graphics::ModelData>>(30);
+        soundCache = std::make_unique<Cache<assets::Sounds, SoLoud::Wav>>(30);
     }
 
     FileManager::~FileManager() {
         shaderCache.release();
         modelCache.release();
+        soundCache.release();
     }
 }
 

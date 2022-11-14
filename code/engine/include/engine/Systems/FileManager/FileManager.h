@@ -4,6 +4,8 @@
 #include <fstream>
 #include <sstream>
 
+#include "soloud_wav.h"
+
 #include "../../../../src/Systems/FileManager/stb_image.h"
 #include "generated/Assets.h"
 #include "../../../../src/Systems/FileManager/Cache.h"
@@ -48,7 +50,7 @@ namespace gl3::engine::filesystem {
 
         std::shared_ptr<Graphics::ModelData> getAsset(assets::Models model);
 
-        std::string getAsset(assets::Sounds sound);
+        std::shared_ptr<SoLoud::Wav> getAsset(assets::Sounds sound);
 
         std::string getAsset(assets::Materials material);
 
@@ -79,7 +81,7 @@ namespace gl3::engine::filesystem {
 
         std::unique_ptr<Cache<shaderId, Graphics::shader>> shaderCache;
         std::unique_ptr<Cache<assets::Models, Graphics::ModelData>> modelCache;
-        std::unique_ptr<Cache<assets::Sounds, int>> soundCache;
+        std::unique_ptr<Cache<assets::Sounds, SoLoud::Wav>> soundCache;
         std::unique_ptr<Cache<assets::Materials, int>> materialCache;
         std::unique_ptr<Cache<assets::Images, int>> imageCache;
     };
