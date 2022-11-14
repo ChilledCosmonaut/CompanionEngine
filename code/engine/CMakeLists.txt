@@ -34,7 +34,7 @@ set(PYTHON_GENERATORS
         generate_sources.py
         codeGenerators/__init__.py
         codeGenerators/cppbuilder.py
-        codeGenerators/keywords.py)
+        codeGenerators/enumScanner.py)
 
 #set(PYTHONPATH "${PYTHONPATH} ${GENERATED_INCLUDE_ROOT}")
 

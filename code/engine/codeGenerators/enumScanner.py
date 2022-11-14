@@ -1,98 +1,7 @@
 # from typing import Optional, Dict
 import os
-
 from .cppbuilder import CppBuilder
 
-path = "D:\\UniStuffSecondary\\GameLab3\\code\\assets"
-
-
-# KEYWORDS = {
-#     'hello',
-#     'hell',
-#     'helium',
-#     'help',
-#     'apple',
-#     'orange',
-#     'ornament',
-#     'application',
-#     'apply',
-#     'test',
-#     'testing',
-#     'testify',
-#     'tomorrow',
-#     'today',
-#     'something',
-# }
-#
-#
-# class RadixNode:
-#     def __init__(self, value: Optional[str] = None) -> None:
-#         self.value: Optional[str] = value
-#         self.leaf: bool = False
-#         self.children: Dict[str, RadixNode] = {}
-#
-#     def add_keyword(self, word: str) -> None:
-#         char = word[0]
-#         word = word[1:]
-#         child = self.children.get(char)
-#         if child is None:
-#             child = RadixNode(char)
-#             self.children[char] = child
-#
-#         if len(word) > 0:
-#             child.add_keyword(word)
-#         else:
-#             child.leaf = True
-#
-#
-# def generate_keywords(header_file: str, source_file: str) -> None:
-#     print("Test")
-#     # Create the Radix Tree that begins from a 'root' node
-#     root = RadixNode()
-#     for keyword in KEYWORDS:
-#         root.add_keyword(keyword)
-#
-#     # Generate the header file
-#     header = CppBuilder()
-#     header.write_line('#pragma once')
-#     header.write_line()
-#     header.write_line('bool is_keyword(const char* keyword);')
-#     header.save(header_file)
-#
-#     # Generate the source file. We use a single-letter variable for the
-#     # builder, specifically to make code alignment more readable.
-#     s = CppBuilder()
-#
-#     def write_node_rec(node: RadixNode) -> None:
-#         if len(node.children) == 1:
-#             # Only one child - if the next character doesn't match,
-#             # then NO keyword will match and we can exit.
-#             n = list(node.children.values())[0]
-#             with s.block("if (*cursor != '{}')".format(n.value),
-#                          inline=True, newline=False):
-#                 s.write_code('return false')
-#             s.write_code('++cursor')
-#             write_node_rec(n)
-#         elif len(node.children) > 1:
-#             # Multiple children - if the next character doesn't match
-#             # either child, then NO keyword will match and we can exit.
-#             with s.block('switch (*cursor++)'):
-#                 for n in sorted(node.children.values(), key=lambda x: x.value):
-#                     with s.case("'{}'".format(n.value)):
-#                         write_node_rec(n)
-#                 with s.label('default'):
-#                     s.write_code('return false')
-#         else:
-#             # Leaf case - if the next character is not the end of the
-#             # word, it means that our word is longer than the keyword
-#             s.write_code("return *cursor == '\\0'")
-#
-#     with s.block('bool is_keyword(const char* keyword)'):
-#         s.write_code('char *cursor = const_cast<char*>(keyword)')
-#         s.write_line()
-#         write_node_rec(root)
-#
-#     s.save(source_file)
 
 def add_enum(file: CppBuilder, enum_list: list, enum_name: str):
     file.write_line("enum " + enum_name + " {")
@@ -106,10 +15,14 @@ def add_enum(file: CppBuilder, enum_list: list, enum_name: str):
         enum_string += enum_qualifier.replace(".\\", "").replace(".", "$").replace("\\", "$") + ", "
 
     file.write_line(enum_string)
+
+    if enum_name == "Shaders":
+        file.write_line("LAST")
+
     file.write_line("};")
 
 
-def generate_enums(header_file: str):
+def generate_enums(header_file: str, scan_path: str):
     header = CppBuilder()
     header.write_line('#pragma once')
     header.write_line("")
@@ -118,7 +31,7 @@ def generate_enums(header_file: str):
     header.write_line("")
     header.write_line("namespace assets {")
     header.indent()
-    header.write_line("namespace fs = std::filesystem;");
+    header.write_line("namespace fs = std::filesystem;")
 
     shaders = list()
     models = list()
@@ -126,10 +39,10 @@ def generate_enums(header_file: str):
     materials = list()
     images = list()
 
-    for currentDir, sub_directories, contained_files in os.walk(path):
+    for currentDir, sub_directories, contained_files in os.walk(scan_path):
         print("Looking for assets in:\n", currentDir)
 
-        current_relative = os.path.relpath(currentDir, path)
+        current_relative = os.path.relpath(currentDir, scan_path)
 
         for file in contained_files:
             if file.endswith(".glsl"):

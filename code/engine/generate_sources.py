@@ -1,7 +1,9 @@
 import os
 import sys
 
-from codeGenerators.keywords import generate_enums
+from codeGenerators.enumScanner import generate_enums
+
+path = "D:\\UniStuff\\GameLab3\\code\\assets"
 
 
 def main():
@@ -14,8 +16,7 @@ def main():
     os.makedirs(output_folder, exist_ok=True)
 
     asset_header = os.path.join(output_folder, 'Assets.h')
-    # source = os.path.join(output_folder, 'source.cpp')
-    generate_enums(asset_header)
+    generate_enums(asset_header, path)
 
 
 if __name__ == '__main__':
