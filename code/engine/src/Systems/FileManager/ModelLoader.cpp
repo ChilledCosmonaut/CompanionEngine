@@ -68,7 +68,7 @@ namespace gl3::engine::filesystem {
             for (unsigned int j = 0; j < face.mNumIndices; j++)
                 indices.push_back(face.mIndices[j]);
         }
-        // process material
+        // process material Todo: Check this weird double loading
         if (mesh->mMaterialIndex >= 0) {
             aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
             std::vector<Graphics::Texture> diffuseMaps = LoadMaterialTextures(modelData, material,
