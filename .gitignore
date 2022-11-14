@@ -121,3 +121,6 @@ fabric.properties
 
 # Docs 
 **/docs/out
+
+#Generated code
+**/generated/*
