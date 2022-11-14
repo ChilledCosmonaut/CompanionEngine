@@ -99,7 +99,7 @@ namespace gl3::engine::filesystem {
             }
             if (!skip) {   // if texture hasn't been loaded already, load it
                 Graphics::Texture texture;
-                texture.id = TextureLoader::TextureFromFile(modelData.directory.append(textureName.C_Str()));
+                texture.id = TextureLoader::TextureFromFile(modelData.directory.append("\\").append(textureName.C_Str()));
                 texture.type = typeName;
                 texture.path = textureName.C_Str();
                 textures.push_back(texture);
