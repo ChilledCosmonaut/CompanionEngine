@@ -71,16 +71,6 @@ namespace  gl3::engine::filesystem{
         sourceFile.close();
     }
 
-    const aiScene* FileManager::loadModelFromFile(const fs::path &relativeFilePath) {
-        Assimp::Importer importer;
-        const aiScene *modelScene = importer.ReadFile(relativeFilePath.string(), aiProcess_Triangulate | aiProcess_FlipUVs);
-
-        if(!modelScene || modelScene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !modelScene->mRootNode) {
-            throw std::runtime_error("ERROR::ASSIMP::" + std::string(importer.GetErrorString()));
-        }
-        return modelScene;
-    }
-
     texture FileManager::loadTextureFromFile(const fs::path &relativeFilePath) {
         texture textureFile{};
         std::string stringFilePath = resolveForSubdirectory(relativeFilePath, "../../assets/textures").string();

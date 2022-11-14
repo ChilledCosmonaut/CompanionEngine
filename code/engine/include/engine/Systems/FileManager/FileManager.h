@@ -58,8 +58,6 @@ namespace gl3::engine::filesystem {
 
         void saveFileAt(const char *stringToSave, const fs::path &relativeFilePath);
 
-        static const aiScene *loadModelFromFile(const fs::path &relativeFilePath);
-
         static texture loadTextureFromFile(const fs::path &relativeFilePath);
 
     private:
