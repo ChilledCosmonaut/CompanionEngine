@@ -10,7 +10,7 @@ def main():
         sys.stderr.write('Output path not provided.\n')
         sys.exit(1)
 
-    output_folder = os.path.join(sys.argv[1], 'gen')
+    output_folder = sys.argv[1]
     os.makedirs(output_folder, exist_ok=True)
 
     asset_header = os.path.join(output_folder, 'Assets.h')

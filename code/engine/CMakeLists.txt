@@ -6,12 +6,11 @@ file(GLOB_RECURSE SOURCE_LIST CONFIGURE_DEPENDS "src/**.cpp")
 
 set(ENGINE_NAME Engine)
 
-set(GENERATED_INCLUDE_ROOT "${CMAKE_SOURCE_DIR}/include/gen")
+set(GENERATED_INCLUDE_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/include/generated")
 
 # Generated sources
 set(GENERATED_SOURCES
-        gen/header.h
-        gen/source.cpp)
+        Assets.h)
 
 # Place them in a path under the cmake directory
 list(TRANSFORM GENERATED_SOURCES PREPEND "${GENERATED_INCLUDE_ROOT}/")
@@ -48,7 +47,7 @@ endif ()
 
 set(GENERATE_COMMAND
         "${Python3_EXECUTABLE}"
-        "${CMAKE_SOURCE_DIR}/engine/generate_sources.py"
+        "${CMAKE_CURRENT_SOURCE_DIR}/generate_sources.py"
         "${GENERATED_INCLUDE_ROOT}")
 
 add_custom_command(
