@@ -1,7 +1,7 @@
 # from typing import Optional, Dict
 import os
 
-from codeGenerators.cppbuilder import CppBuilder
+from cppbuilder import CppBuilder
 
 path = "D:\\UniStuffSecondary\\GameLab3\\code\\assets"
 
