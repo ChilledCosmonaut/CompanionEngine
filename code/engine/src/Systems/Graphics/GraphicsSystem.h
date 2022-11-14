@@ -4,6 +4,7 @@
 
 #include "engine/Systems/FileManager/FileManager.h"
 #include "../FileManager/ModelLoader.h"
+#include "../FileManager/TextureLoader.h"
 
 #include "engine/Systems/Graphics/Components/Model.h"
 #include "engine/Systems/Graphics/Components/Camera.h"
