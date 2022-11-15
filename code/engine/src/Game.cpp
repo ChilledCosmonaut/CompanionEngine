@@ -11,6 +11,7 @@ namespace gl3::engine {
         physicsSystem = Physics::PhysicsSystem::GetPhysicsSystem();
         audioSystem = soundSystem::AudioSystem::GetAudioSystem();
         transformSystem = Graphics::TransformSystem::GetTransformSystem();
+        inputManager = inputSystem::InputManager::GetInputManager();
     }
 
     void Game::run() {
@@ -19,6 +20,7 @@ namespace gl3::engine {
         context.run([&](Context &ctx){
             SetUpCallEngineSystems();
             onSetup.invoke(*this);
+            inputManager->UpdateInput();
             onUpdate.invoke(*this);
             UpdateCallEngineSystems();
             onDestroy.invoke(*this);
@@ -35,6 +37,7 @@ namespace gl3::engine {
         graphicsSystem->DestroyGraphicsSystem();
         context.~Context();
         transformSystem->DestroyTransformSystem();
+        inputManager->DestroyInputManager();
     }
 
     void Game::SetUpCallEngineSystems() {
