@@ -110,7 +110,7 @@ namespace gl3::engine::Graphics {
     }
 
     GraphicsSystem::~GraphicsSystem() {
-
+        filesystem::FileManager::DestroyFileManager();
     }
 }
 
