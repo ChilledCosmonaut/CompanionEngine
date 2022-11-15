@@ -6,16 +6,17 @@
 #include "glad/glad.h"
 #include "glm/gtc/type_ptr.hpp"
 
-#include <filesystem>
-#include <string>
+#include "generated/Assets.h"
 
-#include "engine/Systems/FileManager/FileManager.h"
-
+namespace gl3::engine::filesystem {
+    class FileManager;
+}
 
 namespace gl3::engine::Graphics {
+
     class shader {
     public:
-        shader(const std::filesystem::path &vertexShaderAsset, const std::filesystem::path &fragmentShaderAsset);
+        shader() = default;
 
         // explicit move constructor
         shader(shader &&other) noexcept {
@@ -23,6 +24,8 @@ namespace gl3::engine::Graphics {
             std::swap(this->vertexShader, other.vertexShader);
             std::swap(this->fragmentShader, other.fragmentShader);
         }
+
+        void SetUp(std::string &vertexShaderText, std::string &fragmentShaderText);
 
         void use() const;
 
@@ -36,6 +39,7 @@ namespace gl3::engine::Graphics {
         ~shader();
 
     private:
+        bool setUp = false;
         unsigned int shaderProgram = 0;
         unsigned int vertexShader = 0;
         unsigned int fragmentShader = 0;

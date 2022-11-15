@@ -1,8 +1,6 @@
-
 #pragma once
 
 #include "engine/Systems/Graphics/shader.h"
-
 
 namespace gl3::engine::Graphics {
 
@@ -12,10 +10,9 @@ namespace gl3::engine::Graphics {
         char infoLog[GL_INFO_LOG_LENGTH];
     };
 
-    unsigned int loadAndCompileShader(GLuint shaderType, const std::filesystem::path &shaderAssetPath){
+    unsigned int loadAndCompileShader(GLuint shaderType, std::string &shaderText){
 
-        auto shaderAsset = filesystem::FileManager::getAssetFileFrom(shaderAssetPath);
-        const char* shaderSource = shaderAsset.c_str();
+        const char* shaderSource = shaderText.c_str();
         unsigned int shader = glCreateShader(shaderType);
 
         glShaderSource(shader, 1, &shaderSource, nullptr);
@@ -39,11 +36,11 @@ namespace gl3::engine::Graphics {
         return shader;
     }
 
-    shader::shader(const std::filesystem::path &vertexShaderAsset, const std::filesystem::path &fragmentShaderAsset) {
+    void shader::SetUp(std::string &vertexShaderText, std::string &fragmentShaderText) {
 
         // Load and compile shader
-        vertexShader = loadAndCompileShader(GL_VERTEX_SHADER, vertexShaderAsset);
-        fragmentShader = loadAndCompileShader(GL_FRAGMENT_SHADER, fragmentShaderAsset);
+        vertexShader = loadAndCompileShader(GL_VERTEX_SHADER, vertexShaderText);
+        fragmentShader = loadAndCompileShader(GL_FRAGMENT_SHADER, fragmentShaderText);
 
         // Create a shader program, attach the shaders and link program
         shaderProgram = glCreateProgram();

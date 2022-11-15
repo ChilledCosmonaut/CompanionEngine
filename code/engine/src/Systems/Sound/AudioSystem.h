@@ -6,6 +6,8 @@
 #include "../../ECS/CoreSystem.h"
 #include "engine/ECS/Registry.h"
 
+#include "engine/Systems/FileManager/FileManager.h"
+
 #include "engine/Systems/Graphics/Components/Transform.h"
 #include "engine/Systems/Graphics/Utils/TransformationUtils.h"
 
@@ -44,5 +46,6 @@ namespace gl3::engine::soundSystem {
         static inline AudioSystem* audioSystem;
         SoLoud::Soloud soLoud {};
         float masterVolume = 1.0f;
+        filesystem::FileManager* fileManager;
     };
 }

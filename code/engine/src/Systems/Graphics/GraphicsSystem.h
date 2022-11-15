@@ -3,6 +3,8 @@
 #include <iostream>
 
 #include "engine/Systems/FileManager/FileManager.h"
+#include "../FileManager/ModelLoader.h"
+#include "../FileManager/TextureLoader.h"
 
 #include "engine/Systems/Graphics/Components/Model.h"
 #include "engine/Systems/Graphics/Components/Camera.h"
@@ -34,9 +36,11 @@ namespace gl3::engine::Graphics {
 
         ~GraphicsSystem();
 
-        static void Draw(Model &modelData);
+        static void Draw(Model &model);
 
         glm::vec3 lightPos = glm::vec3(0.0f, -0.5f, 1.0f);
+
+        filesystem::FileManager *fileManager;
 
         inline static GraphicsSystem *graphicsSystem = nullptr;
     };

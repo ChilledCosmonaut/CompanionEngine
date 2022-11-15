@@ -2,12 +2,15 @@
 
 #include "shader.h"
 
-#include "glm/vec3.hpp"
 #include "glm/vec2.hpp"
 
-#include <string>
+#include "assimp/Importer.hpp"
+#include "assimp/scene.h"
+#include "assimp/postprocess.h"
+
 #include <vector>
 #include <utility>
+
 namespace gl3::engine::Graphics {
     using namespace std;
 
