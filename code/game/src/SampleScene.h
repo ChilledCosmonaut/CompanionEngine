@@ -90,7 +90,7 @@ namespace gl3::game {
             engine::Graphics::TransformationUtils::SetTranslation(asteroid2, asteroid2Transform, glm::vec3(20, -10, 0));
             engine::Graphics::TransformationUtils::SetScale(asteroid2, asteroid2Transform, glm::vec3(0.5f, 0.5f, 0.5f));
             auto &audioSource = engine::Ecs::Registry::AddComponent<engine::soundSystem::SpatialAudioSource>(asteroid2);
-            audioSource.fileName = "../../assets/audio/ambientSpace4.wav";
+            audioSource.fileName = assets::Sounds::audio$ambientSpace4$wav;
 
             auto asteroid3 = CreateEntity();
             auto &asteroid3Model = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(asteroid3);
