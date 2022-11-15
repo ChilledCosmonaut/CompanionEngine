@@ -32,12 +32,12 @@ namespace gl3::engine {
     }
 
     Game::~Game() {
-        audioSystem->DestroyAudioSystem();
-        physicsSystem->DestroyPhysicsSystem();
-        graphicsSystem->DestroyGraphicsSystem();
+        soundSystem::AudioSystem::DestroyAudioSystem();
+        Physics::PhysicsSystem::DestroyPhysicsSystem();
+        Graphics::GraphicsSystem::DestroyGraphicsSystem();
         context.~Context();
-        transformSystem->DestroyTransformSystem();
-        inputManager->DestroyInputManager();
+        Graphics::TransformSystem::DestroyTransformSystem();
+        inputSystem::InputManager::DestroyInputManager();
     }
 
     void Game::SetUpCallEngineSystems() {
