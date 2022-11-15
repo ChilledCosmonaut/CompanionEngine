@@ -2,6 +2,7 @@
 
 #include "engine/Events.h"
 #include "engine/Context.h"
+#include "engine/Systems/Input/InputManager.h"
 #include "Scene.h"
 #include "../../src/Systems/Physics/PhysicsSystem.h"
 #include "../../src/Systems/Graphics/GraphicsSystem.h"
@@ -46,5 +47,6 @@ namespace gl3::engine {
         Graphics::GraphicsSystem* graphicsSystem;
         soundSystem::AudioSystem* audioSystem;
         Graphics::TransformSystem* transformSystem;
+        inputSystem::InputManager* inputManager;
     };
 }
