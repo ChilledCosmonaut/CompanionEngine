@@ -11,14 +11,14 @@ namespace gl3::engine::Ecs {
             return registry;
         }
 
-        template<typename Component>
-        static Component &AddComponent(entt::entity entity) {
+        template<typename Component, typename... Args>
+        static Component &AddComponent(entt::entity entity, Args &&...args) {
             if (!registry.any_of<Component>(entity)){
 
                 if (!registry.any_of<Flags::Setup<Component>>(entity))
                     registry.emplace<Flags::Setup<Component>>(entity);
 
-                return registry.emplace<Component>(entity);
+                return registry.emplace<Component>(entity, args...);
             } else {
                 return registry.get<Component>(entity);
             }
