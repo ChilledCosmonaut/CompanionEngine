@@ -1,18 +1,18 @@
 #include "FontLoader.h"
 
 namespace gl3::engine::filesystem {
-    void gl3::engine::filesystem::FontLoader::LoadFont(std::shared_ptr<std::map<GLchar, Character>> fontMap, std::string fontName) {
+    void gl3::engine::filesystem::FontLoader::LoadFont(std::shared_ptr<std::map<GLchar, Character>> fontMap, const std::filesystem::path &path, int fontSize) {
 
         FT_Library ft;
         if (FT_Init_FreeType(&ft))
             throw std::runtime_error("ERROR::FREETYPE: Could not init FreeType Library");
 
         FT_Face face;
-        if (FT_New_Face(ft, R"(C:\Users\GoPJo\AppData\Local\Microsoft\Windows\Fonts\Roboto-Regular.ttf)"/*fontName.c_str()*/, 0, &face)) {
-            throw std::runtime_error("ERROR::FREETYPE: Failed to load font");
+        if (FT_New_Face(ft, path.string().c_str(), 0, &face)) {
+            throw std::runtime_error("ERROR::FREETYPE: Failed to load font at path: " + path.string());
         }
         else {
-            FT_Set_Pixel_Sizes(face, 0, 48);
+            FT_Set_Pixel_Sizes(face, 0, fontSize);
 
             // disable byte-alignment restriction
             glPixelStorei(GL_UNPACK_ALIGNMENT, 1);

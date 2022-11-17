@@ -54,7 +54,7 @@ namespace gl3::engine::Graphics {
             glBindBuffer(GL_ARRAY_BUFFER, 0);
             glBindVertexArray(0);
 
-            text.font = fileManager->getFont(text.fontName);
+            text.font = fileManager->getFont(text.fontName, text.fontSize);
 
             Ecs::Registry::RemoveSetupFlag<Text>(entity);
         }
@@ -134,8 +134,6 @@ namespace gl3::engine::Graphics {
             for (c = text.content.begin(); c != text.content.end(); c++)
             {
                 filesystem::Character ch = (*text.font)[*c];
-
-                std::cout<< transform.scale.x << ", " << transform.scale.y << std::endl;
 
                 float xpos = x + ch.Bearing.x * transform.scale.x;
                 float ypos = transform.translation.y - (ch.Size.y - ch.Bearing.y) * transform.scale.y;

@@ -38,6 +38,7 @@ def generate_enums(header_file: str, scan_path: str):
     sounds = list()
     materials = list()
     images = list()
+    fonts = list()
 
     for currentDir, sub_directories, contained_files in os.walk(scan_path):
         print("Looking for assets in:\n", currentDir)
@@ -55,6 +56,8 @@ def generate_enums(header_file: str, scan_path: str):
                 models.append(os.path.join(current_relative, file))
             if file.endswith((".wav", ".mp3")):
                 sounds.append(os.path.join(current_relative, file))
+            if file.endswith(".ttf"):
+                fonts.append(os.path.join(current_relative, file))
 
     add_enum(header, shaders, "Shaders")
     header.write_line("")
@@ -65,6 +68,8 @@ def generate_enums(header_file: str, scan_path: str):
     add_enum(header, materials, "Materials")
     header.write_line("")
     add_enum(header, images, "Images")
+    header.write_line("")
+    add_enum(header, fonts, "Fonts")
 
     header.write_line()
 
@@ -86,6 +91,9 @@ def generate_enums(header_file: str, scan_path: str):
         "static fs::path TranslateImage(Images image) {\n" +
         "return ResolveForSubdirectory(\"../../assets\", imageDict[image]);\n" +
         "}\n\n" +
+        "static fs::path TranslateFonts(Fonts fonts) {\n" +
+        "return ResolveForSubdirectory(\"../../assets\", fontsDict[fonts]);\n" +
+        "}\n\n" +
         "private:\n\n" +
         "static fs::path ResolveForSubdirectory(const fs::path &subdirectory, const fs::path &relativeAssetPath) {\n" +
         "return fs::weakly_canonical((subdirectory / relativeAssetPath).make_preferred());\n" +
@@ -104,6 +112,9 @@ def generate_enums(header_file: str, scan_path: str):
         "};\n\n" +
         "static inline std::string imageDict[] = {\n" +
         "\"" + "\",\n\"".join(images).replace(".\\", "").replace("\\", "\\\\") + "\"" +
+        "};\n" +
+        "static inline std::string fontsDict[] = {\n" +
+        "\"" + "\",\n\"".join(fonts).replace(".\\", "").replace("\\", "\\\\") + "\"" +
         "};\n" +
         "};\n")
 

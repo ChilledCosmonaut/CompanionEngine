@@ -1,5 +1,6 @@
 #pragma once
 
+#include <filesystem>
 #include <iostream>
 #include <map>
 #include <string>
@@ -25,6 +26,6 @@ namespace gl3::engine::filesystem {
 
     class FontLoader {
     public:
-        static void LoadFont(std::shared_ptr<std::map<GLchar, Character>> fontMap, std::string fontName);
+        static void LoadFont(std::shared_ptr<std::map<GLchar, Character>> fontMap, const std::filesystem::path &path, int fontSize);
     };
 }

@@ -39,7 +39,7 @@ namespace gl3::game {
 
             auto testText = CreateEntity();
             auto &text = engine::Ecs::Registry::AddComponent<engine::Graphics::Text>(testText);
-            text.fontName = "fonts/arial.ttf";
+            text.fontName = assets::Fonts::fonts$RobotoRegular$ttf;
             text.content = "Test";
             auto &textTransform = engine::Ecs::Registry::AddComponent<engine::Graphics::Transform>(testText);
             //textTransform.scale = glm::vec3(10,10, 10);
