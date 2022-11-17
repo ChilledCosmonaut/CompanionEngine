@@ -166,7 +166,6 @@ namespace gl3::engine::Graphics {
             }
             glBindVertexArray(0);
             glBindTexture(GL_TEXTURE_2D, 0);
-            //glDepthMask(GL_TRUE);
         }
     }
 
