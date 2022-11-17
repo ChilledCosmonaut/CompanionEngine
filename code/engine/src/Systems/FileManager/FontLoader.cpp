@@ -2,20 +2,16 @@
 
 namespace gl3::engine::filesystem {
     void gl3::engine::filesystem::FontLoader::LoadFont(std::shared_ptr<std::map<GLchar, Character>> fontMap, std::string fontName) {
-        // FreeType
-        // --------
+
         FT_Library ft;
-        // All functions return a value different from 0 whenever an error occurred
         if (FT_Init_FreeType(&ft))
             throw std::runtime_error("ERROR::FREETYPE: Could not init FreeType Library");
 
-        // load font as face
         FT_Face face;
-        if (FT_New_Face(ft, "C:\\Users\\GoPJo\\AppData\\Local\\Microsoft\\Windows\\Fonts\\Roboto-Regular.ttf"/*fontName.c_str()*/, 0, &face)) {
+        if (FT_New_Face(ft, R"(C:\Users\GoPJo\AppData\Local\Microsoft\Windows\Fonts\Roboto-Regular.ttf)"/*fontName.c_str()*/, 0, &face)) {
             throw std::runtime_error("ERROR::FREETYPE: Failed to load font");
         }
         else {
-            // set size to load glyphs as
             FT_Set_Pixel_Sizes(face, 0, 48);
 
             // disable byte-alignment restriction
@@ -61,7 +57,6 @@ namespace gl3::engine::filesystem {
             }
             glBindTexture(GL_TEXTURE_2D, 0);
         }
-        // destroy FreeType once we're finished
         FT_Done_Face(face);
         FT_Done_FreeType(ft);
     }

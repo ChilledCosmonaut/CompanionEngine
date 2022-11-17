@@ -17,16 +17,16 @@ namespace gl3::game {
             auto fileManager = engine::filesystem::FileManager::GetFileManager();
 
             auto mainCameraObject = CreateEntity();
-            engine::Ecs::Registry::AddComponent<engine::Graphics::Camera>(mainCameraObject);
+            /*engine::Ecs::Registry::AddComponent<engine::Graphics::Camera>(mainCameraObject);
             engine::Ecs::Registry::AddComponent<ShipMovementSettings>(mainCameraObject);
 
             auto &cameraTransform = registry.get<engine::Graphics::Transform>(mainCameraObject);
             engine::Graphics::TransformationUtils::AddRotation(mainCameraObject, cameraTransform, glm::vec3(0, 180, 0));
             auto &rigidBody = engine::Ecs::Registry::AddComponent<engine::Physics::RigidBody>(mainCameraObject);
             rigidBody.shapeInfo = Shapes::Sphere();
-            rigidBody.shape = Shapes::sphere;
+            rigidBody.shape = Shapes::sphere;*/
 
-            auto skybox = CreateEntity();
+            /*auto skybox = CreateEntity();
             engine::Ecs::Registry::AddComponent<engine::Graphics::Skybox>(skybox);
 
             auto test = CreateEntity();
@@ -35,12 +35,13 @@ namespace gl3::game {
 
             auto &testTransform = registry.get<engine::Graphics::Transform>(test);
 
-            engine::Graphics::TransformationUtils::AddChildEntity(cameraTransform, mainCameraObject, test);
+            engine::Graphics::TransformationUtils::AddChildEntity(cameraTransform, mainCameraObject, test);*/
 
             auto testText = CreateEntity();
             auto &text = engine::Ecs::Registry::AddComponent<engine::Graphics::Text>(testText);
-            text.fontName = "fonts/arial.ttf";
+            text.fontName = R"(D:\UniStuffSecondary\GameLab3\code\assets\fonts\Roboto-Regular.ttf)";
             text.content = "Test";
+            auto &textTransform = engine::Ecs::Registry::AddComponent<engine::Graphics::Transform>(testText);
 
             /*auto plane = CreateEntity();
             auto &planeTransform = registry.get<engine::Graphics::Components::Transform>(plane);
@@ -58,10 +59,10 @@ namespace gl3::game {
             auto test3 = CreateEntity();
             auto &model3 = registry.emplace<engine::Graphics::Components::Model>(test3);
             engine::Graphics::Utils::ModelUtils::SetPath(model3, "../../assets/SpaceShip/ScreenTopRight.obj");*/
-            auto shader = fileManager->getAsset(assets::shaders$vertexShader$glsl, assets::shaders$fragmentShader$glsl)/*std::make_shared<engine::Graphics::shader>(assets::shaders$vertexShader$glsl, assets::shaders$fragmentShader$glsl)*/;
-            auto untexturedShader = fileManager->getAsset(assets::shaders$vertexShader$glsl, assets::shaders$untexturedFragmentShader$glsl);
+            /*auto shader = fileManager->getAsset(assets::shaders$vertexShader$glsl, assets::shaders$fragmentShader$glsl)/*std::make_shared<engine::Graphics::shader>(assets::shaders$vertexShader$glsl, assets::shaders$fragmentShader$glsl)*/;
+            /*auto untexturedShader = fileManager->getAsset(assets::shaders$vertexShader$glsl, assets::shaders$untexturedFragmentShader$glsl);
             auto unlitShader = fileManager->getAsset(assets::shaders$vertexShader$glsl, assets::shaders$lightFragmentShader$glsl);
-            engine::Graphics::ModelUtils::SetShader(model, untexturedShader);
+            engine::Graphics::ModelUtils::SetShader(model, untexturedShader);*/
             /*engine::Graphics::Utils::ModelUtils::SetShader(model1, untexturedShader);
             engine::Graphics::Utils::ModelUtils::SetShader(model2, untexturedShader);
             engine::Graphics::Utils::ModelUtils::SetShader(model3, untexturedShader);*/
@@ -71,7 +72,7 @@ namespace gl3::game {
             engine::Graphics::Utils::TransformUtils::AddChildEntity(transform, test, test2);
             engine::Graphics::Utils::TransformUtils::AddChildEntity(transform, test, test3);*/
 
-            auto asteroid = CreateEntity();
+            /*auto asteroid = CreateEntity();
             auto &asteroidModel = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(asteroid);
             asteroidModel.modelName = assets::Models::asteriod1$obj;
             engine::Graphics::ModelUtils::SetShader(asteroidModel, shader);
@@ -186,7 +187,7 @@ namespace gl3::game {
             engine::Graphics::ModelUtils::SetShader(laserEnemyModel2, unlitShader);
             auto &laserEnemyTransform2 = registry.get<engine::Graphics::Transform>(laserEnemy2);
             laserEnemyTransform2.active = false;
-            registry.emplace<EnemyProjectile>(laserEnemy2);
+            registry.emplace<EnemyProjectile>(laserEnemy2);*/
         }
 
     private:

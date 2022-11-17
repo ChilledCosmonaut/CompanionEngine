@@ -3,7 +3,7 @@ import sys
 
 from codeGenerators.enumScanner import generate_enums
 
-path = "D:\\UniStuff\\GameLab3\\code\\assets"
+path = "D:\\UniStuffSecondary\\GameLab3\\code\\assets"
 
 
 def main():

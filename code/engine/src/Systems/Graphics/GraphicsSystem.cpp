@@ -48,9 +48,9 @@ namespace gl3::engine::Graphics {
             glGenBuffers(1, &text.VBO);
             glBindVertexArray(text.VAO);
             glBindBuffer(GL_ARRAY_BUFFER, text.VBO);
-            glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 4, nullptr, GL_DYNAMIC_DRAW);
             glEnableVertexAttribArray(0);
-            glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
+            glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), nullptr);
             glBindBuffer(GL_ARRAY_BUFFER, 0);
             glBindVertexArray(0);
 
@@ -120,7 +120,8 @@ namespace gl3::engine::Graphics {
             if(!transform.active) continue;
             text.shader->use();
 
-            glDepthMask(GL_FALSE);
+            glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(1920), 0.0f, static_cast<float>(1080));
+            text.shader->setMatrix("projection", projection);
 
             // activate corresponding render state
             text.shader->setVector3("textColor", text.color);
@@ -165,7 +166,7 @@ namespace gl3::engine::Graphics {
             }
             glBindVertexArray(0);
             glBindTexture(GL_TEXTURE_2D, 0);
-            glDepthMask(GL_TRUE);
+            //glDepthMask(GL_TRUE);
         }
     }
 
