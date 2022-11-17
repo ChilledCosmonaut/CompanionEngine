@@ -10,8 +10,10 @@
 #include "engine/Systems/Graphics/Components/Camera.h"
 #include "engine/Systems/Graphics/Components/Transform.h"
 #include "engine/Systems/Graphics/Components/Skybox.h"
+#include "engine/Systems/Graphics/Components/Text.h"
 
 #include "engine/Systems/Graphics/Utils/ModelUtils.h"
+#include "../FileManager/FontLoader.h"
 
 namespace gl3::engine::Graphics {
 

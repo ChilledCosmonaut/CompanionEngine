@@ -6,11 +6,13 @@
 
 #include "soloud_wav.h"
 
-#include "../../../../src/Systems/FileManager/stb_image.h"
+#include "engine/Scene.h"
 #include "generated/Assets.h"
+
+#include "../../../../src/Systems/FileManager/stb_image.h"
 #include "../../../../src/Systems/FileManager/Cache.h"
 #include "../../../../src/Systems/FileManager/ModelLoader.h"
-#include "engine/Scene.h"
+#include "../../../../src/Systems/FileManager/FontLoader.h"
 
 typedef typename std::pair<assets::Shaders, assets::Shaders> shaderId;
 
@@ -56,6 +58,8 @@ namespace gl3::engine::filesystem {
 
         std::string getAsset(assets::Images image);
 
+        std::shared_ptr<std::map<GLchar, Character>> getFont(std::string fontName);
+
         void writeFileToTemp(const char *stringToSave, const fs::path &fileName);
 
         void saveFileAt(const char *stringToSave, const fs::path &relativeFilePath);
@@ -84,5 +88,6 @@ namespace gl3::engine::filesystem {
         std::unique_ptr<Cache<assets::Sounds, SoLoud::Wav>> soundCache;
         std::unique_ptr<Cache<assets::Materials, int>> materialCache;
         std::unique_ptr<Cache<assets::Images, int>> imageCache;
+        std::unique_ptr<Cache<std::string, std::map<GLchar, Character>>> fontCache;
     };
 }
