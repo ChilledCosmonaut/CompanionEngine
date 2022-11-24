@@ -52,6 +52,15 @@ namespace  gl3::engine::filesystem{
         return {};
     }
 
+    std::shared_ptr<std::map<GLchar, Character>> FileManager::getFont(assets::Fonts font, int fontSize){
+        if (!fontCache->Contains(fontId(font, fontSize))) {
+            //Construct item here
+            auto characterSet = fontCache->AddItem(fontId(font, fontSize));
+            FontLoader::LoadFont(characterSet, assets::AssetTranslator::TranslateFonts(font), fontSize);
+        }
+        return fontCache->Get(fontId(font, fontSize));
+    }
+
     void FileManager::writeFileToTemp(const char *stringToSave, const std::filesystem::path &fileName) {
         fs::path tempFilePath = resolveForSubdirectory(fileName, std::filesystem::temp_directory_path());
         saveTextAt(stringToSave, tempFilePath);
@@ -88,12 +97,14 @@ namespace  gl3::engine::filesystem{
         shaderCache = std::make_unique<Cache<shaderId,  Graphics::shader>>(30);
         modelCache = std::make_unique<Cache<assets::Models, Graphics::ModelData>>(30);
         soundCache = std::make_unique<Cache<assets::Sounds, SoLoud::Wav>>(30);
+        fontCache = std::make_unique<Cache<fontId, std::map<GLchar, Character>>>(30);
     }
 
     FileManager::~FileManager() {
         shaderCache.release();
         modelCache.release();
         soundCache.release();
+        fontCache.release();
     }
 }
 

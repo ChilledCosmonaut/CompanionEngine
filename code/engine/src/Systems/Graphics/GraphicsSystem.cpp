@@ -38,6 +38,26 @@ namespace gl3::engine::Graphics {
             model.modelData = *fileManager->getAsset(model.modelName);
             Ecs::Registry::RemoveSetupFlag<Model>(entity);
         }
+
+        auto textView = registry.view<Text, Ecs::Flags::Setup<Text>>();
+
+        for(auto& entity : textView){
+            auto& text = textView.get<Text>(entity);
+
+            glGenVertexArrays(1, &text.VAO);
+            glGenBuffers(1, &text.VBO);
+            glBindVertexArray(text.VAO);
+            glBindBuffer(GL_ARRAY_BUFFER, text.VBO);
+            glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 4, nullptr, GL_DYNAMIC_DRAW);
+            glEnableVertexAttribArray(0);
+            glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), nullptr);
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+            glBindVertexArray(0);
+
+            text.font = fileManager->getFont(text.fontName, text.fontSize);
+
+            Ecs::Registry::RemoveSetupFlag<Text>(entity);
+        }
     }
 
     void GraphicsSystem::Update() {
@@ -93,6 +113,58 @@ namespace gl3::engine::Graphics {
 
             Draw(model);
         }
+
+        auto textView = registry.view<Text, Transform>();
+
+        for(auto &&[entity, text, transform] : textView.each()){
+            if(!transform.active) continue;
+            text.shader->use();
+
+            glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(1920), 0.0f, static_cast<float>(1080));
+            text.shader->setMatrix("projection", projection);
+
+            // activate corresponding render state
+            text.shader->setVector3("textColor", text.color);
+            glActiveTexture(GL_TEXTURE0);
+            glBindVertexArray(text.VAO);
+
+            // iterate through all characters
+            std::string::const_iterator c;
+            float x = transform.translation.x;
+            for (c = text.content.begin(); c != text.content.end(); c++)
+            {
+                filesystem::Character ch = (*text.font)[*c];
+
+                float xpos = x + ch.Bearing.x * transform.scale.x;
+                float ypos = transform.translation.y - (ch.Size.y - ch.Bearing.y) * transform.scale.y;
+
+                float w = ch.Size.x * transform.scale.x;
+                float h = ch.Size.y * transform.scale.y;
+                // update VBO for each character
+                float vertices[6][4] = {
+                        { xpos,     ypos + h,   0.0f, 0.0f },
+                        { xpos,     ypos,       0.0f, 1.0f },
+                        { xpos + w, ypos,       1.0f, 1.0f },
+
+                        { xpos,     ypos + h,   0.0f, 0.0f },
+                        { xpos + w, ypos,       1.0f, 1.0f },
+                        { xpos + w, ypos + h,   1.0f, 0.0f }
+                };
+                // render glyph texture over quad
+                glBindTexture(GL_TEXTURE_2D, ch.TextureID);
+                // update content of VBO memory
+                glBindBuffer(GL_ARRAY_BUFFER, text.VBO);
+                glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices); // be sure to use glBufferSubData and not glBufferData
+
+                glBindBuffer(GL_ARRAY_BUFFER, 0);
+                // render quad
+                glDrawArrays(GL_TRIANGLES, 0, 6);
+                // now advance cursors for next glyph (note that advance is number of 1/64 pixels)
+                x += (ch.Advance >> 6) * transform.scale.x; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
+            }
+            glBindVertexArray(0);
+            glBindTexture(GL_TEXTURE_2D, 0);
+        }
     }
 
     void GraphicsSystem::Draw(Model &model) {
@@ -110,7 +182,7 @@ namespace gl3::engine::Graphics {
     }
 
     GraphicsSystem::~GraphicsSystem() {
-
+        filesystem::FileManager::DestroyFileManager();
     }
 }
 
