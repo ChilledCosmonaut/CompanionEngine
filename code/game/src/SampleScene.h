@@ -37,11 +37,11 @@ namespace gl3::game {
 
             engine::Graphics::TransformationUtils::AddChildEntity(cameraTransform, mainCameraObject, test);
 
-            auto testText = CreateEntity();
-            auto &text = engine::Ecs::Registry::AddComponent<engine::Graphics::Text>(testText);
-            text.fontName = assets::Fonts::fonts$RobotoRegular$ttf;
-            text.content = "Test";
-            auto &textTransform = engine::Ecs::Registry::AddComponent<engine::Graphics::Transform>(testText);
+            //auto testText = CreateEntity();
+            //auto &text = engine::Ecs::Registry::AddComponent<engine::Graphics::Text>(testText);
+            //text.fontName = assets::Fonts::fonts$RobotoRegular$ttf;
+            //text.content = "Test";
+            //auto &textTransform = engine::Ecs::Registry::AddComponent<engine::Graphics::Transform>(testText);
             //textTransform.scale = glm::vec3(10,10, 10);
 
             /*auto plane = CreateEntity();

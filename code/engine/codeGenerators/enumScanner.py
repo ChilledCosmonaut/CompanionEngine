@@ -41,7 +41,7 @@ def generate_enums(header_file: str, scan_path: str):
     fonts = list()
 
     for currentDir, sub_directories, contained_files in os.walk(scan_path):
-        print("Looking for assets in:\n", currentDir)
+        print("Looking for assets in: ", currentDir)
 
         current_relative = os.path.relpath(currentDir, scan_path)
 
