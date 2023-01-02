@@ -2,11 +2,11 @@
 
 #include "glm/glm.hpp"
 
-#include "Transform.h"
+#include "Light.h"
 
 namespace gl3::engine::Graphics {
 
-    struct DirectionLight {
+    struct DirectionLight : Light {
     public:
         glm::vec3 direction{};
     };
