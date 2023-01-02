@@ -1,9 +1,7 @@
-#include "engine/Systems/Graphics/shader.h"
 #include "ShipController.h"
 #include "Enemy Controller.h"
 #include "ProjectileSystem.h"
 #include "engine/Tools/Grid.h"
-#include "engine/Systems/Sound/AudioSource.h"
 #include "engine/Game.h"
 
 #include "SampleScene.h"
@@ -14,12 +12,6 @@ using namespace gl3::game;
 int main() {
 
     Game game = Game(1920, 1080, "A Journey through Space");
-
-    Graphics::shader litShader = Graphics::shader("shaders/vertexShader.glsl", "shaders/fragmentShader.glsl");
-
-    /*Graphics::Systems::GraphicsSystem graphicsSystem {};
-
-    graphicsSystem.SetUpSystem(game);*/
 
     ShipController shipController {};
 
@@ -37,21 +29,10 @@ int main() {
 
     game.ChangeActiveSceneTo(&scene);
 
-    Graphics::shader shader = Graphics::shader("shaders/vertexShader.glsl", "shaders/fragmentShader.glsl");
-
-    Graphics::Components::Transform standardTransform =
-            Graphics::Components::Transform(
-                    glm::vec3(0,0,0),glm::vec3(0,0,0),glm::vec3(0.5f,0.5f,0.5f));
+    Graphics::Transform standardTransform =
+            Graphics::Transform(glm::vec3(0,0,0),glm::vec3(0,0,0),glm::vec3(0.5f,0.5f,0.5f));
 
     ShipController controller1 = ShipController();
-
-    game.onStartup.addListener([&] (Game &game){
-        auto registry = game.getCurrentScene()->getRegistry();
-        auto audioSources = registry->view<soundSystem::AudioSource>();
-        for (auto &audioEntity:audioSources) {
-            soundSystem::AudioSourceUtils::PlayBackground(registry->get<soundSystem::AudioSource>(audioEntity), true);
-        }
-    });
 
     game.run();
 

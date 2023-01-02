@@ -3,38 +3,47 @@
 #include <iostream>
 
 #include "engine/Systems/FileManager/FileManager.h"
+#include "../FileManager/ModelLoader.h"
+#include "../FileManager/TextureLoader.h"
 
 #include "engine/Systems/Graphics/Components/Model.h"
 #include "engine/Systems/Graphics/Components/Camera.h"
 #include "engine/Systems/Graphics/Components/Transform.h"
+#include "engine/Systems/Graphics/Components/Skybox.h"
+#include "engine/Systems/Graphics/Components/Text.h"
 
-#include "engine/Systems/Graphics/Utils/SkyboxUtils.h"
 #include "engine/Systems/Graphics/Utils/ModelUtils.h"
-#include "engine/Systems/Graphics/Utils/CameraUtils.h"
+#include "../FileManager/FontLoader.h"
 
-namespace gl3::engine::Graphics::Systems{
+namespace gl3::engine::Graphics {
 
     class GraphicsSystem {
     public:
-        GraphicsSystem() = default;
+        /// Need to adhere to the singleton pattern
+        static GraphicsSystem *GetGraphicsSystem();
 
-        void SetUpScene(Scene &scene) {
-            Utils::SkyboxUtils::SetupSkybox(scene);
-            Utils::ModelUtils::SetUpModel(scene);
-        }
 
-        void DrawScene(Scene &scene);
+        /// Need to adhere to the singleton pattern
+        static void DestroyGraphicsSystem();
 
-        /*void Start(Game &game) override {};
+        void SetUp();
 
-        void Update(Game &game) override {};
+        void Update();
 
-        void OnShutdown(Game &engine) override {
-            //engine.getCurrentScene()->ReleasePhysicsScene();
-        };*/
+        void Shutdown();
 
     private:
-        glm::mat4 currentProjection;
-        glm::mat4 currentView;
+
+        GraphicsSystem();
+
+        ~GraphicsSystem();
+
+        static void Draw(Model &model);
+
+        glm::vec3 lightPos = glm::vec3(0.0f, -0.5f, 1.0f);
+
+        filesystem::FileManager *fileManager;
+
+        inline static GraphicsSystem *graphicsSystem = nullptr;
     };
 }

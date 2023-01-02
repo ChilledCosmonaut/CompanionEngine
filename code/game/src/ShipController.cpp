@@ -4,25 +4,24 @@ namespace gl3::game {
 
     using namespace engine;
     using namespace engine::Graphics;
-    using namespace engine::Graphics::Utils;
 
     template<typename T>
     int sgn(T val) {
         return (T(0) < val) - (val < T(0));
     }
 
-    void Fire(int fire, entt::registry* registry, Components::Transform& playerTransform) {
+    void Fire(int fire, entt::registry* registry, Transform& playerTransform) {
         if (fire == GLFW_PRESS){
-            auto projectileView = registry->view<PlayerProjectile, Components::Transform>();
+            auto projectileView = registry->view<PlayerProjectile, Transform>();
 
             for (auto& entity : projectileView) {
                 auto& projectile = projectileView.get<PlayerProjectile>(entity);
-                auto& transform = projectileView.get<Components::Transform>(entity);
+                auto& transform = projectileView.get<Transform>(entity);
 
                 if (projectile.lifetime <= 0){
-                    TransformUtils::SetActive(transform, true);
-                    TransformUtils::SetTranslation(transform, TransformUtils::GetTranslation(playerTransform));
-                    TransformUtils::SetRotation(transform, TransformUtils::GetQuatRotation(playerTransform));
+                    transform.active = true;
+                    TransformationUtils::SetTranslation(entity, transform, playerTransform.translation);
+                    TransformationUtils::SetRotation(entity, transform, playerTransform.rotation);
                     projectile.lifetime = 5;
                 }
             }
@@ -31,13 +30,13 @@ namespace gl3::game {
 
     void ShipController::Update(engine::Game &game) {
         auto window = game.getWindow();
-        auto registry = game.getCurrentScene()->getRegistry();
-        auto componentView = registry->view<ShipMovementSettings, Physics::Components::RigidBody>();
+        auto& registry = Ecs::Registry::getCurrent();
+        auto componentView = registry.view<ShipMovementSettings, Physics::RigidBody>();
         int screenWidth = 3840, screenHeight = 2160;
 
         for(auto& entity : componentView){
             auto& movementSettings = componentView.get<ShipMovementSettings>(entity);
-            auto& rigidBody = componentView.get<Physics::Components::RigidBody>(entity);
+            auto& rigidBody = componentView.get<Physics::RigidBody>(entity);
 
             /*if (movementSettings.life <= 0){
                 TransformUtils::SetActive(currentTransform, false);
@@ -56,10 +55,8 @@ namespace gl3::game {
             /*int fire = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
             Fire(fire, registry, currentTransform);*/
 
-            Physics::Utils::RigidBodyUtils::AddForce
-            (rigidBody,
-             glm::vec3(-inputx * movementSettings.speedX, -inputy * movementSettings.speedY, movementSettings.forwardAcceleration)
-             * engine::Time::GetDeltaTime());
+             rigidBody.rigidBody->addForce(physx::PxVec3(-inputx * movementSettings.speedX, -inputy * movementSettings.speedY, movementSettings.forwardAcceleration)
+                                           * engine::Time::GetDeltaTime());
 
             /*auto translation = glm::vec3(-inputx * movementSettings.speedX, -inputy * movementSettings.speedY, movementSettings.forwardAcceleration) * engine::Time::GetDeltaTime();
             glm::vec3 rotation = glm::vec3(movementSettings.rotationAccelerationX, movementSettings.rotationAccelerationY, movementSettings.rotationAccelerationZ);*/
