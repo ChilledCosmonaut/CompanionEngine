@@ -4,7 +4,6 @@
 #define NR_POINT_LIGHTS 10
 #define NR_SPOT_LIGHTS 5
 
-
 uniform sampler2D texture_diffuse1;
 
 out vec4 fragColor;
