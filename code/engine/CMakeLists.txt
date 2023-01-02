@@ -48,7 +48,8 @@ endif ()
 set(GENERATE_COMMAND
         "${Python3_EXECUTABLE}"
         "${CMAKE_CURRENT_SOURCE_DIR}/generate_sources.py"
-        "${GENERATED_INCLUDE_ROOT}")
+        "${GENERATED_INCLUDE_ROOT}"
+        "${CMAKE_CURRENT_SOURCE_DIR}")
 
 add_custom_command(
         COMMAND ${GENERATE_COMMAND}
