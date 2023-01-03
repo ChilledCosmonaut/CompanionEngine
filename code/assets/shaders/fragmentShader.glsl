@@ -55,9 +55,9 @@ struct SpotLight {
     float outerCutoff;
 };
 
-uniform DirLight dirLight[NR_DIR_LIGHTS];
+uniform DirLight dirLights[NR_DIR_LIGHTS];
 uniform PointLight pointLights[NR_POINT_LIGHTS];
-uniform SpotLight spotLight[NR_SPOT_LIGHTS];
+uniform SpotLight spotLights[NR_SPOT_LIGHTS];
 
 uniform Material material;
 
