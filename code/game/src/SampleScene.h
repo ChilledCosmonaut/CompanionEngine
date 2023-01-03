@@ -16,6 +16,10 @@ namespace gl3::game {
             auto& registry = engine::Ecs::Registry::getCurrent();
             auto fileManager = engine::filesystem::FileManager::GetFileManager();
 
+            auto directionLightObject = CreateEntity();
+            auto& directionLight = engine::Ecs::Registry::AddComponent<engine::Graphics::DirectionLight>(directionLightObject);
+            directionLight.ambient = glm::vec3(1.0f, 1.0f, 1.0f);
+
             auto mainCameraObject = CreateEntity();
             engine::Ecs::Registry::AddComponent<engine::Graphics::Camera>(mainCameraObject);
             engine::Ecs::Registry::AddComponent<ShipMovementSettings>(mainCameraObject);
