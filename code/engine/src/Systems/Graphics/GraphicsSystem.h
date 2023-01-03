@@ -5,6 +5,7 @@
 #include "engine/Systems/FileManager/FileManager.h"
 #include "../FileManager/ModelLoader.h"
 #include "../FileManager/TextureLoader.h"
+#include "../FileManager/FontLoader.h"
 
 #include "engine/Systems/Graphics/Components/Model.h"
 #include "engine/Systems/Graphics/Components/Camera.h"
@@ -13,7 +14,7 @@
 #include "engine/Systems/Graphics/Components/Text.h"
 
 #include "engine/Systems/Graphics/Utils/ModelUtils.h"
-#include "../FileManager/FontLoader.h"
+#include "LightingSystem.h"
 
 namespace gl3::engine::Graphics {
 
