@@ -219,4 +219,3 @@ namespace gl3::engine::Graphics {
         filesystem::FileManager::DestroyFileManager();
     }
 }
-
