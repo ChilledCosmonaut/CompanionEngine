@@ -2,10 +2,9 @@
 
 namespace gl3::engine::filesystem {
 
-    unsigned int TextureLoader::TextureFromFile(Graphics::Texture &texture, std::filesystem::path filepath, bool gamma) {
+    void TextureLoader::TextureFromFile(Graphics::Texture &texture, const std::filesystem::path& filepath, bool gamma) {
 
-        unsigned int textureID;
-        glGenTextures(1, &textureID);
+        glGenTextures(1, &texture.id);
 
         int width, height, nrComponents;
         //stbi_set_flip_vertically_on_load(true);
@@ -19,7 +18,7 @@ namespace gl3::engine::filesystem {
             else if (nrComponents == 4)
                 format = GL_RGBA;
 
-            glBindTexture(GL_TEXTURE_2D, textureID);
+            glBindTexture(GL_TEXTURE_2D, texture.id);
             glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
             glGenerateMipmap(GL_TEXTURE_2D);
 
@@ -33,8 +32,6 @@ namespace gl3::engine::filesystem {
             std::cout << "Texture failed to load at path: " << filepath << std::endl;
             stbi_image_free(data);
         }
-
-        return textureID;
     }
 
     unsigned int TextureLoader::LoadCubemap(std::vector<assets::Images> faces)

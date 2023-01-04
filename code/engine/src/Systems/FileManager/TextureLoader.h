@@ -12,7 +12,7 @@
 namespace gl3::engine::filesystem {
     class TextureLoader {
     public:
-        static unsigned int TextureFromFile(Graphics::Texture &texture, std::filesystem::path filepath, bool gamma = false);
+        static void TextureFromFile(Graphics::Texture &texture, const std::filesystem::path& filepath, bool gamma = false);
 
         static unsigned int LoadCubemap(std::vector<assets::Images> faces);
     };
