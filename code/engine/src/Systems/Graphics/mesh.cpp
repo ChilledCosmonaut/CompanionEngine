@@ -10,33 +10,33 @@ namespace gl3::engine::Graphics {
         setupMesh();
     }
 
-    void Mesh::Draw(Graphics::shader &shader) {
+    void Mesh::Draw(Graphics::shader &shader, Graphics::Material &material) const {
         // activate proper texture unit before binding
-        if (this->material.ambient != nullptr) {
+        if (material.ambient != nullptr) {
             glActiveTexture(GL_TEXTURE0);
             shader.setFloat("material.ambient", GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, this->material.ambient->id);
+            glBindTexture(GL_TEXTURE_2D, material.ambient->id);
         }
 
-        if (this->material.ambient != nullptr) {
+        if (material.ambient != nullptr) {
             glActiveTexture(GL_TEXTURE1);
             shader.setFloat("material.diffuse", GL_TEXTURE1);
-            glBindTexture(GL_TEXTURE_2D, this->material.diffuse->id);
+            glBindTexture(GL_TEXTURE_2D, material.diffuse->id);
         }
 
-        if (this->material.ambient != nullptr) {
+        if (material.ambient != nullptr) {
             glActiveTexture(GL_TEXTURE2);
             shader.setFloat("material.specular", GL_TEXTURE2);
-            glBindTexture(GL_TEXTURE_2D, this->material.specular->id);
+            glBindTexture(GL_TEXTURE_2D, material.specular->id);
         }
 
-        if (this->material.ambient != nullptr) {
+        if (material.ambient != nullptr) {
             glActiveTexture(GL_TEXTURE3);
             shader.setFloat("material.normal", GL_TEXTURE3);
-            glBindTexture(GL_TEXTURE_2D, this->material.normal->id);
+            glBindTexture(GL_TEXTURE_2D, material.normal->id);
         }
 
-        shader.setFloat("material.shininess", this->material.shininess);
+        shader.setFloat("material.shininess", material.shininess);
 
         // draw mesh
         glBindVertexArray(VAO);

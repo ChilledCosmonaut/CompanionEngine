@@ -28,11 +28,10 @@ namespace gl3::engine::Graphics {
         // mesh data
         vector<Vertex> vertices;
         vector<unsigned int> indices;
-        Material material;
 
         Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures);
 
-        void Draw(Graphics::shader &shader);
+        void Draw(Graphics::shader &shader, Graphics::Material &material) const;
 
     private:
         //  render data
