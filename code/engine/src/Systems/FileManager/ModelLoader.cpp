@@ -87,10 +87,10 @@ namespace gl3::engine::filesystem {
         if (mesh->mMaterialIndex >= 0) {
             aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
             std::vector<Graphics::Texture> diffuseMaps = LoadMaterialTextures(modelData, material,
-                                                               aiTextureType_DIFFUSE, "texture_diffuse");
+                                                               aiTextureType_DIFFUSE, "diffuse");
             textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
             std::vector<Graphics::Texture> specularMaps = LoadMaterialTextures(modelData, material,
-                                                                aiTextureType_SPECULAR, "texture_specular");
+                                                                aiTextureType_SPECULAR, "specular");
             textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
         }
 

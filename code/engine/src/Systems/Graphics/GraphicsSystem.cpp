@@ -110,10 +110,10 @@ namespace gl3::engine::Graphics {
 
             model.shader->setMatrix("model", transform.modelMatrix);
 
-            model.shader->setVector("viewPos",glm::vec4(cameraTranslation, 1.0f));
+            model.shader->setVector3("viewPos", cameraTranslation);
 
             for (int i = 0; i < directionLightInfo.size(); ++i) {
-                model.shader->setVector3("dirLights[" + to_string(i) + "].direction", -directionLightInfo[i].second.direction);
+                model.shader->setVector3("dirLights[" + to_string(i) + "].direction", directionLightInfo[i].second.direction);
 
                 model.shader->setVector3("dirLights[" + to_string(i) + "].ambient", directionLightInfo[i].second.ambient);
                 model.shader->setVector3("dirLights[" + to_string(i) + "].diffuse", directionLightInfo[i].second.diffuse);
@@ -134,7 +134,7 @@ namespace gl3::engine::Graphics {
 
             for (int i = 0; i < spotLightInfo.size(); ++i) {
                 model.shader->setVector3("spotLights[" + to_string(i) + "].position", spotLightInfo[i].first.translation);
-                model.shader->setVector3("spotLights[" + to_string(i) + "].direction", -spotLightInfo[i].second.direction);
+                model.shader->setVector3("spotLights[" + to_string(i) + "].direction", spotLightInfo[i].second.direction);
 
                 model.shader->setVector3("spotLights[" + to_string(i) + "].ambient", spotLightInfo[i].second.ambient);
                 model.shader->setVector3("spotLights[" + to_string(i) + "].diffuse", spotLightInfo[i].second.diffuse);
@@ -207,7 +207,6 @@ namespace gl3::engine::Graphics {
     void GraphicsSystem::Draw(Model &model) {
         for (auto &mesh: model.modelData.meshes)
             mesh.Draw(*model.shader);
-
     }
 
     void GraphicsSystem::Shutdown() {

@@ -1,3 +1,5 @@
+#include <utility>
+
 #include "engine/Systems/Graphics/mesh.h"
 
 namespace gl3::engine::Graphics {
@@ -23,7 +25,7 @@ namespace gl3::engine::Graphics {
             else if (name == "texture_specular")
                 number = std::to_string(specularNr++);
 
-            shader.setFloat(("material." + name + number).c_str(), i);
+            shader.setFloat("material." + name, i);
             glBindTexture(GL_TEXTURE_2D, textures[i].id);
         }
         glActiveTexture(GL_TEXTURE0);
