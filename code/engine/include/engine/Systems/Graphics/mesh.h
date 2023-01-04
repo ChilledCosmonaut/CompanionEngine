@@ -1,6 +1,7 @@
 #pragma once
 
 #include "shader.h"
+#include "engine/Systems/Graphics/Components/Material.h"
 
 #include "glm/vec2.hpp"
 
@@ -22,17 +23,12 @@ namespace gl3::engine::Graphics {
         glm::vec3 BiTangent;
     };
 
-    struct Texture {
-        unsigned int id;
-        assets::Images name;
-    };
-
     class Mesh {
     public:
         // mesh data
         vector<Vertex> vertices;
         vector<unsigned int> indices;
-        vector<Texture> textures;
+        Material material;
 
         Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures);
 

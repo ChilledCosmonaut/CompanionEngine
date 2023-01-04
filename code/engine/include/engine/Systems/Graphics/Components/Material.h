@@ -1,16 +1,19 @@
 #pragma once
 
-#include "engine/Systems/Graphics/mesh.h"
-
 namespace gl3::engine::Graphics {
+
+    struct Texture {
+        unsigned int id;
+        assets::Images name;
+    };
 
     struct Material {
 
     public:
-        Texture ambient;
-        Texture diffuse;
-        Texture specular;
-        Texture normal;
+        std::shared_ptr<Texture> ambient;
+        std::shared_ptr<Texture> diffuse;
+        std::shared_ptr<Texture> specular;
+        std::shared_ptr<Texture> normal;
         float shininess;
     };
 }
