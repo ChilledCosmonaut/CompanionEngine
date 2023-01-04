@@ -18,7 +18,7 @@ namespace gl3::game {
 
             auto directionLightObject = CreateEntity();
             auto& directionLight = engine::Ecs::Registry::AddComponent<engine::Graphics::DirectionLight>(directionLightObject);
-            directionLight.ambient = glm::vec3(1.0f, 1.0f, 1.0f);
+            directionLight.direction = glm::vec3(0.0f, 1.0f, 0.0f);
 
             auto mainCameraObject = CreateEntity();
             engine::Ecs::Registry::AddComponent<engine::Graphics::Camera>(mainCameraObject);
