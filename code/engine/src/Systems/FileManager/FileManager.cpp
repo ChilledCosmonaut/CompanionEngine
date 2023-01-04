@@ -48,8 +48,14 @@ namespace  gl3::engine::filesystem{
         return {};
     }
 
-    std::string FileManager::getAsset(assets::Images image) {
-        return {};
+    std::shared_ptr<Graphics::Texture> FileManager::getAsset(assets::Images image) {
+        if (!imageCache->Contains(image)) {
+            //Construct item here
+            auto textureData = imageCache->AddItem(image);
+            textureData->name = image;
+            TextureLoader::TextureFromFile(*textureData, assets::AssetTranslator::TranslateImage(image));
+        }
+        return imageCache->Get(image);
     }
 
     std::shared_ptr<std::map<GLchar, Character>> FileManager::getFont(assets::Fonts font, int fontSize){

@@ -24,8 +24,7 @@ namespace gl3::engine::Graphics {
 
     struct Texture {
         unsigned int id;
-        string type;
-        aiString path;
+        assets::Images name;
     };
 
     class Mesh {

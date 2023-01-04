@@ -68,7 +68,7 @@ namespace gl3::engine::filesystem {
 
         std::string getAsset(assets::Materials material);
 
-        std::string getAsset(assets::Images image);
+        std::shared_ptr<Graphics::Texture> getAsset(assets::Images image);
 
         std::shared_ptr<std::map<GLchar, Character>> getFont(assets::Fonts font, int fontSize);
 
@@ -99,7 +99,7 @@ namespace gl3::engine::filesystem {
         std::unique_ptr<Cache<assets::Models, Graphics::ModelData>> modelCache;
         std::unique_ptr<Cache<assets::Sounds, SoLoud::Wav>> soundCache;
         std::unique_ptr<Cache<assets::Materials, int>> materialCache;
-        std::unique_ptr<Cache<assets::Images, int>> imageCache;
+        std::unique_ptr<Cache<assets::Images, Graphics::Texture>> imageCache;
         std::unique_ptr<Cache<fontId, std::map<GLchar, Character>>> fontCache;
     };
 }

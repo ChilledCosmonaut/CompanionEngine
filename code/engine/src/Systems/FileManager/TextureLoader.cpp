@@ -2,7 +2,7 @@
 
 namespace gl3::engine::filesystem {
 
-    unsigned int TextureLoader::TextureFromFile(std::filesystem::path filepath, bool gamma) {
+    unsigned int TextureLoader::TextureFromFile(Graphics::Texture &texture, std::filesystem::path filepath, bool gamma) {
 
         unsigned int textureID;
         glGenTextures(1, &textureID);
