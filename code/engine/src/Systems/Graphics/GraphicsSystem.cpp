@@ -90,7 +90,6 @@ namespace gl3::engine::Graphics {
             glDepthMask(GL_TRUE);
         }
 
-
         //Retrieve Light info
         std::vector<std::pair<const Transform&, const DirectionLight&>> directionLightInfo
             = LightingSystem::GetDirectionLightInfo(registry);
