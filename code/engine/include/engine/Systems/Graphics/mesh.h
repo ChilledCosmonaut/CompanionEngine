@@ -18,6 +18,8 @@ namespace gl3::engine::Graphics {
         glm::vec3 Position;
         glm::vec3 Normal;
         glm::vec2 TexCoords;
+        glm::vec3 Tangent;
+        glm::vec3 BiTangent;
     };
 
     struct Texture {

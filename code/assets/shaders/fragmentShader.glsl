@@ -11,6 +11,7 @@ out vec4 fragColor;
 in vec3 Normal;
 in vec3 FragPos;
 in vec2 TexCoords;
+in mat3 TBN;
 
 struct Material {
     sampler2D diffuse;
