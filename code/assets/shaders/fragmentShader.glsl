@@ -15,7 +15,6 @@ struct Material {
     sampler2D diffuse;
     sampler2D specular;
     sampler2D normal;
-    sampler2D emission;
     float shininess;
 };
 
@@ -70,7 +69,7 @@ vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
 void main()
 {
     // properties
-    vec3 norm = normalize(Normal);
+    vec3 norm = normalize(/*TBN * */Normal);
     vec3 viewDir = normalize(viewPos - FragPos);
 
     vec3 result = vec3(0.0f, 0.0f, 0.0f);
