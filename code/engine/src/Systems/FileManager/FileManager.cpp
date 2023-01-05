@@ -48,8 +48,14 @@ namespace  gl3::engine::filesystem{
         return {};
     }
 
-    std::string FileManager::getAsset(assets::Images image) {
-        return {};
+    std::shared_ptr<Graphics::Texture> FileManager::getAsset(assets::Images image) {
+        if (!imageCache->Contains(image)) {
+            //Construct item here
+            auto textureData = imageCache->AddItem(image);
+            textureData->name = image;
+            TextureLoader::TextureFromFile(*textureData, assets::AssetTranslator::TranslateImage(image));
+        }
+        return imageCache->Get(image);
     }
 
     std::shared_ptr<std::map<GLchar, Character>> FileManager::getFont(assets::Fonts font, int fontSize){
@@ -97,6 +103,7 @@ namespace  gl3::engine::filesystem{
         shaderCache = std::make_unique<Cache<shaderId,  Graphics::shader>>(30);
         modelCache = std::make_unique<Cache<assets::Models, Graphics::ModelData>>(30);
         soundCache = std::make_unique<Cache<assets::Sounds, SoLoud::Wav>>(30);
+        imageCache = std::make_unique<Cache<assets::Images, Graphics::Texture>>(30);
         fontCache = std::make_unique<Cache<fontId, std::map<GLchar, Character>>>(30);
     }
 
@@ -104,6 +111,7 @@ namespace  gl3::engine::filesystem{
         shaderCache.release();
         modelCache.release();
         soundCache.release();
+        imageCache.release();
         fontCache.release();
     }
 }

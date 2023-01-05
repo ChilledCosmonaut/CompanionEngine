@@ -1,3 +1,4 @@
+#include <iostream>
 #include "engine/Systems/Graphics/mesh.h"
 
 namespace gl3::engine::Graphics {
@@ -5,28 +6,38 @@ namespace gl3::engine::Graphics {
     Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures) {
         this->vertices = vertices;
         this->indices = indices;
-        this->textures = textures;
+        /*this->textures = textures;*/
 
         setupMesh();
     }
 
-    void Mesh::Draw(Graphics::shader &shader) {
-        unsigned int diffuseNr = 1;
-        unsigned int specularNr = 1;
-        for (unsigned int i = 0; i < textures.size(); i++) {
-            glActiveTexture(GL_TEXTURE0 + i); // activate proper texture unit before binding
-            // retrieve texture number (the N in diffuse_textureN)
-            string number;
-            string name = textures[i].type;
-            if (name == "texture_diffuse")
-                number = std::to_string(diffuseNr++);
-            else if (name == "texture_specular")
-                number = std::to_string(specularNr++);
-
-            shader.setFloat(("material." + name + number).c_str(), i);
-            glBindTexture(GL_TEXTURE_2D, textures[i].id);
+    void Mesh::Draw(Graphics::shader &shader, Graphics::Material &material) const {
+        // activate proper texture unit before binding
+        if (material.ambient != nullptr) {
+            glActiveTexture(GL_TEXTURE0);
+            shader.setFloat("material.ambient", GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, material.ambient->id);
         }
-        glActiveTexture(GL_TEXTURE0);
+
+        if (material.diffuse != nullptr) {
+            glActiveTexture(GL_TEXTURE1);
+            shader.setFloat("material.diffuse", GL_TEXTURE1);
+            glBindTexture(GL_TEXTURE_2D, material.diffuse->id);
+        }
+
+        if (material.specular != nullptr) {
+            glActiveTexture(GL_TEXTURE2);
+            shader.setFloat("material.specular", GL_TEXTURE2);
+            glBindTexture(GL_TEXTURE_2D, material.specular->id);
+        }
+
+        if (material.normal != nullptr) {
+            glActiveTexture(GL_TEXTURE3);
+            shader.setFloat("material.normal", GL_TEXTURE3);
+            glBindTexture(GL_TEXTURE_2D, material.normal->id);
+        }
+
+        shader.setFloat("material.shininess", material.shininess);
 
         // draw mesh
         glBindVertexArray(VAO);
@@ -57,6 +68,12 @@ namespace gl3::engine::Graphics {
         // vertex texture coords
         glEnableVertexAttribArray(2);
         glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *) offsetof(Vertex, TexCoords));
+        // vertex tangent
+        glEnableVertexAttribArray(3);
+        glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *) offsetof(Vertex, Tangent));
+        // vertex biTangent
+        glEnableVertexAttribArray(4);
+        glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *) offsetof(Vertex, BiTangent));
 
         glBindVertexArray(0);
     }

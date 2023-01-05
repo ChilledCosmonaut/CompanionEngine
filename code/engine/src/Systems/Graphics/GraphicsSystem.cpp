@@ -90,7 +90,13 @@ namespace gl3::engine::Graphics {
             glDepthMask(GL_TRUE);
         }
 
-        //DisplayLights();
+        //Retrieve Light info
+        std::vector<std::pair<const Transform&, const DirectionLight&>> directionLightInfo
+            = LightingSystem::GetDirectionLightInfo(registry);
+        std::vector<std::pair<const Transform&, const PointLight&>> pointLightInfo
+            = LightingSystem::GetPointLightInfo(registry);
+        std::vector<std::pair<const Transform&, const SpotLight&>> spotLightInfo
+            = LightingSystem::GetSpotLightInfo(registry);
 
         auto modelView = registry.view<Model, Transform>();
 
@@ -103,13 +109,46 @@ namespace gl3::engine::Graphics {
 
             model.shader->setMatrix("model", transform.modelMatrix);
 
-            model.shader->setVector("viewPos",glm::vec4(cameraTranslation, 1.0f));
+            model.shader->setVector3("viewPos", cameraTranslation);
 
-            model.shader->setVector3("dirLight.direction", -lightPos);
+            model.shader->setInt("dirLightCount", directionLightInfo.size());
+            for (int i = 0; i < directionLightInfo.size(); ++i) {
+                model.shader->setVector3("dirLights[" + to_string(i) + "].direction", directionLightInfo[i].second.direction);
 
-            model.shader->setVector3("dirLight.ambient", glm::vec3(0.05f, 0.05f, 0.05f));
-            model.shader->setVector3("dirLight.diffuse", glm::vec3(0.4f, 0.4f, 0.4f));
-            model.shader->setVector3("dirLight.specular", glm::vec3(0.7f, 0.7f, 0.7f));
+                model.shader->setVector3("dirLights[" + to_string(i) + "].ambient", directionLightInfo[i].second.ambient);
+                model.shader->setVector3("dirLights[" + to_string(i) + "].diffuse", directionLightInfo[i].second.diffuse);
+                model.shader->setVector3("dirLights[" + to_string(i) + "].specular", directionLightInfo[i].second.specular);
+            }
+
+            model.shader->setInt("pointLightCount", pointLightInfo.size());
+            for (int i = 0; i < pointLightInfo.size(); ++i) {
+                model.shader->setVector3("pointLights[" + to_string(i) + "].position", pointLightInfo[i].first.translation);
+
+                model.shader->setVector3("pointLights[" + to_string(i) + "].ambient", pointLightInfo[i].second.ambient);
+                model.shader->setVector3("pointLights[" + to_string(i) + "].diffuse", pointLightInfo[i].second.diffuse);
+                model.shader->setVector3("pointLights[" + to_string(i) + "].specular", pointLightInfo[i].second.specular);
+
+                model.shader->setFloat("pointLights[" + to_string(i) + "].constant", pointLightInfo[i].second.constant);
+                model.shader->setFloat("pointLights[" + to_string(i) + "].linear", pointLightInfo[i].second.linear);
+                model.shader->setFloat("pointLights[" + to_string(i) + "].quadratic", pointLightInfo[i].second.quadratic);
+            }
+
+            model.shader->setInt("spotLightCount", spotLightInfo.size());
+            for (int i = 0; i < spotLightInfo.size(); ++i) {
+                model.shader->setVector3("spotLights[" + to_string(i) + "].position", spotLightInfo[i].first.translation);
+                model.shader->setVector3("spotLights[" + to_string(i) + "].direction", spotLightInfo[i].second.direction);
+
+                model.shader->setVector3("spotLights[" + to_string(i) + "].ambient", spotLightInfo[i].second.ambient);
+                model.shader->setVector3("spotLights[" + to_string(i) + "].diffuse", spotLightInfo[i].second.diffuse);
+                model.shader->setVector3("spotLights[" + to_string(i) + "].specular", spotLightInfo[i].second.specular);
+
+                model.shader->setFloat("spotLights[" + to_string(i) + "].constant", spotLightInfo[i].second.constant);
+                model.shader->setFloat("spotLights[" + to_string(i) + "].linear", spotLightInfo[i].second.linear);
+                model.shader->setFloat("spotLights[" + to_string(i) + "].quadratic", spotLightInfo[i].second.quadratic);
+
+                model.shader->setFloat("spotLights[" + to_string(i) + "].cutOff", spotLightInfo[i].second.cutoff);
+                model.shader->setFloat("spotLights[" + to_string(i) + "].outerCutOff", spotLightInfo[i].second.outerCutoff);
+            }
 
             Draw(model);
         }
@@ -169,8 +208,7 @@ namespace gl3::engine::Graphics {
 
     void GraphicsSystem::Draw(Model &model) {
         for (auto &mesh: model.modelData.meshes)
-            mesh.Draw(*model.shader);
-
+            mesh.Draw(*model.shader, model.material);
     }
 
     void GraphicsSystem::Shutdown() {
@@ -185,4 +223,3 @@ namespace gl3::engine::Graphics {
         filesystem::FileManager::DestroyFileManager();
     }
 }
-

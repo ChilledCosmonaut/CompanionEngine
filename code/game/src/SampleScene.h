@@ -12,9 +12,19 @@ namespace gl3::game {
 
     class SampleScene : public engine::Scene {
     public:
-        void onSetup(){
+        void onSetup() override{
             auto& registry = engine::Ecs::Registry::getCurrent();
             auto fileManager = engine::filesystem::FileManager::GetFileManager();
+
+            auto directionLightObject = CreateEntity();
+            auto& directionLight = engine::Ecs::Registry::AddComponent<engine::Graphics::DirectionLight>(directionLightObject);
+
+            engine::Graphics::Material spaceShipMaterial{};
+
+            spaceShipMaterial.ambient  = fileManager->getAsset(assets::Images::StarSparrow_Red$png);
+            spaceShipMaterial.diffuse  = fileManager->getAsset(assets::Images::StarSparrow_Red$png);
+            spaceShipMaterial.specular = fileManager->getAsset(assets::Images::StarSparrow_Red$png);
+            spaceShipMaterial.normal   = fileManager->getAsset(assets::Images::StarSparrow$Textures$StarSparrow_Normal$png);
 
             auto mainCameraObject = CreateEntity();
             engine::Ecs::Registry::AddComponent<engine::Graphics::Camera>(mainCameraObject);
@@ -32,8 +42,6 @@ namespace gl3::game {
             auto test = CreateEntity();
             auto &model = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(test);
             model.modelName = assets::Models::SpaceShip$MainFrame$obj;
-
-            auto &testTransform = registry.get<engine::Graphics::Transform>(test);
 
             engine::Graphics::TransformationUtils::AddChildEntity(cameraTransform, mainCameraObject, test);
 
@@ -134,15 +142,17 @@ namespace gl3::game {
             auto enemy = CreateEntity();
             auto &enemyModel = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(enemy);
             enemyModel.modelName = assets::Models::SpaceShip1$obj;
+            enemyModel.material = spaceShipMaterial;
             engine::Graphics::ModelUtils::SetShader(enemyModel, shader);
             auto &enemyTransform = registry.get<engine::Graphics::Transform>(enemy);
-            engine::Graphics::TransformationUtils::SetTranslation(enemy, enemyTransform, glm::vec3(0, 3, 24));
+            engine::Graphics::TransformationUtils::SetTranslation(enemy, enemyTransform, glm::vec3(0, -3, 24));
             engine::Graphics::TransformationUtils::SetScale(enemy, enemyTransform, glm::vec3(0.5f, 0.5f, 0.5f));
             registry.emplace<EnemyBehaviour>(enemy);
 
             auto enemy1 = CreateEntity();
             auto &enemy1Model = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(enemy1);
             enemy1Model.modelName = assets::Models::SpaceShip2$obj;
+            enemy1Model.material = spaceShipMaterial;
             engine::Graphics::ModelUtils::SetShader(enemy1Model, shader);
             auto &enemy1Transform = registry.get<engine::Graphics::Transform>(enemy1);
             engine::Graphics::TransformationUtils::SetTranslation(enemy1, enemy1Transform, glm::vec3(20, -10, 0));

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "shader.h"
+#include "engine/Systems/Graphics/Components/Material.h"
 
 #include "glm/vec2.hpp"
 
@@ -18,12 +19,8 @@ namespace gl3::engine::Graphics {
         glm::vec3 Position;
         glm::vec3 Normal;
         glm::vec2 TexCoords;
-    };
-
-    struct Texture {
-        unsigned int id;
-        string type;
-        aiString path;
+        glm::vec3 Tangent;
+        glm::vec3 BiTangent;
     };
 
     class Mesh {
@@ -31,11 +28,10 @@ namespace gl3::engine::Graphics {
         // mesh data
         vector<Vertex> vertices;
         vector<unsigned int> indices;
-        vector<Texture> textures;
 
         Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures);
 
-        void Draw(Graphics::shader &shader);
+        void Draw(Graphics::shader &shader, Graphics::Material &material) const;
 
     private:
         //  render data

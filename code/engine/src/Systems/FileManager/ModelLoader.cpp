@@ -41,17 +41,21 @@ namespace gl3::engine::filesystem {
         std::vector<Graphics::Texture> textures;
 
         for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
-            Graphics::Vertex vertex;
+            Graphics::Vertex vertex{};
+
             // process vertex positions, normals and texture coordinates
             glm::vec3 vector;
+
             vector.x = mesh->mVertices[i].x;
             vector.y = mesh->mVertices[i].y;
             vector.z = mesh->mVertices[i].z;
             vertex.Position = vector;
+
             vector.x = mesh->mNormals[i].x;
             vector.y = mesh->mNormals[i].y;
             vector.z = mesh->mNormals[i].z;
             vertex.Normal = vector;
+
             if (mesh->mTextureCoords[0]) // does the mesh contain texture coordinates?
             {
                 glm::vec2 vec;
@@ -60,6 +64,17 @@ namespace gl3::engine::filesystem {
                 vertex.TexCoords = vec;
             } else
                 vertex.TexCoords = glm::vec2(0.0f, 0.0f);
+
+            vector.x = mesh->mTangents[i].x;
+            vector.y = mesh->mTangents[i].y;
+            vector.z = mesh->mTangents[i].z;
+            vertex.Tangent = vector;
+
+            vector.x = mesh->mBitangents[i].x;
+            vector.y = mesh->mBitangents[i].y;
+            vector.z = mesh->mBitangents[i].z;
+            vertex.BiTangent = vector;
+
             vertices.push_back(vertex);
         }
         // process indices
@@ -69,20 +84,20 @@ namespace gl3::engine::filesystem {
                 indices.push_back(face.mIndices[j]);
         }
         // process material Todo: Check this weird double loading
-        if (mesh->mMaterialIndex >= 0) {
+        /*if (mesh->mMaterialIndex >= 0) {
             aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
             std::vector<Graphics::Texture> diffuseMaps = LoadMaterialTextures(modelData, material,
-                                                               aiTextureType_DIFFUSE, "texture_diffuse");
+                                                               aiTextureType_DIFFUSE, "diffuse");
             textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
             std::vector<Graphics::Texture> specularMaps = LoadMaterialTextures(modelData, material,
-                                                                aiTextureType_SPECULAR, "texture_specular");
+                                                                aiTextureType_SPECULAR, "specular");
             textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
-        }
+        }*/
 
-        return Graphics::Mesh(vertices, indices, textures);
+        return {vertices, indices, textures};
     }
 
-    std::vector<Graphics::Texture>
+    /*std::vector<Graphics::Texture>
     ModelLoader::LoadMaterialTextures(Graphics::ModelData &modelData, aiMaterial *mat, aiTextureType type,
                                       std::string typeName) {
         std::vector<Graphics::Texture> textures;
@@ -107,5 +122,5 @@ namespace gl3::engine::filesystem {
             }
         }
         return textures;
-    }
+    }*/
 }

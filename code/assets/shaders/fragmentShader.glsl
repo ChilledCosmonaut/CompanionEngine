@@ -1,12 +1,22 @@
 #version 460 core
 
-#define NR_POINT_LIGHTS 4
+#define NR_DIR_LIGHTS 10
+#define NR_POINT_LIGHTS 10
+#define NR_SPOT_LIGHTS 10
 
-out vec4 FragColor;
+out vec4 fragColor;
 
 in vec3 Normal;
 in vec3 FragPos;
 in vec2 TexCoords;
+in mat3 TBN;
+
+struct Material {
+    sampler2D diffuse;
+    sampler2D specular;
+    sampler2D normal;
+    float shininess;
+};
 
 struct DirLight {
     vec3 direction;
@@ -14,52 +24,6 @@ struct DirLight {
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
-};
-uniform DirLight dirLight;
-
-uniform sampler2D texture_diffuse1;
-
-uniform vec3 viewPos;
-
-vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir);
-void main()
-{
-    // properties
-    vec3 norm = normalize(Normal);
-    vec3 viewDir = normalize(viewPos - FragPos);
-
-    // phase 1: Directional lighting
-    vec3 result = CalcDirLight(dirLight, norm, viewDir);
-
-    FragColor = vec4(result, 1.0);//texture(texture_diffuse1,TexCoords);
-}
-
-vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir)
-{
-    vec3 lightDir = normalize(-light.direction);
-    // diffuse shading
-    float diff = max(dot(normal, lightDir), 0.0);
-    // specular shading
-    vec3 reflectDir = reflect(-lightDir, normal);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);//material.shininess);
-    // combine results
-    /*vec3 ambient  = light.ambient  * vec3(texture(material.diffuse, TexCoords));
-    vec3 diffuse  = light.diffuse  * diff * vec3(texture(material.diffuse, TexCoords));
-    vec3 specular = light.specular * spec * vec3(texture(material.specular, TexCoords));*/
-    return (light.ambient + (light.diffuse  * diff)+ (light.specular * spec)) * vec3(texture(texture_diffuse1, TexCoords));
-}
-
-/*out vec4 fragColor;
-
-in vec3 Normal;
-in vec3 FragPos;
-in vec2 TexCoords;
-
-struct Material {
-    sampler2D diffuse;
-    sampler2D specular;
-    sampler2D emission;
-    float shininess;
 };
 
 struct PointLight {
@@ -90,8 +54,13 @@ struct SpotLight {
     float outerCutoff;
 };
 
+uniform DirLight dirLights[NR_DIR_LIGHTS];
 uniform PointLight pointLights[NR_POINT_LIGHTS];
-uniform SpotLight spotLight;
+uniform SpotLight spotLights[NR_SPOT_LIGHTS];
+
+uniform int dirLightCount;
+uniform int pointLightCount;
+uniform int spotLightCount;
 
 uniform Material material;
 
@@ -104,30 +73,35 @@ vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
 void main()
 {
     // properties
-    vec3 norm = normalize(Normal);
+    vec3 norm = texture(material.normal, TexCoords).rgb;
+    norm = norm * 2.0 - 1.0;
+    norm = normalize(TBN * norm);
     vec3 viewDir = normalize(viewPos - FragPos);
 
-    vec3 result;
+    vec3 result = vec3(0.0f, 0.0f, 0.0f);
 
     // phase 1: Directional lighting
-    result = CalcDirLight(dirLight, norm, viewDir);
+    for(int i = 0; i < dirLightCount; i++)
+    result += CalcDirLight(dirLights[i], norm, viewDir);
     // phase 2: Point lights
-    for(int i = 0; i < NR_POINT_LIGHTS; i++)
+    for(int i = 0; i < pointLightCount; i++)
     result += CalcPointLight(pointLights[i], norm, FragPos, viewDir);
     // phase 3: Spot light
-    result += CalcSpotLight(spotLight, norm, FragPos, viewDir);
+    for(int i = 0; i < spotLightCount; i++)
+    result += CalcSpotLight(spotLights[i], norm, FragPos, viewDir);
 
     fragColor = vec4(result, 1.0);
 }
 
 vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir)
 {
-    vec3 lightDir = normalize(-light.direction);
+    vec3 lightDir = normalize(light.direction);
     // diffuse shading
     float diff = max(dot(normal, lightDir), 0.0);
     // specular shading
     vec3 reflectDir = reflect(-lightDir, normal);
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+
     // combine results
     vec3 ambient  = light.ambient  * vec3(texture(material.diffuse, TexCoords));
     vec3 diffuse  = light.diffuse  * diff * vec3(texture(material.diffuse, TexCoords));
@@ -176,4 +150,4 @@ vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
     float intensity = clamp((theta - light.outerCutoff) / epsilon, 0.0, 1.0);
 
     return (ambient + (diffuse +  specular) * intensity) * attenuation;
-}*/
+}
