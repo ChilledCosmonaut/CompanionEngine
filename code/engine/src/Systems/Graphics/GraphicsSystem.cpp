@@ -83,7 +83,7 @@ namespace gl3::engine::Graphics {
             glDepthMask(GL_FALSE);
             skybox.shader->use();
             skybox.shader->setMatrix("projection", projectionMatrix);
-            skybox.shader->setMatrix("view", viewMatrix);
+            skybox.shader->setMatrix("view", glm::mat4(glm::mat3(viewMatrix)));//Removes translation from transformation matrix
             glBindVertexArray(skybox.VAO);
             glBindTexture(GL_TEXTURE_CUBE_MAP, skybox.texture);
             glDrawArrays(GL_TRIANGLES, 0, 36);
