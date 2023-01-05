@@ -1,3 +1,4 @@
+#include <iostream>
 #include "engine/Systems/Graphics/mesh.h"
 
 namespace gl3::engine::Graphics {
@@ -18,19 +19,19 @@ namespace gl3::engine::Graphics {
             glBindTexture(GL_TEXTURE_2D, material.ambient->id);
         }
 
-        if (material.ambient != nullptr) {
+        if (material.diffuse != nullptr) {
             glActiveTexture(GL_TEXTURE1);
             shader.setFloat("material.diffuse", GL_TEXTURE1);
             glBindTexture(GL_TEXTURE_2D, material.diffuse->id);
         }
 
-        if (material.ambient != nullptr) {
+        if (material.specular != nullptr) {
             glActiveTexture(GL_TEXTURE2);
             shader.setFloat("material.specular", GL_TEXTURE2);
             glBindTexture(GL_TEXTURE_2D, material.specular->id);
         }
 
-        if (material.ambient != nullptr) {
+        if (material.normal != nullptr) {
             glActiveTexture(GL_TEXTURE3);
             shader.setFloat("material.normal", GL_TEXTURE3);
             glBindTexture(GL_TEXTURE_2D, material.normal->id);
