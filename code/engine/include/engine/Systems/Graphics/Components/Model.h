@@ -16,6 +16,7 @@ namespace gl3::engine::Graphics {
         assets::Models modelName;
         // model data
         ModelData modelData;
+        Material material;
         std::shared_ptr <Graphics::shader> shader = nullptr;
 
 
