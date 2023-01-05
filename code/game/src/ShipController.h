@@ -6,7 +6,8 @@
 #include "ShipMovementSettings.h"
 #include "ProjectileInfo.h"
 #include "engine/Time.h"
-#include "engine/Systems/Physics/Components/Rigidbody.h"
+#include "engine/Systems/Physics/Components/RigidBody.h"
+#include "ControlGroups/SpaceShipControls.h"
 
 namespace gl3::game {
 class ShipController : public engine::entityComponentSystem::System {

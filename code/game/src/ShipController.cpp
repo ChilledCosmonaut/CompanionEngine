@@ -38,11 +38,6 @@ namespace gl3::game {
             auto& movementSettings = componentView.get<ShipMovementSettings>(entity);
             auto& rigidBody = componentView.get<Physics::RigidBody>(entity);
 
-            /*if (movementSettings.life <= 0){
-                TransformUtils::SetActive(currentTransform, false);
-                return;
-            }*/
-
             HandleKeyboard(window, movementSettings, Time::GetDeltaTime());
             CheckMousePosition(window, &screenWidth, &screenHeight, movementSettings, Time::GetDeltaTime());
 
