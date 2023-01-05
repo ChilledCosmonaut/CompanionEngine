@@ -111,6 +111,7 @@ namespace gl3::engine::Graphics {
 
             model.shader->setVector3("viewPos", cameraTranslation);
 
+            model.shader->setInt("dirLightCount", directionLightInfo.size());
             for (int i = 0; i < directionLightInfo.size(); ++i) {
                 model.shader->setVector3("dirLights[" + to_string(i) + "].direction", directionLightInfo[i].second.direction);
 
@@ -119,6 +120,7 @@ namespace gl3::engine::Graphics {
                 model.shader->setVector3("dirLights[" + to_string(i) + "].specular", directionLightInfo[i].second.specular);
             }
 
+            model.shader->setInt("pointLightCount", pointLightInfo.size());
             for (int i = 0; i < pointLightInfo.size(); ++i) {
                 model.shader->setVector3("pointLights[" + to_string(i) + "].position", pointLightInfo[i].first.translation);
 
@@ -131,6 +133,7 @@ namespace gl3::engine::Graphics {
                 model.shader->setFloat("pointLights[" + to_string(i) + "].quadratic", pointLightInfo[i].second.quadratic);
             }
 
+            model.shader->setInt("spotLightCount", spotLightInfo.size());
             for (int i = 0; i < spotLightInfo.size(); ++i) {
                 model.shader->setVector3("spotLights[" + to_string(i) + "].position", spotLightInfo[i].first.translation);
                 model.shader->setVector3("spotLights[" + to_string(i) + "].direction", spotLightInfo[i].second.direction);
@@ -205,7 +208,7 @@ namespace gl3::engine::Graphics {
 
     void GraphicsSystem::Draw(Model &model) {
         for (auto &mesh: model.modelData.meshes)
-            mesh.Draw(*model.shader);
+            mesh.Draw(*model.shader, model.material);
     }
 
     void GraphicsSystem::Shutdown() {

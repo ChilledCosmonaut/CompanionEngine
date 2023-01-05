@@ -1,8 +1,8 @@
 #version 460 core
 
-#define NR_DIR_LIGHTS 1
+#define NR_DIR_LIGHTS 10
 #define NR_POINT_LIGHTS 10
-#define NR_SPOT_LIGHTS 5
+#define NR_SPOT_LIGHTS 10
 
 out vec4 fragColor;
 
@@ -58,6 +58,10 @@ uniform DirLight dirLights[NR_DIR_LIGHTS];
 uniform PointLight pointLights[NR_POINT_LIGHTS];
 uniform SpotLight spotLights[NR_SPOT_LIGHTS];
 
+uniform int dirLightCount;
+uniform int pointLightCount;
+uniform int spotLightCount;
+
 uniform Material material;
 
 uniform vec3 viewPos;
@@ -77,14 +81,14 @@ void main()
     vec3 result = vec3(0.0f, 0.0f, 0.0f);
 
     // phase 1: Directional lighting
-    for(int i = 0; i < NR_DIR_LIGHTS; i++)
+    for(int i = 0; i < dirLightCount; i++)
     result += CalcDirLight(dirLights[i], norm, viewDir);
     // phase 2: Point lights
-    //for(int i = 0; i < NR_POINT_LIGHTS; i++)
-    //result += CalcPointLight(pointLights[i], norm, FragPos, viewDir);
+    for(int i = 0; i < pointLightCount; i++)
+    result += CalcPointLight(pointLights[i], norm, FragPos, viewDir);
     // phase 3: Spot light
-    //for(int i = 0; i < NR_SPOT_LIGHTS; i++)
-    //result += CalcSpotLight(spotLights[i], norm, FragPos, viewDir);
+    for(int i = 0; i < spotLightCount; i++)
+    result += CalcSpotLight(spotLights[i], norm, FragPos, viewDir);
 
     fragColor = vec4(result, 1.0);
 }
