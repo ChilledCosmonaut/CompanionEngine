@@ -41,12 +41,12 @@ namespace gl3::game {
             HandleKeyboard(window, movementSettings, Time::GetDeltaTime());
             CheckMousePosition(window, &screenWidth, &screenHeight, movementSettings, Time::GetDeltaTime());
 
-            int inputx = glfwGetKey(window, GLFW_KEY_A);
+            /*int inputx = glfwGetKey(window, GLFW_KEY_A);
             inputx -= glfwGetKey(window, GLFW_KEY_D);
 
             int inputy = glfwGetKey(window, GLFW_KEY_SPACE);
             inputy -= glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL);
-
+*/
             /*int fire = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
             Fire(fire, registry, currentTransform);*/
 
@@ -62,8 +62,8 @@ namespace gl3::game {
     }
 
     void ShipController::HandleKeyboard(GLFWwindow *window, ShipMovementSettings &movementSettings, float deltaTime) {
-        int inputZ = glfwGetKey(window, GLFW_KEY_W);
-        inputZ -= glfwGetKey(window, GLFW_KEY_S);
+        /*int inputZ = glfwGetKey(window, GLFW_KEY_W);
+        inputZ -= glfwGetKey(window, GLFW_KEY_S);*/
 
         movementSettings.forwardAcceleration -= inputZ * movementSettings.speedZ * deltaTime;
         float threshold = 0.1f * movementSettings.speedZ * deltaTime;

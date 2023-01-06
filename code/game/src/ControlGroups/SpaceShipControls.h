@@ -13,9 +13,9 @@ namespace game::controls {
         glm::vec3 GetInputVector();
 
     private:
-        float GetXInput();
-        float GetYInput();
-        float GetZInput();
+        float GetXInput(GLFWwindow *window);
+        float GetYInput(GLFWwindow *window);
+        float GetZInput(GLFWwindow *window);
 
         glm::vec3 inputVector {0.0f, 0.0f, 0.0f};
     };
