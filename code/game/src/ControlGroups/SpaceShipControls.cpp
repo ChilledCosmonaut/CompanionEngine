@@ -3,8 +3,14 @@
 namespace game::controls {
 
     void SpaceShipControls::UpdateKeys(GLFWwindow *window) {
-        glm::vec3 inputVector(0.0f, 0.0f, 0.0f);
+        inputVector = glm::vec3(0.0f, 0.0f, 0.0f);
 
+        inputVector.x = GetXInput();
+        inputVector.y = GetYInput();
+        inputVector.z = GetZInput();
     }
 
+    glm::vec3 SpaceShipControls::GetInputVector() {
+        return inputVector;
+    }
 }
