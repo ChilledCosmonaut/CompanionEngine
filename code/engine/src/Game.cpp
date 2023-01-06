@@ -20,7 +20,7 @@ namespace gl3::engine {
         context.run([&](Context &ctx){
             SetUpCallEngineSystems();
             onSetup.invoke(*this);
-            inputManager->UpdateInput();
+            inputManager->UpdateInput(getWindow());
             onUpdate.invoke(*this);
             UpdateCallEngineSystems();
             onDestroy.invoke(*this);

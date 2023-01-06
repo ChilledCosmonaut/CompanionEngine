@@ -8,7 +8,7 @@
 namespace game::controls {
     using namespace gl3::engine::inputSystem;
 
-    class SpaceshipTranslationControls : InputGroup {
+    class SpaceshipTranslationControls : public InputGroup {
     public:
         void UpdateKeys(GLFWwindow *window) override;
         glm::vec3 GetInputVector();
@@ -21,7 +21,7 @@ namespace game::controls {
         glm::vec3 inputVector {0.0f, 0.0f, 0.0f};
     };
 
-    class SpaceshipRotationControls : InputGroup {
+    class SpaceshipRotationControls : public InputGroup {
     public:
         void UpdateKeys(GLFWwindow *window) override;
         glm::vec3 GetInputVector();

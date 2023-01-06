@@ -17,12 +17,14 @@ namespace gl3::engine::inputSystem {
 
         void UpdateInput(GLFWwindow *window);
 
+        void AddInputGroup(std::shared_ptr<InputGroup> inputGroup);
+
     private:
         InputManager() = default;
 
         ~InputManager() override = default;
 
-        std::vector<InputGroup> inputGroups {};
+        std::vector<std::shared_ptr<InputGroup>> inputGroups {};
         static inline inputSystem::InputManager* inputManager;
     };
 }

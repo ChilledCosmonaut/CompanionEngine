@@ -10,20 +10,27 @@
 #include "ControlGroups/Spaceship/SpaceShipControls.h"
 
 namespace gl3::game {
-class ShipController : public engine::entityComponentSystem::System {
+
+    using namespace ::game::controls;
+
+    class ShipController : public engine::entityComponentSystem::System {
     public:
-    ShipController() = default;
+        ShipController() = default;
 
-    void OnSetUp(engine::Game &game) override {};
+        void OnSetUp(engine::Game &game) override;
 
-    void Update(engine::Game &game) override;
+        void Update(engine::Game &game) override;
 
-    void OnShutdown(engine::Game &engine) override {};
+        void OnShutdown(engine::Game &engine) override {};
 
     private:
+
         void HandleKeyboard(GLFWwindow *window, ShipMovementSettings &movementSettings, float deltaTime);
 
-        void CheckMousePosition(GLFWwindow *window, int *screenWidth,
-                                int *screenHeight, ShipMovementSettings &movementSettings, float deltaTime);
+        void CheckMousePosition(GLFWwindow *window, int *screenWidth, int *screenHeight,
+                                ShipMovementSettings &movementSettings, float deltaTime);
+
+        std::shared_ptr<SpaceshipTranslationControls> translationControls = std::make_shared<SpaceshipTranslationControls>();
+        std::shared_ptr<SpaceshipRotationControls> rotationControls = std::make_shared<SpaceshipRotationControls>();
     };
 }

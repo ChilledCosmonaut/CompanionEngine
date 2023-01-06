@@ -23,7 +23,7 @@ namespace game::controls {
 
     float SpaceshipTranslationControls::GetYInput(GLFWwindow *window) {
         int input = glfwGetKey(window, GLFW_KEY_SPACE);
-        input -= glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL);
+        input -= glfwGetKey(window, GLFW_KEY_LEFT_CONTROL);
 
         return input;
     }

@@ -15,7 +15,11 @@ namespace gl3::engine::inputSystem {
 
     void InputManager::UpdateInput(GLFWwindow *window) {
         for (auto group:inputGroups) {
-            group.UpdateKeys(window);
+            group->UpdateKeys(window);
         }
+    }
+
+    void InputManager::AddInputGroup(std::shared_ptr<InputGroup> inputGroup) {
+        inputGroups.push_back(inputGroup);
     }
 }

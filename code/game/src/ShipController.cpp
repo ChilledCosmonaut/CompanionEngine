@@ -1,5 +1,6 @@
 #include "ShipController.h"
 
+class SpaceshipTranslations;
 namespace gl3::game {
 
     using namespace engine;
@@ -28,12 +29,23 @@ namespace gl3::game {
         }
     }
 
+    void ShipController::OnSetUp(engine::Game &game) {
+        auto inputManager = engine::inputSystem::InputManager::GetInputManager();
+        inputManager->AddInputGroup(translationControls);
+        inputManager->AddInputGroup(rotationControls);
+    }
+
     void ShipController::Update(engine::Game &game) {
         auto window = game.getWindow();
         auto& registry = Ecs::Registry::getCurrent();
         auto componentView = registry.view<ShipMovementSettings, Physics::RigidBody>();
         int screenWidth = 3840, screenHeight = 2160;
         glfwGetWindowSize(window, &screenWidth, &screenHeight);
+
+        auto translationInput = translationControls->GetInputVector();
+        auto rotationInput = rotationControls->GetInputVector();
+
+        //std::cout<<"Translation: ("<<translationInput.x<<","<<translationInput.y<<","<<translationInput.z<<"), Rotation: ("<<rotationInput.x<<","<<rotationInput.y<<","<<rotationInput.z<<")"<<std::endl;
 
         for(auto& entity : componentView){
             auto& movementSettings = componentView.get<ShipMovementSettings>(entity);
@@ -51,8 +63,8 @@ namespace gl3::game {
             /*int fire = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
             Fire(fire, registry, currentTransform);*/
 
-             rigidBody.rigidBody->addForce(physx::PxVec3(-inputx * movementSettings.speedX, -inputy * movementSettings.speedY, movementSettings.forwardAcceleration)
-                                           * engine::Time::GetDeltaTime());
+             /*rigidBody.rigidBody->addForce(physx::PxVec3(-inputx * movementSettings.speedX, -inputy * movementSettings.speedY, movementSettings.forwardAcceleration)
+                                           * engine::Time::GetDeltaTime());*/
 
             /*auto translation = glm::vec3(-inputx * movementSettings.speedX, -inputy * movementSettings.speedY, movementSettings.forwardAcceleration) * engine::Time::GetDeltaTime();
             glm::vec3 rotation = glm::vec3(movementSettings.rotationAccelerationX, movementSettings.rotationAccelerationY, movementSettings.rotationAccelerationZ);*/
@@ -66,7 +78,7 @@ namespace gl3::game {
         /*int inputZ = glfwGetKey(window, GLFW_KEY_W);
         inputZ -= glfwGetKey(window, GLFW_KEY_S);*/
 
-        movementSettings.forwardAcceleration -= inputZ * movementSettings.speedZ * deltaTime;
+        /*movementSettings.forwardAcceleration -= inputZ * movementSettings.speedZ * deltaTime;
         float threshold = 0.1f * movementSettings.speedZ * deltaTime;
 
         if (!(inputZ < 0.1f && inputZ > -0.1f)) {
@@ -80,8 +92,8 @@ namespace gl3::game {
                 movementSettings.forwardAcceleration -= sgn(movementSettings.forwardAcceleration) * movementSettings.drag * deltaTime;
         }
 
-        /*int input = glfwGetKey(window, GLFW_KEY_Q);
-        input -= glfwGetKey(window, GLFW_KEY_E);*/
+        *//*int input = glfwGetKey(window, GLFW_KEY_Q);
+        input -= glfwGetKey(window, GLFW_KEY_E);*//*
 
         movementSettings.rotationAccelerationZ -= input * deltaTime * movementSettings.rotationZ;
 
@@ -99,7 +111,7 @@ namespace gl3::game {
 
             if (movementSettings.rotationAccelerationZ != 0)
                 movementSettings.rotationAccelerationZ -= sgn(movementSettings.rotationAccelerationZ) * movementSettings.drag * deltaTime;
-        }
+        }*/
     }
 
     void ShipController::CheckMousePosition(GLFWwindow *window, int *screenWidth,
