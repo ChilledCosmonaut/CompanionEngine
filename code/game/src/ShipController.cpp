@@ -33,6 +33,7 @@ namespace gl3::game {
         auto& registry = Ecs::Registry::getCurrent();
         auto componentView = registry.view<ShipMovementSettings, Physics::RigidBody>();
         int screenWidth = 3840, screenHeight = 2160;
+        glfwGetWindowSize(window, &screenWidth, &screenHeight);
 
         for(auto& entity : componentView){
             auto& movementSettings = componentView.get<ShipMovementSettings>(entity);
@@ -79,8 +80,8 @@ namespace gl3::game {
                 movementSettings.forwardAcceleration -= sgn(movementSettings.forwardAcceleration) * movementSettings.drag * deltaTime;
         }
 
-        int input = glfwGetKey(window, GLFW_KEY_Q);
-        input -= glfwGetKey(window, GLFW_KEY_E);
+        /*int input = glfwGetKey(window, GLFW_KEY_Q);
+        input -= glfwGetKey(window, GLFW_KEY_E);*/
 
         movementSettings.rotationAccelerationZ -= input * deltaTime * movementSettings.rotationZ;
 
