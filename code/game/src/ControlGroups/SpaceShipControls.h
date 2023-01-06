@@ -1,5 +1,7 @@
 #pragma once
 
+#include "glm/vec3.hpp"
+
 #include "engine/Systems/Input/InputGroup.h"
 
 namespace game::controls {
@@ -7,6 +9,6 @@ namespace game::controls {
 
     class SpaceShipControls : InputGroup {
 
-        void UpdateKeys();
+        void UpdateKeys(GLFWwindow *window) override;
     };
 }
