@@ -1,3 +1,4 @@
+#include <glm/geometric.hpp>
 #include "SpaceShipControls.h"
 
 namespace game::controls {
@@ -5,14 +6,14 @@ namespace game::controls {
     void SpaceshipTranslationControls::UpdateKeys(GLFWwindow *window) {
         inputVector = glm::vec3(0.0f, 0.0f, 0.0f);
 
-        inputVector.x = GetXInput(window);
-        inputVector.y = GetYInput(window);
+        /*inputVector.x = GetXInput(window);
+        inputVector.y = GetYInput(window);*/
         inputVector.z = GetZInput(window);
     }
 
     glm::vec3 SpaceshipTranslationControls::GetInputVector() {
         return inputVector;
-    }
+    }/*
 
     float SpaceshipTranslationControls::GetXInput(GLFWwindow *window) {
         int input = glfwGetKey(window, GLFW_KEY_A);
@@ -26,11 +27,11 @@ namespace game::controls {
         input -= glfwGetKey(window, GLFW_KEY_LEFT_CONTROL);
 
         return input;
-    }
+    }*/
 
     float SpaceshipTranslationControls::GetZInput(GLFWwindow *window) {
-        int input = glfwGetKey(window, GLFW_KEY_W);
-        input -= glfwGetKey(window, GLFW_KEY_S);
+        int input = glfwGetKey(window, GLFW_KEY_S);
+        input -= glfwGetKey(window, GLFW_KEY_W);
 
         return input;
     }
@@ -43,6 +44,8 @@ namespace game::controls {
         inputVector.x = mousePosition.x;
         inputVector.y = mousePosition.y;
         inputVector.z = GetZInput(window);
+
+        inputVector = glm::normalize(inputVector);
     }
 
     glm::vec3 SpaceshipRotationControls::GetInputVector() {
@@ -51,10 +54,10 @@ namespace game::controls {
 
     glm::vec2 SpaceshipRotationControls::HandleMouseInput(GLFWwindow *window) {
         glm::dvec2 mousePosition;
-        glfwGetCursorPos(window, &mousePosition.x, &mousePosition.y);
+        glfwGetCursorPos(window, &mousePosition.y, &mousePosition.x);
 
         glm::ivec2 screenSize;
-        glfwGetWindowSize(window, &screenSize.x, &screenSize.y);
+        glfwGetWindowSize(window, &screenSize.y, &screenSize.x);
 
         mousePosition -= screenSize/2; //Orient mouse position to middle of the screen
         mousePosition /= screenSize/2; //Scale position to range between -1 and 1
@@ -63,8 +66,8 @@ namespace game::controls {
     }
 
     float SpaceshipRotationControls::GetZInput(GLFWwindow *window) {
-        int input = glfwGetKey(window, GLFW_KEY_Q);
-        input -= glfwGetKey(window, GLFW_KEY_E);
+        int input = glfwGetKey(window, GLFW_KEY_D);
+        input -= glfwGetKey(window, GLFW_KEY_A);
 
         return input;
     }

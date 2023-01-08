@@ -4,6 +4,7 @@ class ShipMovementSettings {
 public:
     float maxSpeed = 1200.0f;
     float maxRotation = 200.0f;
+    float rotationSpeed = 1.0f;
 
     float mouseOffset = 0.15f;
 

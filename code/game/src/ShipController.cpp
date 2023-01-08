@@ -45,7 +45,7 @@ namespace gl3::game {
 
     void ShipController::Update(engine::Game &game) {
         auto &registry = Ecs::Registry::getCurrent();
-        auto componentView = registry.view<ShipMovementSettings, Physics::RigidBody>();
+        auto componentView = registry.view<ShipMovementSettings, Physics::RigidBody, Graphics::Transform>();
 
         auto translationInput = translationControls->GetInputVector();
         auto rotationInput = rotationControls->GetInputVector();
@@ -53,9 +53,10 @@ namespace gl3::game {
         for (auto &entity: componentView) {
             auto &movementSettings = componentView.get<ShipMovementSettings>(entity);
             auto &rigidBody = componentView.get<Physics::RigidBody>(entity);
+            auto &transform = componentView.get<Graphics::Transform>(entity);
 
-            HandleTranslation(rigidBody, movementSettings, translationInput);
-            HandleRotation(rigidBody, movementSettings, rotationInput);
+            HandleTranslation(rigidBody, movementSettings, transform.rotation * translationInput);
+            HandleRotation(rigidBody, movementSettings, transform.rotation * rotationInput);
 
             /*int fire = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
             Fire(fire, registry, currentTransform);*/
@@ -70,11 +71,11 @@ namespace gl3::game {
     }
 
     void ShipController::HandleRotation(Physics::RigidBody &rigidBody,
-                                            ShipMovementSettings &movementSettings,
-                                            glm::vec3 rotationInput) {
-        rigidBody.rigidBody->setAngularVelocity(
-                physx::PxVec3(rotationInput.x * movementSettings.speedX,
-                              rotationInput.y * movementSettings.speedY,
-                              rotationInput.z * movementSettings.speedZ));
+                                        ShipMovementSettings &movementSettings,
+                                        glm::vec3 rotationInput) {
+        physx::PxVec3 velocity(-rotationInput.x, -rotationInput.y, -rotationInput.z);
+        velocity *= movementSettings.rotationSpeed;
+        std::cout<<velocity.x<<","<<velocity.y<<","<<velocity.z<<std::endl;
+        rigidBody.rigidBody->setAngularVelocity(velocity);
     }
 }
