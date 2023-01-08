@@ -1,5 +1,4 @@
 #include <glm/geometric.hpp>
-#include <iostream>
 #include "SpaceShipControls.h"
 
 namespace game::controls {
