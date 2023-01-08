@@ -38,7 +38,8 @@ namespace gl3::game {
             auto &movementSettings = componentView.get<ShipMovementSettings>(entity);
             auto &rigidBody = componentView.get<Physics::RigidBody>(entity);
 
-            rigidBody.rigidBody->setAngularDamping(0.7f);
+            rigidBody.rigidBody->setAngularDamping(2.0f);
+            rigidBody.rigidBody->setLinearDamping(0.7f);
             rigidBody.rigidBody->setMaxLinearVelocity(movementSettings.maxSpeed);
         }
     }
@@ -73,8 +74,9 @@ namespace gl3::game {
     void ShipController::HandleRotation(Physics::RigidBody &rigidBody,
                                         ShipMovementSettings &movementSettings,
                                         glm::vec3 rotationInput) {
-        physx::PxVec3 velocity(-rotationInput.x, -rotationInput.y, -rotationInput.z);
-        velocity *= movementSettings.rotationSpeed;
-        rigidBody.rigidBody->setAngularVelocity(velocity);
+        if (glm::length(rotationInput) != 0){
+            auto velocity = physx::PxVec3(-rotationInput.x, -rotationInput.y, -rotationInput.z) * movementSettings.rotationSpeed;
+            rigidBody.rigidBody->setAngularVelocity(velocity);
+        }
     }
 }

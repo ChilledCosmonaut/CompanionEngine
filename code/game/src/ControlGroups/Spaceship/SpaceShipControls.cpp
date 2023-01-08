@@ -1,4 +1,5 @@
 #include <glm/geometric.hpp>
+#include <iostream>
 #include "SpaceShipControls.h"
 
 namespace game::controls {
@@ -45,7 +46,7 @@ namespace game::controls {
         inputVector.y = mousePosition.y;
         inputVector.z = GetZInput(window);
 
-        inputVector = glm::normalize(inputVector);
+        auto test = glm::normalize(inputVector);
     }
 
     glm::vec3 SpaceshipRotationControls::GetInputVector() {
