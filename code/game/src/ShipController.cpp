@@ -75,7 +75,6 @@ namespace gl3::game {
                                         glm::vec3 rotationInput) {
         physx::PxVec3 velocity(-rotationInput.x, -rotationInput.y, -rotationInput.z);
         velocity *= movementSettings.rotationSpeed;
-        std::cout<<velocity.x<<","<<velocity.y<<","<<velocity.z<<std::endl;
         rigidBody.rigidBody->setAngularVelocity(velocity);
     }
 }
