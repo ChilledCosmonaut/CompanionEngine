@@ -62,7 +62,9 @@ namespace game::controls {
         mousePosition -= screenSize/2; //Orient mouse position to middle of the screen
         mousePosition /= screenSize/2; //Scale position to range between -1 and 1
 
-        return mousePosition;
+        bool outsideDeadZone = glm::length(mousePosition) > 0.3f; //Calculates if mouse is outside dead zone
+
+        return mousePosition * (double) outsideDeadZone;
     }
 
     float SpaceshipRotationControls::GetZInput(GLFWwindow *window) {
