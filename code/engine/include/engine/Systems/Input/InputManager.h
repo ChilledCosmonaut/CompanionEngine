@@ -3,8 +3,6 @@
 #include <vector>
 #include <functional>
 
-#include "GLFW/glfw3.h"
-
 #include "InputGroup.h"
 #include "../../../../src/ECS/CoreSystem.h"
 
@@ -17,14 +15,16 @@ namespace gl3::engine::inputSystem {
         /// Need to adhere to the singleton pattern
         static void DestroyInputManager();
 
-        void UpdateInput();
+        void UpdateInput(GLFWwindow *window);
+
+        void AddInputGroup(std::shared_ptr<InputGroup> inputGroup);
 
     private:
         InputManager() = default;
 
         ~InputManager() override = default;
 
-        std::vector<InputGroup> inputGroups {};
+        std::vector<std::shared_ptr<InputGroup>> inputGroups {};
         static inline inputSystem::InputManager* inputManager;
     };
 }
