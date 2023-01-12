@@ -34,6 +34,9 @@ namespace gl3::engine::Physics {
                             return CreateShape(x, mMaterial);
                         }, rigidBody.shapeInfo);
 
+            shape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, !rigidBody.isTrigger);
+            shape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, rigidBody.isTrigger);
+
             physx::PxTransform currentColliderTransform(transform.translation.x, transform.translation.y, transform.translation.z,
                                                         physx::PxQuat(
                                                                 transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w));
@@ -93,6 +96,9 @@ namespace gl3::engine::Physics {
                     [this, &mMaterial](auto&& x) -> physx::PxShape* {
                         return CreateShape(x, mMaterial);
                     }, rigidBody.shapeInfo);
+
+            newShape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, !rigidBody.isTrigger);
+            newShape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, rigidBody.isTrigger);
 
             rigidBody.rigidBody->attachShape(*newShape);
 
@@ -208,6 +214,7 @@ namespace gl3::engine::Physics {
         mDispatcher = physx::PxDefaultCpuDispatcherCreate(2);
         sceneDesc.cpuDispatcher = mDispatcher;
         sceneDesc.filterShader = physx::PxDefaultSimulationFilterShader;
+        sceneDesc.simulationEventCallback = this;
         mScene = mPhysics->createScene(sceneDesc);
 
 #if DEBUG

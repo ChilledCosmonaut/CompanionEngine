@@ -12,6 +12,7 @@ namespace gl3::engine::Physics {
         physx::PxRigidDynamic* rigidBody = nullptr;
         physx::PxShape* physXShape = nullptr;
         float mass = 1.f;
+        bool isTrigger = false;
         Shapes::Shapes shape;
         std::variant<Shapes::Sphere, Shapes::Box, Shapes::Capsule> shapeInfo;
     };
