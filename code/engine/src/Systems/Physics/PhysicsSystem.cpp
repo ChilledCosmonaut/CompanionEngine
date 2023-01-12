@@ -28,32 +28,14 @@ namespace gl3::engine::Physics {
                             rigidBody.materialProperties.x, rigidBody.materialProperties.y,
                             rigidBody.materialProperties.z);
 
-            physx::PxShape *shape;
-
-            Shapes::Sphere sphere;
-            Shapes::Box box;
-            Shapes::Capsule capsule;
-
-            switch (rigidBody.shape) {
-                case Shapes::sphere:
-                    sphere = std::get<Shapes::sphere>(rigidBody.shapeInfo);
-                    shape = mPhysics->createShape(
-                            physx::PxSphereGeometry(sphere.radius), *mMaterial);
-                    break;
-                case Shapes::box:
-                    box = std::get<Shapes::box>(rigidBody.shapeInfo);
-                    shape = mPhysics->createShape(
-                            physx::PxBoxGeometry(box.dimensions.x, box.dimensions.y, box.dimensions.z), *mMaterial);
-                    break;
-                case Shapes::capsule:
-                    capsule = std::get<Shapes::capsule>(rigidBody.shapeInfo);
-                    shape = mPhysics->createShape(
-                            physx::PxCapsuleGeometry(capsule.radius, capsule.halfHeight), *mMaterial);
-                    break;
-            }
+            physx::PxShape *shape = std::visit(
+                    [this, &mMaterial](auto&& x) -> physx::PxShape* {
+                            return CreateShape(x, mMaterial);
+                        }, rigidBody.shapeInfo);
 
             physx::PxTransform currentColliderTransform(transform.translation.x, transform.translation.y, transform.translation.z,
-                                                        physx::PxQuat(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w));
+                                                        physx::PxQuat(
+                                                                transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w));
 
             rigidBody.rigidBody = mPhysics->createRigidDynamic(currentColliderTransform);
             rigidBody.rigidBody->attachShape(*shape);
@@ -106,29 +88,10 @@ namespace gl3::engine::Physics {
                             rigidBody.materialProperties.x, rigidBody.materialProperties.y,
                             rigidBody.materialProperties.z);
 
-            physx::PxShape *newShape;
-
-            Shapes::Sphere sphere;
-            Shapes::Box box;
-            Shapes::Capsule capsule;
-
-            switch (rigidBody.shape) {
-                case Shapes::sphere:
-                    sphere = std::get<Shapes::sphere>(rigidBody.shapeInfo);
-                    newShape = mPhysics->createShape(
-                            physx::PxSphereGeometry(sphere.radius), *mMaterial);
-                    break;
-                case Shapes::box:
-                    box = std::get<Shapes::box>(rigidBody.shapeInfo);
-                    newShape = mPhysics->createShape(
-                            physx::PxBoxGeometry(box.dimensions.x, box.dimensions.y, box.dimensions.z), *mMaterial);
-                    break;
-                case Shapes::capsule:
-                    capsule = std::get<Shapes::capsule>(rigidBody.shapeInfo);
-                    newShape = mPhysics->createShape(
-                            physx::PxCapsuleGeometry(capsule.radius, capsule.halfHeight), *mMaterial);
-                    break;
-            }
+            physx::PxShape *newShape = std::visit(
+                    [this, &mMaterial](auto&& x) -> physx::PxShape* {
+                        return CreateShape(x, mMaterial);
+                    }, rigidBody.shapeInfo);
 
             rigidBody.rigidBody->attachShape(*newShape);
 
@@ -138,7 +101,6 @@ namespace gl3::engine::Physics {
         }
 
         //For this to work use two Transform update cycles
-
         auto updatedBodyTransforms = registry.view<RigidBody, Graphics::Transform, Ecs::Flags::Update<Graphics::Transform>>();
 
         for (auto &entity: updatedBodyTransforms) {
@@ -251,5 +213,17 @@ namespace gl3::engine::Physics {
         mPvdTransporter->release();
 #endif
         mFoundation->release();
+    }
+
+    physx::PxShape *PhysicsSystem::CreateShape(Shapes::Sphere &sphere, physx::PxMaterial* material) {
+        return mPhysics->createShape(physx::PxSphereGeometry(sphere.radius), *material);
+    }
+
+    physx::PxShape *PhysicsSystem::CreateShape(Shapes::Box &box, physx::PxMaterial* material) {
+        return mPhysics->createShape(physx::PxBoxGeometry(box.dimensions.x, box.dimensions.y, box.dimensions.z), *material);
+    }
+
+    physx::PxShape *PhysicsSystem::CreateShape(Shapes::Capsule &capsule, physx::PxMaterial* material) {
+        return mPhysics->createShape(physx::PxCapsuleGeometry(capsule.radius, capsule.halfHeight), *material);
     }
 }

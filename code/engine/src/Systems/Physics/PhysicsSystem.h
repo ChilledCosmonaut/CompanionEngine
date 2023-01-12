@@ -31,6 +31,11 @@ namespace gl3::engine::Physics {
 
         ~PhysicsSystem()  override;
 
+        physx::PxShape* CreateShape(Shapes::Sphere& sphere, physx::PxMaterial* material);
+        physx::PxShape* CreateShape(Shapes::Box& box, physx::PxMaterial* material);
+        physx::PxShape* CreateShape(Shapes::Capsule& capsule, physx::PxMaterial* material);
+        physx::PxShape* CreateShape(Shapes::Plane& plane, physx::PxMaterial* material);
+
         inline static PhysicsSystem *physicsSystem = nullptr;
 
         physx::PxDefaultAllocator      mDefaultAllocatorCallback;
