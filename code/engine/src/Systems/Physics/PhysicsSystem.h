@@ -11,7 +11,7 @@
 
 namespace gl3::engine::Physics {
 
-    class PhysicsSystem : Ecs::CoreSystem {
+    class PhysicsSystem : Ecs::CoreSystem, public physx::PxSimulationEventCallback {
     public:
         /// Need to adhere to the singleton pattern
         static PhysicsSystem *GetPhysicsSystem();
@@ -25,6 +25,13 @@ namespace gl3::engine::Physics {
 
         void Shutdown();
 
+        void onConstraintBreak(physx::PxConstraintInfo* constraints, physx::PxU32 count) override {};
+        void onWake(physx::PxActor** actors, physx::PxU32 count) override {};
+        void onSleep(physx::PxActor** actors, physx::PxU32 count) override {};
+        void onContact(const physx::PxContactPairHeader& pairHeader, const physx::PxContactPair* pairs, physx::PxU32 nbPairs) override {};
+        void onTrigger(physx::PxTriggerPair* pairs, physx::PxU32 count) override;
+        void onAdvance(const physx::PxRigidBody*const* bodyBuffer, const physx::PxTransform* poseBuffer, const physx::PxU32 count) override {};
+
     private:
 
         PhysicsSystem();
@@ -34,7 +41,6 @@ namespace gl3::engine::Physics {
         physx::PxShape* CreateShape(Shapes::Sphere& sphere, physx::PxMaterial* material);
         physx::PxShape* CreateShape(Shapes::Box& box, physx::PxMaterial* material);
         physx::PxShape* CreateShape(Shapes::Capsule& capsule, physx::PxMaterial* material);
-        physx::PxShape* CreateShape(Shapes::Plane& plane, physx::PxMaterial* material);
 
         inline static PhysicsSystem *physicsSystem = nullptr;
 
@@ -50,5 +56,7 @@ namespace gl3::engine::Physics {
 
         physx::PxPvd*                  mPvd = nullptr;
         physx::PxPvdTransport*         mPvdTransporter = nullptr;
+
+        std::vector<physx::PxTriggerPair> triggers {};
     };
 }

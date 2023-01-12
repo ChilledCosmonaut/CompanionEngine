@@ -69,7 +69,7 @@ namespace gl3::game {
                                            glm::vec3 translationInput) {
         rigidBody.rigidBody->addForce(
                 physx::PxVec3(translationInput.x, translationInput.y, translationInput.z)
-                * movementSettings.speedZ * engine::Time::GetDeltaTime());
+                * movementSettings.speedZ * rigidBody.mass * engine::Time::GetDeltaTime());
     }
 
     void ShipController::HandleRotation(Physics::RigidBody &rigidBody,

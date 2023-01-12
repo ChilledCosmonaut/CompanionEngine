@@ -1,3 +1,4 @@
+#include <iostream>
 #include "PhysicsSystem.h"
 
 namespace gl3::engine::Physics {
@@ -168,6 +169,21 @@ namespace gl3::engine::Physics {
 
             Ecs::Registry::RemoveDestroyFlag<RigidStatic>(entity);
         }
+    }
+
+    void PhysicsSystem::onTrigger(physx::PxTriggerPair *pairs, physx::PxU32 count) {
+        triggers.clear();
+
+        for(int i = 0; i < count; i++)
+        {
+            // ignore pairs when shapes have been deleted
+            if (pairs[i].flags & (physx::PxTriggerPairFlag::eREMOVED_SHAPE_TRIGGER | physx::PxTriggerPairFlag::eREMOVED_SHAPE_OTHER))
+                continue;
+
+            triggers.push_back(pairs[i]);
+        }
+
+        std::cout<<triggers.size()<<std::endl;
     }
 
     PhysicsSystem::PhysicsSystem() {
