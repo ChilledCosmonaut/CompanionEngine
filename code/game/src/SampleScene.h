@@ -46,12 +46,20 @@ namespace gl3::game {
             engine::Graphics::TransformationUtils::AddChildEntity(mainCameraObject, test);
 
             auto ball = CreateEntity();
+            auto &ballTransform = registry.get<engine::Graphics::Transform>(ball);
+            ballTransform.translation = glm::vec3(2,2,2);
             auto &ballModel = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(ball);
-            ballModel.modelName = assets::Models::RadarBox$obj;
+            ballModel.modelName = assets::Models::Models$Ball$fbx;
             auto &ballRigidBody = engine::Ecs::Registry::AddComponent<engine::Physics::RigidBody>(ball);
-            rigidBody.shapeInfo = Shapes::Sphere{};
-            rigidBody.shape = Shapes::sphere;
-            rigidBody.isTrigger = true;
+            ballRigidBody.shapeInfo = Shapes::Sphere{};
+            ballRigidBody.shape = Shapes::sphere;
+
+            auto ballPickUp = CreateEntity();
+            auto &ballPickUpRigidBody = engine::Ecs::Registry::AddComponent<engine::Physics::RigidBody>(ballPickUp);
+            ballPickUpRigidBody.shapeInfo = Shapes::Sphere{};
+            ballPickUpRigidBody.shape = Shapes::sphere;
+            ballPickUpRigidBody.isTrigger = true;
+            engine::Graphics::TransformationUtils::AddChildEntity(ball, ballPickUp);
 
             //auto testText = CreateEntity();
             //auto &text = engine::Ecs::Registry::AddComponent<engine::Graphics::Text>(testText);
