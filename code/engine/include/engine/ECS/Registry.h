@@ -24,6 +24,15 @@ namespace gl3::engine::Ecs {
             }
         }
 
+        template<typename Component, typename... Args>
+        static Component &AddComponentWithoutFlag(entt::entity entity, Args &&...args) {
+            if (!registry.any_of<Component>(entity)){
+                return registry.emplace<Component>(entity, args...);
+            } else {
+                return registry.get<Component>(entity);
+            }
+        }
+
         template<typename Component>
         static void RemoveSetupFlag(entt::entity entity) {
             if (registry.any_of<Flags::Setup<Component>>(entity))
@@ -52,6 +61,11 @@ namespace gl3::engine::Ecs {
         static void RemoveDestroyFlag(entt::entity entity) {
             if (registry.any_of<Flags::Destroy<Component>>(entity))
                 registry.remove<Flags::Destroy<Component>>(entity);
+        }
+
+        template<typename Component, typename... Args>
+        static void DestroyComponentWithoutFlag(entt::entity entity, Args &&...args) {
+            registry.remove<Component>(entity);
         }
 
     private:

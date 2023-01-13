@@ -7,6 +7,8 @@
 #include "engine/Time.h"
 #include "engine/Systems/Physics/Components/RigidBody.h"
 #include "engine/Scene.h"
+#include "engine/Systems/Physics/Components/TriggerEvents.h"
+
 #include "../../ECS/CoreSystem.h"
 
 namespace gl3::engine::Physics {
@@ -42,7 +44,7 @@ namespace gl3::engine::Physics {
         physx::PxShape* CreateShape(Shapes::Box& box, physx::PxMaterial* material);
         physx::PxShape* CreateShape(Shapes::Capsule& capsule, physx::PxMaterial* material);
 
-        inline static PhysicsSystem *physicsSystem = nullptr;
+        inline static PhysicsSystem*   physicsSystem = nullptr;
 
         physx::PxDefaultAllocator      mDefaultAllocatorCallback;
         physx::PxDefaultErrorCallback  mDefaultErrorCallback;
@@ -57,6 +59,6 @@ namespace gl3::engine::Physics {
         physx::PxPvd*                  mPvd = nullptr;
         physx::PxPvdTransport*         mPvdTransporter = nullptr;
 
-        std::vector<physx::PxTriggerPair> triggers {};
+        std::unordered_map<physx::PxRigidActor*, entt::entity> actorMap {};
     };
 }

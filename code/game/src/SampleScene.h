@@ -33,7 +33,7 @@ namespace gl3::game {
             auto &cameraTransform = registry.get<engine::Graphics::Transform>(mainCameraObject);
             engine::Graphics::TransformationUtils::AddRotation(mainCameraObject, cameraTransform, glm::vec3(0, 180, 0));
             auto &rigidBody = engine::Ecs::Registry::AddComponent<engine::Physics::RigidBody>(mainCameraObject);
-            rigidBody.shapeInfo = Shapes::Sphere();
+            rigidBody.shapeInfo = Shapes::Sphere{2};
             rigidBody.shape = Shapes::sphere;
 
             auto skybox = CreateEntity();
@@ -44,6 +44,14 @@ namespace gl3::game {
             model.modelName = assets::Models::SpaceShip$MainFrame$obj;
 
             engine::Graphics::TransformationUtils::AddChildEntity(cameraTransform, mainCameraObject, test);
+
+            auto ball = CreateEntity();
+            auto &ballModel = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(ball);
+            ballModel.modelName = assets::Models::RadarBox$obj;
+            auto &ballRigidBody = engine::Ecs::Registry::AddComponent<engine::Physics::RigidBody>(ball);
+            rigidBody.shapeInfo = Shapes::Sphere{};
+            rigidBody.shape = Shapes::sphere;
+            rigidBody.isTrigger = true;
 
             //auto testText = CreateEntity();
             //auto &text = engine::Ecs::Registry::AddComponent<engine::Graphics::Text>(testText);
@@ -72,6 +80,7 @@ namespace gl3::game {
             auto untexturedShader = fileManager->getAsset(assets::shaders$vertexShader$glsl, assets::shaders$untexturedFragmentShader$glsl);
             auto unlitShader = fileManager->getAsset(assets::shaders$vertexShader$glsl, assets::shaders$lightFragmentShader$glsl);
             engine::Graphics::ModelUtils::SetShader(model, untexturedShader);
+            engine::Graphics::ModelUtils::SetShader(ballModel, untexturedShader);
             /*engine::Graphics::Utils::ModelUtils::SetShader(model1, untexturedShader);
             engine::Graphics::Utils::ModelUtils::SetShader(model2, untexturedShader);
             engine::Graphics::Utils::ModelUtils::SetShader(model3, untexturedShader);*/

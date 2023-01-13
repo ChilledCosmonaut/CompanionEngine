@@ -48,6 +48,8 @@ namespace gl3::engine::Physics {
             shape->release();
             rigidBody.rigidBody->setMass(rigidBody.mass);
 
+            actorMap.emplace(rigidBody.rigidBody, entity);
+
             Ecs::Registry::RemoveSetupFlag<RigidBody>(entity);
         }
 
@@ -80,6 +82,20 @@ namespace gl3::engine::Physics {
     void PhysicsSystem::Update() {
 
         auto &registry = Ecs::Registry::getCurrent();
+
+        auto triggerEnterView = registry.view<TriggerEvents::OnTriggerEnter>();
+
+        for (auto &entity: triggerEnterView) {
+            std::cout<<"Entering Trigger"<<std::endl;
+            Ecs::Registry::DestroyComponentWithoutFlag<TriggerEvents::OnTriggerEnter>(entity);
+        }
+
+        auto triggerExitView = registry.view<TriggerEvents::OnTriggerExit>();
+
+        for (auto &entity: triggerExitView) {
+            std::cout<<"Leaving Trigger"<<std::endl;
+            Ecs::Registry::DestroyComponentWithoutFlag<TriggerEvents::OnTriggerExit>(entity);
+        }
 
         auto updatedRigidBodies = registry.view<RigidBody, Ecs::Flags::Update<RigidBody>>();
 
@@ -178,7 +194,6 @@ namespace gl3::engine::Physics {
     }
 
     void PhysicsSystem::onTrigger(physx::PxTriggerPair *pairs, physx::PxU32 count) {
-        triggers.clear();
 
         for(int i = 0; i < count; i++)
         {
@@ -186,10 +201,14 @@ namespace gl3::engine::Physics {
             if (pairs[i].flags & (physx::PxTriggerPairFlag::eREMOVED_SHAPE_TRIGGER | physx::PxTriggerPairFlag::eREMOVED_SHAPE_OTHER))
                 continue;
 
-            triggers.push_back(pairs[i]);
+            if(pairs[i].status == physx::PxPairFlag::eNOTIFY_TOUCH_FOUND){
+                auto& event = Ecs::Registry::AddComponent<TriggerEvents::OnTriggerEnter>(actorMap[pairs[i].triggerActor]);
+                event.entity = actorMap[pairs[i].otherActor];
+            }else if(pairs[i].status == physx::PxPairFlag::eNOTIFY_TOUCH_LOST){
+                auto& event = Ecs::Registry::AddComponent<TriggerEvents::OnTriggerExit>(actorMap[pairs[i].triggerActor]);
+                event.entity = actorMap[pairs[i].otherActor];
+            }
         }
-
-        std::cout<<triggers.size()<<std::endl;
     }
 
     PhysicsSystem::PhysicsSystem() {
