@@ -43,7 +43,7 @@ namespace gl3::game {
             auto &model = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(test);
             model.modelName = assets::Models::SpaceShip$MainFrame$obj;
 
-            engine::Graphics::TransformationUtils::AddChildEntity(cameraTransform, mainCameraObject, test);
+            engine::Graphics::TransformationUtils::AddChildEntity(mainCameraObject, test);
 
             auto ball = CreateEntity();
             auto &ballModel = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(ball);

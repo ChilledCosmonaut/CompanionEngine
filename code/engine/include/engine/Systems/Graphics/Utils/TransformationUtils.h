@@ -9,7 +9,7 @@ namespace gl3::engine::Graphics {
     public:
         static glm::mat4 GetViewMatrix(Camera &camera, Transform &transform);
 
-        static void AddChildEntity(Transform &transform, entt::entity currentEntity, entt::entity childEntity);
+        static void AddChildEntity(entt::entity parentEntity, entt::entity childEntity);
         static void RemoveChildEntity(Transform &transform, entt::entity currentEntity, entt::entity childEntity);
 
         static void SetRotation(entt::entity entity, Transform &transform, glm::vec3 targetRotation);

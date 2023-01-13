@@ -6,20 +6,21 @@ namespace gl3::engine::Graphics{
         return camera.lookAtMatrix * transform.inverseModelMatrix;
     }
 
-    void TransformationUtils::AddChildEntity(Transform &transform, entt::entity currentEntity, entt::entity childEntity) {
+    void TransformationUtils::AddChildEntity(entt::entity parentEntity, entt::entity childEntity) {
 
         auto& registry = Ecs::Registry::getCurrent();
-
-        transform.children.emplace_back(childEntity);
         auto &childTransform = registry.get<Transform>(childEntity);
+        auto &parentTransform = registry.get<Transform>(parentEntity);
+
+        parentTransform.children.emplace_back(childEntity);
 
         if (childTransform.parent != entt::null){
             auto &childParentTransform = registry.get<Transform>(childTransform.parent);
             RemoveChildEntity(childParentTransform, childTransform.parent, childEntity);
         }
-        childTransform.parent = currentEntity;
-        childTransform.parentModelMatrix = transform.modelMatrix;
-        childTransform.parentInverseModelMatrix = transform.inverseModelMatrix;
+        childTransform.parent = parentEntity;
+        childTransform.parentModelMatrix = parentTransform.modelMatrix;
+        childTransform.parentInverseModelMatrix = parentTransform.inverseModelMatrix;
 
         Ecs::Registry::UpdateComponent<Transform>(childEntity);
     }
