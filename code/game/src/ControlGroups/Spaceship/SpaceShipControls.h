@@ -36,7 +36,7 @@ namespace game::controls {
     class SpaceshipBallControls : public InputGroup {
     public:
         void UpdateKeys(GLFWwindow *window) override;
-        float GetInput();
+        float GetInput() const;
 
     private:
         float input;
