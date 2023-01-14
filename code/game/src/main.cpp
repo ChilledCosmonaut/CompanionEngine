@@ -1,6 +1,6 @@
-#include "ShipController.h"
-#include "Enemy Controller.h"
-#include "ProjectileSystem.h"
+#include "Systems/ShipController.h"
+#include "Systems/Enemy Controller.h"
+#include "Systems/ProjectileSystem.h"
 #include "engine/Tools/Grid.h"
 #include "engine/Game.h"
 
