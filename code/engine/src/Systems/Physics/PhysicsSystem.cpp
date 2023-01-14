@@ -200,11 +200,15 @@ namespace gl3::engine::Physics {
                 continue;
 
             if(pairs[i].status == physx::PxPairFlag::eNOTIFY_TOUCH_FOUND){
-                auto& event = Ecs::Registry::AddComponent<TriggerEvents::OnTriggerEnter>(actorMap[pairs[i].triggerActor]);
-                event.entity = actorMap[pairs[i].otherActor];
+                auto& eventComponentOnTrigger = Ecs::Registry::AddComponent<TriggerEvents::OnTriggerEnter>(actorMap[pairs[i].triggerActor]);
+                eventComponentOnTrigger.entity = actorMap[pairs[i].otherActor];
+                auto& eventComponentOnOther = Ecs::Registry::AddComponent<TriggerEvents::OnTriggerEnter>(actorMap[pairs[i].otherActor]);
+                eventComponentOnOther.entity = actorMap[pairs[i].triggerActor];
             }else if(pairs[i].status == physx::PxPairFlag::eNOTIFY_TOUCH_LOST){
-                auto& event = Ecs::Registry::AddComponent<TriggerEvents::OnTriggerExit>(actorMap[pairs[i].triggerActor]);
-                event.entity = actorMap[pairs[i].otherActor];
+                auto& eventComponentOnTrigger = Ecs::Registry::AddComponent<TriggerEvents::OnTriggerExit>(actorMap[pairs[i].triggerActor]);
+                eventComponentOnTrigger.entity = actorMap[pairs[i].otherActor];
+                auto& eventComponentOnOther = Ecs::Registry::AddComponent<TriggerEvents::OnTriggerExit>(actorMap[pairs[i].otherActor]);
+                eventComponentOnOther.entity = actorMap[pairs[i].triggerActor];
             }
         }
     }
