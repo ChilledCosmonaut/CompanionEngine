@@ -1,6 +1,6 @@
 #pragma once
 
-#include "EnemyBehavourSettings.h"
+#include "../Components/EnemyBehavourSettings.h"
 #include "../Components/ShipMovementSettings.h"
 #include "engine/ECS/System.h"
 #include "../Components/ProjectileInfo.h"

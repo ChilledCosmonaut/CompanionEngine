@@ -2,7 +2,7 @@
 
 #include "engine/ECS/System.h"
 #include "ShipController.h"
-#include "EnemyBehavourSettings.h"
+#include "../Components/EnemyBehavourSettings.h"
 
 namespace gl3::game {
     class EnemyController : public engine::entityComponentSystem::System {
