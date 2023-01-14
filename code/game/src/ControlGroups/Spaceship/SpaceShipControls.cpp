@@ -73,4 +73,12 @@ namespace game::controls {
 
         return input;
     }
+
+    void SpaceshipBallControls::UpdateKeys(GLFWwindow *window) {
+        input = glfwGetKey(window, GLFW_KEY_SPACE);
+    }
+
+    float SpaceshipBallControls::GetInput() {
+        return input;
+    }
 }
