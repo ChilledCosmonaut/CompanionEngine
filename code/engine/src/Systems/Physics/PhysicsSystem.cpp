@@ -86,14 +86,12 @@ namespace gl3::engine::Physics {
         auto triggerEnterView = registry.view<TriggerEvents::OnTriggerEnter>();
 
         for (auto &entity: triggerEnterView) {
-            std::cout<<"Entering Trigger"<<std::endl;
             Ecs::Registry::DestroyComponentWithoutFlag<TriggerEvents::OnTriggerEnter>(entity);
         }
 
         auto triggerExitView = registry.view<TriggerEvents::OnTriggerExit>();
 
         for (auto &entity: triggerExitView) {
-            std::cout<<"Leaving Trigger"<<std::endl;
             Ecs::Registry::DestroyComponentWithoutFlag<TriggerEvents::OnTriggerExit>(entity);
         }
 
