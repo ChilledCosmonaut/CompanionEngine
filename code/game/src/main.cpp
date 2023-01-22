@@ -1,7 +1,6 @@
 #include "Systems/ShipController.h"
 #include "Systems/Enemy Controller.h"
 #include "Systems/ProjectileSystem.h"
-#include "engine/Tools/Grid.h"
 #include "engine/Game.h"
 
 #include "SampleScene.h"
