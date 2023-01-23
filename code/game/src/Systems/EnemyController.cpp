@@ -39,23 +39,19 @@ namespace gl3::game {
                             }
                         }
                     }*/
-                auto testVector = targetTransform.modelMatrix * glm::vec4(0,0,0,1);
+                //glm::normalize(glm::vec3((testVector) - glm::vec4(transform.translation, 1)))
 
-                    auto targetRotation = glm::toQuat(
-                                    glm::lookAt(
-                                            glm::vec3((testVector) - glm::vec4(transform.translation, 1)),
-                                            transform.translation,
-                                            glm::vec3(0, 1, 0)));
+                auto targetRotation = glm::toQuat(
+                        glm::lookAt(
+                                glm::vec3(transform.modelMatrix * glm::vec4(0, 0, 0, 1)),
+                                glm::vec3(targetTransform.modelMatrix * glm::vec4(0, 0, 0, 1)),
+                                glm::vec3(transform.rotation * glm::vec4(0, 1, 0, 0))));
                     glm::quat newRotation = glm::mix(transform.rotation, targetRotation,
                                                      0.5f * gl3::engine::Time::GetDeltaTime());
+                auto testVector = glm::eulerAngles(targetRotation);
                     std::cout<<"x: "<<testVector.x<<" ,y: "<<testVector.y<<" ,z: "<<testVector.z<<std::endl;
 
-                    engine::Graphics::TransformationUtils::SetRotation(entity, transform, targetRotation);
-                    /*if (std::fabs(glm::angle(newRotation) - glm::angle(transform.rotation)) <= 0.7f)
-                        engine::Graphics::TransformationUtils::AddRelativeTranslation(entity, transform,
-                                                                                      glm::vec3(0, 0, -2) *
-                                                                                      gl3::engine::Time::GetDeltaTime());*/
-                    Ecs::Registry::UpdateComponent<Transform>(enemy);
+                    engine::Graphics::TransformationUtils::SetRotation(enemy, transform, targetRotation);
                     break;
                 //}
             }
