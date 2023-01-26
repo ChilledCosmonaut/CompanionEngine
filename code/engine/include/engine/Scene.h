@@ -22,8 +22,6 @@ namespace gl3::engine{
             }
         }
 
-    protected:
-
         entt::entity CreateEntity(){
             auto& registry = Ecs::Registry::getCurrent();
 

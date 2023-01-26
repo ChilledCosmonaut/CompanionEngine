@@ -5,6 +5,7 @@
 #include "engine/Systems/Graphics/Utils/ModelUtils.h"
 #include "Components/EnemyBehavourSettings.h"
 #include "generated/Assets.h"
+#include "Utils/ModelCreationTemplates.h"
 
 namespace gl3::game {
 
@@ -14,21 +15,9 @@ namespace gl3::game {
     public:
         void onSetup() override{
             auto& registry = engine::Ecs::Registry::getCurrent();
-            auto fileManager = engine::filesystem::FileManager::GetFileManager();
 
             auto directionLightObject = CreateEntity();
             auto& directionLight = engine::Ecs::Registry::AddComponent<engine::Graphics::DirectionLight>(directionLightObject);
-
-            engine::Graphics::Material spaceShipMaterial{};
-
-            spaceShipMaterial.ambient  = fileManager->getAsset(assets::Images::StarSparrow_Red$png);
-            spaceShipMaterial.diffuse  = fileManager->getAsset(assets::Images::StarSparrow_Red$png);
-            spaceShipMaterial.specular = fileManager->getAsset(assets::Images::StarSparrow_Red$png);
-            spaceShipMaterial.normal   = fileManager->getAsset(assets::Images::StarSparrow$Textures$StarSparrow_Normal$png);
-
-            auto shader = fileManager->getAsset(assets::shaders$vertexShader$glsl, assets::shaders$fragmentShader$glsl)/*std::make_shared<engine::Graphics::shader>(assets::shaders$vertexShader$glsl, assets::shaders$fragmentShader$glsl)*/;
-            auto untexturedShader = fileManager->getAsset(assets::shaders$vertexShader$glsl, assets::shaders$untexturedFragmentShader$glsl);
-            auto unlitShader = fileManager->getAsset(assets::shaders$vertexShader$glsl, assets::shaders$lightFragmentShader$glsl);
 
             auto mainCameraObject = CreateEntity();
             engine::Ecs::Registry::AddComponent<engine::Graphics::Camera>(mainCameraObject);
@@ -36,21 +25,36 @@ namespace gl3::game {
 
             auto &cameraTransform = registry.get<engine::Graphics::Transform>(mainCameraObject);
             engine::Graphics::TransformationUtils::AddRotation(mainCameraObject, cameraTransform, glm::vec3(0, 180, 0));
+
             auto &rigidBody = engine::Ecs::Registry::AddComponent<engine::Physics::RigidBody>(mainCameraObject);
             rigidBody.shapeInfo = Shapes::Sphere{2};
             rigidBody.shape = Shapes::sphere;
 
+            auto &backgroundMusic = engine::Ecs::Registry::AddComponent<engine::soundSystem::BackgroundAudioSource>(mainCameraObject);
+            backgroundMusic.fileName = assets::audio$ambientSpace3$wav;
+            backgroundMusic.play = true;
+
             auto skybox = CreateEntity();
             engine::Ecs::Registry::AddComponent<engine::Graphics::Skybox>(skybox);
 
-            auto playerShip = CreateEntity();
-            auto &playerModel = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(playerShip);
-            playerModel.modelName = assets::Models::SpaceShip$MainFrame$obj;
-            engine::Graphics::ModelUtils::SetShader(playerModel, untexturedShader);
-
+            entt::entity playerShip = Utils::ModelCreationTemplates::CreatePlayer(this);
             engine::Graphics::TransformationUtils::AddChildEntity(mainCameraObject, playerShip);
 
-            auto ball = CreateEntity();
+            //Utils::ModelCreationTemplates::CreateCarrier(this);
+
+            //Utils::ModelCreationTemplates::CreateEnemyVariant1(this);
+
+            //Utils::ModelCreationTemplates::CreateAsteroidVariant1(this);
+
+            //Utils::ModelCreationTemplates::CreateSpaceStation(this);
+
+            auto asteroid = Utils::ModelCreationTemplates::CreateAsteroidVariant1(this);
+            auto &transform = registry.get<Graphics::Transform>(asteroid);
+            transform.translation = glm::vec3(0, 0, 20);
+
+            Utils::ModelCreationTemplates::CreateAsteroidBelt(this, 100, 200, 14);
+
+            /*auto ball = CreateEntity();
             auto &ballTransform = registry.get<engine::Graphics::Transform>(ball);
             ballTransform.translation = glm::vec3(2,2,2);
             auto &ballModel = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(ball);
@@ -65,7 +69,7 @@ namespace gl3::game {
             ballPickUpRigidBody.shapeInfo = Shapes::Sphere{};
             ballPickUpRigidBody.shape = Shapes::sphere;
             ballPickUpRigidBody.isTrigger = true;
-            engine::Graphics::TransformationUtils::AddChildEntity(ball, ballPickUp);
+            engine::Graphics::TransformationUtils::AddChildEntity(ball, ballPickUp);*/
 
             /*auto goal1 = CreateEntity();
             auto &goal1Transform = registry.get<engine::Graphics::Transform>(goal1);
@@ -159,15 +163,6 @@ namespace gl3::game {
             auto &boundary6Model = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(levelBoundary6);
             boundary6Model.modelName = assets::Models::Models$box$obj;
             engine::Graphics::ModelUtils::SetShader(boundary6Model, shader);*/
-
-            auto enemy = CreateEntity();
-            auto &enemyModel = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(enemy);
-            enemyModel.modelName = assets::Models::SpaceShip1$obj;
-            engine::Graphics::ModelUtils::SetShader(enemyModel, shader);
-            auto &enemyTransform = registry.get<engine::Graphics::Transform>(enemy);
-            engine::Graphics::TransformationUtils::SetTranslation(enemy, enemyTransform, glm::vec3(0, 3, 24));
-            engine::Graphics::TransformationUtils::SetScale(enemy, enemyTransform, glm::vec3(0.5f, 0.5f, 0.5f));
-            registry.emplace<EnemyBehaviour>(enemy);
         }
 
     private:
