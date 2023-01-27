@@ -11,7 +11,11 @@ namespace gl3::game{
             auto &transform = enemyView.get<engine::Graphics::Transform>(asteroid);
             auto &rigidBody = enemyView.get<engine::Physics::RigidBody>(asteroid);
 
+            glm::vec3 globalTranslation = engine::Graphics::TransformationUtils::GetGlobalTranslation(transform);
+
             glm::vec2 forceField(transform.translation.z, -transform.translation.x);
+
+            glm::vec3 vectorTrajectory = transform.modelMatrix * glm::vec4(forceField.x, 0, forceField.y, 0) / 5.f;
 
             rigidBody.rigidBody->setLinearVelocity(physx::PxVec3(forceField.x, 0, forceField.y) / 5);
         }

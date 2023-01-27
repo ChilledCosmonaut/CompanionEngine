@@ -42,7 +42,7 @@ namespace gl3::game {
 
             auto levelRoot = CreateEntity();
             auto &transform = registry.get<Graphics::Transform>(levelRoot);
-            transform.translation = glm::vec3(90, -30, 300);
+            //transform.translation = glm::vec3(90, -30, 300);
             TransformationUtils::SetRotation(levelRoot, transform, glm::vec3(0, 0, 20));
             auto spaceStation = Utils::ModelCreationTemplates::CreateSpaceStation(this);
             TransformationUtils::AddChildEntity(levelRoot, spaceStation);

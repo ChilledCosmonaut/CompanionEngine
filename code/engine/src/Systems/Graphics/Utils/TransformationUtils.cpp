@@ -1,3 +1,4 @@
+#include <iostream>
 #include "engine/Systems/Graphics/Utils/TransformationUtils.h"
 
 namespace gl3::engine::Graphics{
@@ -56,6 +57,10 @@ namespace gl3::engine::Graphics{
         Ecs::Registry::UpdateComponent<Transform>(entity);
     }
 
+    glm::vec3 TransformationUtils::GetGlobalRotation(Transform &transform) {
+        return glm::eulerAngles(transform.globalRotation);
+    }
+
     void TransformationUtils::SetTranslation(entt::entity entity, Transform &transform, glm::vec3 targetTranslation) {
         transform.translation = targetTranslation;
         Ecs::Registry::UpdateComponent<Transform>(entity);
@@ -74,6 +79,10 @@ namespace gl3::engine::Graphics{
     void TransformationUtils::SetTranslationFromGlobal(entt::entity entity, Transform &transform, glm::vec3 globalTranslation) {
         glm::vec3 newTranslation = glm::vec4(transform.translation, 1.) * transform.parentInverseModelMatrix;
         SetTranslation(entity, transform, newTranslation);
+    }
+
+    glm::vec3 TransformationUtils::GetGlobalTranslation(Transform &transform) {
+        return transform.modelMatrix * glm::vec4(0, 0, 0, 1);
     }
 
     void TransformationUtils::SetScale(entt::entity entity, Transform &transform, glm::vec3 targetScale) {
