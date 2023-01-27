@@ -40,6 +40,10 @@ namespace gl3::game::Utils{
             std::mt19937 scaleGenerator(randDevScale());
             std::uniform_int_distribution<int> scaleDistribution(1, 4);
 
+            std::random_device randDevLateralOffset;
+            std::mt19937 lateralOffsetGenerator(randDevLateralOffset());
+            std::normal_distribution<> lateralOffsetDistribution(-7, 7);
+
             for (int asteroidIndex = 0; (float)asteroidIndex < asteroidCount; ++asteroidIndex) {
                 entt::entity asteroid;
                 int scaleFactor = scaleDistribution(scaleGenerator);
@@ -58,7 +62,7 @@ namespace gl3::game::Utils{
                 registry.emplace<AsteroidField>(asteroid);
 
                 auto &transform = registry.get<Graphics::Transform>(asteroid);
-                transform.translation = glm::quat(glm::radians(glm::vec3(0, rotDistribution(rotGenerator), 0))) * glm::vec3(posDistribution(posGenerator), 0, 0);
+                transform.translation = glm::quat(glm::radians(glm::vec3(0, rotDistribution(rotGenerator), 0))) * glm::vec3(posDistribution(posGenerator), lateralOffsetDistribution(lateralOffsetGenerator), 0);
                 transform.scale = glm::vec3(1, 1, 1) * (float)scaleFactor;
                 TransformationUtils::AddChildEntity(asteroidBelt, asteroid);
 
