@@ -15,9 +15,7 @@ namespace gl3::game{
 
             glm::vec2 forceField(transform.translation.z, -transform.translation.x);
 
-            glm::vec3 vectorTrajectory = transform.modelMatrix * glm::vec4(forceField.x, 0, forceField.y, 0) / 5.f;
-
-            rigidBody.rigidBody->setLinearVelocity(physx::PxVec3(forceField.x, 0, forceField.y) / 5);
+            rigidBody.rigidBody->setLinearVelocity(physx::PxVec3(forceField.x, 0, forceField.y) / 5.f);
         }
     }
 }

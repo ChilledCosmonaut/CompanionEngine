@@ -24,7 +24,8 @@ namespace gl3::game {
             engine::Ecs::Registry::AddComponent<ShipMovementSettings>(mainCameraObject);
 
             auto &cameraTransform = registry.get<engine::Graphics::Transform>(mainCameraObject);
-            engine::Graphics::TransformationUtils::AddRotation(mainCameraObject, cameraTransform, glm::vec3(0, 180, 0));
+            engine::Graphics::TransformationUtils::AddRotation(mainCameraObject, cameraTransform, glm::vec3(0, 180, 20));
+            cameraTransform.translation = glm::vec3(-90, 30, -300);
 
             auto &rigidBody = engine::Ecs::Registry::AddComponent<engine::Physics::RigidBody>(mainCameraObject);
             rigidBody.shapeInfo = Shapes::Box{};
@@ -41,9 +42,6 @@ namespace gl3::game {
             engine::Graphics::TransformationUtils::AddChildEntity(mainCameraObject, playerShip);
 
             auto levelRoot = CreateEntity();
-            auto &transform = registry.get<Graphics::Transform>(levelRoot);
-            //transform.translation = glm::vec3(90, -30, 300);
-            TransformationUtils::SetRotation(levelRoot, transform, glm::vec3(0, 0, 20));
             auto spaceStation = Utils::ModelCreationTemplates::CreateSpaceStation(this);
             TransformationUtils::AddChildEntity(levelRoot, spaceStation);
             auto asteroidBelt = Utils::ModelCreationTemplates::CreateAsteroidBelt(this, 140, 220, 10);
