@@ -2,6 +2,7 @@
 #include "Systems/EnemyController.h"
 #include "Systems/ProjectileSystem.h"
 #include "Systems/AsteroidVectorField.h"
+#include "Systems/SpawnSystem.h"
 #include "engine/Game.h"
 
 #include "SampleScene.h"
@@ -16,6 +17,10 @@ int main() {
     ShipController shipController {};
 
     shipController.SetUpSystem(game);
+
+    SpawnSystem spawnSystem {};
+
+    spawnSystem.SetUpSystem(game);
 
     AsteroidVectorField asteroidVectorField {};
 

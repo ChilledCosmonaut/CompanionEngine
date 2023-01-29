@@ -38,6 +38,10 @@ namespace gl3::game {
             auto skybox = CreateEntity();
             engine::Ecs::Registry::AddComponent<engine::Graphics::Skybox>(skybox);
 
+            auto gameController = CreateEntity();
+            Ecs::Registry::AddComponent<WaveInfo>(gameController);
+            Ecs::Registry::AddComponent<NewWave>(gameController);
+
             entt::entity playerShip = Utils::ModelCreationTemplates::CreatePlayer(this);
             engine::Graphics::TransformationUtils::AddChildEntity(mainCameraObject, playerShip);
 
