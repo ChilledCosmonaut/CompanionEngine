@@ -10,60 +10,51 @@ namespace gl3::game {
             auto &transform = enemyView.get<engine::Graphics::Transform>(enemy);
             auto componentView = registry.view<ShipMovementSettings, engine::Graphics::Transform>();
 
-            /*if (enemyStats.lifePoints <= 0) {
-                transform.active = false;
-                return;
-            }*/
-
             for (auto &entity: componentView) {
                 auto &targetTransform = componentView.get<engine::Graphics::Transform>(entity);
-                //if (glm::length(transform.translation - targetTransform.translation) <= 100) {
-                /*bool shoot = rand() % 300;
 
-                if (shoot < 1) {
-                    auto projectileView = registry.view<EnemyProjectile, engine::Graphics::Transform>();
-
-                    for (auto &projectileEntity: projectileView) {
-                        auto &projectile = projectileView.get<EnemyProjectile>(projectileEntity);
-                        auto &projectileTransform = projectileView.get<engine::Graphics::Transform>(
-                                projectileEntity);
-
-                        if (projectile.lifetime <= 0) {
-                            projectileTransform.active = true;
-                            engine::Graphics::TransformationUtils::SetTranslation(entity, projectileTransform,
-                                                                                  transform.translation);
-                            engine::Graphics::TransformationUtils::SetRotation(entity, projectileTransform,
-                                                                               transform.rotation);
-                            projectile.lifetime = 3;
-                        }
-                    }
-                }*/
-                //glm::normalize(glm::vec3((testVector) - glm::vec4(transform.translation, 1)))
-                auto normalizedDistanceVector = glm::abs(glm::normalize(glm::vec3(targetTransform.modelMatrix * glm::vec4(0, 0, 0, 1)) - glm::vec3(transform.modelMatrix * glm::vec4(0, 0, 0, 1))));
-
-                auto targetRotation = glm::toQuat(
-                        glm::lookAt(
-                                glm::vec3(targetTransform.modelMatrix * glm::vec4(0, 0, 0, 1)),
-                                glm::vec3(transform.modelMatrix * glm::vec4(0, 0, 0, 1)),
-                                glm::vec3(transform.modelMatrix * glm::vec4(0, 1, 0, 0))));
-
-                glm::quat newRotation = glm::mix(transform.rotation, targetRotation,
-                                                 0.5f * gl3::engine::Time::GetDeltaTime());
-
-                /*auto testVector = glm::eulerAngles(targetRotation);
-                std::cout << "x: " << testVector.x << " ,y: " << testVector.y << " ,z: " << testVector.z << std::endl;
-                testVector.z = 0;*/
-
-                auto currentForwardVector = glm::vec3(transform.rotation * glm::vec4(0, 0, 1, 0));
-                auto targetedForwardVector = glm::vec3(targetRotation * glm::vec4(0, 0, 1, 0));
-
-                glm::vec3 rotationDifference = abs(targetedForwardVector - currentForwardVector); //Gets difference between target rotation and current rotation
-
-                engine::Graphics::TransformationUtils::AddRelativeTranslation(enemy, transform, (glm::vec3(0,0,-3) * (2 - glm::length(rotationDifference))/4.f * Time::GetDeltaTime()));
+                glm::quat targetRotation = FindRotation(transform, targetTransform);
+                float speed = FindSpeedAmplitude(transform, targetTransform, targetRotation);
+                Attack(transform, targetTransform);
 
                 engine::Graphics::TransformationUtils::SetRotation(enemy, transform, targetRotation);
+                engine::Graphics::TransformationUtils::AddRelativeTranslation(enemy, transform, glm::vec3(0, 0, -3) * speed);
                 break;
             }
+        }
+    }
+
+    glm::quat EnemyController::FindRotation(const engine::Graphics::Transform &transform,
+                                            const engine::Graphics::Transform &targetTransform) {
+        auto targetRotation = glm::toQuat(
+                glm::lookAt(
+                        glm::vec3(targetTransform.modelMatrix * glm::vec4(0, 0, 0, 1)),
+                        glm::vec3(transform.modelMatrix * glm::vec4(0, 0, 0, 1)),
+                        glm::vec3(transform.modelMatrix * glm::vec4(0, 1, 0, 0))));
+
+        glm::quat newRotation = glm::mix(transform.rotation, targetRotation, 0.5f * gl3::engine::Time::GetDeltaTime());
+    }
+
+    float EnemyController::FindSpeedAmplitude(const engine::Graphics::Transform &transform,
+                                              const engine::Graphics::Transform &targetTransform, glm::quat newRotation) {
+        auto currentForwardVector = glm::vec3(transform.rotation * glm::vec4(0, 0, 1, 0));
+        auto targetedForwardVector = glm::vec3(newRotation * glm::vec4(0, 0, 1, 0));
+
+        glm::vec3 rotationDifference = abs(targetedForwardVector -
+                                           currentForwardVector); //Gets difference between target rotation and current rotation
+
+        return (2 - glm::length(rotationDifference)) / 4.f * Time::GetDeltaTime();
+    }
+
+    void EnemyController::Attack(const engine::Graphics::Transform &transform,
+                                 const engine::Graphics::Transform &targetTransform) {
+        std::random_device randDevShoot;
+        std::mt19937 shootGenerator(randDevShoot());
+        std::uniform_int_distribution<int> shootDistribution(0, 300);
+
+        if (shootDistribution(shootGenerator) < 1) {
+            entt::registry &registry = engine::Ecs::Registry::getCurrent();
+
         }
     }
 }
