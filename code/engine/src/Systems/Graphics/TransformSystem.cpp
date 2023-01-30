@@ -62,11 +62,12 @@ namespace gl3::engine::Graphics {
         transform.inverseModelMatrix = inverseScaleModel * glm::inverse(rotateModel) * inverseTranslateModel;
 
         if (transform.parent != entt::null){
-            /*transform.modelMatrix = transform.parentModelMatrix * transform.modelMatrix;
-            transform.inverseModelMatrix = transform.inverseModelMatrix * transform.parentInverseModelMatrix;*/
             auto &parentTransform = registry.get<Transform>(transform.parent);
             transform.modelMatrix = parentTransform.modelMatrix * transform.modelMatrix;
             transform.inverseModelMatrix = transform.inverseModelMatrix * parentTransform.inverseModelMatrix;
+            transform.globalRotation = parentTransform.globalRotation * transform.rotation;
+        } else{
+            transform.globalRotation = transform.rotation;
         }
 
         auto transformView = registry.view<Transform>();

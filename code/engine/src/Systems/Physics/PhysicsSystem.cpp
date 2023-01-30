@@ -24,6 +24,8 @@ namespace gl3::engine::Physics {
             auto &rigidBody = registry.get<RigidBody>(entity);
             auto &transform = registry.get<Graphics::Transform>(entity);
 
+            glm::vec3 globalPosition = Graphics::TransformationUtils::GetGlobalTranslation(transform);
+
             auto mMaterial =
                     mPhysics->createMaterial(
                             rigidBody.materialProperties.x, rigidBody.materialProperties.y,
@@ -37,9 +39,9 @@ namespace gl3::engine::Physics {
             shape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, !rigidBody.isTrigger);
             shape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, rigidBody.isTrigger);
 
-            physx::PxTransform currentColliderTransform(transform.translation.x, transform.translation.y, transform.translation.z,
+            physx::PxTransform currentColliderTransform(globalPosition.x, globalPosition.y, globalPosition.z,
                                                         physx::PxQuat(
-                                                                transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w));
+                                                                transform.globalRotation.x, transform.globalRotation.y, transform.globalRotation.z, transform.globalRotation.w));
 
             rigidBody.rigidBody = mPhysics->createRigidDynamic(currentColliderTransform);
             rigidBody.rigidBody->attachShape(*shape);
@@ -59,6 +61,10 @@ namespace gl3::engine::Physics {
             auto &rigidStatic = registry.get<RigidStatic>(entity);
             auto &transform = registry.get<Graphics::Transform>(entity);
 
+            glm::vec4 globalPosition = transform.modelMatrix * glm::vec4(0, 0, 0, 1);
+            glm::vec3 globalRotation = Graphics::TransformationUtils::GetGlobalRotation(transform);
+            glm::quat globalQuatRotation = glm::qua(globalRotation);
+
             auto mMaterial =
                     mPhysics->createMaterial(
                             rigidStatic.materialProperties.x, rigidStatic.materialProperties.y,
@@ -66,8 +72,8 @@ namespace gl3::engine::Physics {
 
             physx::PxShape *shape = mPhysics->createShape(physx::PxPlaneGeometry(), *mMaterial);
 
-            physx::PxTransform currentColliderTransform(transform.translation.x, transform.translation.y, transform.translation.z,
-                                                        physx::PxQuat(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w));
+            physx::PxTransform currentColliderTransform(globalPosition.x, globalPosition.y, globalPosition.z,
+                                                        physx::PxQuat(globalQuatRotation.x, globalQuatRotation.y, globalQuatRotation.z, globalQuatRotation.w));
 
             rigidStatic.rigidStatic = mPhysics->createRigidStatic(currentColliderTransform);
             rigidStatic.rigidStatic->attachShape(*shape);
