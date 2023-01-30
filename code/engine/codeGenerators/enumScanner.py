@@ -50,7 +50,7 @@ def generate_enums(header_file: str, scan_path: str):
                 shaders.append(os.path.join(current_relative, file))
             if file.endswith(".mtl"):
                 materials.append(os.path.join(current_relative, file))
-            if file.endswith((".jpg", ".png")):
+            if file.endswith((".jpg", ".png", ".tga")):
                 images.append(os.path.join(current_relative, file))
             if file.endswith((".obj", ".fbx")):
                 models.append(os.path.join(current_relative, file))

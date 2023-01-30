@@ -1,9 +1,9 @@
 #pragma once
 
-#include "EnemyBehavourSettings.h"
-#include "ShipMovementSettings.h"
+#include "../Components/EnemyBehavourSettings.h"
+#include "../Components/ShipMovementSettings.h"
 #include "engine/ECS/System.h"
-#include "ProjectileInfo.h"
+#include "../Components/ProjectileInfo.h"
 #include "engine/Time.h"
 #include "engine/ECS/Registry.h"
 

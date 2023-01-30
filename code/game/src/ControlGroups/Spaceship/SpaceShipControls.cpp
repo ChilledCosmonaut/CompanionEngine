@@ -33,7 +33,7 @@ namespace game::controls {
         int input = glfwGetKey(window, GLFW_KEY_S);
         input -= glfwGetKey(window, GLFW_KEY_W);
 
-        return input;
+        return (float) input;
     }
 
     void SpaceshipRotationControls::UpdateKeys(GLFWwindow *window) {
@@ -71,6 +71,14 @@ namespace game::controls {
         int input = glfwGetKey(window, GLFW_KEY_D);
         input -= glfwGetKey(window, GLFW_KEY_A);
 
+        return (float) input;
+    }
+
+    void SpaceshipBallControls::UpdateKeys(GLFWwindow *window) {
+        input = (float) glfwGetKey(window, GLFW_KEY_SPACE);
+    }
+
+    float SpaceshipBallControls::GetInput() const {
         return input;
     }
 }

@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <functional>
+#include <memory>
 
 #include "InputGroup.h"
 #include "../../../../src/ECS/CoreSystem.h"

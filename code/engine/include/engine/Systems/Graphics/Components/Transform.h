@@ -14,7 +14,7 @@ namespace gl3::engine::Graphics {
             //Translation and Scale are set directly here to minimize Matrix recalculation
             translation = startTranslation;
             scale = startScale;
-            rotation = startRotation;
+            rotation = glm::quat(startRotation);
 
             //Initial calculate matrices.... Sadly is a duplicate from the Util class
             /*glm::mat4 translateModel = glm::translate(glm::mat4(1.0f), translation);
@@ -28,6 +28,7 @@ namespace gl3::engine::Graphics {
 
         glm::vec3 translation{};
         glm::quat rotation{};
+        glm::quat globalRotation{};
         glm::vec3 scale = glm::vec3(1,1,1);
 
         glm::mat4 modelMatrix{};

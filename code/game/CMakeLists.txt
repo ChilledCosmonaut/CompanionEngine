@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.18)
 
-set(SOURCE_FILES src/main.cpp src/ShipController.cpp src/ShipController.h src/ShipMovementSettings.h src/ControlGroups/Spaceship/SpaceShipControls.h src/ControlGroups/Spaceship/SpaceShipControls.cpp)
+set(SOURCE_FILES src/main.cpp src/Systems/ShipController.cpp src/Systems/ShipController.h src/Components/ShipMovementSettings.h src/ControlGroups/Spaceship/SpaceShipControls.h src/ControlGroups/Spaceship/SpaceShipControls.cpp src/Systems/EnemyController.h src/Systems/EnemyController.cpp src/Systems/AsteroidVectorField.h src/Systems/AsteroidVectorField.cpp src/Systems/SpawnSystem.cpp src/Systems/SpawnSystem.h)
 
 set(EXE_FILE Game)
 

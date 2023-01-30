@@ -9,18 +9,20 @@ namespace gl3::engine::Graphics {
     public:
         static glm::mat4 GetViewMatrix(Camera &camera, Transform &transform);
 
-        static void AddChildEntity(Transform &transform, entt::entity currentEntity, entt::entity childEntity);
+        static void AddChildEntity(entt::entity parentEntity, entt::entity childEntity);
         static void RemoveChildEntity(Transform &transform, entt::entity currentEntity, entt::entity childEntity);
 
         static void SetRotation(entt::entity entity, Transform &transform, glm::vec3 targetRotation);
         static void SetRotation(entt::entity entity, Transform &transform, glm::quat targetRotation);
         static void AddRotation(entt::entity entity, Transform &transform, glm::vec3 additiveRotation);
         static void SetRotationFromGlobal(entt::entity entity, Transform &transform, glm::vec3 targetRotation);
+        static glm::vec3 GetGlobalRotation(Transform &transform);
 
         static void SetTranslation(entt::entity entity, Transform &transform, glm::vec3 targetTranslation);
         static void AddTranslation(entt::entity entity, Transform &transform, glm::vec3 additiveTranslation);
         static void AddRelativeTranslation(entt::entity entity, Transform &transform, glm::vec3 additiveTranslation);
         static void SetTranslationFromGlobal(entt::entity entity, Transform &transform, glm::vec3 globalTranslation);
+        static glm::vec3 GetGlobalTranslation(Transform &transform);
 
         static void SetScale(entt::entity entity, Transform &transform, glm::vec3 targetScale);
         static void AddScale(entt::entity entity, Transform &transform, glm::vec3 additiveScale);
