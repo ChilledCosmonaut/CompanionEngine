@@ -46,19 +46,13 @@ namespace gl3::game {
                                 glm::vec3(targetTransform.modelMatrix * glm::vec4(0, 0, 0, 1)),
                                 glm::vec3(transform.modelMatrix * glm::vec4(0, 0, 0, 1)),
                                 glm::vec3(transform.modelMatrix * glm::vec4(0, 1, 0, 0))));
+
                 glm::quat newRotation = glm::mix(transform.rotation, targetRotation,
                                                  0.5f * gl3::engine::Time::GetDeltaTime());
-                auto testVector = glm::eulerAngles(targetRotation);
-                std::cout << "x: " << testVector.x << " ,y: " << testVector.y << " ,z: " << testVector.z << std::endl;
-                testVector.z = 0;
-                engine::Graphics::TransformationUtils::SetRotation(enemy, transform, targetRotation);
-                engine::Graphics::TransformationUtils::AddRelativeTranslation(enemy, transform, glm::vec3(0, 0, 1) *
-                                                                                                gl3::engine::Time::GetDeltaTime());
-                break;
-                //}
-                                glm::vec3(transform.modelMatrix * glm::vec4(0, 1, 0, 0))));
 
-                glm::quat newRotation = glm::mix(transform.rotation, targetRotation, 0.5f * gl3::engine::Time::GetDeltaTime());
+                /*auto testVector = glm::eulerAngles(targetRotation);
+                std::cout << "x: " << testVector.x << " ,y: " << testVector.y << " ,z: " << testVector.z << std::endl;
+                testVector.z = 0;*/
 
                 auto currentForwardVector = glm::vec3(transform.rotation * glm::vec4(0, 0, 1, 0));
                 auto targetedForwardVector = glm::vec3(targetRotation * glm::vec4(0, 0, 1, 0));
@@ -67,9 +61,6 @@ namespace gl3::game {
 
                 engine::Graphics::TransformationUtils::AddRelativeTranslation(enemy, transform, (glm::vec3(0,0,-3) * (2 - glm::length(rotationDifference))/4.f * Time::GetDeltaTime()));
 
-                /*auto eulerAngles = glm::eulerAngles(targetRotation);
-                std::cout << "x: " << rotationDifference.x << " ,y: " << rotationDifference.y << " ,z: " << rotationDifference.z << std::endl;
-                std::cout<<glm::length(rotationDifference)<<std::endl;*/
                 engine::Graphics::TransformationUtils::SetRotation(enemy, transform, targetRotation);
                 break;
             }
