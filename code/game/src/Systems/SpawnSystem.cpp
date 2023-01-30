@@ -13,13 +13,14 @@ namespace gl3::game {
 
             engine::Scene *scene = game.getCurrentScene();
 
-            auto nextEnemyCount =
-                    pow(waveInfo.waveCounter, 2.f) / pow(waveInfo.waveCounter, 3.f / 2.f) + waveInfo.baseEnemyCount;
+            waveInfo.waveCounter += newWave.waveCount;
+            engine::Ecs::Registry::DestroyComponentWithoutFlag<NewWave>(gameController);
+
+            auto nextEnemyCount = pow(waveInfo.waveCounter, 2.f) / pow(waveInfo.waveCounter, 5.f / 4.f) + waveInfo.baseEnemyCount;
 
             float carrierCount = round(nextEnemyCount / 3);
-            float fighterCount = round(nextEnemyCount * (2 / 3));
+            float fighterCount = round(nextEnemyCount * 2 / 3);
 
-            waveInfo.waveCounter = newWave.waveCount;
             waveInfo.enemiesAlive = carrierCount + fighterCount;
 
             std::random_device randDevPos;
@@ -34,7 +35,7 @@ namespace gl3::game {
             std::mt19937 lateralOffsetGenerator(randDevLateralOffset());
             std::normal_distribution<> lateralOffsetDistribution(-10, 10);
 
-            for (int carrierIndex = 0; carrierIndex < carrierCount; ++carrierIndex) {
+            for (int fighterIndex = 0; fighterIndex < fighterCount; ++fighterIndex) {
                 entt::entity enemy = Utils::ModelCreationTemplates::CreateEnemyVariant1(scene);
                 auto &transform = registry.get<engine::Graphics::Transform>(enemy);
                 transform.translation = glm::quat(glm::radians(glm::vec3(0, rotDistribution(rotGenerator), 0))) *
@@ -42,13 +43,15 @@ namespace gl3::game {
                                                   lateralOffsetDistribution(lateralOffsetGenerator), 0);
             }
 
-            for (int fighterIndex = 0; fighterIndex < fighterCount; ++fighterIndex) {
+            for (int carrierIndex = 0; carrierIndex < carrierCount; ++carrierIndex) {
                 entt::entity enemy = Utils::ModelCreationTemplates::CreateCarrier(scene);
                 auto &transform = registry.get<engine::Graphics::Transform>(enemy);
                 transform.translation = glm::quat(glm::radians(glm::vec3(0, rotDistribution(rotGenerator), 0))) *
                                         glm::vec3(posDistribution(posGenerator),
                                                   lateralOffsetDistribution(lateralOffsetGenerator), 0);
             }
+
+            std::cout<<"Spawned: " + std::to_string(carrierCount) + " carriers and " + std::to_string(fighterCount) + " fighters."<<std::endl;
         }
     }
 }

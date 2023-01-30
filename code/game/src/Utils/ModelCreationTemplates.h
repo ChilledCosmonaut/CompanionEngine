@@ -19,7 +19,7 @@ namespace gl3::game::Utils{
     public:
 
         static entt::entity CreateAsteroidBelt(engine::Scene *scene, int lowerBound, int upperBound, int asteroidRadius){
-            auto &registry = Ecs::Registry::getCurrent();
+            auto &registry = engine::Ecs::Registry::getCurrent();
 
             auto asteroidBelt = scene->CreateEntity();
 
@@ -61,10 +61,10 @@ namespace gl3::game::Utils{
                 }
                 registry.emplace<AsteroidField>(asteroid);
 
-                auto &transform = registry.get<Graphics::Transform>(asteroid);
+                auto &transform = registry.get<engine::Graphics::Transform>(asteroid);
                 transform.translation = glm::quat(glm::radians(glm::vec3(0, rotDistribution(rotGenerator), 0))) * glm::vec3(posDistribution(posGenerator), lateralOffsetDistribution(lateralOffsetGenerator), 0);
                 transform.scale = glm::vec3(1, 1, 1) * (float)scaleFactor;
-                TransformationUtils::AddChildEntity(asteroidBelt, asteroid);
+                engine::Graphics::TransformationUtils::AddChildEntity(asteroidBelt, asteroid);
 
                 auto &rigidBody = registry.get<engine::Physics::RigidBody>(asteroid);
                 auto sphereInfo = engine::Physics::Shapes::Sphere{};
@@ -113,7 +113,7 @@ namespace gl3::game::Utils{
         }
 
         static entt::entity CreateAsteroidVariant2(engine::Scene *scene){
-            auto &registry = Ecs::Registry::getCurrent();
+            auto &registry = engine::Ecs::Registry::getCurrent();
 
             auto asteroidVariant2 = scene->CreateEntity();
 
@@ -130,7 +130,7 @@ namespace gl3::game::Utils{
         }
 
         static entt::entity CreateAsteroidVariant3(engine::Scene *scene){
-            auto &registry = Ecs::Registry::getCurrent();
+            auto &registry = engine::Ecs::Registry::getCurrent();
 
             auto asteroidVariant3 = scene->CreateEntity();
 
@@ -146,13 +146,19 @@ namespace gl3::game::Utils{
             return asteroidVariant3;
         }
 
+
+
         static entt::entity CreateEnemyVariant1(engine::Scene *scene){
             auto enemyVariant1 = scene->CreateEntity();
+            auto &registry = engine::Ecs::Registry::getCurrent();
 
             auto &enemyVariant1Model = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(enemyVariant1);
             enemyVariant1Model.modelName = assets::Models::Models$SpaceShips$StarSparrow1$fbx;
             enemyVariant1Model.material = *GetStarSparrowMaterial();
             engine::Graphics::ModelUtils::SetShader(enemyVariant1Model, GetTexturedShader());
+
+            auto &transform = registry.get<engine::Graphics::Transform>(enemyVariant1);
+            transform.scale = glm::vec3(0.025f, 0.025f, 0.025f);
 
             //registry.emplace<EnemyBehaviour>(carrierEnemy);
 
@@ -209,7 +215,7 @@ namespace gl3::game::Utils{
             subModuleModel.material = *subModelMaterial;
             engine::Graphics::ModelUtils::SetShader(subModuleModel, GetTexturedShader());
 
-            auto &transform = registry.get<Graphics::Transform>(subModule);
+            auto &transform = registry.get<engine::Graphics::Transform>(subModule);
             transform.translation = offset;
 
             engine::Graphics::TransformationUtils::AddChildEntity(spaceStation, subModule);
