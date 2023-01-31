@@ -22,9 +22,11 @@ namespace gl3::game {
     private:
         static glm::quat FindRotation(const engine::Graphics::Transform& transform, const engine::Graphics::Transform& targetTransform);
 
-        static glm::vec3 DetermineNextRotationStep(const engine::Graphics::Transform& transform, glm::quat newRotation);
+        static physx::PxVec3 FindAngularVelocity(const engine::Graphics::Transform& transform, glm::quat newRotation);
 
         static float FindSpeedAmplitude(const engine::Graphics::Transform& transform, const engine::Graphics::Transform& targetTransform, glm::quat newRotation);
+
+        static physx::PxVec3 FindLinearVelocity(const engine::Graphics::Transform& transform, const engine::Graphics::Transform& targetTransform, float speedAmplitude);
 
         static void Attack(const engine::Graphics::Transform& transform, const engine::Graphics::Transform& targetTransform);
     };

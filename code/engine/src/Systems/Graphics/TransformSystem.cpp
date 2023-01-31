@@ -25,16 +25,16 @@ namespace gl3::engine::Graphics {
         }
     }
 
-    void TransformSystem::UpdateTransform() {
+    void TransformSystem::UpdateTransform(Scene* currentScene) {
         auto& registry = Ecs::Registry::getCurrent();
 
-        auto updateTransforms = registry.view<Transform, Ecs::Flags::Update<Transform>>();
+        auto updateTransforms = registry.view<Transform>();
 
-        for (auto entity : updateTransforms) {
-            auto& transform = updateTransforms.get<Transform>(entity);
-            RecalculateMatrices(transform);
-            Ecs::Registry::RemoveUpdateFlag<Transform>(entity);
-        }
+        if (currentScene->rootEntity == entt::tombstone)
+            return;
+
+        auto& rootTransform = updateTransforms.get<Transform>(currentScene->rootEntity);
+        RecalculateMatrices(rootTransform);
     }
 
     void TransformSystem::DestroyTransform() {

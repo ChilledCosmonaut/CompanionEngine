@@ -2,8 +2,10 @@
 
 #include "../../ECS/CoreSystem.h"
 #include "glm/mat4x4.hpp"
+
 #include "engine/Systems/Graphics/Components/Transform.h"
 #include "engine/ECS/Registry.h"
+#include "engine/Scene.h"
 
 namespace gl3::engine::Graphics {
 
@@ -15,7 +17,7 @@ namespace gl3::engine::Graphics {
 
         void SetupTransform();
 
-        void UpdateTransform();
+        void UpdateTransform(Scene* currentScene);
 
         void DestroyTransform();
 

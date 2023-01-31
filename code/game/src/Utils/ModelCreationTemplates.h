@@ -157,9 +157,9 @@ namespace gl3::game::Utils{
             enemyVariant1Model.material = *GetStarSparrowMaterial();
             engine::Graphics::ModelUtils::SetShader(enemyVariant1Model, GetTexturedShader());
 
-            /*auto &collider = engine::Ecs::Registry::AddComponent<engine::Physics::RigidBody>(enemyVariant1);
+            auto &collider = engine::Ecs::Registry::AddComponent<engine::Physics::RigidBody>(enemyVariant1);
             collider.shapeInfo = engine::Physics::Shapes::Box{physx::PxVec3(7, 2, 9)};
-            collider.shape = engine::Physics::Shapes::Shapes::box;*/
+            collider.shape = engine::Physics::Shapes::Shapes::box;
 
             auto &transform = registry.get<engine::Graphics::Transform>(enemyVariant1);
             transform.scale = glm::vec3(0.025f, 0.025f, 0.025f);
