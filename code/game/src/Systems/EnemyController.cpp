@@ -62,11 +62,9 @@ namespace gl3::game {
     physx::PxVec3 EnemyController::FindLinearVelocity(const Transform &transform, const Transform &targetTransform,
                                                       float speedAmplitude, float shipSpeed) {
         auto relativeForwardVector = transform.globalRotation * glm::vec4(0, 0, 1, 0);
-        float distanceAmplitude = glm::distance(transform.modelMatrix * glm::vec4(0, 0, 0, 1), targetTransform.modelMatrix * glm::vec4(0, 0, 0, 1)) / 10;
+        float distanceAmplitude = glm::distance(transform.modelMatrix * glm::vec4(0, 0, 0, 1), targetTransform.modelMatrix * glm::vec4(0, 0, 0, 1)) / 20;
 
-        relativeForwardVector *= min(max(distanceAmplitude, 0), 10) * speedAmplitude * shipSpeed;
-
-        std::cout<<speedAmplitude<<" , "<<shipSpeed<<std::endl;
+        relativeForwardVector *= min(max(distanceAmplitude, 0), 5) * speedAmplitude * shipSpeed;
 
         return {relativeForwardVector.x, relativeForwardVector.y, relativeForwardVector.z};
     }
