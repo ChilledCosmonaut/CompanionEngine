@@ -28,6 +28,7 @@ namespace gl3::engine::Graphics {
 
         glm::vec3 translation{};
         glm::quat rotation{};
+        glm::quat parentRotation{};
         glm::quat globalRotation{};
         glm::vec3 scale = glm::vec3(1,1,1);
 

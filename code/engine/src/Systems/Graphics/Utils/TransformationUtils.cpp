@@ -20,8 +20,6 @@ namespace gl3::engine::Graphics{
             RemoveChildEntity(childParentTransform, childTransform.parent, childEntity);
         }
         childTransform.parent = parentEntity;
-        childTransform.parentModelMatrix = parentTransform.modelMatrix;
-        childTransform.parentInverseModelMatrix = parentTransform.inverseModelMatrix;
 
         Ecs::Registry::UpdateComponent<Transform>(childEntity);
     }

@@ -25,13 +25,24 @@ namespace gl3::engine{
         entt::entity CreateEntity(){
             auto& registry = Ecs::Registry::getCurrent();
 
+            if(rootEntity == entt::tombstone){
+                rootEntity = registry.create();
+                entityList.emplace_back(rootEntity);
+
+                auto &transform = engine::Ecs::Registry::AddComponent<Graphics::Transform>(rootEntity);
+            }
+
             entt::entity entity = registry.create();
             entityList.emplace_back(entity);
 
             auto &transform = engine::Ecs::Registry::AddComponent<Graphics::Transform>(entity);
 
+            Graphics::TransformationUtils::AddChildEntity(rootEntity, entity);
+
             return entity;
         }
+
+        entt::entity rootEntity = entt::tombstone;
 
     private:
         std::vector<entt::entity> entityList {};

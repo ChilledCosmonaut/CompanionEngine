@@ -1,8 +1,13 @@
 #pragma once
 
+#include <random>
+
 #include "engine/ECS/System.h"
+
 #include "ShipController.h"
 #include "../Components/EnemyBehavourSettings.h"
+#include "../Components/Station.h"
+#include "engine/Systems/Physics/Components/RigidBody.h"
 
 namespace gl3::game {
     class EnemyController : public engine::entityComponentSystem::System {
@@ -14,5 +19,18 @@ namespace gl3::game {
         void Update(engine::Game &game) override;
 
         void OnShutdown(engine::Game &engine) override {};
+
+    private:
+        static glm::quat FindRotation(const engine::Graphics::Transform& transform, const engine::Graphics::Transform& targetTransform);
+
+        static physx::PxVec3 FindAngularVelocity(const engine::Graphics::Transform& transform, glm::quat newRotation);
+
+        static float FindSpeedAmplitude(const engine::Graphics::Transform& transform, const engine::Graphics::Transform& targetTransform, glm::quat newRotation);
+
+        static float FindCarrierSpeedAmplitude(const engine::Graphics::Transform& transform, const engine::Graphics::Transform& targetTransform);
+
+        static physx::PxVec3 FindLinearVelocity(const engine::Graphics::Transform& transform, const engine::Graphics::Transform& targetTransform, float speedAmplitude, float shipSpeed);
+
+        static void Attack(const engine::Graphics::Transform& transform, const engine::Graphics::Transform& targetTransform);
     };
 }

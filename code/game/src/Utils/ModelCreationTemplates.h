@@ -12,6 +12,7 @@
 #include "../Components/EnemyBehavourSettings.h"
 #include "generated/Assets.h"
 #include "../Components/AsteroidField.h"
+#include "../Components/Station.h"
 #include "engine/Systems/Physics/Components/Shapes.h"
 
 namespace gl3::game::Utils{
@@ -77,6 +78,12 @@ namespace gl3::game::Utils{
 
         static entt::entity CreateSpaceStation(engine::Scene *scene){
             auto spaceStation = scene->CreateEntity();
+            auto &registry = engine::Ecs::Registry::getCurrent();
+
+            registry.emplace<Station>(spaceStation);
+
+            auto &carrierTransform = registry.get<engine::Graphics::Transform>(spaceStation);
+            carrierTransform.scale = glm::vec3(2.f, 2.f, 2.f);
 
             AddStationSubmodule(scene, spaceStation, assets::Models$SpaceStation$Module1$fbx, GetStationModule1Material(), glm::vec3(0,0,23.3432f));
             AddStationSubmodule(scene, spaceStation, assets::Models$SpaceStation$Module3$fbx, GetStationModule3Material(), glm::vec3(0,0,21.721f));
@@ -146,34 +153,51 @@ namespace gl3::game::Utils{
             return asteroidVariant3;
         }
 
-
-
         static entt::entity CreateEnemyVariant1(engine::Scene *scene){
-            auto enemyVariant1 = scene->CreateEntity();
+            entt::entity enemyVariant1 = scene->CreateEntity();
+            /*entt::entity collisionTrigger = scene->CreateEntity();
+            engine::Graphics::TransformationUtils::AddChildEntity(enemyVariant1, collisionTrigger);*/
             auto &registry = engine::Ecs::Registry::getCurrent();
 
             auto &enemyVariant1Model = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(enemyVariant1);
-            enemyVariant1Model.modelName = assets::Models::Models$SpaceShips$StarSparrow1$fbx;
+            enemyVariant1Model.modelName = assets::Models::Models$SpaceShips$StarSparrow$obj;
             enemyVariant1Model.material = *GetStarSparrowMaterial();
             engine::Graphics::ModelUtils::SetShader(enemyVariant1Model, GetTexturedShader());
 
-            auto &transform = registry.get<engine::Graphics::Transform>(enemyVariant1);
-            transform.scale = glm::vec3(0.025f, 0.025f, 0.025f);
+            auto &collider = engine::Ecs::Registry::AddComponent<engine::Physics::RigidBody>(enemyVariant1);
+            collider.shapeInfo = engine::Physics::Shapes::Box{physx::PxVec3(7, 2, 9)};
+            collider.shape = engine::Physics::Shapes::Shapes::box;
 
-            //registry.emplace<EnemyBehaviour>(carrierEnemy);
+            /*auto &trigger = engine::Ecs::Registry::AddComponent<engine::Physics::RigidBody>(collisionTrigger);
+            trigger.shapeInfo = engine::Physics::Shapes::Box{physx::PxVec3(7, 2, 18)};
+            trigger.shape = engine::Physics::Shapes::box;
+            trigger.isTrigger = true;*/
+
+            /*auto &triggerTransform = registry.get<engine::Graphics::Transform>(collisionTrigger);
+            triggerTransform.translation = glm::vec3(0, 0, 27);*/
+
+            registry.emplace<FighterBehaviour>(enemyVariant1);
 
             return enemyVariant1;
         }
 
         static entt::entity CreateCarrier(engine::Scene *scene){
             auto carrierEnemy = scene->CreateEntity();
+            auto &registry = engine::Ecs::Registry::getCurrent();
 
             auto &carrierEnemyModel = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(carrierEnemy);
-            carrierEnemyModel.modelName = assets::Models::Models$SpaceShips$CarrierCombined$fbx;
+            carrierEnemyModel.modelName = assets::Models::Models$SpaceShips$CarrierCombined$obj;
             carrierEnemyModel.material = *GetCarrierMaterial();
             engine::Graphics::ModelUtils::SetShader(carrierEnemyModel, GetTexturedShader());
 
-            //registry.emplace<EnemyBehaviour>(carrierEnemy);
+            auto &carrierTransform = registry.get<engine::Graphics::Transform>(carrierEnemy);
+            carrierTransform.scale = glm::vec3(1.5f, 1.5f, 1.5f);
+
+            auto &collider = engine::Ecs::Registry::AddComponent<engine::Physics::RigidBody>(carrierEnemy);
+            collider.shapeInfo = engine::Physics::Shapes::Box{physx::PxVec3(10.5f, 3, 13.5f)};
+            collider.shape = engine::Physics::Shapes::Shapes::box;
+
+            registry.emplace<CarrierBehaviour>(carrierEnemy);
 
             return carrierEnemy;
         }

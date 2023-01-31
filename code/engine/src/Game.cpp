@@ -48,9 +48,9 @@ namespace gl3::engine {
     }
 
     void Game::UpdateCallEngineSystems() {
-        transformSystem->UpdateTransform();
+        transformSystem->UpdateTransform(currentScene);
         physicsSystem->Update();
-        transformSystem->UpdateTransform();
+        transformSystem->UpdateTransform(currentScene);
         audioSystem->UpdateAudio();
         graphicsSystem->Update();
     }
