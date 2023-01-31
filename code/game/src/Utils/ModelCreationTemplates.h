@@ -12,6 +12,7 @@
 #include "../Components/EnemyBehavourSettings.h"
 #include "generated/Assets.h"
 #include "../Components/AsteroidField.h"
+#include "../Components/Station.h"
 #include "engine/Systems/Physics/Components/Shapes.h"
 
 namespace gl3::game::Utils{
@@ -77,6 +78,9 @@ namespace gl3::game::Utils{
 
         static entt::entity CreateSpaceStation(engine::Scene *scene){
             auto spaceStation = scene->CreateEntity();
+            auto &registry = engine::Ecs::Registry::getCurrent();
+
+            registry.emplace<Station>(spaceStation);
 
             AddStationSubmodule(scene, spaceStation, assets::Models$SpaceStation$Module1$fbx, GetStationModule1Material(), glm::vec3(0,0,23.3432f));
             AddStationSubmodule(scene, spaceStation, assets::Models$SpaceStation$Module3$fbx, GetStationModule3Material(), glm::vec3(0,0,21.721f));
@@ -176,13 +180,18 @@ namespace gl3::game::Utils{
 
         static entt::entity CreateCarrier(engine::Scene *scene){
             auto carrierEnemy = scene->CreateEntity();
+            auto &registry = engine::Ecs::Registry::getCurrent();
 
             auto &carrierEnemyModel = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(carrierEnemy);
             carrierEnemyModel.modelName = assets::Models::Models$SpaceShips$CarrierCombined$fbx;
             carrierEnemyModel.material = *GetCarrierMaterial();
             engine::Graphics::ModelUtils::SetShader(carrierEnemyModel, GetTexturedShader());
 
-            //registry.emplace<EnemyBehaviour>(carrierEnemy);
+            auto &rigidBody = engine::Ecs::Registry::AddComponent<engine::Physics::RigidBody>(carrierEnemy);
+            rigidBody.shapeInfo = engine::Physics::Shapes::Sphere{};
+            rigidBody.shape = engine::Physics::Shapes::sphere;
+
+            registry.emplace<CarrierBehaviour>(carrierEnemy);
 
             return carrierEnemy;
         }

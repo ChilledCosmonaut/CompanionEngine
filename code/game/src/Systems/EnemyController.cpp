@@ -32,13 +32,13 @@ namespace gl3::game {
             auto &enemyStats = carrierView.get<CarrierBehaviour>(enemy);
             auto &transform = carrierView.get<engine::Graphics::Transform>(enemy);
             auto &rigidBody = carrierView.get<engine::Physics::RigidBody>(enemy);
-            auto componentView = registry.view<ShipMovementSettings, engine::Graphics::Transform>();
+            auto componentView = registry.view<Station, engine::Graphics::Transform>();
 
             for (auto &entity: componentView) {
                 auto &targetTransform = componentView.get<engine::Graphics::Transform>(entity);
 
                 glm::quat targetRotation = FindRotation(transform, targetTransform);
-                float speed = FindSpeedAmplitude(transform, targetTransform, targetRotation);
+                float speed = FindCarrierSpeedAmplitude(transform, targetTransform);
                 Attack(transform, targetTransform);
 
                 engine::Graphics::TransformationUtils::SetRotation(enemy, transform, targetRotation);
@@ -79,6 +79,15 @@ namespace gl3::game {
         float angle = glm::acos(clamp(glm::dot(currentForwardVector, targetedForwardVector)/(glm::length(currentForwardVector) * glm::length(targetedForwardVector)), -1.f, 1.f));
 
         return 1 - (angle/ 180);
+    }
+
+    float EnemyController::FindCarrierSpeedAmplitude(const Transform &transform, const Transform &targetTransform) {
+        float baseDistance = glm::distance(transform.modelMatrix * glm::vec4(0, 0, 0, 1), targetTransform.modelMatrix * glm::vec4(0, 0, 0, 1));
+
+        if(baseDistance <= 80)
+            return 0;
+
+        return 1;
     }
 
     physx::PxVec3 EnemyController::FindLinearVelocity(const Transform &transform, const Transform &targetTransform,

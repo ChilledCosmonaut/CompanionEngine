@@ -6,6 +6,7 @@
 
 #include "ShipController.h"
 #include "../Components/EnemyBehavourSettings.h"
+#include "../Components/Station.h"
 #include "engine/Systems/Physics/Components/RigidBody.h"
 
 namespace gl3::game {
@@ -25,6 +26,8 @@ namespace gl3::game {
         static physx::PxVec3 FindAngularVelocity(const engine::Graphics::Transform& transform, glm::quat newRotation);
 
         static float FindSpeedAmplitude(const engine::Graphics::Transform& transform, const engine::Graphics::Transform& targetTransform, glm::quat newRotation);
+
+        static float FindCarrierSpeedAmplitude(const engine::Graphics::Transform& transform, const engine::Graphics::Transform& targetTransform);
 
         static physx::PxVec3 FindLinearVelocity(const engine::Graphics::Transform& transform, const engine::Graphics::Transform& targetTransform, float speedAmplitude, float shipSpeed);
 
