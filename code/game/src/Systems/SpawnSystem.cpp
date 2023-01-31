@@ -25,7 +25,7 @@ namespace gl3::game {
 
             std::random_device randDevPos;
             std::mt19937 posGenerator(randDevPos());
-            std::uniform_int_distribution<int> posDistribution(230, 280);
+            std::uniform_int_distribution<int> posDistribution(250, 300);
 
             std::random_device randDevRot;
             std::mt19937 rotGenerator(randDevRot());
@@ -36,15 +36,16 @@ namespace gl3::game {
             std::normal_distribution<> lateralOffsetDistribution(-10, 10);
 
             for (int fighterIndex = 0; fighterIndex < fighterCount; ++fighterIndex) {
-                entt::entity enemy = Utils::ModelCreationTemplates::CreateEnemyVariant1(scene);
+                entt::entity enemy = Utils::ModelCreationTemplates::CreateEnemyVariant1(game.getCurrentScene());
                 auto &transform = registry.get<engine::Graphics::Transform>(enemy);
                 transform.translation = glm::quat(glm::radians(glm::vec3(0, rotDistribution(rotGenerator), 0))) *
                                         glm::vec3(posDistribution(posGenerator),
                                                   lateralOffsetDistribution(lateralOffsetGenerator), 0);
+                std::cout<<transform.translation.x<<std::endl;
             }
 
             for (int carrierIndex = 0; carrierIndex < carrierCount; ++carrierIndex) {
-                entt::entity enemy = Utils::ModelCreationTemplates::CreateCarrier(scene);
+                entt::entity enemy = Utils::ModelCreationTemplates::CreateCarrier(game.getCurrentScene());
                 auto &transform = registry.get<engine::Graphics::Transform>(enemy);
                 transform.translation = glm::quat(glm::radians(glm::vec3(0, rotDistribution(rotGenerator), 0))) *
                                         glm::vec3(posDistribution(posGenerator),

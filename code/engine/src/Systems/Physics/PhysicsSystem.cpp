@@ -24,7 +24,9 @@ namespace gl3::engine::Physics {
             auto &rigidBody = registry.get<RigidBody>(entity);
             auto &transform = registry.get<Graphics::Transform>(entity);
 
-            glm::vec3 globalPosition = Graphics::TransformationUtils::GetGlobalTranslation(transform);
+            glm::vec4 globalPosition = transform.modelMatrix * glm::vec4(0, 0, 0, 1);
+            glm::vec3 globalRotation = Graphics::TransformationUtils::GetGlobalRotation(transform);
+            glm::quat globalQuatRotation = glm::qua(globalRotation);
 
             auto mMaterial =
                     mPhysics->createMaterial(
@@ -41,7 +43,7 @@ namespace gl3::engine::Physics {
 
             physx::PxTransform currentColliderTransform(globalPosition.x, globalPosition.y, globalPosition.z,
                                                         physx::PxQuat(
-                                                                transform.globalRotation.x, transform.globalRotation.y, transform.globalRotation.z, transform.globalRotation.w));
+                                                                globalQuatRotation.x, globalQuatRotation.y, globalQuatRotation.z, globalQuatRotation.w));
 
             rigidBody.rigidBody = mPhysics->createRigidDynamic(currentColliderTransform);
             rigidBody.rigidBody->attachShape(*shape);
@@ -128,26 +130,34 @@ namespace gl3::engine::Physics {
         }
 
         //For this to work use two Transform update cycles
-        auto updatedBodyTransforms = registry.view<RigidBody, Graphics::Transform, Ecs::Flags::Update<Graphics::Transform>>();
+        auto updatedBodyTransforms = registry.view<RigidBody, Graphics::Transform, Ecs::Flags::Update<Graphics::Transform>>(entt::exclude<Ecs::Flags::Setup<RigidBody>>);
 
         for (auto &entity: updatedBodyTransforms) {
             auto &rigidBody = updatedBodyTransforms.get<RigidBody>(entity);
             auto &transform = registry.get<Graphics::Transform>(entity);
 
-            physx::PxTransform updatedTransform(transform.translation.x, transform.translation.y, transform.translation.z,
-                                                physx::PxQuat(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w));
+            glm::vec4 globalPosition = transform.modelMatrix * glm::vec4(0, 0, 0, 1);
+            glm::vec3 globalRotation = Graphics::TransformationUtils::GetGlobalRotation(transform);
+            glm::quat globalQuatRotation = glm::qua(globalRotation);
+
+            physx::PxTransform updatedTransform(globalPosition.x, globalPosition.y, globalPosition.z,
+                                                physx::PxQuat(globalQuatRotation.x, globalQuatRotation.y, globalQuatRotation.z, globalQuatRotation.w));
 
             rigidBody.rigidBody->setGlobalPose(updatedTransform);
         }
 
-        auto updatedStaticTransforms = registry.view<RigidStatic, Graphics::Transform, Ecs::Flags::Update<Graphics::Transform>>();
+        auto updatedStaticTransforms = registry.view<RigidStatic, Graphics::Transform, Ecs::Flags::Update<Graphics::Transform>>(entt::exclude<Ecs::Flags::Setup<RigidBody>>);
 
         for (auto &entity: updatedStaticTransforms) {
             auto &rigidBody = updatedStaticTransforms.get<RigidStatic>(entity);
             auto &transform = registry.get<Graphics::Transform>(entity);
 
-            physx::PxTransform updatedTransform(transform.translation.x, transform.translation.y, transform.translation.z,
-                                                physx::PxQuat(transform.rotation.x, transform.rotation.y, transform.rotation.z, transform.rotation.w));
+            glm::vec4 globalPosition = transform.modelMatrix * glm::vec4(0, 0, 0, 1);
+            glm::vec3 globalRotation = Graphics::TransformationUtils::GetGlobalRotation(transform);
+            glm::quat globalQuatRotation = glm::qua(globalRotation);
+
+            physx::PxTransform updatedTransform(globalPosition.x, globalPosition.y, globalPosition.z,
+                                                physx::PxQuat(globalQuatRotation.x, globalQuatRotation.y, globalQuatRotation.z, globalQuatRotation.w));
 
             rigidBody.rigidStatic->setGlobalPose(updatedTransform);
         }
@@ -155,7 +165,7 @@ namespace gl3::engine::Physics {
         mScene->simulate(Time::GetDeltaTime());
         mScene->fetchResults(true);
 
-        auto componentView = registry.view<RigidBody, Graphics::Transform>();
+        auto componentView = registry.view<RigidBody, Graphics::Transform>(entt::exclude<Ecs::Flags::Setup<RigidBody>>);
 
         for (auto &entity: componentView) {
             auto &rigidBody = componentView.get<RigidBody>(entity);
@@ -164,9 +174,9 @@ namespace gl3::engine::Physics {
             auto physicsTransform = rigidBody.rigidBody->getGlobalPose();
 
             Graphics::TransformationUtils::SetRotation(entity, transform, glm::quat(
-                    physicsTransform.q.w, physicsTransform.q.x, physicsTransform.q.y, physicsTransform.q.z));
-            Graphics::TransformationUtils::SetTranslation(entity, transform, glm::vec3(
-                    physicsTransform.p.x, physicsTransform.p.y, physicsTransform.p.z));
+                    physicsTransform.q.w, physicsTransform.q.x, physicsTransform.q.y, physicsTransform.q.z) * glm::inverse(transform.parentRotation));
+            Graphics::TransformationUtils::SetTranslation(entity, transform, glm::vec4(
+                    physicsTransform.p.x, physicsTransform.p.y, physicsTransform.p.z, 1) * transform.parentInverseModelMatrix);
 
             Ecs::Registry::UpdateComponent<Graphics::Transform>(entity);
         }

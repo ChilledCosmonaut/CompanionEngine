@@ -66,8 +66,14 @@ namespace gl3::engine::Graphics {
             transform.modelMatrix = parentTransform.modelMatrix * transform.modelMatrix;
             transform.inverseModelMatrix = transform.inverseModelMatrix * parentTransform.inverseModelMatrix;
             transform.globalRotation = parentTransform.globalRotation * transform.rotation;
+            transform.parentRotation = parentTransform.globalRotation;
+            transform.parentModelMatrix = parentTransform.modelMatrix;
+            transform.parentInverseModelMatrix = parentTransform.inverseModelMatrix;
         } else{
             transform.globalRotation = transform.rotation;
+            transform.parentRotation = glm::quat(glm::radians(glm::vec3(0,0,0)));
+            transform.parentModelMatrix = glm::identity<glm::mat4>();
+            transform.parentInverseModelMatrix = glm::identity<glm::mat4>();
         }
 
         auto transformView = registry.view<Transform>();

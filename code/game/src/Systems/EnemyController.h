@@ -6,6 +6,7 @@
 
 #include "ShipController.h"
 #include "../Components/EnemyBehavourSettings.h"
+#include "engine/Systems/Physics/Components/RigidBody.h"
 
 namespace gl3::game {
     class EnemyController : public engine::entityComponentSystem::System {
@@ -20,6 +21,8 @@ namespace gl3::game {
 
     private:
         static glm::quat FindRotation(const engine::Graphics::Transform& transform, const engine::Graphics::Transform& targetTransform);
+
+        static glm::vec3 DetermineNextRotationStep(const engine::Graphics::Transform& transform, glm::quat newRotation);
 
         static float FindSpeedAmplitude(const engine::Graphics::Transform& transform, const engine::Graphics::Transform& targetTransform, glm::quat newRotation);
 
