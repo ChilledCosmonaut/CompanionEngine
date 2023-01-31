@@ -84,7 +84,7 @@ namespace gl3::game {
     float EnemyController::FindCarrierSpeedAmplitude(const Transform &transform, const Transform &targetTransform) {
         float baseDistance = glm::distance(transform.modelMatrix * glm::vec4(0, 0, 0, 1), targetTransform.modelMatrix * glm::vec4(0, 0, 0, 1));
 
-        if(baseDistance <= 80)
+        if(baseDistance <= 100)
             return 0;
 
         return 1;
