@@ -67,8 +67,6 @@ namespace gl3::game {
 
         relativeForwardVector *= min(distanceAmplitude, 10) * speedAmplitude;
 
-        std::cout<<distanceAmplitude<<" , "<<speedAmplitude<<std::endl;
-
         return {relativeForwardVector.x, relativeForwardVector.y, relativeForwardVector.z};
     }
 
