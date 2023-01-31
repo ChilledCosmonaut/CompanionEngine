@@ -4,12 +4,34 @@ namespace gl3::game {
 
     void EnemyController::Update(engine::Game &game) {
         auto &registry = engine::Ecs::Registry::getCurrent();
-        auto enemyView = registry.view<EnemyBehaviour, engine::Graphics::Transform, engine::Physics::RigidBody>(
+        auto fighterView = registry.view<FighterBehaviour, engine::Graphics::Transform, engine::Physics::RigidBody>(
                 entt::exclude<Ecs::Flags::Setup<gl3::game::Physics::RigidBody>>);
-        for (auto &enemy: enemyView) {
-            auto &enemyStats = enemyView.get<EnemyBehaviour>(enemy);
-            auto &transform = enemyView.get<engine::Graphics::Transform>(enemy);
-            auto &rigidBody = enemyView.get<engine::Physics::RigidBody>(enemy);
+        for (auto &enemy: fighterView) {
+            auto &enemyStats = fighterView.get<FighterBehaviour>(enemy);
+            auto &transform = fighterView.get<engine::Graphics::Transform>(enemy);
+            auto &rigidBody = fighterView.get<engine::Physics::RigidBody>(enemy);
+            auto componentView = registry.view<ShipMovementSettings, engine::Graphics::Transform>();
+
+            for (auto &entity: componentView) {
+                auto &targetTransform = componentView.get<engine::Graphics::Transform>(entity);
+
+                glm::quat targetRotation = FindRotation(transform, targetTransform);
+                float speed = FindSpeedAmplitude(transform, targetTransform, targetRotation);
+                Attack(transform, targetTransform);
+
+                engine::Graphics::TransformationUtils::SetRotation(enemy, transform, targetRotation);
+                //rigidBody.rigidBody->setAngularVelocity(FindAngularVelocity(transform, targetRotation));
+                rigidBody.rigidBody->setLinearVelocity(FindLinearVelocity(transform, targetTransform, speed, enemyStats.maxSpeed));
+                break;
+            }
+        }
+
+        auto carrierView = registry.view<CarrierBehaviour, engine::Graphics::Transform, engine::Physics::RigidBody>(
+                entt::exclude<Ecs::Flags::Setup<gl3::game::Physics::RigidBody>>);
+        for (auto &enemy: carrierView) {
+            auto &enemyStats = carrierView.get<CarrierBehaviour>(enemy);
+            auto &transform = carrierView.get<engine::Graphics::Transform>(enemy);
+            auto &rigidBody = carrierView.get<engine::Physics::RigidBody>(enemy);
             auto componentView = registry.view<ShipMovementSettings, engine::Graphics::Transform>();
 
             for (auto &entity: componentView) {

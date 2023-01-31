@@ -46,9 +46,9 @@ namespace gl3::game {
             for (auto &player: playerProjectileView) {
                 auto &projectileStats = playerProjectileView.get<PlayerProjectile>(player);
                 auto &playerTransform = playerProjectileView.get<engine::Graphics::Transform>(player);
-                auto componentView = registry.view<EnemyBehaviour, engine::Graphics::Transform>();
+                auto componentView = registry.view<FighterBehaviour, engine::Graphics::Transform>();
                 for (auto &enemy: componentView) {
-                    auto& shipSettings = componentView.get<EnemyBehaviour>(enemy);
+                    auto& shipSettings = componentView.get<FighterBehaviour>(enemy);
                     auto& enemyTransform = componentView.get<engine::Graphics::Transform>(enemy);
 
                     if (glm::length(enemyTransform.translation - playerTransform.translation) <= 2 && playerTransform.active){

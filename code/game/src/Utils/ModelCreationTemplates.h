@@ -169,7 +169,7 @@ namespace gl3::game::Utils{
             auto &triggerTransform = registry.get<engine::Graphics::Transform>(collisionTrigger);
             triggerTransform.translation = glm::vec3(0, 0, 27);
 
-            registry.emplace<EnemyBehaviour>(enemyVariant1);
+            registry.emplace<FighterBehaviour>(enemyVariant1);
 
             return enemyVariant1;
         }
