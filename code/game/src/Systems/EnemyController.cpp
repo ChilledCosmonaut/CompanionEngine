@@ -21,7 +21,7 @@ namespace gl3::game {
 
                 engine::Graphics::TransformationUtils::SetRotation(enemy, transform, targetRotation);
                 //rigidBody.rigidBody->setAngularVelocity(FindAngularVelocity(transform, targetRotation));
-                rigidBody.rigidBody->setLinearVelocity(FindLinearVelocity(transform, targetTransform, speed));
+                rigidBody.rigidBody->setLinearVelocity(FindLinearVelocity(transform, targetTransform, speed, enemyStats.maxSpeed));
                 break;
             }
         }
@@ -29,11 +29,11 @@ namespace gl3::game {
 
     glm::quat EnemyController::FindRotation(const engine::Graphics::Transform &transform,
                                             const engine::Graphics::Transform &targetTransform) {
-        auto targetRotation = glm::toQuat(
-                glm::lookAt(
-                        glm::vec3(targetTransform.modelMatrix * glm::vec4(0, 0, 0, 1)),
-                        glm::vec3(transform.modelMatrix * glm::vec4(0, 0, 0, 1)),
-                        glm::vec3(transform.modelMatrix * glm::vec4(0, 1, 0, 0))));
+        glm::vec3 viewDirection =
+                normalize(targetTransform.modelMatrix * glm::vec4(0, 0, 0, 1) - transform.modelMatrix * glm::vec4(0, 0, 0, 1));
+        auto targetRotation = glm::quatLookAtLH(
+                viewDirection,
+                glm::vec3(transform.modelMatrix * glm::vec4(0, 1, 0, 0)));
 
         return targetRotation;
     }
@@ -51,21 +51,22 @@ namespace gl3::game {
     float EnemyController::FindSpeedAmplitude(const engine::Graphics::Transform &transform,
                                               const engine::Graphics::Transform &targetTransform,
                                               glm::quat newRotation) {
-        auto currentForwardVector = glm::degrees(glm::vec3(transform.rotation * glm::vec4(0, 0, 1, 0)));
-        auto targetedForwardVector = glm::degrees(glm::vec3(newRotation * glm::vec4(0, 0, 1, 0)));
+        auto currentForwardVector = glm::vec3(transform.rotation * glm::vec4(0, 0, 1, 0));
+        auto targetedForwardVector = glm::vec3(newRotation * glm::vec4(0, 0, 1, 0));
 
-        glm::vec3 rotationDifference = abs(targetedForwardVector -
-                                           currentForwardVector); //Gets difference between target rotation and current rotation
+        float angle = glm::acos(clamp(glm::dot(currentForwardVector, targetedForwardVector)/(glm::length(currentForwardVector) * glm::length(targetedForwardVector)), -1.f, 1.f));
 
-        return (2 - glm::length(rotationDifference)) / 4.f;
+        return 1 - (angle/ 180);
     }
 
     physx::PxVec3 EnemyController::FindLinearVelocity(const Transform &transform, const Transform &targetTransform,
-                                                      float speedAmplitude) {
+                                                      float speedAmplitude, float shipSpeed) {
         auto relativeForwardVector = transform.globalRotation * glm::vec4(0, 0, 1, 0);
         float distanceAmplitude = glm::distance(transform.modelMatrix * glm::vec4(0, 0, 0, 1), targetTransform.modelMatrix * glm::vec4(0, 0, 0, 1)) / 10;
 
-        relativeForwardVector *= min(distanceAmplitude, 10) * speedAmplitude;
+        relativeForwardVector *= min(max(distanceAmplitude, 0), 10) * speedAmplitude * shipSpeed;
+
+        std::cout<<speedAmplitude<<" , "<<shipSpeed<<std::endl;
 
         return {relativeForwardVector.x, relativeForwardVector.y, relativeForwardVector.z};
     }

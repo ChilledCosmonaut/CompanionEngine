@@ -41,7 +41,6 @@ namespace gl3::game {
                 transform.translation = glm::quat(glm::radians(glm::vec3(0, rotDistribution(rotGenerator), 0))) *
                                         glm::vec3(posDistribution(posGenerator),
                                                   lateralOffsetDistribution(lateralOffsetGenerator), 0);
-                std::cout<<transform.translation.x<<std::endl;
             }
 
             for (int carrierIndex = 0; carrierIndex < carrierCount; ++carrierIndex) {

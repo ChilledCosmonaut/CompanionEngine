@@ -153,7 +153,7 @@ namespace gl3::game::Utils{
             auto &registry = engine::Ecs::Registry::getCurrent();
 
             auto &enemyVariant1Model = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(enemyVariant1);
-            enemyVariant1Model.modelName = assets::Models::Models$SpaceShips$StarSparrow1$fbx;
+            enemyVariant1Model.modelName = assets::Models::Models$SpaceShips$StarSparrow$obj;
             enemyVariant1Model.material = *GetStarSparrowMaterial();
             engine::Graphics::ModelUtils::SetShader(enemyVariant1Model, GetTexturedShader());
 
@@ -161,16 +161,13 @@ namespace gl3::game::Utils{
             collider.shapeInfo = engine::Physics::Shapes::Box{physx::PxVec3(7, 2, 9)};
             collider.shape = engine::Physics::Shapes::Shapes::box;
 
-            auto &transform = registry.get<engine::Graphics::Transform>(enemyVariant1);
-            transform.scale = glm::vec3(0.025f, 0.025f, 0.025f);
-
             auto &trigger = engine::Ecs::Registry::AddComponent<engine::Physics::RigidBody>(collisionTrigger);
             trigger.shapeInfo = engine::Physics::Shapes::Box{physx::PxVec3(7, 2, 18)};
             trigger.shape = engine::Physics::Shapes::box;
             trigger.isTrigger = true;
 
             auto &triggerTransform = registry.get<engine::Graphics::Transform>(collisionTrigger);
-            triggerTransform.translation = glm::vec3(0, 0, 27) * (1/0.025f);
+            triggerTransform.translation = glm::vec3(0, 0, 27);
 
             registry.emplace<EnemyBehaviour>(enemyVariant1);
 

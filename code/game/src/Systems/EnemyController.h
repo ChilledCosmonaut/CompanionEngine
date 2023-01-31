@@ -26,7 +26,7 @@ namespace gl3::game {
 
         static float FindSpeedAmplitude(const engine::Graphics::Transform& transform, const engine::Graphics::Transform& targetTransform, glm::quat newRotation);
 
-        static physx::PxVec3 FindLinearVelocity(const engine::Graphics::Transform& transform, const engine::Graphics::Transform& targetTransform, float speedAmplitude);
+        static physx::PxVec3 FindLinearVelocity(const engine::Graphics::Transform& transform, const engine::Graphics::Transform& targetTransform, float speedAmplitude, float shipSpeed);
 
         static void Attack(const engine::Graphics::Transform& transform, const engine::Graphics::Transform& targetTransform);
     };

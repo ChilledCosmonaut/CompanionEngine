@@ -3,7 +3,8 @@
 namespace gl3::game {
 
     struct EnemyBehaviour {
-        float ViewRange = 100;
         float lifePoints = 100;
+
+        float maxSpeed = 1;
     };
 }
