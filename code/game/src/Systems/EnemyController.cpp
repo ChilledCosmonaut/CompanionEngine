@@ -33,7 +33,7 @@ namespace gl3::game {
                 normalize(targetTransform.modelMatrix * glm::vec4(0, 0, 0, 1) - transform.modelMatrix * glm::vec4(0, 0, 0, 1));
         auto targetRotation = glm::quatLookAtLH(
                 viewDirection,
-                glm::vec3(transform.modelMatrix * glm::vec4(0, 1, 0, 0)));
+                glm::vec3(/*transform.modelMatrix * glm::vec4(*/0, 1, 0/*, 0)*/));
 
         return targetRotation;
     }
