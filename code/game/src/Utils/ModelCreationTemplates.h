@@ -187,15 +187,8 @@ namespace gl3::game::Utils{
             auto &laserModel = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(laser);
             laserModel.modelName = assets::Models::Models$Laser$obj;
             laserModel.material = *GetRedLaserMaterial();
-            engine::Graphics::ModelUtils::SetShader(laserModel, GetTexturedShader());
+            engine::Graphics::ModelUtils::SetShader(laserModel, GetUnlitTexturedShader());
 
-            /*auto &trigger = engine::Ecs::Registry::AddComponent<engine::Physics::RigidBody>(collisionTrigger);
-            trigger.shapeInfo = engine::Physics::Shapes::Box{physx::PxVec3(7, 2, 18)};
-            trigger.shape = engine::Physics::Shapes::box;
-            trigger.isTrigger = true;*/
-
-            /*auto &triggerTransform = registry.get<engine::Graphics::Transform>(collisionTrigger);
-            triggerTransform.translation = glm::vec3(0, 0, 27);*/
             engine::Ecs::Registry::AddComponent<Laser>(laser);
 
             return enemyVariant1;
@@ -230,7 +223,7 @@ namespace gl3::game::Utils{
             auto &laserModel = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(laser);
             laserModel.modelName = assets::Models::Models$Laser$obj;
             laserModel.material = *GetRedLaserMaterial();
-            engine::Graphics::ModelUtils::SetShader(laserModel, GetTexturedShader());
+            engine::Graphics::ModelUtils::SetShader(laserModel, GetUnlitTexturedShader());
 
             engine::Ecs::Registry::AddComponent<Laser>(laser);
 
@@ -259,7 +252,7 @@ namespace gl3::game::Utils{
             auto &laserModel = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(laser);
             laserModel.modelName = assets::Models::Models$Laser$obj;
             laserModel.material = *GetGreenLaserMaterial();
-            engine::Graphics::ModelUtils::SetShader(laserModel, GetTexturedShader());
+            engine::Graphics::ModelUtils::SetShader(laserModel, GetUnlitTexturedShader());
 
             engine::Ecs::Registry::AddComponent<Laser>(laser);
 
@@ -273,6 +266,14 @@ namespace gl3::game::Utils{
                 texturedShader  = fileManager->getAsset(assets::shaders$vertexShader$glsl, assets::shaders$fragmentShader$glsl);
             }
             return texturedShader;
+        }
+
+        static std::shared_ptr<engine::Graphics::shader> GetUnlitTexturedShader(){
+            if(unlitTexturedShader == nullptr){
+                auto fileManager = engine::filesystem::FileManager::GetFileManager();
+                unlitTexturedShader  = fileManager->getAsset(assets::shaders$vertexShader$glsl, assets::shaders$unlitFragmentShader$glsl);
+            }
+            return unlitTexturedShader;
         }
 
         static std::shared_ptr<engine::Graphics::shader> GetUntexturedShader(){
@@ -547,6 +548,7 @@ namespace gl3::game::Utils{
         }
 
         inline static std::shared_ptr<engine::Graphics::shader> texturedShader = nullptr;
+        inline static std::shared_ptr<engine::Graphics::shader> unlitTexturedShader = nullptr;
         inline static std::shared_ptr<engine::Graphics::shader> untexturedShader = nullptr;
 
         inline static std::shared_ptr<engine::Graphics::Material> carrierMaterial = nullptr;
