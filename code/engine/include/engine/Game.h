@@ -8,6 +8,7 @@
 #include "../../src/Systems/Graphics/GraphicsSystem.h"
 #include "../../src/Systems/Sound/AudioSystem.h"
 #include "../../src/Systems/Graphics/TransformSystem.h"
+#include "../../src/ECS/CleanUpSystem.h"
 
 namespace gl3::engine {
     class Game {
@@ -48,5 +49,6 @@ namespace gl3::engine {
         soundSystem::AudioSystem* audioSystem;
         Graphics::TransformSystem* transformSystem;
         inputSystem::InputManager* inputManager;
+        Ecs::CleanUpSystem* cleanUpSystem;
     };
 }

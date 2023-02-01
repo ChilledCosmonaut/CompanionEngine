@@ -189,7 +189,17 @@ namespace gl3::engine::Physics {
         auto shutdownRigidBodies = registry.view<RigidBody, Ecs::Flags::Destroy<RigidBody>>();
 
         for (auto entity: shutdownRigidBodies) {
-            auto &rigidStatic = registry.get<RigidBody>(entity);
+            auto &rigidStatic = shutdownRigidBodies.get<RigidBody>(entity);
+
+            rigidStatic.rigidBody->release();
+
+            Ecs::Registry::RemoveDestroyFlag<RigidBody>(entity);
+        }
+
+        auto shutdownRigidBodyEntities = registry.view<RigidBody, Ecs::Flags::DestroyEntity>();
+
+        for (auto entity: shutdownRigidBodyEntities) {
+            auto &rigidStatic = shutdownRigidBodyEntities.get<RigidBody>(entity);
 
             rigidStatic.rigidBody->release();
 
@@ -199,7 +209,17 @@ namespace gl3::engine::Physics {
         auto shutdownRigidStatics = registry.view<RigidStatic, Ecs::Flags::Destroy<RigidStatic>>();
 
         for (auto entity: shutdownRigidStatics) {
-            auto &rigidStatic = registry.get<RigidStatic>(entity);
+            auto &rigidStatic = shutdownRigidStatics.get<RigidStatic>(entity);
+
+            rigidStatic.rigidStatic->release();
+
+            Ecs::Registry::RemoveDestroyFlag<RigidStatic>(entity);
+        }
+
+        auto shutdownRigidStaticEntities = registry.view<RigidStatic, Ecs::Flags::DestroyEntity>();
+
+        for (auto entity: shutdownRigidStaticEntities) {
+            auto &rigidStatic = shutdownRigidStaticEntities.get<RigidStatic>(entity);
 
             rigidStatic.rigidStatic->release();
 

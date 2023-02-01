@@ -12,6 +12,7 @@ namespace gl3::engine {
         audioSystem = soundSystem::AudioSystem::GetAudioSystem();
         transformSystem = Graphics::TransformSystem::GetTransformSystem();
         inputManager = inputSystem::InputManager::GetInputManager();
+        cleanUpSystem = Ecs::CleanUpSystem::GetCleanUpSystem();
     }
 
     void Game::run() {
@@ -60,5 +61,6 @@ namespace gl3::engine {
         physicsSystem->Shutdown();
         graphicsSystem->Shutdown();
         transformSystem->DestroyTransform();
+        cleanUpSystem->Shutdown();
     }
 }

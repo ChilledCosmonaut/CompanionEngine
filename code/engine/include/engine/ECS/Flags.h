@@ -10,4 +10,6 @@ namespace gl3::engine::Ecs::Flags {
 
     template <typename  Component>
     struct Destroy {};
+
+    struct DestroyEntity {};
 }

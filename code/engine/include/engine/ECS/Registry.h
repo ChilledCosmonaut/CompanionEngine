@@ -68,6 +68,11 @@ namespace gl3::engine::Ecs {
             registry.remove<Component>(entity);
         }
 
+        static void DestroyEntity(entt::entity entity) {
+            if (!registry.any_of<Flags::DestroyEntity>(entity))
+                registry.emplace<Flags::DestroyEntity>(entity);
+        }
+
         template<typename Component>
         static void AddCustomFlag(entt::entity entity) {
             if (!registry.any_of<Component>(entity))
