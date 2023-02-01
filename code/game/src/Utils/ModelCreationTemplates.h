@@ -156,8 +156,8 @@ namespace gl3::game::Utils{
 
         static entt::entity CreateEnemyVariant1(engine::Scene *scene){
             entt::entity enemyVariant1 = scene->CreateEntity();
-            /*entt::entity collisionTrigger = scene->CreateEntity();
-            engine::Graphics::TransformationUtils::AddChildEntity(enemyVariant1, collisionTrigger);*/
+            entt::entity laser = scene->CreateEntity();
+            engine::Graphics::TransformationUtils::AddChildEntity(enemyVariant1, laser);
             auto &registry = engine::Ecs::Registry::getCurrent();
 
             auto &enemyVariant1Model = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(enemyVariant1);
@@ -168,6 +168,15 @@ namespace gl3::game::Utils{
             auto &collider = engine::Ecs::Registry::AddComponent<engine::Physics::RigidBody>(enemyVariant1);
             collider.shapeInfo = engine::Physics::Shapes::Box{physx::PxVec3(7, 2, 9)};
             collider.shape = engine::Physics::Shapes::Shapes::box;
+
+            engine::Graphics::Transform &transform = registry.get<engine::Graphics::Transform>(laser);
+            transform.translation = glm::vec3(0, 0, 9.1f);
+            transform.active = false;
+
+            auto &laserModel = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(laser);
+            laserModel.modelName = assets::Models::Models$Laser$obj;
+            laserModel.material = *GetCarrierMaterial();
+            engine::Graphics::ModelUtils::SetShader(laserModel, GetTexturedShader());
 
             /*auto &trigger = engine::Ecs::Registry::AddComponent<engine::Physics::RigidBody>(collisionTrigger);
             trigger.shapeInfo = engine::Physics::Shapes::Box{physx::PxVec3(7, 2, 18)};
@@ -185,6 +194,8 @@ namespace gl3::game::Utils{
 
         static entt::entity CreateCarrier(engine::Scene *scene){
             auto carrierEnemy = scene->CreateEntity();
+            auto laser = scene->CreateEntity();
+            engine::Graphics::TransformationUtils::AddChildEntity(carrierEnemy, laser);
             auto &registry = engine::Ecs::Registry::getCurrent();
 
             auto &carrierEnemyModel = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(carrierEnemy);
@@ -202,17 +213,38 @@ namespace gl3::game::Utils{
             registry.emplace<CarrierBehaviour>(carrierEnemy);
             registry.emplace<Health>(carrierEnemy);
 
+            engine::Graphics::Transform &transform = registry.get<engine::Graphics::Transform>(laser);
+            transform.translation = glm::vec3(0, 0, 9.1f);
+            transform.active = false;
+
+            auto &laserModel = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(laser);
+            laserModel.modelName = assets::Models::Models$Laser$obj;
+            laserModel.material = *GetCarrierMaterial();
+            engine::Graphics::ModelUtils::SetShader(laserModel, GetTexturedShader());
+
             return carrierEnemy;
         }
 
         static entt::entity CreatePlayer(engine::Scene *scene){
             auto playerShip = scene->CreateEntity();
+            auto laser = scene->CreateEntity();
+            engine::Graphics::TransformationUtils::AddChildEntity(playerShip, laser);
+            auto &registry = engine::Ecs::Registry::getCurrent();
 
             auto &playerModel = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(playerShip);
             playerModel.modelName = assets::Models::SpaceShip$MainFrame$obj;
             engine::Graphics::ModelUtils::SetShader(playerModel, GetUntexturedShader());
 
             engine::Ecs::Registry::AddComponentWithoutFlag<Health>(playerShip);
+
+            engine::Graphics::Transform &transform = registry.get<engine::Graphics::Transform>(laser);
+            transform.translation = glm::vec3(0, 0, 9.1f);
+            transform.active = false;
+
+            auto &laserModel = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(laser);
+            laserModel.modelName = assets::Models::Models$Laser$obj;
+            laserModel.material = *GetCarrierMaterial();
+            engine::Graphics::ModelUtils::SetShader(laserModel, GetTexturedShader());
 
             return playerShip;
         }
