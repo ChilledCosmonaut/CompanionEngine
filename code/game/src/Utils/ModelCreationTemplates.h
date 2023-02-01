@@ -13,6 +13,7 @@
 #include "generated/Assets.h"
 #include "../Components/AsteroidField.h"
 #include "../Components/Station.h"
+#include "../Components/Health.h"
 #include "engine/Systems/Physics/Components/Shapes.h"
 
 namespace gl3::game::Utils{
@@ -177,6 +178,7 @@ namespace gl3::game::Utils{
             triggerTransform.translation = glm::vec3(0, 0, 27);*/
 
             registry.emplace<FighterBehaviour>(enemyVariant1);
+            registry.emplace<Health>(enemyVariant1);
 
             return enemyVariant1;
         }
@@ -198,6 +200,7 @@ namespace gl3::game::Utils{
             collider.shape = engine::Physics::Shapes::Shapes::box;
 
             registry.emplace<CarrierBehaviour>(carrierEnemy);
+            registry.emplace<Health>(carrierEnemy);
 
             return carrierEnemy;
         }
@@ -208,6 +211,8 @@ namespace gl3::game::Utils{
             auto &playerModel = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(playerShip);
             playerModel.modelName = assets::Models::SpaceShip$MainFrame$obj;
             engine::Graphics::ModelUtils::SetShader(playerModel, GetUntexturedShader());
+
+            engine::Ecs::Registry::AddComponentWithoutFlag<Health>(playerShip);
 
             return playerShip;
         }

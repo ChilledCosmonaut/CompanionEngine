@@ -105,21 +105,11 @@ namespace gl3::game {
         std::random_device randDevShoot;
         std::mt19937 shootGenerator(randDevShoot());
         std::uniform_int_distribution<int> shootDistribution(0, 300);
+
+        if (shootDistribution(shootGenerator) >= 1) return;
         std::cout<<"Shooting!"<<std::endl;
 
-        if (shootDistribution(shootGenerator) > 1) return;
-
-        entt::registry &registry = engine::Ecs::Registry::getCurrent();
-        glm::vec3 relativeForwardVector = transform.globalRotation * glm::vec4(0, 0, 1, 0);
-        glm::vec3 worldPosition = Graphics::TransformationUtils::GetGlobalTranslation(const_cast<Transform &>(transform));
-
-        entt::entity victim = Physics::PhysicsUtils::MakeRaycast(worldPosition, relativeForwardVector, 200);
-
-        if(!registry.any_of<Station>(victim)) return;
-
-        /*Station &stationInfo = registry.get<Station>(victim);
-        stationInfo.life -= 10;
-        std::cout<<stationInfo.life<<std::endl;*/
+        ShootingMechanics::Shoot(transform);
     }
 }
 
