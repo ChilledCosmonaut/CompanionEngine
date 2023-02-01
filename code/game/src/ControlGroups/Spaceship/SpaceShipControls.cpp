@@ -1,4 +1,5 @@
 #include <glm/geometric.hpp>
+#include <iostream>
 #include "SpaceShipControls.h"
 
 namespace game::controls {
@@ -30,8 +31,8 @@ namespace game::controls {
     }*/
 
     float SpaceshipTranslationControls::GetZInput(GLFWwindow *window) {
-        int input = glfwGetKey(window, GLFW_KEY_S);
-        input -= glfwGetKey(window, GLFW_KEY_W);
+        int input = glfwGetKey(window, GLFW_KEY_W);
+        input -= glfwGetKey(window, GLFW_KEY_S);
 
         return (float) input;
     }
@@ -41,7 +42,7 @@ namespace game::controls {
 
         glm::vec2 mousePosition = HandleMouseInput(window);
 
-        inputVector.x = mousePosition.x;
+        inputVector.x = -mousePosition.x;
         inputVector.y = mousePosition.y;
         inputVector.z = GetZInput(window);
 
@@ -74,11 +75,11 @@ namespace game::controls {
         return (float) input;
     }
 
-    void SpaceshipBallControls::UpdateKeys(GLFWwindow *window) {
+    void SpaceshipFireControls::UpdateKeys(GLFWwindow *window) {
         input = (float) glfwGetKey(window, GLFW_KEY_SPACE);
     }
 
-    float SpaceshipBallControls::GetInput() const {
+    float SpaceshipFireControls::GetInput() const {
         return input;
     }
 }

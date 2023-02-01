@@ -3,33 +3,11 @@
 class SpaceshipTranslations;
 namespace gl3::game {
 
-    template<typename T>
-    int sgn(T val) {
-        return (T(0) < val) - (val < T(0));
-    }
-
-    void Fire(int fire, entt::registry* registry, Transform& playerTransform) {
-        /*if (fire == GLFW_PRESS){
-            auto projectileView = registry->view<PlayerProjectile, Transform>();
-
-            for (auto& entity : projectileView) {
-                auto& projectile = projectileView.get<PlayerProjectile>(entity);
-                auto& transform = projectileView.get<Transform>(entity);
-
-                if (projectile.lifetime <= 0){
-                    transform.active = true;
-                    TransformationUtils::SetTranslation(entity, transform, playerTransform.translation);
-                    TransformationUtils::SetRotation(entity, transform, playerTransform.rotation);
-                    projectile.lifetime = 5;
-                }
-            }
-        }*/
-    }
-
     void ShipController::OnSetUp(engine::Game &game) {
         auto inputManager = engine::inputSystem::InputManager::GetInputManager();
         inputManager->AddInputGroup(translationControls);
         inputManager->AddInputGroup(rotationControls);
+        inputManager->AddInputGroup(fireControls);
 
         auto &registry = Ecs::Registry::getCurrent();
         auto componentView = registry.view<ShipMovementSettings, Physics::RigidBody>();
@@ -50,6 +28,7 @@ namespace gl3::game {
 
         auto translationInput = translationControls->GetInputVector();
         auto rotationInput = rotationControls->GetInputVector();
+        float fireInput = fireControls->GetInput();
 
         for (auto &entity: componentView) {
             auto &movementSettings = componentView.get<ShipMovementSettings>(entity);
@@ -58,9 +37,7 @@ namespace gl3::game {
 
             HandleTranslation(rigidBody, movementSettings, transform.rotation * translationInput);
             HandleRotation(rigidBody, movementSettings, transform.rotation * rotationInput);
-
-            /*int fire = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
-            Fire(fire, registry, currentTransform);*/
+            HandleFire(transform, fireInput);
         }
     }
 
@@ -78,6 +55,12 @@ namespace gl3::game {
         if (glm::length(rotationInput) != 0){
             auto velocity = physx::PxVec3(-rotationInput.x, -rotationInput.y, -rotationInput.z) * movementSettings.rotationSpeed;
             rigidBody.rigidBody->setAngularVelocity(velocity);
+        }
+    }
+
+    void ShipController::HandleFire(Graphics::Transform &transform, float input) {
+        if (input > 0){
+            ShootingMechanics::Shoot(transform);
         }
     }
 }

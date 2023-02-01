@@ -21,15 +21,10 @@ namespace gl3::game {
 
             auto mainCameraObject = CreateEntity();
             engine::Ecs::Registry::AddComponent<engine::Graphics::Camera>(mainCameraObject);
-            engine::Ecs::Registry::AddComponent<ShipMovementSettings>(mainCameraObject);
 
-            auto &cameraTransform = registry.get<engine::Graphics::Transform>(mainCameraObject);
-            engine::Graphics::TransformationUtils::AddRotation(mainCameraObject, cameraTransform, glm::vec3(0, 180, 20));
-            cameraTransform.translation = glm::vec3(-90, 30, -300);
-
-            auto &rigidBody = engine::Ecs::Registry::AddComponent<engine::Physics::RigidBody>(mainCameraObject);
-            rigidBody.shapeInfo = Shapes::Box{};
-            rigidBody.shape = Shapes::sphere;
+            auto &transform = registry.get<engine::Graphics::Transform>(mainCameraObject);
+            engine::Graphics::TransformationUtils::AddRotation(mainCameraObject, transform, glm::vec3(0, 0, 20));
+            transform.translation = glm::vec3(-90, 30, -300);
 
             auto &backgroundMusic = engine::Ecs::Registry::AddComponent<engine::soundSystem::BackgroundAudioSource>(mainCameraObject);
             backgroundMusic.fileName = assets::audio$ambientSpace3$wav;

@@ -18,6 +18,7 @@
 #include "../Components/Health.h"
 #include "../Components/EnemyBehavourSettings.h"
 #include "../Components/Laser.h"
+#include "../Components/ShipMovementSettings.h"
 
 namespace gl3::game::Utils {
     class ModelCreationTemplates {
@@ -91,7 +92,8 @@ namespace gl3::game::Utils {
             registry.emplace<Health>(spaceStation);
 
             auto &rigidBody = engine::Ecs::Registry::AddComponent<engine::Physics::RigidBody>(spaceStation);
-            rigidBody.shapeInfo = engine::Physics::Shapes::Capsule{};
+            rigidBody.shapeInfo = engine::Physics::Shapes::Box{physx::PxVec3(1, 1, 45)};
+            rigidBody.mass = 0;
 
             auto &carrierTransform = registry.get<engine::Graphics::Transform>(spaceStation);
             carrierTransform.scale = glm::vec3(2.f, 2.f, 2.f);
@@ -256,18 +258,23 @@ namespace gl3::game::Utils {
 
             auto playerShip = scene->CreateEntity();
             auto laser = scene->CreateEntity();
-            engine::Graphics::TransformationUtils::AddChildEntity(parentEntity, playerShip);
             engine::Graphics::TransformationUtils::AddChildEntity(parentEntity, laser);
+            engine::Graphics::TransformationUtils::AddChildEntity(parentEntity, playerShip);
 
             engine::Ecs::Registry::AddComponentWithoutFlag<Health>(parentEntity);
+            engine::Ecs::Registry::AddComponent<ShipMovementSettings>(parentEntity);
+
+            auto &collider = engine::Ecs::Registry::AddComponent<engine::Physics::RigidBody>(parentEntity);
+            collider.shapeInfo = engine::Physics::Shapes::Box{};
+            collider.shape = engine::Physics::Shapes::Shapes::box;
 
             auto &playerModel = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(playerShip);
             playerModel.modelName = assets::Models::SpaceShip$MainFrame$obj;
             engine::Graphics::ModelUtils::SetShader(playerModel, GetUntexturedShader());
 
             engine::Graphics::Transform &transform = registry.get<engine::Graphics::Transform>(laser);
-            transform.translation = glm::vec3(0, 0, 9.1f);
-            transform.scale = glm::vec3(0.1f, 0.1f, 1);
+            transform.translation = glm::vec3(0, 0, 3.f);
+            transform.scale = glm::vec3(0.1f, 0.1f, 30.f);
             transform.active = false;
 
             auto &laserModel = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(laser);

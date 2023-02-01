@@ -17,7 +17,8 @@ namespace gl3::game {
             return;
 
         auto &laserStats = registry.get<Laser>(laserChild);
-        if (laserStats.timeLeft > 0) return;
+        if (laserStats.timeLeft > 0)
+            return;
         laserStats.timeLeft = laserStats.showTimer;
 
         auto &laserTransform = registry.get<engine::Graphics::Transform>(laserChild);

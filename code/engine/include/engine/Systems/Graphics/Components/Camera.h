@@ -11,8 +11,8 @@ namespace gl3::engine::Graphics {
     struct Camera {
     public:
         Camera() {
-            lookAtMatrix = glm::lookAt(
-                    glm::vec3(0, 0, 0), glm::vec3(0, 0, -1), glm::vec3(0, 1, 0));
+            lookAtMatrix = glm::lookAtRH(
+                    glm::vec3(0, 0, 0), glm::vec3(0, 0, 1), glm::vec3(0, 1, 0));
         }
 
         glm::mat4 lookAtMatrix {};
