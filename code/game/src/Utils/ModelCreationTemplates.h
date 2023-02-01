@@ -9,12 +9,15 @@
 #include "engine/Systems/FileManager/FileManager.h"
 #include "engine/Systems/Graphics/Utils/TransformationUtils.h"
 #include "engine/Systems/Graphics/Utils/ModelUtils.h"
-#include "../Components/EnemyBehavourSettings.h"
+#include "engine/Systems/Physics/Components/Shapes.h"
+
 #include "generated/Assets.h"
+
 #include "../Components/AsteroidField.h"
 #include "../Components/Station.h"
 #include "../Components/Health.h"
-#include "engine/Systems/Physics/Components/Shapes.h"
+#include "../Components/EnemyBehavourSettings.h"
+#include "../Components/Laser.h"
 
 namespace gl3::game::Utils{
     class ModelCreationTemplates{
