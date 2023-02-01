@@ -268,9 +268,9 @@ namespace gl3::game::Utils {
             collider.shapeInfo = engine::Physics::Shapes::Box{};
             collider.shape = engine::Physics::Shapes::Shapes::box;
 
-            auto &playerModel = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(playerShip);
+            /*auto &playerModel = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(playerShip);
             playerModel.modelName = assets::Models::SpaceShip$MainFrame$obj;
-            engine::Graphics::ModelUtils::SetShader(playerModel, GetUntexturedShader());
+            engine::Graphics::ModelUtils::SetShader(playerModel, GetUntexturedShader());*/
 
             engine::Graphics::Transform &transform = registry.get<engine::Graphics::Transform>(laser);
             transform.translation = glm::vec3(0, 0, 3.f);
