@@ -10,6 +10,6 @@
 namespace gl3::engine::Physics{
     class PhysicsUtils {
     public:
-        entt::entity MakeRaycast(glm::vec3 origin, glm::vec3 direction, float maxDistance);
+        static entt::entity MakeRaycast(glm::vec3 origin, glm::vec3 direction, float maxDistance);
     };
 }
