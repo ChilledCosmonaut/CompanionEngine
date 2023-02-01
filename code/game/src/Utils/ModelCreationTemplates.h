@@ -169,6 +169,9 @@ namespace gl3::game::Utils{
             collider.shapeInfo = engine::Physics::Shapes::Box{physx::PxVec3(7, 2, 9)};
             collider.shape = engine::Physics::Shapes::Shapes::box;
 
+            registry.emplace<FighterBehaviour>(enemyVariant1);
+            registry.emplace<Health>(enemyVariant1);
+
             engine::Graphics::Transform &transform = registry.get<engine::Graphics::Transform>(laser);
             transform.translation = glm::vec3(0, 0, 9.1f);
             transform.active = false;
@@ -185,9 +188,7 @@ namespace gl3::game::Utils{
 
             /*auto &triggerTransform = registry.get<engine::Graphics::Transform>(collisionTrigger);
             triggerTransform.translation = glm::vec3(0, 0, 27);*/
-
-            registry.emplace<FighterBehaviour>(enemyVariant1);
-            registry.emplace<Health>(enemyVariant1);
+            engine::Ecs::Registry::AddCustomFlag<Laser>(laser);
 
             return enemyVariant1;
         }
@@ -222,6 +223,8 @@ namespace gl3::game::Utils{
             laserModel.material = *GetCarrierMaterial();
             engine::Graphics::ModelUtils::SetShader(laserModel, GetTexturedShader());
 
+            engine::Ecs::Registry::AddCustomFlag<Laser>(laser);
+
             return carrierEnemy;
         }
 
@@ -245,6 +248,8 @@ namespace gl3::game::Utils{
             laserModel.modelName = assets::Models::Models$Laser$obj;
             laserModel.material = *GetCarrierMaterial();
             engine::Graphics::ModelUtils::SetShader(laserModel, GetTexturedShader());
+
+            engine::Ecs::Registry::AddCustomFlag<Laser>(laser);
 
             return playerShip;
         }

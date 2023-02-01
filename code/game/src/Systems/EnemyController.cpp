@@ -17,7 +17,7 @@ namespace gl3::game {
 
                 glm::quat targetRotation = FindRotation(transform, targetTransform);
                 float speed = FindSpeedAmplitude(transform, targetTransform, targetRotation);
-                Attack(transform, targetTransform);
+                Attack(transform);
 
                 engine::Graphics::TransformationUtils::SetRotation(enemy, transform, targetRotation);
                 //rigidBody.rigidBody->setAngularVelocity(FindAngularVelocity(transform, targetRotation));
@@ -39,7 +39,7 @@ namespace gl3::game {
 
                 glm::quat targetRotation = FindRotation(transform, targetTransform);
                 float speed = FindCarrierSpeedAmplitude(transform, targetTransform);
-                Attack(transform, targetTransform);
+                Attack(transform);
 
                 engine::Graphics::TransformationUtils::SetRotation(enemy, transform, targetRotation);
                 //rigidBody.rigidBody->setAngularVelocity(FindAngularVelocity(transform, targetRotation));
@@ -100,8 +100,7 @@ namespace gl3::game {
         return {relativeForwardVector.x, relativeForwardVector.y, relativeForwardVector.z};
     }
 
-    void EnemyController::Attack(const engine::Graphics::Transform &transform,
-                                 const engine::Graphics::Transform &targetTransform) {
+    void EnemyController::Attack(engine::Graphics::Transform &transform) {
         std::random_device randDevShoot;
         std::mt19937 shootGenerator(randDevShoot());
         std::uniform_int_distribution<int> shootDistribution(0, 300);

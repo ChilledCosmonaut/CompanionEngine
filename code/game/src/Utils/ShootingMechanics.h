@@ -9,6 +9,6 @@
 namespace gl3::game {
     class ShootingMechanics {
     public:
-        static void Shoot(const engine::Graphics::Transform &transform);
+        static void Shoot(engine::Graphics::Transform &transform);
     };
 }
