@@ -9,7 +9,7 @@ namespace gl3::game {
     }
 
     void Fire(int fire, entt::registry* registry, Transform& playerTransform) {
-        if (fire == GLFW_PRESS){
+        /*if (fire == GLFW_PRESS){
             auto projectileView = registry->view<PlayerProjectile, Transform>();
 
             for (auto& entity : projectileView) {
@@ -23,7 +23,7 @@ namespace gl3::game {
                     projectile.lifetime = 5;
                 }
             }
-        }
+        }*/
     }
 
     void ShipController::OnSetUp(engine::Game &game) {

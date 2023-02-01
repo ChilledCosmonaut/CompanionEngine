@@ -40,7 +40,7 @@ namespace gl3::game {
 
             auto gameController = CreateEntity();
             Ecs::Registry::AddComponent<WaveInfo>(gameController);
-            Ecs::Registry::AddComponent<NewWave>(gameController);
+            Ecs::Registry::AddCustomFlag<NewWave>(gameController);
 
             entt::entity playerShip = Utils::ModelCreationTemplates::CreatePlayer(this);
             engine::Graphics::TransformationUtils::AddChildEntity(mainCameraObject, playerShip);

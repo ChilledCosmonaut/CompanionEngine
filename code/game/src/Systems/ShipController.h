@@ -4,7 +4,6 @@
 #include "engine/Systems/Graphics/Utils/TransformationUtils.h"
 #include "engine/ECS/System.h"
 #include "../Components/ShipMovementSettings.h"
-#include "../Components/ProjectileInfo.h"
 #include "engine/Time.h"
 #include "engine/Systems/Physics/Components/RigidBody.h"
 #include "../ControlGroups/Spaceship/SpaceShipControls.h"

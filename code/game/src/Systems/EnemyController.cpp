@@ -117,9 +117,9 @@ namespace gl3::game {
 
         if(!registry.any_of<Station>(victim)) return;
 
-        Station &stationInfo = registry.get<Station>(victim);
+        /*Station &stationInfo = registry.get<Station>(victim);
         stationInfo.life -= 10;
-        std::cout<<stationInfo.life<<std::endl;
+        std::cout<<stationInfo.life<<std::endl;*/
     }
 }
 

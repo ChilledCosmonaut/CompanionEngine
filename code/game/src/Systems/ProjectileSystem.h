@@ -3,7 +3,6 @@
 #include "../Components/EnemyBehavourSettings.h"
 #include "../Components/ShipMovementSettings.h"
 #include "engine/ECS/System.h"
-#include "../Components/ProjectileInfo.h"
 #include "engine/Time.h"
 #include "engine/ECS/Registry.h"
 
@@ -15,7 +14,7 @@ namespace gl3::game {
         void OnSetUp(engine::Game &game) override {};
 
         void Update(engine::Game &game) override{
-            auto& registry = engine::Ecs::Registry::getCurrent();
+            /*auto& registry = engine::Ecs::Registry::getCurrent();
             auto enemyProjectileView = registry.view<EnemyProjectile, engine::Graphics::Transform>();
             for (auto &enemy: enemyProjectileView) {
                 auto &enemyStats = enemyProjectileView.get<EnemyProjectile>(enemy);
@@ -66,7 +65,7 @@ namespace gl3::game {
                         playerTransform.active = false;
                     }
                 }
-            }
+            }*/
         };
 
         void OnShutdown(engine::Game &engine) override {};

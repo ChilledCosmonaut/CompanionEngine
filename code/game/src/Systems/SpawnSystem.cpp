@@ -9,11 +9,8 @@ namespace gl3::game {
 
         for (auto &gameController: waveView) {
             auto &waveInfo = waveView.get<WaveInfo>(gameController);
-            auto &newWave = waveView.get<NewWave>(gameController);
 
-            engine::Scene *scene = game.getCurrentScene();
-
-            waveInfo.waveCounter += newWave.waveCount;
+            waveInfo.waveCounter ++;
             engine::Ecs::Registry::DestroyComponentWithoutFlag<NewWave>(gameController);
 
             auto nextEnemyCount = pow(waveInfo.waveCounter, 2.f) / pow(waveInfo.waveCounter, 5.f / 4.f) + waveInfo.baseEnemyCount;
