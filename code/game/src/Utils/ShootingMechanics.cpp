@@ -20,6 +20,10 @@ namespace gl3::game {
         if(laserChild == entt::tombstone)
             return;
 
+        auto &laserStats = registry.get<Laser>(laserChild);
+        if(laserStats.timeLeft > 0) return;
+        laserStats.timeLeft = laserStats.showTimer;
+
         float laserLength = 1000;
 
         if (victim != entt::tombstone){
@@ -35,7 +39,7 @@ namespace gl3::game {
         if (!registry.any_of<Health>(victim)) return;
 
         Health &health = registry.get<Health>(victim);
-        health.currentLife -= 10;
+        health.currentLife -= laserStats.laserDamage;
         std::cout << health.currentLife << std::endl;
     }
 }
