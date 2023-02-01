@@ -14,6 +14,7 @@
 namespace gl3::engine::Physics {
 
     class PhysicsSystem : Ecs::CoreSystem, public physx::PxSimulationEventCallback {
+        friend class PhysicsUtils;
     public:
         /// Need to adhere to the singleton pattern
         static PhysicsSystem *GetPhysicsSystem();

@@ -8,6 +8,7 @@
 #include "../Components/EnemyBehavourSettings.h"
 #include "../Components/Station.h"
 #include "engine/Systems/Physics/Components/RigidBody.h"
+#include "engine/Systems/Physics/Utils/PhysicsUtils.h"
 
 namespace gl3::game {
     class EnemyController : public engine::entityComponentSystem::System {
