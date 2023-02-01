@@ -42,8 +42,7 @@ namespace gl3::game {
             Ecs::Registry::AddComponent<WaveInfo>(gameController);
             Ecs::Registry::AddCustomFlag<NewWave>(gameController);
 
-            entt::entity playerShip = Utils::ModelCreationTemplates::CreatePlayer(this);
-            engine::Graphics::TransformationUtils::AddChildEntity(mainCameraObject, playerShip);
+            Utils::ModelCreationTemplates::CreatePlayer(this, mainCameraObject);
 
             auto levelRoot = CreateEntity();
             auto spaceStation = Utils::ModelCreationTemplates::CreateSpaceStation(this);

@@ -85,6 +85,10 @@ namespace gl3::game::Utils{
             auto &registry = engine::Ecs::Registry::getCurrent();
 
             registry.emplace<Station>(spaceStation);
+            registry.emplace<Health>(spaceStation);
+
+            auto &rigidBody = engine::Ecs::Registry::AddComponent<engine::Physics::RigidBody>(spaceStation);
+            rigidBody.shapeInfo = engine::Physics::Shapes::Capsule{};
 
             auto &carrierTransform = registry.get<engine::Graphics::Transform>(spaceStation);
             carrierTransform.scale = glm::vec3(2.f, 2.f, 2.f);
@@ -177,11 +181,12 @@ namespace gl3::game::Utils{
 
             engine::Graphics::Transform &transform = registry.get<engine::Graphics::Transform>(laser);
             transform.translation = glm::vec3(0, 0, 9.1f);
+            transform.scale = glm::vec3(0.1f, 0.1f, 1);
             transform.active = false;
 
             auto &laserModel = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(laser);
             laserModel.modelName = assets::Models::Models$Laser$obj;
-            laserModel.material = *GetCarrierMaterial();
+            laserModel.material = *GetRedLaserMaterial();
             engine::Graphics::ModelUtils::SetShader(laserModel, GetTexturedShader());
 
             /*auto &trigger = engine::Ecs::Registry::AddComponent<engine::Physics::RigidBody>(collisionTrigger);
@@ -211,19 +216,20 @@ namespace gl3::game::Utils{
             carrierTransform.scale = glm::vec3(1.5f, 1.5f, 1.5f);
 
             auto &collider = engine::Ecs::Registry::AddComponent<engine::Physics::RigidBody>(carrierEnemy);
-            collider.shapeInfo = engine::Physics::Shapes::Box{physx::PxVec3(10.5f, 3, 13.5f)};
+            collider.shapeInfo = engine::Physics::Shapes::Box{physx::PxVec3(10.5f, 3, 13.f)};
             collider.shape = engine::Physics::Shapes::Shapes::box;
 
             registry.emplace<CarrierBehaviour>(carrierEnemy);
             registry.emplace<Health>(carrierEnemy);
 
             engine::Graphics::Transform &transform = registry.get<engine::Graphics::Transform>(laser);
-            transform.translation = glm::vec3(0, 0, 9.1f);
+            transform.translation = glm::vec3(0, 0, 13.1f);
+            transform.scale = glm::vec3(0.1f, 0.1f, 1);
             transform.active = false;
 
             auto &laserModel = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(laser);
             laserModel.modelName = assets::Models::Models$Laser$obj;
-            laserModel.material = *GetCarrierMaterial();
+            laserModel.material = *GetRedLaserMaterial();
             engine::Graphics::ModelUtils::SetShader(laserModel, GetTexturedShader());
 
             engine::Ecs::Registry::AddComponent<Laser>(laser);
@@ -231,25 +237,28 @@ namespace gl3::game::Utils{
             return carrierEnemy;
         }
 
-        static entt::entity CreatePlayer(engine::Scene *scene){
+        static entt::entity CreatePlayer(engine::Scene *scene, entt::entity parentEntity){
+            auto &registry = engine::Ecs::Registry::getCurrent();
+
             auto playerShip = scene->CreateEntity();
             auto laser = scene->CreateEntity();
-            engine::Graphics::TransformationUtils::AddChildEntity(playerShip, laser);
-            auto &registry = engine::Ecs::Registry::getCurrent();
+            engine::Graphics::TransformationUtils::AddChildEntity(parentEntity, playerShip);
+            engine::Graphics::TransformationUtils::AddChildEntity(parentEntity, laser);
+
+            engine::Ecs::Registry::AddComponentWithoutFlag<Health>(parentEntity);
 
             auto &playerModel = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(playerShip);
             playerModel.modelName = assets::Models::SpaceShip$MainFrame$obj;
             engine::Graphics::ModelUtils::SetShader(playerModel, GetUntexturedShader());
 
-            engine::Ecs::Registry::AddComponentWithoutFlag<Health>(playerShip);
-
             engine::Graphics::Transform &transform = registry.get<engine::Graphics::Transform>(laser);
             transform.translation = glm::vec3(0, 0, 9.1f);
+            transform.scale = glm::vec3(0.1f, 0.1f, 1);
             transform.active = false;
 
             auto &laserModel = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(laser);
             laserModel.modelName = assets::Models::Models$Laser$obj;
-            laserModel.material = *GetCarrierMaterial();
+            laserModel.material = *GetGreenLaserMaterial();
             engine::Graphics::ModelUtils::SetShader(laserModel, GetTexturedShader());
 
             engine::Ecs::Registry::AddComponent<Laser>(laser);
@@ -511,12 +520,40 @@ namespace gl3::game::Utils{
             return asteroidMaterial;
         }
 
+        static std::shared_ptr<engine::Graphics::Material> GetGreenLaserMaterial(){
+            if(greenLaserMaterial == nullptr){
+                auto fileManager = engine::filesystem::FileManager::GetFileManager();
+                greenLaserMaterial = std::make_shared<engine::Graphics::Material>();
+
+                greenLaserMaterial->ambient  = fileManager->getAsset(assets::Images::textures$Laser$GreenLaser$png);
+                greenLaserMaterial->diffuse  = fileManager->getAsset(assets::Images::textures$Laser$GreenLaser$png);
+                greenLaserMaterial->specular = fileManager->getAsset(assets::Images::textures$Laser$GreenLaser$png);
+                greenLaserMaterial->normal   = fileManager->getAsset(assets::Images::textures$Laser$GreenLaser$png);
+            }
+            return greenLaserMaterial;
+        }
+
+        static std::shared_ptr<engine::Graphics::Material> GetRedLaserMaterial(){
+            if(redLaserMaterial == nullptr){
+                auto fileManager = engine::filesystem::FileManager::GetFileManager();
+                redLaserMaterial = std::make_shared<engine::Graphics::Material>();
+
+                redLaserMaterial->ambient  = fileManager->getAsset(assets::Images::textures$Laser$RedLaser$png);
+                redLaserMaterial->diffuse  = fileManager->getAsset(assets::Images::textures$Laser$RedLaser$png);
+                redLaserMaterial->specular = fileManager->getAsset(assets::Images::textures$Laser$RedLaser$png);
+                redLaserMaterial->normal   = fileManager->getAsset(assets::Images::textures$Laser$RedLaser$png);
+            }
+            return redLaserMaterial;
+        }
+
         inline static std::shared_ptr<engine::Graphics::shader> texturedShader = nullptr;
         inline static std::shared_ptr<engine::Graphics::shader> untexturedShader = nullptr;
 
         inline static std::shared_ptr<engine::Graphics::Material> carrierMaterial = nullptr;
         inline static std::shared_ptr<engine::Graphics::Material> starSparrowMaterial = nullptr;
         inline static std::shared_ptr<engine::Graphics::Material> asteroidMaterial = nullptr;
+        inline static std::shared_ptr<engine::Graphics::Material> greenLaserMaterial = nullptr;
+        inline static std::shared_ptr<engine::Graphics::Material> redLaserMaterial = nullptr;
 
         inline static std::shared_ptr<engine::Graphics::Material> stationModule1Material = nullptr;
         inline static std::shared_ptr<engine::Graphics::Material> stationModule3Material = nullptr;

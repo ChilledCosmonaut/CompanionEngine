@@ -36,6 +36,6 @@ namespace gl3::game {
 
         static physx::PxVec3 FindLinearVelocity(const engine::Graphics::Transform& transform, const engine::Graphics::Transform& targetTransform, float speedAmplitude, float shipSpeed);
 
-        static void Attack(engine::Graphics::Transform& transform);
+        static void Attack(entt::entity entity, engine::Graphics::Transform& transform);
     };
 }

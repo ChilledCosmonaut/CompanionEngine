@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "engine/ECS/System.h"
 #include "engine/Systems/Physics/Utils/PhysicsUtils.h"
 

@@ -17,7 +17,7 @@ namespace gl3::game {
 
                 glm::quat targetRotation = FindRotation(transform, targetTransform);
                 float speed = FindSpeedAmplitude(transform, targetTransform, targetRotation);
-                Attack(transform);
+                Attack(enemy, transform);
 
                 engine::Graphics::TransformationUtils::SetRotation(enemy, transform, targetRotation);
                 //rigidBody.rigidBody->setAngularVelocity(FindAngularVelocity(transform, targetRotation));
@@ -39,7 +39,7 @@ namespace gl3::game {
 
                 glm::quat targetRotation = FindRotation(transform, targetTransform);
                 float speed = FindCarrierSpeedAmplitude(transform, targetTransform);
-                Attack(transform);
+                Attack(enemy, transform);
 
                 engine::Graphics::TransformationUtils::SetRotation(enemy, transform, targetRotation);
                 //rigidBody.rigidBody->setAngularVelocity(FindAngularVelocity(transform, targetRotation));
@@ -100,13 +100,13 @@ namespace gl3::game {
         return {relativeForwardVector.x, relativeForwardVector.y, relativeForwardVector.z};
     }
 
-    void EnemyController::Attack(engine::Graphics::Transform &transform) {
+    void EnemyController::Attack(entt::entity entity, engine::Graphics::Transform &transform) {
         std::random_device randDevShoot;
         std::mt19937 shootGenerator(randDevShoot());
         std::uniform_int_distribution<int> shootDistribution(0, 300);
 
         if (shootDistribution(shootGenerator) >= 1) return;
-        std::cout<<"Shooting!"<<std::endl;
+        std::cout << "Laser from " << std::to_string(static_cast<double>(entity)) << "!" << std::endl;
 
         ShootingMechanics::Shoot(transform);
     }
