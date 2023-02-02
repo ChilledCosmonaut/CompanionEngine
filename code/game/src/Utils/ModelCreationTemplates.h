@@ -281,6 +281,7 @@ namespace gl3::game::Utils {
 
             auto &cockpitTexture = engine::Ecs::Registry::AddComponent<engine::Graphics::UI>(playerShip);
             cockpitTexture.imageName = assets::Images::textures$Cockpit$CockpitCutOut$png;
+            cockpitTexture.dimensions = glm::vec2(1920, 1080);
 
             /*auto &playerModel = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(playerShip);
             playerModel.modelName = assets::Models::Models$SpaceShips$Cockpit$obj;

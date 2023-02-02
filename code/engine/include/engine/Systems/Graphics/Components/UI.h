@@ -8,7 +8,7 @@ namespace gl3::engine::Graphics {
     struct UI {
     public:
         UI() {
-            shader = filesystem::FileManager::GetFileManager()->getAsset(assets::shaders$TextVertexShader$glsl, assets::shaders$TextFragmentShader$glsl);
+            shader = filesystem::FileManager::GetFileManager()->getAsset(assets::shaders$UIVertexShader$glsl, assets::shaders$UIFragmentShader$glsl);
         };
 
         assets::Images imageName;
