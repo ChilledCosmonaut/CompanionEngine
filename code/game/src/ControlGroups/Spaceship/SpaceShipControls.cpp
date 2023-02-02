@@ -69,8 +69,8 @@ namespace game::controls {
     }
 
     float SpaceshipRotationControls::GetZInput(GLFWwindow *window) {
-        int input = glfwGetKey(window, GLFW_KEY_D);
-        input -= glfwGetKey(window, GLFW_KEY_A);
+        int input = glfwGetKey(window, GLFW_KEY_A);
+        input -= glfwGetKey(window, GLFW_KEY_D);
 
         return (float) input;
     }

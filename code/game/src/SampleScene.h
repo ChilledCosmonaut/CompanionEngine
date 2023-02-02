@@ -33,6 +33,9 @@ namespace gl3::game {
             auto skybox = CreateEntity();
             engine::Ecs::Registry::AddComponent<engine::Graphics::Skybox>(skybox);
 
+            auto cockpit = CreateEntity();
+
+
             Utils::ModelCreationTemplates::CreatePlayer(this, mainCameraObject);
 
             auto levelRoot = CreateEntity();
