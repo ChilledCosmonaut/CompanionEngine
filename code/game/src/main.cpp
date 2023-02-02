@@ -1,6 +1,6 @@
 #include "Systems/ShipController.h"
 #include "Systems/EnemyController.h"
-#include "Systems/ProjectileSystem.h"
+#include "Systems/LaserSystem.h"
 #include "Systems/AsteroidVectorField.h"
 #include "Systems/SpawnSystem.h"
 #include "engine/Game.h"
@@ -30,7 +30,7 @@ int main() {
 
     enemyController.SetUpSystem(game);
 
-    ProjectileSystem projectileSystem {};
+    LaserSystem projectileSystem {};
 
     projectileSystem.SetUpSystem(game);
 

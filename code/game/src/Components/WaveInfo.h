@@ -7,7 +7,6 @@ public:
     float baseEnemyCount = 1.0f;
 };
 
-class NewWave {
-public:
-    float waveCount = 1.f;
-};
+class NewWave {};
+
+struct Restock {};

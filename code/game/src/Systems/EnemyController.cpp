@@ -4,12 +4,18 @@ namespace gl3::game {
 
     void EnemyController::Update(engine::Game &game) {
         auto &registry = engine::Ecs::Registry::getCurrent();
-        auto fighterView = registry.view<FighterBehaviour, engine::Graphics::Transform, engine::Physics::RigidBody>(
+        auto fighterView = registry.view<FighterBehaviour, engine::Graphics::Transform, engine::Physics::RigidBody, Health>(
                 entt::exclude<Ecs::Flags::Setup<gl3::game::Physics::RigidBody>>);
         for (auto &enemy: fighterView) {
             auto &enemyStats = fighterView.get<FighterBehaviour>(enemy);
             auto &transform = fighterView.get<engine::Graphics::Transform>(enemy);
             auto &rigidBody = fighterView.get<engine::Physics::RigidBody>(enemy);
+            auto &health = fighterView.get<Health>(enemy);
+
+            if (health.currentLife <= 0){
+                engine::Ecs::Registry::DestroyEntity(enemy);
+            }
+
             auto componentView = registry.view<ShipMovementSettings, engine::Graphics::Transform>();
 
             for (auto &entity: componentView) {
@@ -17,7 +23,7 @@ namespace gl3::game {
 
                 glm::quat targetRotation = FindRotation(transform, targetTransform);
                 float speed = FindSpeedAmplitude(transform, targetTransform, targetRotation);
-                Attack(transform, targetTransform);
+                Attack(enemy, transform);
 
                 engine::Graphics::TransformationUtils::SetRotation(enemy, transform, targetRotation);
                 //rigidBody.rigidBody->setAngularVelocity(FindAngularVelocity(transform, targetRotation));
@@ -26,12 +32,17 @@ namespace gl3::game {
             }
         }
 
-        auto carrierView = registry.view<CarrierBehaviour, engine::Graphics::Transform, engine::Physics::RigidBody>(
+        auto carrierView = registry.view<CarrierBehaviour, engine::Graphics::Transform, engine::Physics::RigidBody, Health>(
                 entt::exclude<Ecs::Flags::Setup<gl3::game::Physics::RigidBody>>);
         for (auto &enemy: carrierView) {
             auto &enemyStats = carrierView.get<CarrierBehaviour>(enemy);
             auto &transform = carrierView.get<engine::Graphics::Transform>(enemy);
             auto &rigidBody = carrierView.get<engine::Physics::RigidBody>(enemy);
+            auto &health = carrierView.get<Health>(enemy);
+
+            if (health.currentLife <= 0)
+                engine::Ecs::Registry::DestroyEntity(enemy);
+
             auto componentView = registry.view<Station, engine::Graphics::Transform>();
 
             for (auto &entity: componentView) {
@@ -39,7 +50,7 @@ namespace gl3::game {
 
                 glm::quat targetRotation = FindRotation(transform, targetTransform);
                 float speed = FindCarrierSpeedAmplitude(transform, targetTransform);
-                Attack(transform, targetTransform);
+                Attack(enemy, transform);
 
                 engine::Graphics::TransformationUtils::SetRotation(enemy, transform, targetRotation);
                 //rigidBody.rigidBody->setAngularVelocity(FindAngularVelocity(transform, targetRotation));
@@ -100,16 +111,15 @@ namespace gl3::game {
         return {relativeForwardVector.x, relativeForwardVector.y, relativeForwardVector.z};
     }
 
-    void EnemyController::Attack(const engine::Graphics::Transform &transform,
-                                 const engine::Graphics::Transform &targetTransform) {
+    void EnemyController::Attack(entt::entity entity, engine::Graphics::Transform &transform) {
         std::random_device randDevShoot;
         std::mt19937 shootGenerator(randDevShoot());
         std::uniform_int_distribution<int> shootDistribution(0, 300);
 
-        if (shootDistribution(shootGenerator) < 1) {
-            entt::registry &registry = engine::Ecs::Registry::getCurrent();
+        if (shootDistribution(shootGenerator) >= 1) return;
+        std::cout << "Laser from " << std::to_string(static_cast<double>(entity)) << "!" << std::endl;
 
-        }
+        ShootingMechanics::Shoot(transform);
     }
 }
 

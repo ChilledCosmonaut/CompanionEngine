@@ -155,6 +155,17 @@ namespace gl3::engine::soundSystem {
             Ecs::Registry::RemoveDestroyFlag<SpatialAudioSource>(entity);
         }
 
+        auto spatialSourceEntitiesForDestruction = registry.view<SpatialAudioSource, Ecs::Flags::DestroyEntity>();
+
+        for (auto entity:spatialSourceEntitiesForDestruction) {
+            auto& audioSource = spatialSourceEntitiesForDestruction.get<SpatialAudioSource>(entity);
+
+            soLoud.stop(audioSource.handle);
+
+            registry.remove<SpatialAudioSource>(entity);
+            Ecs::Registry::RemoveDestroyFlag<SpatialAudioSource>(entity);
+        }
+
         auto backgroundSourcesForDestruction = registry.view<BackgroundAudioSource, Ecs::Flags::Destroy<BackgroundAudioSource>>();
 
         for (auto entity:backgroundSourcesForDestruction) {
@@ -166,9 +177,27 @@ namespace gl3::engine::soundSystem {
             Ecs::Registry::RemoveDestroyFlag<BackgroundAudioSource>(entity);
         }
 
+        auto backgroundSourceEntitiesForDestruction = registry.view<BackgroundAudioSource, Ecs::Flags::DestroyEntity>();
+
+        for (auto entity:backgroundSourceEntitiesForDestruction) {
+            auto& audioSource = backgroundSourceEntitiesForDestruction.get<BackgroundAudioSource>(entity);
+
+            soLoud.stop(audioSource.handle);
+
+            registry.remove<BackgroundAudioSource>(entity);
+            Ecs::Registry::RemoveDestroyFlag<BackgroundAudioSource>(entity);
+        }
+
         auto listenersForDestruction = registry.view<AudioListener, Ecs::Flags::Destroy<AudioListener>>();
 
         for (auto entity:listenersForDestruction) {
+            registry.remove<AudioListener>(entity);
+            Ecs::Registry::RemoveDestroyFlag<AudioListener>(entity);
+        }
+
+        auto listenerEntitiesForDestruction = registry.view<AudioListener, Ecs::Flags::DestroyEntity>();
+
+        for (auto entity:listenerEntitiesForDestruction) {
             registry.remove<AudioListener>(entity);
             Ecs::Registry::RemoveDestroyFlag<AudioListener>(entity);
         }

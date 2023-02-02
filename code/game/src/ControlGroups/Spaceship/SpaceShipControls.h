@@ -33,7 +33,7 @@ namespace game::controls {
         glm::vec3 inputVector {0.0f, 0.0f, 0.0f};
     };
 
-    class SpaceshipBallControls : public InputGroup {
+    class SpaceshipFireControls : public InputGroup {
     public:
         void UpdateKeys(GLFWwindow *window) override;
         float GetInput() const;
