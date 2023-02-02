@@ -279,6 +279,9 @@ namespace gl3::game::Utils {
             collider.shapeInfo = engine::Physics::Shapes::Box{};
             collider.shape = engine::Physics::Shapes::Shapes::box;
 
+            auto &cockpitTexture = engine::Ecs::Registry::AddComponent<engine::Graphics::UI>(playerShip);
+            cockpitTexture.imageName = assets::Images::textures$Cockpit$CockpitCutOut$png;
+
             /*auto &playerModel = engine::Ecs::Registry::AddComponent<engine::Graphics::Model>(playerShip);
             playerModel.modelName = assets::Models::Models$SpaceShips$Cockpit$obj;
             engine::Graphics::ModelUtils::SetShader(playerModel, GetUntexturedShader());*/

@@ -39,6 +39,26 @@ namespace gl3::engine::Graphics {
             Ecs::Registry::RemoveSetupFlag<Model>(entity);
         }
 
+        auto uiView = registry.view<UI, Ecs::Flags::Setup<UI>>();
+
+        for(auto& entity : uiView){
+            auto& ui = uiView.get<UI>(entity);
+
+            glGenVertexArrays(1, &ui.VAO);
+            glGenBuffers(1, &ui.VBO);
+            glBindVertexArray(ui.VAO);
+            glBindBuffer(GL_ARRAY_BUFFER, ui.VBO);
+            glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 4, nullptr, GL_DYNAMIC_DRAW);
+            glEnableVertexAttribArray(0);
+            glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), nullptr);
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+            glBindVertexArray(0);
+
+            ui.image = fileManager->getAsset(ui.imageName);
+
+            Ecs::Registry::RemoveSetupFlag<Text>(entity);
+        }
+
         auto textView = registry.view<Text, Ecs::Flags::Setup<Text>>();
 
         for(auto& entity : textView){
@@ -151,6 +171,51 @@ namespace gl3::engine::Graphics {
             }
 
             Draw(model);
+        }
+
+        auto uiView = registry.view<UI, Transform>();
+
+        for (auto &&[entity, ui, transform]: uiView.each()) {
+            if (!transform.active) continue;
+            ui.shader->use();
+
+            glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(1920), 0.0f, static_cast<float>(1080));
+            ui.shader->setMatrix("projection", projection);
+
+            // activate corresponding render state
+            glActiveTexture(GL_TEXTURE0);
+            glBindVertexArray(ui.VAO);
+
+            // iterate through all characters
+            std::string::const_iterator c;
+            float x = transform.translation.x;
+            float y = transform.translation.y;
+
+            float xOffset = ui.dimensions.x * transform.scale.x;
+            float yOffset = ui.dimensions.y * transform.scale.y;
+
+            // update VBO for each character
+            float vertices[6][4] = {
+                    {x,           y + yOffset, 0.0f, 0.0f},
+                    {x,           y,           0.0f, 1.0f},
+                    {x + xOffset, y,           1.0f, 1.0f},
+
+                    {x,           y + yOffset, 0.0f, 0.0f},
+                    {x + xOffset, y,           1.0f, 1.0f},
+                    {x + xOffset, y + yOffset, 1.0f, 0.0f}
+            };
+            // render glyph texture over quad
+            glBindTexture(GL_TEXTURE_2D, ui.image->id);
+            // update content of VBO memory
+            glBindBuffer(GL_ARRAY_BUFFER, ui.VBO);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices); // be sure to use glBufferSubData and not glBufferData
+
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+            // render quad
+            glDrawArrays(GL_TRIANGLES, 0, 6);
+            glBindVertexArray(0);
+            glBindTexture(GL_TEXTURE_2D, 0);
         }
 
         auto textView = registry.view<Text, Transform>();
