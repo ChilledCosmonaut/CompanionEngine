@@ -33,10 +33,6 @@ namespace gl3::game {
             auto skybox = CreateEntity();
             engine::Ecs::Registry::AddComponent<engine::Graphics::Skybox>(skybox);
 
-            auto gameController = CreateEntity();
-            Ecs::Registry::AddComponent<WaveInfo>(gameController);
-            Ecs::Registry::AddCustomFlag<NewWave>(gameController);
-
             Utils::ModelCreationTemplates::CreatePlayer(this, mainCameraObject);
 
             auto levelRoot = CreateEntity();

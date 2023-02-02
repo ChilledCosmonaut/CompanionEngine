@@ -86,7 +86,18 @@ namespace gl3::game::Utils {
 
         static entt::entity CreateSpaceStation(engine::Scene *scene) {
             auto spaceStation = scene->CreateEntity();
+            auto gameController = scene->CreateEntity();
             auto &registry = engine::Ecs::Registry::getCurrent();
+
+            engine::Graphics::TransformationUtils::AddChildEntity(spaceStation, gameController);
+
+            engine::Ecs::Registry::AddComponent<WaveInfo>(gameController);
+            engine::Ecs::Registry::AddCustomFlag<NewWave>(gameController);
+
+            auto &restockTrigger = engine::Ecs::Registry::AddComponent<engine::Physics::RigidBody>(gameController);
+            restockTrigger.shapeInfo = engine::Physics::Shapes::Sphere{70};
+            restockTrigger.shape = engine::Physics::Shapes::Shapes::sphere;
+            restockTrigger.isTrigger = true;
 
             registry.emplace<Station>(spaceStation);
             registry.emplace<Health>(spaceStation);
