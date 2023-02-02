@@ -4,12 +4,18 @@ namespace gl3::game {
 
     void EnemyController::Update(engine::Game &game) {
         auto &registry = engine::Ecs::Registry::getCurrent();
-        auto fighterView = registry.view<FighterBehaviour, engine::Graphics::Transform, engine::Physics::RigidBody>(
+        auto fighterView = registry.view<FighterBehaviour, engine::Graphics::Transform, engine::Physics::RigidBody, Health>(
                 entt::exclude<Ecs::Flags::Setup<gl3::game::Physics::RigidBody>>);
         for (auto &enemy: fighterView) {
             auto &enemyStats = fighterView.get<FighterBehaviour>(enemy);
             auto &transform = fighterView.get<engine::Graphics::Transform>(enemy);
             auto &rigidBody = fighterView.get<engine::Physics::RigidBody>(enemy);
+            auto &health = fighterView.get<Health>(enemy);
+
+            if (health.currentLife <= 0){
+                engine::Ecs::Registry::DestroyEntity(enemy);
+            }
+
             auto componentView = registry.view<ShipMovementSettings, engine::Graphics::Transform>();
 
             for (auto &entity: componentView) {
@@ -26,12 +32,17 @@ namespace gl3::game {
             }
         }
 
-        auto carrierView = registry.view<CarrierBehaviour, engine::Graphics::Transform, engine::Physics::RigidBody>(
+        auto carrierView = registry.view<CarrierBehaviour, engine::Graphics::Transform, engine::Physics::RigidBody, Health>(
                 entt::exclude<Ecs::Flags::Setup<gl3::game::Physics::RigidBody>>);
         for (auto &enemy: carrierView) {
             auto &enemyStats = carrierView.get<CarrierBehaviour>(enemy);
             auto &transform = carrierView.get<engine::Graphics::Transform>(enemy);
             auto &rigidBody = carrierView.get<engine::Physics::RigidBody>(enemy);
+            auto &health = carrierView.get<Health>(enemy);
+
+            if (health.currentLife <= 0)
+                engine::Ecs::Registry::DestroyEntity(enemy);
+
             auto componentView = registry.view<Station, engine::Graphics::Transform>();
 
             for (auto &entity: componentView) {

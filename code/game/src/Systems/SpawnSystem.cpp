@@ -50,5 +50,40 @@ namespace gl3::game {
 
             std::cout<<"Spawned: " + std::to_string(carrierCount) + " carriers and " + std::to_string(fighterCount) + " fighters."<<std::endl;
         }
+
+        auto restockView = registry.view<WaveInfo, Restock, engine::Physics::TriggerEvents::OnTriggerEnter>();
+
+        for (auto &entity:restockView) {
+            auto &waveInfo = restockView.get<WaveInfo>(entity);
+            auto &restockTarget = restockView.get<engine::Physics::TriggerEvents::OnTriggerEnter>(entity);
+
+            if(!registry.any_of<Health>(restockTarget.entity))
+                break;
+
+            auto &health = registry.get<Health>(restockTarget.entity);
+            health.currentLife = health.maxLife;
+
+            registry.remove<Restock>(entity);
+            registry.emplace_or_replace<NewWave>(entity);
+        }
+
+        auto waveInfoView = registry.view<WaveInfo>();
+
+        for (auto &entity:waveInfoView) {
+            auto &waveInfo = waveInfoView.get<WaveInfo>(entity);
+
+            auto deadFighterView = registry.view<FighterBehaviour, engine::Ecs::Flags::DestroyEntity>();
+            for (auto &fighter:deadFighterView) {
+                waveInfo.enemiesAlive--;
+            }
+
+            auto deadCarrierView = registry.view<CarrierBehaviour, engine::Ecs::Flags::DestroyEntity>();
+            for (auto &carrier:deadCarrierView) {
+                waveInfo.enemiesAlive--;
+            }
+
+            if (waveInfo.enemiesAlive <= 0)
+                registry.emplace_or_replace<Restock>(entity);
+        }
     }
 }

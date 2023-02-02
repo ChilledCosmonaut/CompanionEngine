@@ -8,3 +8,5 @@ public:
 };
 
 class NewWave {};
+
+struct Restock {};
