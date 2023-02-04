@@ -51,25 +51,61 @@ namespace gl3::engine::filesystem {
         unsigned char *content;
     };
 
+    /**
+     * Simple file manager for caching assets.
+     * File Manager caches all assets via specialized LRU caches. This also the user to dynamically create assets
+     * from anywhere inside the game without retaining references or pointers to minimize file loading impact. As
+     * long as a file is still used the asset can be used. Even if the asset git already pushed outside the cache.
+     * Also nearly all request to the file system are already taken care of  by the engine.
+     */
     class FileManager {
     public:
 
-        /// Need to adhere to the singleton pattern
         static FileManager *GetFileManager();
 
-        /// Need to adhere to the singleton pattern
         static void DestroyFileManager();
 
+        /**
+         * Retrieves a new shader pointer by requesting it from the cache.
+         * @param vertexShader Vertex Shader asset id
+         * @param fragmentShader Fragment Shader asset id
+         * @return Pointer to created shader program
+         */
         std::shared_ptr<Graphics::shader> getAsset(assets::Shaders vertexShader, assets::Shaders fragmentShader);
 
+        /**
+         * Retrieves a new model pointer by requesting it from the cache.
+         * @param model Model asset id
+         * @return Pointer to created model
+         */
         std::shared_ptr<Graphics::ModelData> getAsset(assets::Models model);
 
+        /**
+         * Retrieves a new model pointer by requesting it from the cache.
+         * @param model Model asset id
+         * @return Pointer to created model
+         */
         std::shared_ptr<SoLoud::Wav> getAsset(assets::Sounds sound);
 
+        /**
+         * **Deprecated!!** Retrieves a new material pointer by requesting it from the cache.
+         * @param model Material asset id
+         * @return Pointer to created material
+         */
         std::string getAsset(assets::Materials material);
 
+        /**
+         * Retrieves a new image pointer by requesting it from the cache.
+         * @param model Image asset id
+         * @return Pointer to created image
+         */
         std::shared_ptr<Graphics::Texture> getAsset(assets::Images image);
 
+        /**
+         * Retrieves a new font pointer by requesting it from the cache.
+         * @param model Font asset id
+         * @return Pointer to created font map
+         */
         std::shared_ptr<std::map<GLchar, Character>> getFont(assets::Fonts font, int fontSize);
 
         void writeFileToTemp(const char *stringToSave, const fs::path &fileName);
