@@ -10,13 +10,16 @@
 
 namespace gl3::engine::Graphics {
 
+    /// Model component
     struct Model {
-
     public:
+        /// Asset id of rendered model
         assets::Models modelName;
-        // model data
+        /// Model data for the renderer
         ModelData modelData;
+        /// Material reference for the model
         Material material;
+        /// Shader to be used while rendering the model
         std::shared_ptr <Graphics::shader> shader = nullptr;
 
 

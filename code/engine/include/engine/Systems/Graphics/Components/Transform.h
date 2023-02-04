@@ -6,6 +6,10 @@
 
 namespace gl3::engine::Graphics {
 
+    /**
+     * Component for transform info.
+     * Stores translation, rotation and scale. Data may also be manipulated by using the `TransformationUtils`
+     */
     class Transform {
     public:
         explicit Transform(glm::vec3 startRotation = glm::vec3(0.0f,0.0f,0.0f),
@@ -26,19 +30,30 @@ namespace gl3::engine::Graphics {
             inverseModelMatrix = inverseScaleModel * glm::inverse(rotateModel) * inverseTranslateModel;*/
         }
 
+        /// Translation stored as vector
         glm::vec3 translation{};
+        /// Rotation stored as quaternion
         glm::quat rotation{};
+        /// Separately stored parent rotation
         glm::quat parentRotation{};
+        /// Complete global rotation
         glm::quat globalRotation{};
+        /// Scale stored as vector **Setting a value to zero results in weird behaviour**
         glm::vec3 scale = glm::vec3(1,1,1);
 
+        /// Calculated model matrix
         glm::mat4 modelMatrix{};
+        /// Calculated inverse model matrix
         glm::mat4 inverseModelMatrix{};
 
+        /// Calculated parent model matrix
         glm::mat4 parentModelMatrix{};
+        /// Calculated parent inverse model matrix
         glm::mat4 parentInverseModelMatrix{};
 
+        /// Parent entity
         entt::entity parent = entt::null;
+        /// Child entity
         std::vector<entt::entity> children{};
 
         bool active;
