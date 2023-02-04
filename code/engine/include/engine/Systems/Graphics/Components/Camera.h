@@ -8,6 +8,10 @@
 
 namespace gl3::engine::Graphics {
 
+    /**
+     * Component responsible for tracking camera data.
+     * Used as a identifier component for the render system. **Strictly required in every scene**
+     */
     struct Camera {
     public:
         Camera() {
