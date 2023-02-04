@@ -18,6 +18,10 @@ namespace gl3::engine::inputSystem {
 
         void UpdateInput(GLFWwindow *window);
 
+        /**
+         * Adds a new input group to the input system
+         * @param inputGroup Pointer to a user created input group
+         */
         void AddInputGroup(std::shared_ptr<InputGroup> inputGroup);
 
     private:
