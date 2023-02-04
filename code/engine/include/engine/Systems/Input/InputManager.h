@@ -8,6 +8,7 @@
 #include "../../../../src/ECS/CoreSystem.h"
 
 namespace gl3::engine::inputSystem {
+    /// Manager for all input groups
     class InputManager : Ecs::CoreSystem {
     public:
         /// Need to adhere to the singleton pattern
