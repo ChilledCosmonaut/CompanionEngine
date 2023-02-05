@@ -13,7 +13,7 @@ namespace gl3::game {
             auto &health = fighterView.get<Health>(enemy);
 
             if (health.currentLife <= 0){
-                engine::Ecs::Registry::DestroyEntity(enemy);
+                registry.emplace_or_replace<Dead>(enemy);
             }
 
             auto componentView = registry.view<ShipMovementSettings, engine::Graphics::Transform>();
@@ -41,7 +41,7 @@ namespace gl3::game {
             auto &health = carrierView.get<Health>(enemy);
 
             if (health.currentLife <= 0)
-                engine::Ecs::Registry::DestroyEntity(enemy);
+                registry.emplace_or_replace<Dead>(enemy);
 
             auto componentView = registry.view<Station, engine::Graphics::Transform>();
 

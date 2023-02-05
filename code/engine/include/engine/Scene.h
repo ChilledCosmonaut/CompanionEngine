@@ -29,7 +29,7 @@ namespace gl3::engine{
         entt::entity CreateEntity(){
             auto& registry = Ecs::Registry::getCurrent();
 
-            if(rootEntity == entt::tombstone){
+            if(!registry.valid(rootEntity)){
                 rootEntity = registry.create();
                 entityList.emplace_back(rootEntity);
 
@@ -47,7 +47,7 @@ namespace gl3::engine{
         }
 
         /// Parent entity of all other entities in the scene
-        entt::entity rootEntity = entt::tombstone;
+        entt::entity rootEntity = entt::null;
 
     private:
         std::vector<entt::entity> entityList {};

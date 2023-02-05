@@ -51,7 +51,7 @@ namespace gl3::game {
             std::cout<<"Spawned: " + std::to_string(carrierCount) + " carriers and " + std::to_string(fighterCount) + " fighters."<<std::endl;
         }
 
-        auto restockView = registry.view<WaveInfo, Restock, engine::Physics::TriggerEvents::OnTriggerEnter>();
+        /*auto restockView = registry.view<WaveInfo, Restock, engine::Physics::TriggerEvents::OnTriggerEnter>();
 
         for (auto &entity:restockView) {
             auto &waveInfo = restockView.get<WaveInfo>(entity);
@@ -65,25 +65,28 @@ namespace gl3::game {
 
             registry.remove<Restock>(entity);
             registry.emplace_or_replace<NewWave>(entity);
-        }
+        }*/
 
         auto waveInfoView = registry.view<WaveInfo>();
 
         for (auto &entity:waveInfoView) {
             auto &waveInfo = waveInfoView.get<WaveInfo>(entity);
 
-            auto deadFighterView = registry.view<FighterBehaviour, engine::Ecs::Flags::DestroyEntity>();
+            auto deadFighterView = registry.view<FighterBehaviour, Dead>();
             for (auto &fighter:deadFighterView) {
                 waveInfo.enemiesAlive--;
+                engine::Ecs::Registry::DestroyEntity(fighter);
             }
 
-            auto deadCarrierView = registry.view<CarrierBehaviour, engine::Ecs::Flags::DestroyEntity>();
+            auto deadCarrierView = registry.view<CarrierBehaviour, Dead>();
             for (auto &carrier:deadCarrierView) {
                 waveInfo.enemiesAlive--;
+                engine::Ecs::Registry::DestroyEntity(carrier);
             }
 
-            if (waveInfo.enemiesAlive <= 0)
-                registry.emplace_or_replace<Restock>(entity);
+            if (waveInfo.enemiesAlive <= 0){
+                registry.emplace_or_replace<NewWave>(entity);
+            }
         }
     }
 }

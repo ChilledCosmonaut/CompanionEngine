@@ -4,6 +4,8 @@
 #include "engine/Systems/Graphics/Components/Transform.h"
 
 #include "../Components/WaveInfo.h"
+#include "../Components/Dead.h"
+
 #include "../Utils/ModelCreationTemplates.h"
 
 namespace gl3::game{

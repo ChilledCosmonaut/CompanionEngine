@@ -11,7 +11,7 @@ entt::entity gl3::engine::Physics::PhysicsUtils::MakeRaycast(glm::vec3 origin, g
     bool hit = physicsSystem->mScene->raycast(pxOrigin, pxDirection, maxDistance, hitInfo);
 
     if (!hit)
-        return entt::tombstone;
+        return entt::null;
 
     return physicsSystem->actorMap[hitInfo.block.actor];
 }

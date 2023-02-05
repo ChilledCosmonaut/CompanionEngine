@@ -30,7 +30,7 @@ namespace gl3::engine::Graphics {
 
         auto updateTransforms = registry.view<Transform>();
 
-        if (currentScene->rootEntity == entt::tombstone)
+        if (currentScene->rootEntity == entt::null)
             return;
 
         auto& rootTransform = updateTransforms.get<Transform>(currentScene->rootEntity);
@@ -44,8 +44,28 @@ namespace gl3::engine::Graphics {
 
         for (auto entity : transformsForDestruction) {
             auto& transform = transformsForDestruction.get<Transform>(entity);
-            RecalculateMatrices(transform);
+            if (Ecs::Registry::HasComponent<Transform>(transform.parent)) {
+                auto &parentTransform = registry.get<Transform>(transform.parent);
+
+                auto result = std::remove(parentTransform.children.begin(), parentTransform.children.end(), entity);
+                parentTransform.children.erase(result, parentTransform.children.end());
+            }
             Ecs::Registry::RemoveDestroyFlag<Transform>(entity);
+            registry.remove<Transform>(entity);
+        }
+
+        auto entityForDestruction = registry.view<Transform, Ecs::Flags::DestroyEntity>();
+
+        for (auto entity: entityForDestruction) {
+            auto &transform = entityForDestruction.get<Transform>(entity);
+            if (Ecs::Registry::HasComponent<Transform>(transform.parent)) {
+                auto &parentTransform = registry.get<Transform>(transform.parent);
+
+                auto result = std::remove(parentTransform.children.begin(), parentTransform.children.end(), entity);
+                parentTransform.children.erase(result, parentTransform.children.end());
+            }
+            Ecs::Registry::RemoveDestroyFlag<Transform>(entity);
+            registry.remove<Transform>(entity);
         }
     }
 

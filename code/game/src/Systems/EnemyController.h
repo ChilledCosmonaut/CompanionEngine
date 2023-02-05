@@ -9,6 +9,7 @@
 #include "../Components/EnemyBehavourSettings.h"
 #include "../Components/Station.h"
 #include "../Components/Health.h"
+#include "../Components/Dead.h"
 
 #include "ShipController.h"
 

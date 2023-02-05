@@ -189,21 +189,27 @@ namespace gl3::engine::Physics {
         auto shutdownRigidBodies = registry.view<RigidBody, Ecs::Flags::Destroy<RigidBody>>();
 
         for (auto entity: shutdownRigidBodies) {
-            auto &rigidStatic = shutdownRigidBodies.get<RigidBody>(entity);
+            auto &rigidBody = shutdownRigidBodies.get<RigidBody>(entity);
 
-            rigidStatic.rigidBody->release();
+            actorMap.erase(rigidBody.rigidBody);
+
+            rigidBody.rigidBody->release();
 
             Ecs::Registry::RemoveDestroyFlag<RigidBody>(entity);
+            registry.remove<RigidBody>(entity);
         }
 
         auto shutdownRigidBodyEntities = registry.view<RigidBody, Ecs::Flags::DestroyEntity>();
 
         for (auto entity: shutdownRigidBodyEntities) {
-            auto &rigidStatic = shutdownRigidBodyEntities.get<RigidBody>(entity);
+            auto &rigidBody = shutdownRigidBodyEntities.get<RigidBody>(entity);
 
-            rigidStatic.rigidBody->release();
+            actorMap.erase(rigidBody.rigidBody);
+
+            rigidBody.rigidBody->release();
 
             Ecs::Registry::RemoveDestroyFlag<RigidBody>(entity);
+            registry.remove<RigidBody>(entity);
         }
 
         auto shutdownRigidStatics = registry.view<RigidStatic, Ecs::Flags::Destroy<RigidStatic>>();
@@ -211,9 +217,12 @@ namespace gl3::engine::Physics {
         for (auto entity: shutdownRigidStatics) {
             auto &rigidStatic = shutdownRigidStatics.get<RigidStatic>(entity);
 
+            actorMap.erase(rigidStatic.rigidStatic);
+
             rigidStatic.rigidStatic->release();
 
             Ecs::Registry::RemoveDestroyFlag<RigidStatic>(entity);
+            registry.remove<RigidStatic>(entity);
         }
 
         auto shutdownRigidStaticEntities = registry.view<RigidStatic, Ecs::Flags::DestroyEntity>();
@@ -221,9 +230,12 @@ namespace gl3::engine::Physics {
         for (auto entity: shutdownRigidStaticEntities) {
             auto &rigidStatic = shutdownRigidStaticEntities.get<RigidStatic>(entity);
 
+            actorMap.erase(rigidStatic.rigidStatic);
+
             rigidStatic.rigidStatic->release();
 
             Ecs::Registry::RemoveDestroyFlag<RigidStatic>(entity);
+            registry.remove<RigidStatic>(entity);
         }
     }
 

@@ -2,6 +2,7 @@
 
 #include "../../../src/ECS/entt.hpp"
 #include "Flags.h"
+#include "engine/Systems/Graphics/Components/Transform.h"
 
 namespace gl3::engine::Ecs {
 
@@ -137,12 +138,18 @@ namespace gl3::engine::Ecs {
 
         /**
          * Adds a general destroy flag for all components.
+         * Also deletes all child entities.
          * This function should be called whenever a entity should be destroyed.
          * @param entity To be destroyed entity
          */
         static void DestroyEntity(entt::entity entity) {
             if (!registry.any_of<Flags::DestroyEntity>(entity))
                 registry.emplace<Flags::DestroyEntity>(entity);
+
+            auto &transform = registry.get<Graphics::Transform>(entity);
+            for (entt::entity child:transform.children) {
+                DestroyEntity(child);
+            }
         }
 
         /**

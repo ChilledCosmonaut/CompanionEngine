@@ -94,10 +94,10 @@ namespace gl3::game::Utils {
             engine::Ecs::Registry::AddComponent<WaveInfo>(gameController);
             engine::Ecs::Registry::AddCustomFlag<NewWave>(gameController);
 
-            auto &restockTrigger = engine::Ecs::Registry::AddComponent<engine::Physics::RigidBody>(gameController);
+            /*auto &restockTrigger = engine::Ecs::Registry::AddComponent<engine::Physics::RigidBody>(gameController);
             restockTrigger.shapeInfo = engine::Physics::Shapes::Sphere{70};
             restockTrigger.shape = engine::Physics::Shapes::Shapes::sphere;
-            restockTrigger.isTrigger = true;
+            restockTrigger.isTrigger = true;*/
 
             registry.emplace<Station>(spaceStation);
             registry.emplace<Health>(spaceStation);
@@ -197,6 +197,7 @@ namespace gl3::game::Utils {
 
         static entt::entity CreateEnemyVariant1(engine::Scene *scene) {
             entt::entity enemyVariant1 = scene->CreateEntity();
+
             entt::entity laser = scene->CreateEntity();
             engine::Graphics::TransformationUtils::AddChildEntity(enemyVariant1, laser);
             auto &registry = engine::Ecs::Registry::getCurrent();
@@ -211,7 +212,9 @@ namespace gl3::game::Utils {
             collider.shape = engine::Physics::Shapes::Shapes::box;
 
             registry.emplace<FighterBehaviour>(enemyVariant1);
-            registry.emplace<Health>(enemyVariant1);
+            auto &health = registry.emplace<Health>(enemyVariant1);
+            health.maxLife = 10;
+            health.currentLife = 10;
 
             engine::Graphics::Transform &transform = registry.get<engine::Graphics::Transform>(laser);
             transform.translation = glm::vec3(0, 0, 9.1f);
@@ -231,6 +234,7 @@ namespace gl3::game::Utils {
         static entt::entity CreateCarrier(engine::Scene *scene) {
             auto carrierEnemy = scene->CreateEntity();
             auto laser = scene->CreateEntity();
+
             engine::Graphics::TransformationUtils::AddChildEntity(carrierEnemy, laser);
             auto &registry = engine::Ecs::Registry::getCurrent();
 
@@ -247,7 +251,9 @@ namespace gl3::game::Utils {
             collider.shape = engine::Physics::Shapes::Shapes::box;
 
             registry.emplace<CarrierBehaviour>(carrierEnemy);
-            registry.emplace<Health>(carrierEnemy);
+            auto &health = registry.emplace<Health>(carrierEnemy);
+            health.maxLife = 10;
+            health.currentLife = 10;
 
             engine::Graphics::Transform &transform = registry.get<engine::Graphics::Transform>(laser);
             transform.translation = glm::vec3(0, 0, 13.1f);

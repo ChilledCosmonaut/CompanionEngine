@@ -6,6 +6,6 @@ namespace gl3::engine::Ecs {
 
     struct Component{
     protected:
-        entt::entity entity = entt::tombstone;
+        entt::entity entity = entt::null;
     };
 }
