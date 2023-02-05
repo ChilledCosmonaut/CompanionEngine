@@ -3,6 +3,8 @@
 #include "Systems/LaserSystem.h"
 #include "Systems/AsteroidVectorField.h"
 #include "Systems/SpawnSystem.h"
+#include "Systems/InfoSystem.h"
+
 #include "engine/Game.h"
 
 #include "SampleScene.h"
@@ -17,6 +19,10 @@ int main() {
     ShipController shipController {};
 
     shipController.SetUpSystem(game);
+
+    InfoSystem infoSystem {};
+
+    infoSystem.SetUpSystem(game);
 
     SpawnSystem spawnSystem {};
 

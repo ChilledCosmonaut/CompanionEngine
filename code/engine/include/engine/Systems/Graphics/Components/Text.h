@@ -19,7 +19,7 @@ namespace gl3::engine::Graphics {
         /// String to be rendered
         std::string content;
         /// Asset id of requested font
-        assets::Fonts fontName;
+        assets::Fonts fontName = assets::Fonts::fonts$RobotoRegular$ttf;
         std::shared_ptr<std::map<GLchar, filesystem::Character>> font;
         /// Font size
         unsigned int fontSize = 14;

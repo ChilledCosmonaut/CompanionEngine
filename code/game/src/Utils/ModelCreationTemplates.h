@@ -19,6 +19,7 @@
 #include "../Components/EnemyBehavourSettings.h"
 #include "../Components/Laser.h"
 #include "../Components/ShipMovementSettings.h"
+#include "../Components/InfoFlags.h"
 
 namespace gl3::game::Utils {
     class ModelCreationTemplates {
@@ -275,8 +276,56 @@ namespace gl3::game::Utils {
 
             auto playerShip = scene->CreateEntity();
             auto laser = scene->CreateEntity();
+
+            auto playerHealth = scene->CreateEntity();
+            auto stationHealth = scene->CreateEntity();
+            auto enemyCount = scene->CreateEntity();
+            auto waveCount = scene->CreateEntity();
+            auto info = scene->CreateEntity();
+
+            registry.emplace<PlayerHealth>(playerHealth);
+            auto &playerHealthText = engine::Ecs::Registry::AddComponent<engine::Graphics::Text>(playerHealth);
+            playerHealthText.fontSize = 28;
+            auto &playerHealthTransform = registry.get<engine::Graphics::Transform>(playerHealth);
+            playerHealthTransform.translation.x = 20;
+            playerHealthTransform.translation.y = 1040;
+
+            registry.emplace<StationHealth>(stationHealth);
+            auto &stationHealthText = engine::Ecs::Registry::AddComponent<engine::Graphics::Text>(stationHealth);
+            stationHealthText.fontSize = 28;
+            auto &stationHealthTransform = registry.get<engine::Graphics::Transform>(stationHealth);
+            stationHealthTransform.translation.x = 20;
+            stationHealthTransform.translation.y = 1000;
+
+            registry.emplace<EnemyCount>(enemyCount);
+            auto &enemyCountText = engine::Ecs::Registry::AddComponent<engine::Graphics::Text>(enemyCount);
+            enemyCountText.fontSize = 28;
+            auto &enemyCountTransform = registry.get<engine::Graphics::Transform>(enemyCount);
+            enemyCountTransform.translation.x = 1660;
+            enemyCountTransform.translation.y = 1040;
+
+            registry.emplace<WaveCount>(waveCount);
+            auto &waveCountText = engine::Ecs::Registry::AddComponent<engine::Graphics::Text>(waveCount);
+            waveCountText.fontSize = 28;
+            auto &waveCountTransform = registry.get<engine::Graphics::Transform>(waveCount);
+            waveCountTransform.translation.x = 1660;
+            waveCountTransform.translation.y = 1000;
+
+            registry.emplace<Info>(info);
+            auto &infoText = engine::Ecs::Registry::AddComponent<engine::Graphics::Text>(info);
+            infoText.fontSize = 28;
+            auto &infoTransform = registry.get<engine::Graphics::Transform>(info);
+            infoTransform.translation.x = 850;
+            infoTransform.translation.y = 520;
+            infoTransform.active = false;
+
             engine::Graphics::TransformationUtils::AddChildEntity(parentEntity, laser);
             engine::Graphics::TransformationUtils::AddChildEntity(parentEntity, playerShip);
+            engine::Graphics::TransformationUtils::AddChildEntity(parentEntity, playerHealth);
+            engine::Graphics::TransformationUtils::AddChildEntity(parentEntity, stationHealth);
+            engine::Graphics::TransformationUtils::AddChildEntity(parentEntity, enemyCount);
+            engine::Graphics::TransformationUtils::AddChildEntity(parentEntity, waveCount);
+            engine::Graphics::TransformationUtils::AddChildEntity(parentEntity, info);
 
             engine::Ecs::Registry::AddComponentWithoutFlag<Health>(parentEntity);
             engine::Ecs::Registry::AddComponent<ShipMovementSettings>(parentEntity);

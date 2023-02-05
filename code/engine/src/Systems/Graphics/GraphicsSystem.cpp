@@ -175,6 +175,8 @@ namespace gl3::engine::Graphics {
 
         auto uiView = registry.view<UI, Transform>();
 
+        glDepthMask(GL_FALSE);
+
         for (auto &&[entity, ui, transform]: uiView.each()) {
             if (!transform.active) continue;
             ui.shader->use();
@@ -222,6 +224,7 @@ namespace gl3::engine::Graphics {
 
         for(auto &&[entity, text, transform] : textView.each()){
             if(!transform.active) continue;
+
             text.shader->use();
 
             glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(1920), 0.0f, static_cast<float>(1080));
@@ -269,6 +272,8 @@ namespace gl3::engine::Graphics {
             glBindVertexArray(0);
             glBindTexture(GL_TEXTURE_2D, 0);
         }
+
+        glDepthMask(GL_TRUE);
     }
 
     void GraphicsSystem::Draw(Model &model) {
