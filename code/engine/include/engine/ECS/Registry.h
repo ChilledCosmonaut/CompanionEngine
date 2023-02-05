@@ -168,6 +168,20 @@ namespace gl3::engine::Ecs {
                 registry.remove<Flags::Destroy<Component>>(entity);
         }
 
+        /**
+         * Checks if both entity and requested component type do exists
+         * @tparam Component Requested component type
+         * @param entity Entity
+         * @return Boolean indicator
+         */
+        template<typename Component>
+        static bool HasComponent(entt::entity entity) {
+            if (registry.valid(entity)){
+                return registry.template any_of<Component>(entity);
+            }
+            return false;
+        }
+
     private:
         inline static entt::registry registry {};
     };
