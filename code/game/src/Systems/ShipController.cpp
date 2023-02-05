@@ -24,16 +24,42 @@ namespace gl3::game {
 
     void ShipController::Update(engine::Game &game) {
         auto &registry = Ecs::Registry::getCurrent();
-        auto componentView = registry.view<ShipMovementSettings, Physics::RigidBody, Graphics::Transform>();
+        auto componentView = registry.view<ShipMovementSettings, Physics::RigidBody, Graphics::Transform, Health>();
+        auto deadView = registry.view<Dead>();
+        auto stationView = registry.view<Health, Station>();
 
         auto translationInput = translationControls->GetInputVector();
         auto rotationInput = rotationControls->GetInputVector();
         float fireInput = fireControls->GetInput();
 
+        for(auto station: stationView) {
+            auto &stationHealth = stationView.get<Health>(station);
+            if(stationHealth.currentLife <= 0){
+                registry.emplace_or_replace<Dead>(station);
+            }
+        }
+
         for (auto &entity: componentView) {
             auto &movementSettings = componentView.get<ShipMovementSettings>(entity);
             auto &rigidBody = componentView.get<Physics::RigidBody>(entity);
             auto &transform = componentView.get<Graphics::Transform>(entity);
+            auto &playerHealth = componentView.get<Health>(entity);
+
+            if(playerHealth.currentLife <= 0){
+                registry.emplace_or_replace<Dead>(entity);
+            }
+
+            for (auto &deadEntity: deadView) {
+                auto infoView = registry.view<Info, Graphics::Text, Graphics::Transform>();
+                for (auto info:infoView) {
+                    auto &infoText = registry.get<Graphics::Text>(info);
+                    auto &infoTransform = registry.get<Graphics::Transform>(info);
+                    infoTransform.active = true;
+                    infoText.content = "Mission failed!";
+                }
+                registry.remove<ShipMovementSettings>(entity);
+                return;
+            }
 
             HandleTranslation(rigidBody, movementSettings, transform.rotation * translationInput);
             HandleRotation(rigidBody, movementSettings, transform.rotation * rotationInput);

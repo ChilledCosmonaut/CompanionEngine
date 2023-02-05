@@ -8,6 +8,9 @@
 #include "engine/Systems/Physics/Components/RigidBody.h"
 
 #include "../Components/ShipMovementSettings.h"
+#include "../Components/Dead.h"
+#include "../Components/InfoFlags.h"
+#include "../Components/Station.h"
 
 #include "../ControlGroups/Spaceship/SpaceShipControls.h"
 

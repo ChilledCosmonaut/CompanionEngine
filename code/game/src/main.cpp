@@ -24,6 +24,10 @@ int main() {
 
     infoSystem.SetUpSystem(game);
 
+//    GameOverSystem gameOverSystem {};
+//
+//    gameOverSystem.SetUpSystem(game);
+
     SpawnSystem spawnSystem {};
 
     spawnSystem.SetUpSystem(game);
