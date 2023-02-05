@@ -331,7 +331,7 @@ namespace gl3::game::Utils {
             engine::Ecs::Registry::AddComponent<ShipMovementSettings>(parentEntity);
 
             auto &collider = engine::Ecs::Registry::AddComponent<engine::Physics::RigidBody>(parentEntity);
-            collider.shapeInfo = engine::Physics::Shapes::Box{};
+            collider.shapeInfo = engine::Physics::Shapes::Box{physx::PxVec3(2,1,3)};
             collider.shape = engine::Physics::Shapes::Shapes::box;
 
             auto &cockpitTexture = engine::Ecs::Registry::AddComponent<engine::Graphics::UI>(playerShip);
