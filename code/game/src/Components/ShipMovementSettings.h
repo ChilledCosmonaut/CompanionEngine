@@ -2,7 +2,7 @@
 
 class ShipMovementSettings {
 public:
-    float maxSpeed = 12000000.0f;
+    float maxSpeed = 9000000.0f;
     float maxRotation = 200.0f;
     float rotationSpeed = 1.0f;
 

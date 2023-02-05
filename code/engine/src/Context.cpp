@@ -16,7 +16,7 @@ namespace gl3::engine::context {
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-        window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
+        window = glfwCreateWindow(width, height, title.c_str(), glfwGetPrimaryMonitor(), nullptr);
         if(window == nullptr) {
             throw std::runtime_error("Failed to create window");
         }

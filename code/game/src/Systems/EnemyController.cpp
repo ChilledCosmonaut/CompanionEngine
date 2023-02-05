@@ -114,7 +114,7 @@ namespace gl3::game {
     void EnemyController::Attack(entt::entity entity, engine::Graphics::Transform &transform) {
         std::random_device randDevShoot;
         std::mt19937 shootGenerator(randDevShoot());
-        std::uniform_int_distribution<int> shootDistribution(0, 300);
+        std::uniform_int_distribution<int> shootDistribution(0, 150);
 
         if (shootDistribution(shootGenerator) >= 1) return;
         std::cout << "Laser from " << std::to_string(static_cast<double>(entity)) << "!" << std::endl;

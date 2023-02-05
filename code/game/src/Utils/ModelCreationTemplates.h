@@ -214,8 +214,8 @@ namespace gl3::game::Utils {
 
             registry.emplace<FighterBehaviour>(enemyVariant1);
             auto &health = registry.emplace<Health>(enemyVariant1);
-            health.maxLife = 10;
-            health.currentLife = 10;
+            health.maxLife = 50;
+            health.currentLife = 50;
 
             engine::Graphics::Transform &transform = registry.get<engine::Graphics::Transform>(laser);
             transform.translation = glm::vec3(0, 0, 9.1f);
@@ -253,8 +253,8 @@ namespace gl3::game::Utils {
 
             registry.emplace<CarrierBehaviour>(carrierEnemy);
             auto &health = registry.emplace<Health>(carrierEnemy);
-            health.maxLife = 10;
-            health.currentLife = 10;
+            health.maxLife = 70;
+            health.currentLife = 70;
 
             engine::Graphics::Transform &transform = registry.get<engine::Graphics::Transform>(laser);
             transform.translation = glm::vec3(0, 0, 13.1f);

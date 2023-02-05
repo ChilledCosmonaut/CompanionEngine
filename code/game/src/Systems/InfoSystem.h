@@ -65,17 +65,6 @@ namespace gl3::game {
                     waveCountText.content = "Wave No.: " + std::to_string((int) waveInfo.waveCounter);
                 }
             }
-
-            auto infoView = registry.view<Info, engine::Graphics::Text, engine::Graphics::Transform>();
-            for (auto &info: infoView) {
-                auto &infoText = infoView.get<engine::Graphics::Text>(info);
-                auto &infoTransform = infoView.get<engine::Graphics::Transform>(info);
-
-                if (!engine::Ecs::Registry::HasComponent<Health>(infoTransform.parent)) continue;
-                auto &health = registry.get<Health>(infoTransform.parent);
-
-                infoText.content = "Player Health: " + std::to_string((int) health.currentLife);
-            }
         };
 
         void OnShutdown(engine::Game &engine) override {};

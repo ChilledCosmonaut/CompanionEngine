@@ -25,7 +25,6 @@ namespace gl3::game {
     void ShipController::Update(engine::Game &game) {
         auto &registry = Ecs::Registry::getCurrent();
         auto componentView = registry.view<ShipMovementSettings, Physics::RigidBody, Graphics::Transform, Health>();
-        auto deadView = registry.view<Dead>();
         auto stationView = registry.view<Health, Station>();
 
         auto translationInput = translationControls->GetInputVector();
@@ -35,7 +34,7 @@ namespace gl3::game {
         for(auto station: stationView) {
             auto &stationHealth = stationView.get<Health>(station);
             if(stationHealth.currentLife <= 0){
-                registry.emplace_or_replace<Dead>(station);
+                registry.emplace_or_replace<PlayerDead>(station);
             }
         }
 
@@ -46,9 +45,10 @@ namespace gl3::game {
             auto &playerHealth = componentView.get<Health>(entity);
 
             if(playerHealth.currentLife <= 0){
-                registry.emplace_or_replace<Dead>(entity);
+                registry.emplace_or_replace<PlayerDead>(entity);
             }
 
+            auto deadView = registry.view<PlayerDead>();
             for (auto &deadEntity: deadView) {
                 auto infoView = registry.view<Info, Graphics::Text, Graphics::Transform>();
                 for (auto info:infoView) {

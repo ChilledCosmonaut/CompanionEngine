@@ -49,6 +49,18 @@ namespace gl3::game {
             }
 
             std::cout<<"Spawned: " + std::to_string(carrierCount) + " carriers and " + std::to_string(fighterCount) + " fighters."<<std::endl;
+
+            auto playerView = registry.view<ShipMovementSettings, Health>();
+            for (auto player:playerView) {
+                auto &playerHealth = playerView.get<Health>(player);
+                playerHealth.currentLife = playerHealth.maxLife;
+            }
+
+            auto stationView = registry.view<Station, Health>();
+            for (auto station:stationView) {
+                auto &stationHealth = stationView.get<Health>(station);
+                stationHealth.currentLife = stationHealth.maxLife;
+            }
         }
 
         /*auto restockView = registry.view<WaveInfo, Restock, engine::Physics::TriggerEvents::OnTriggerEnter>();
