@@ -7,8 +7,8 @@
 
 namespace gl3::engine{
 
+    /// Defines a scene structure for the game to render
     class Scene {
-
     public:
         virtual void onSetup() = 0;
 
@@ -22,6 +22,10 @@ namespace gl3::engine{
             }
         }
 
+        /**
+         * Creates a new entity with a transform
+         * @return Newly created entity
+         */
         entt::entity CreateEntity(){
             auto& registry = Ecs::Registry::getCurrent();
 
@@ -42,6 +46,7 @@ namespace gl3::engine{
             return entity;
         }
 
+        /// Parent entity of all other entities in the scene
         entt::entity rootEntity = entt::tombstone;
 
     private:

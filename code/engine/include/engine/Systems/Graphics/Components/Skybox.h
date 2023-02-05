@@ -5,8 +5,12 @@
 #include "engine/Systems/FileManager/FileManager.h"
 
 namespace gl3::engine::Graphics {
-    struct Skybox {
 
+    /**
+     * Skybox Component.
+     * Currently only supports one specific skybox.
+     */
+    struct Skybox {
     public:
         Skybox() {/*
             shader = std::make_shared<Graphics::shader>
