@@ -30,6 +30,13 @@ To successfully compile the game and engine following requirements must be meet:
 - Visual Studio 2019 Compiler
 - Python 3.10+
 
+## Set up
+
+Setting up the environment of the project is quite easy. After cloning the repository let Clion open the code foolder as a project (else issues arise). Then you need to create a correct conan profile. The one I used can be found inside the docs folder (Simply copy the file to the `.conan\profiles` inside your user directory). Now if you haven't install the Conan plug in for Clion go ahead and install it. (If you want to set up conan without it, please visit the website for a [detailed explanation](https://docs.conan.io/en/latest/getting_started.html). Conan itself can be set up with only a few commands most of the time). Then simply match your profile with your build configuration via the small slider symbol inside the plug in window. After matching the profile click on install button also inside the conan window. Now pretty much everything (except the python environment, if it's not already standardly set up) is up and running. Now simply click the compile and the project should be build properly. A more detailed guide vread the following [blog post](https://blog.jetbrains.com/clion/2019/05/getting-started-with-the-conan-clion-plugin/).
+
+### Note:
+Be also sure to use the x86_amd64 compiler target in Clion, else physX does not want to compile.
+
 ---
 
 # Create a Game
