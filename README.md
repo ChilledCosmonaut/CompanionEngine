@@ -17,7 +17,7 @@ Lure your enemies into the asteroid belt surrounding the station or get trapped 
 
 Furthermore, the game is programmed for Windows by utilizing OpenGL and other supporting libraries.
 
-You can find more details about the engine API under (if you're not already in the docs): http://ge.gitlab-pages.informatik.uni-wuerzburg.de/Teaching/gl3/2021/projects/35-gl3-schindler
+You can find more details about the engine API under (if you're not already in the docs): http://ge.gitlab-pages.informatik.uni-wuerzburg.de/Teaching/gl3/2021/projects/35-gl3-schindler (CI broke will porting to gitHub please use the generated rar package inside the documentation folder)
 
 ---
 
