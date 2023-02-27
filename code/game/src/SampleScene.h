@@ -39,8 +39,8 @@ namespace gl3::game {
             Utils::ModelCreationTemplates::CreatePlayer(this, mainCameraObject);
 
             auto levelRoot = CreateEntity();
-            auto spaceStation = Utils::ModelCreationTemplates::CreateSpaceStation(this);
-            TransformationUtils::AddChildEntity(levelRoot, spaceStation);
+            //auto spaceStation = Utils::ModelCreationTemplates::CreateSpaceStation(this);
+            //TransformationUtils::AddChildEntity(levelRoot, spaceStation);
             auto asteroidBelt = Utils::ModelCreationTemplates::CreateAsteroidBelt(this, 140, 220, 10);
             TransformationUtils::AddChildEntity(levelRoot, asteroidBelt);
         }
